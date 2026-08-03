@@ -268,6 +268,132 @@ end
 | 实战案例 | `07_实战案例` | 兵控逻辑分类、单控/群控/多控实战、挖矿逻辑、多核优化等（12 个） | 已完成 |
 | 学习记录 | `08_学习记录.md` | 分类总结、源码验证、常见陷阱、修复记录 | 已完成 |
 
+#### 各文件夹内容详情
+
+**`01_Control Unit`（控制单位，24 个文件）**
+
+单位绑定与控制相关指令。所有 ucontrol 子指令都会触发控制状态（`checkLogicAI()` + `controlTimer` 刷新），由服务器逻辑直接操作，无网络同步问题。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01_ubind.md` | `ubind` | 绑定单位到 `@unit`，不触发控制状态 |
+| `02`-`22` | `ucontrol` 子指令 | idle/stop/move/approach/pathfind/autoPathfind/boost/target/targetp/itemDrop/itemTake/payDrop/payTake/payEnter/mine/flag/build/deconstruct/getBlock/within/unbind |
+| `23_uradar.md` | `uradar` | 单位雷达搜索，40 tick 缓存，调用 `checkLogicAI` 但不刷新 `controlTimer` |
+| `24_ulocate.md` | `ulocate` | 单位定位（建筑/矿石/出生点/受损建筑），40 tick 缓存，刷新 `controlTimer` |
+
+> `代码实战/最nd的代码实战.md` 为原始参考文档，包含 4300 行社区实战代码，`07_实战案例` 中的文件均从此文档拆分整理而来。
+
+**`02_Control Flow`（控制程序，5 个文件）**
+
+控制流指令，管理指令执行顺序。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01_noop.md` | `noop` | 空操作，消耗一条指令但不做任何事 |
+| `02_wait.md` | `wait` | 等待指定秒数，设置 `yield = true` 中断当前 tick。`curTime` 和 `accumulator` 被序列化同步 |
+| `03_stop.md` | `stop` | 停止执行，设置 `yield = true`，下一 tick 继续 |
+| `04_end.md` | `end` | 跳回程序开头（`@counter = instructions.length`） |
+| `05_jump.md` | `jump` | 条件跳转，统一使用标签跳转。标签不占用指令索引，跳转目标为标签下方的第一条积木 |
+
+**`03_Operations`（操作，6 个文件）**
+
+变量赋值与运算指令。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01_set.md` | `set` | 变量赋值，`set result value` |
+| `02_op.md` | `op` | 40 余种运算符（算术、比较、位运算、三角函数等）。一元运算（如 `abs`/`sin`/`cos`/`floor`）第二参数被忽略。`equal` 有 0.000001 浮点容差，`strictEqual` 无容差 |
+| `03_select.md` | `select` | 三元选择运算，`select result a b cond`（cond≠0 取 a，否则取 b） |
+| `04_lookup.md` | `lookup` | 根据索引获取内容对象（item/block/unit/liquid），`@itemCount`/`@unitCount` 等表示可查找总数 |
+| `05_packcolor.md` | `packcolor` | 将 RGBA 分量打包为颜色整数。位于 `end` 之后时可作为编译期变量声明 |
+| `06_unpackcolor.md` | `unpackcolor` | 将颜色整数解包为 RGBA 分量 |
+
+**`04_IO`（输入输出，6 个文件）**
+
+输入输出指令，涉及网络同步问题。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01-read.md` | `read` | 读取。`LogicBuild`（`@this`）：字符串地址访问处理器变量，数字地址访问 `links` 数组；`MemoryBuild`：数字地址访问内存库 |
+| `02-write.md` | `write` | 写入。`LogicBuild`：仅处理字符串地址，保留对象类型；`MemoryBuild`：数字地址写入内存库 |
+| `03-draw.md` | `draw` | 在显示屏上绘制（clear/color/line/rect/triangle），可能被服务器封禁 |
+| `04-print.md` | `print` | 向打印缓存输出文本或数值 |
+| `05-printchar.md` | `printchar` | 打印 Unicode 字符（接收整数码点或 content 引用对象） |
+| `06-format.md` | `format` | 格式化输出，将变量插入文本模板 |
+
+**`05_Block Control`（控制方块，6 个文件）**
+
+建筑操作指令，涉及网络同步问题。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01-getlink.md` | `getlink` | 根据索引获取处理器链接的建筑 |
+| `02-control.md` | `control` | 控制建筑（配置筛选、启用/禁用等） |
+| `03-radar.md` | `radar` | 建筑雷达搜索，有缓存机制 |
+| `04-sensor.md` | `sensor` | 传感器，读取建筑/单位属性（`@x`/`@y`/`@dead`/`@flag`/`@config` 等） |
+| `05-drawflush.md` | `drawflush` | 将绘制缓存刷新到显示屏 |
+| `06-printflush.md` | `printflush` | 将打印缓存刷新到消息板 |
+
+**`06_World`（世界，26 个文件）**
+
+世界处理器（privileged processor）专属指令。世界处理器在服务器端执行，不存在客户端同步问题，可绑定敌方单位，通过 `setrate` 修改执行速度（最大 1000 ipt）。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01_setrate.md` | `setrate` | 设置世界处理器执行速度（1-1000） |
+| `02_getblock.md` | `getblock` | 获取指定坐标的方块信息 |
+| `03_setblock.md` | `setblock` | 设置指定坐标的方块 |
+| `04_spawn.md` | `spawn` | 在指定坐标生成单位 |
+| `05_bullet.md` | `bullet` | 生成子弹 |
+| `06_status.md` | `status` | 对单位施加状态效果 |
+| `07_weathersense.md` | `weathersense` | 检测当前天气 |
+| `08_weatherset.md` | `weatherset` | 设置天气 |
+| `09_spawnwave.md` | `spawnwave` | 生成敌人波次 |
+| `10_setrule.md` | `setrule` | 修改游戏规则（如无限弹药、单位上限等） |
+| `11_message.md` | `message` | 向所有玩家发送消息 |
+| `12_cutscene.md` | `cutscene` | 控制玩家镜头 |
+| `13_effect.md` | `effect` | 播放视觉特效 |
+| `14_explosion.md` | `explosion` | 产生爆炸 |
+| `15_fetch.md` | `fetch` | 获取单位/建筑/玩家数据 |
+| `16_getflag.md` | `getflag` | 读取世界标记 |
+| `17_setflag.md` | `setflag` | 设置世界标记 |
+| `18_setprop.md` | `setprop` | 修改单位/建筑属性 |
+| `19_playsound.md` | `playsound` | 播放音效 |
+| `20_playmusic.md` | `playmusic` | 播放音乐 |
+| `21_setmarker.md` | `setmarker` | 设置地图标记文本 |
+| `22_makemarker.md` | `makemarker` | 创建持久地图标记 |
+| `23_localeprint.md` | `localeprint` | 打印本地化文本 |
+| `24_sync.md` | `sync` | 手动触发同步 |
+| `25_query.md` | `query` | 查询玩家数据 |
+| `26_clientdata.md` | `clientdata` | 读写客户端数据 |
+
+**`07_实战案例`（12 个文件）**
+
+社区实战代码分析，所有案例均来自原始参考文档并经过源码验证。
+
+| 文件 | 主题 | 核心技术 |
+|------|------|----------|
+| `01_兵控逻辑分类与绑定规范.md` | 单位绑定规范 | `ubind` 绑定顺序、`@unit` 绑定规律、单位种类切换 |
+| `02_单控逻辑.md` | 单单位控制 | `ucontrol move`/`target`/`pathfind`、攻击距离判断、flag 标记 |
+| `03_群控逻辑.md` | 多单位群控 | `uradar` 搜索目标、`ucontrol within` 距离检测、三角函数超视距攻击、残血修复 |
+| `04_多控逻辑.md` | 多单位独立控制 | `ucontrol flag` 唯一标记、16 进制位压缩存储单位索引、定时存活检测、按需补充 |
+| `05_挖矿逻辑.md` | 自动挖矿 | 矿物搜索、背包管理、"大风车"路径优化、超远距离交矿、e 核兼容 |
+| `06_单位数量检测.md` | 单位计数 | `lookup unit` 遍历单位类型、`ubind` 循环计数、`printchar` 图标显示 |
+| `07_多核优化控制.md` | 多核通信 | 分配核 + 控制核架构、`draw triangle` 编译期变量声明、`read`/`write` 处理器间通信 |
+| `08_自定义单位点阵.md` | 编队控制 | 阵型字符串 + 旋转算法、4 核架构（分配/主控/热操作/生成）、`packcolor` 变量表 |
+| `09_均衡挖矿系统.md` | 均衡挖矿 | 4 核架构（设置/打印/分配/主控）、权重分配算法、三级分层（T3/T2/T1）、E 核兼容 |
+| `10_搬运逻辑.md` | 物品搬运 | `jump` 链式查表（远古版）、字符串打表 + `lookup`（新版）、多单位并行搬运 |
+| `11_建筑物品选择逻辑.md` | 需求识别 | `@counter` 跳转表动态分派、物品位图打包、电弧瞄准选核、配置代码逻辑 |
+| `12_变量表完整性检查.md` | 变量表检查 | `draw triangle`/`packcolor` 变量声明完整性验证、建筑类型名匹配检测 |
+
+**`08_学习记录.md`**
+
+学习总结文档，包含：
+- 各分类积木的数量统计与完成状态
+- 源码验证记录（控制状态机制、`wait` 同步、`read`/`write` 行为等）
+- 常见陷阱与问题解决方案（`ulocate` 参数格式、标签踩空、变量名规范等）
+- 实战案例的技术要点总结
+
 ### 第二阶段：理解网络同步问题
 
 - 学习哪些指令受同步影响，哪些不受影响
