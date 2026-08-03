@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mlog Labeler</title>
+    <script src="script.js"></script>
+    <link rel="icon" href="..\image\micro-processor.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link href="../../root.css" rel="stylesheet">
+    <style>
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Mindustry';
+        }
+
+        body {
+            background: var(--bg-base);
+            color: white;
+            min-height: 100vh;
+            padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem);
+            text-align: center;
+        }
+
+        .hero-tag {
+            font-size: 0.7rem;
+            color: var(--accent);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        h2.page-title {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        h2.page-title span { color: var(--accent); }
+        .subtitle { font-size: 0.95rem; color: #7a8090; margin-bottom: 2rem; }
+
+        .editor-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .editor-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .col-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        textarea {
+            width: 300px;
+            height: 440px;
+            resize: none;
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            border: 1px solid var(--bg-elevated);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        textarea::-webkit-scrollbar { width: 8px; }
+        textarea::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 4px; }
+        textarea:focus { border-color: var(--accent); }
+
+        .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+
+        button {
+            font-size: 0.88rem;
+            font-weight: 500;
+            padding: 8px 20px;
+            border: 1px solid var(--bg-elevated);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.2s;
+            outline: none;
+            background: var(--bg-surface);
+            color: var(--text-primary);
+        }
+        button:hover { background: var(--bg-elevated); border-color: var(--accent); color: var(--accent); }
+
+        .toggled { background: var(--accent); color: #0d1117; border-color: var(--accent); }
+        .toggled:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #0d1117; }
+        .untoggled { background: #3a1a1a; color: #ff6b6b; border-color: #ff4444; }
+        .untoggled:hover { background: #4a1a1a; border-color: #ff2222; color: #ff4444; }
+
+        #status {
+            font-size: 0.75rem;
+            color: var(--accent);
+            min-height: 1.2rem;
+        }
+
+        hr.divider { border: none; border-top: 1px solid #2a2e38; margin: 2.5rem 0; }
+
+        .info-section { text-align: left; max-width: 640px; margin: 0 auto; }
+        .info-title {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .info-section p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; }
+
+        .codebox {
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-elevated);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            text-align: left;
+            margin: 0.75rem 0;
+            line-height: 1.7;
+        }
+        .kw  { color: var(--accent); }
+        .str { color: #f9a857; }
+        .lbl { color: #bd93f9; }
+
+        @media (max-width: 660px) {
+            textarea { width: min(300px, 90vw); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-tag">— mlog tools —</div>
+    <h2 class="page-title">Mlog <span>Labeler</span></h2>
+    <p class="subtitle">Enter unedited mlog code to add labels</p>
+
+    <div class="editor-row">
+        <div class="editor-col">
+            <div class="col-label">Input</div>
+            <textarea id="input" placeholder="Enter Mlog code here..."></textarea>
+            <div class="btn-row">
+                <button onclick="submitText()">Submit</button>
+                <button id="toggleButton" class="toggled" onclick="toggleButton()">Indent</button>
+            </div>
+        </div>
+        <div class="editor-col">
+            <div class="col-label">Output</div>
+            <textarea id="output" placeholder="Output appears here..." readonly></textarea>
+            <div class="btn-row">
+                <button onclick="copy()">Copy</button>
+            </div>
+            <p id="status"></p>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="info-section">
+        <div class="info-title">what are labels?</div>
+        <p>A label is a named jump destination. Instead of hardcoding line numbers, you name a position in your code and jump to it by name. This makes code easier to write and read — no more counting lines when you insert something new.</p>
+        <p>For example, this:</p>
+        <div class="codebox"><span class="kw">set</span> i 0
+<span class="kw">print</span> <span class="str">"frog1"</span>
+<span class="kw">op</span> add i i 1
+<span class="kw">jump</span> 1 lessThan i 2
+<span class="kw">print</span> <span class="str">"frog2"</span>
+<span class="kw">printflush</span> message1</div>
+        <p>can be written as:</p>
+        <div class="codebox"><span class="kw">set</span> i 0
+<span class="lbl">j1:</span>
+<span class="kw">print</span> <span class="str">"frog1"</span>
+<span class="kw">op</span> add i i 1
+<span class="kw">jump</span> <span class="lbl">j1</span> lessThan i 2
+<span class="kw">print</span> <span class="str">"frog2"</span>
+<span class="kw">printflush</span> message1</div>
+    </div>
+</body>
+</html>

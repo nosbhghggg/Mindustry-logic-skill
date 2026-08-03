@@ -1,0 +1,136 @@
+{"date_updated": "2026-08-01 02:33:57", "repos": [
+{
+  "html_url": "https://github.com/cardillan/mindcode",
+  "short_name": "Mincode",
+  "description": "A high level language for Mindustry Logic (mlog) and Mindustry Schematics.",
+  "owner": "cardillan",
+  "updated_at": "2026-07-26T10:45:45Z",
+  "stargazers_count": 161
+}
+,
+{
+  "html_url": "https://github.com/Lonami/pyndustric",
+  "short_name": "Pyndustric",
+  "description": "A Python compiler for Mindustry's logic processors assembly language",
+  "owner": "Lonami",
+  "updated_at": "2026-07-21T11:24:59Z",
+  "stargazers_count": 60
+}
+,
+{
+  "html_url": "https://github.com/JeanJPNM/mlogls",
+  "short_name": "Mlogls",
+  "description": "A language server for the Mindustry Logic programming language",
+  "owner": "JeanJPNM",
+  "updated_at": "2026-07-10T15:29:57Z",
+  "stargazers_count": 9
+}
+,
+{
+  "html_url": "https://github.com/BalaM314/mlogx",
+  "short_name": "Mlogx",
+  "description": "A compiler(technically a transpiler) for Mindustry Logic(mlog.)",
+  "owner": "BalaM314",
+  "updated_at": "2026-02-10T13:10:48Z",
+  "stargazers_count": 17
+}
+,
+{
+  "html_url": "https://github.com/albi-c/mlogium",
+  "short_name": "mlogium",
+  "description": "high level mindustry logic language",
+  "owner": "albi-c",
+  "updated_at": "2025-05-14T10:49:53Z",
+  "stargazers_count": 2
+}
+,
+{
+  "html_url": "https://github.com/mlogjs/mlogjs",
+  "short_name": "Mlog JS",
+  "description": "Compile javascript into Mindustry logic code (mlog)",
+  "owner": "mlogjs",
+  "updated_at": "2026-07-26T10:49:51Z",
+  "stargazers_count": 90
+}
+,
+{
+  "html_url": "https://github.com/BnDLett/mlog_compiler",
+  "short_name": "Mlog Compiler",
+  "description": "A compiler that compiles a custom programming language into Mindustry logic. ",
+  "owner": "BnDLett",
+  "updated_at": "2025-01-05T09:30:23Z",
+  "stargazers_count": 0
+}
+,
+{
+  "html_url": "https://github.com/SuperStormer/c2logic",
+  "short_name": "c2logic",
+  "description": "Compiles C code to Mindustry logic.",
+  "owner": "SuperStormer",
+  "updated_at": "2025-12-01T04:17:22Z",
+  "stargazers_count": 15
+}
+,
+{
+  "html_url": null,
+  "short_name": "MlogEvo",
+  "description": null,
+  "owner": null,
+  "updated_at": null,
+  "stargazers_count": null
+}
+,
+{
+  "html_url": null,
+  "short_name": "go-mlog",
+  "description": null,
+  "owner": null,
+  "updated_at": null,
+  "stargazers_count": null
+}
+,
+{
+  "html_url": null,
+  "short_name": "Mlogpp",
+  "description": null,
+  "owner": null,
+  "updated_at": null,
+  "stargazers_count": null
+}
+,
+{
+  "html_url": null,
+  "short_name": "GLSL to Mlog",
+  "description": null,
+  "owner": null,
+  "updated_at": null,
+  "stargazers_count": null
+}
+,
+{
+  "html_url": null,
+  "short_name": "Mindustry CodeToLogic",
+  "description": null,
+  "owner": null,
+  "updated_at": null,
+  "stargazers_count": null
+}
+,
+{
+  "html_url": null,
+  "short_name": "Mlog Bang Lang",
+  "description": null,
+  "owner": null,
+  "updated_at": null,
+  "stargazers_count": null
+}
+,
+{
+  "html_url": null,
+  "short_name": "sfmlog",
+  "description": null,
+  "owner": null,
+  "updated_at": null,
+  "stargazers_count": null
+}
+]}

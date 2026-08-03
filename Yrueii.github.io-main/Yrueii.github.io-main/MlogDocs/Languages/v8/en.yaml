@@ -1,0 +1,3291 @@
+# Please read README beforehand.
+# Only change values, do not change keys
+# if possible do not hange anything inside { }, only move if needed
+# on a section there's usually only 'title' and 'content', 
+# if there are others that usually means its a nested key
+# OR if the value is a string then it is usually a variable used for tokens
+# Example:
+
+# strings:
+#   title: Strings
+#   content: |
+#       A sequence of characters, 
+#       different from {link:var:#variables}
+#   var: Variables
+
+# :var: uses the 'var' key from the same level/sibling as 'content', this value is the one that appears on the site
+# these value usually do not need to be translated, but depending on language translating them makes more sense.  
+
+# if modifying tokens is needed please read the README Translation section
+
+title: Mlog {hl:documentation:accent}
+documentation: Documentation
+by: "{hl:_by:accent}"
+_by: By Yruei
+
+table_of_contents:
+    title: Table of content
+    list:
+        # the key here is actually used for href (the link) so dont change them
+        foreword: Foreword
+        introduction: Introduction
+        glossary: Glossary
+        integers: Integers
+        float: Float
+        boolean: Boolean
+        strings: Strings
+        building-reference: Block or Unit Reference
+        contentname: Content name
+
+        basic-concept: Basic Concept
+        processors: Processors
+        processors-ui: Processor's UI
+        how-processor-run-its-code: How Processors run its code
+        links: Links
+        variables: Variables
+        built-in-variables: Built in Variables
+        constants: Constant
+        buffers: Buffers
+
+        blocks: Blocks
+        message: Message
+        switch: Switch
+        display: Displays
+        cell: Cells/Banks
+
+        instructions: Instructions
+        read: Read
+        write: Write
+        draw: Draw
+        draw-flush: Draw Flush
+        print: Print
+        print-flush: Print Flush
+        get-link: Get link
+        control: Control
+        radar: Radar
+        sensor: Sensor
+        set: Set
+        operation: Operation
+        select: Select
+        lookup: Lookup
+        pack-color: Pack Color
+        unpack-color: Unpack Color
+        wait: Wait
+        stop: Stop
+        end: End
+        jump: Jump
+
+        controlling-units: Controlling Units
+        unit-bind: Unit Bind
+        unit-control: Unit Control
+        unit-radar: Unit Radar
+        unit-locate: Unit Locate
+
+        simple-logic-examples: Simple Logic Examples
+        universal-switch: Universal Switch
+        shuttle-logic: Shuttle Logic
+        thorium-reactor-fail-safe: Thorium Reactor Fail Safe
+        counter-array: counter Array
+        lookup-array: Lookup Array
+        
+        advanced: Advanced
+        writing-in-text-editor: Writing in text editor
+        transpiler: Transpiler
+        mods: Mods
+        subframe: Antithreading / Subframe
+
+        world-logic: World Logic (WIP)
+        how-to-get-world-processor: How to get World Processor
+        query: Query
+        get-block: Get Block
+        set-block: Set Block
+        spawn-unit: Spawn Unit
+        apply-status: Apply Status
+        weather-sense: Weather Sense
+        weather-set: Weather Set
+        spawn-wave: Spawn Wave(WIP)
+        set-rule: Set Rule(WIP)
+        flush-message: Flush Message
+        cutscene: Cutscene
+        effect: Effect
+        explosion: Explosion
+        set-rate: Set Rate
+        fetch: Fetch
+        sync: Sync(WIP)
+        get-flag: Get Flag
+        set-flag: Set Flag
+        set-prop: Set Prop
+        play-sound: Play Sound
+        make-marker: Make Marker
+        set-marker: Set Marker
+        locale-print: Locale Print
+        
+        bleeding-edge: Bleeding Edge(WIP)
+
+        extras: Extras
+        mindustry-coordinate-system: Mindustry Coordinate System
+        configure-turns-to-config: The word configure turns to config
+        you-cannot-spawn-scathe-missile: "{delete}"
+        modded-items-and-draw-image: Modded items and Draw Image
+        ai-chatbot-doenst-understand-mlog: AI Chatbot doesn't understand Mlog
+        getting-unit-cap: Getting unit cap
+        v6-unit-control-with-logic: v6 unit control with logic
+        damage-calculation: Damage calculation   
+        math: Math
+        self-linking-processor: Self linking processor
+
+        self-promotion: Self promotion
+
+        appendix: Appendix
+        mloginvention: Mlog Invention
+        built-in-variables1: Built in Variables
+        global: Global
+        environment: Environment
+        sensors: Sensors
+        blocks-and-items: Blocks and Items
+        units: Units
+        text-form-instruction: Text form instruction
+        normal-processor: Normal Processor
+        world-processor: World Processor
+        lookup-ids: Lookup Id(s)
+        dblockbehaviour: Disabled block behaviour
+
+        Contributors: Contributors
+
+foreword:
+    title: Foreword
+    content1: |
+        This documentation was written mostly by me, so there may be inaccuracies or omissions. 
+        As English is not my first language, I apologize for any spelling or grammar errors. 
+        If you have any corrections, additions, or suggestions, please feel free to contact me to discuss them.
+        you can DM me on 
+        {br} Discord (Yruei) 
+        {br} Reddit ({link:redditlink:https://www.reddit.com/user/Far_Kale588/}) 
+        {br} or make an issue {link:linkhere:https://github.com/Yrueii/Yrueii.github.io/issues}
+        {br}
+        {br} if you have any question about mlog, whether it is technical help or general question feel free to ask them on
+        {br} {link:discordlink:https://discord.gg/mindustry} in the #logic channel (I'm also here regularly)
+        {br} there will be plenty of people that can help you.
+        {br}
+        {br} There are some missing information in this documentation, which are identified by {code:toadd:yel}, 
+        {br} for people who want to contribute and complete them you can search for it by pressing 
+        {code:ctrl:key} + {code:f:key}, or {code:findinpage:yel} for mobile devices
+    redditlink: u/Far_Kale558
+    discordlink: Official Mindustry Discord 
+    toadd: "TO ADD#"
+    ctrl: CTRL
+    linkhere: Here
+    f: f
+    findinpage: Find in page
+
+introduction:
+    title: Introduction
+    title2: What is Mindustry logic?
+    content1: |
+        Mindustry Logic (mlog) is a scripting language added in v6 for the purpose of introducing more advanced automation and strategy into the game.
+        It is heavily inspired by Assembly languages, therefore the language is a low level language making it harder to understand (low level being low to machine language (Assembly, C, etc) and far from human language,
+        high level language example are (Python, javaScript, C#, etc). 
+        if you have previous programming experience it's very easy to learn but people who are entirely new to programming might find this a little confusing.
+    content2: |
+        Fun fact, it is turing complete (meaning you can literally do anything a real computer can, although the practicality is questionable), 
+        it is often used for more advanced automation (telling units what to do, disabling/enabling blocks, and more), 
+        For more advanced people, they like to mess around just for fun making stuff that are not actually useful to campaign like games, emulators, renderings, etc.
+    content3: |
+        mlog is not necessary for the completion of campaign , it is very optional, often the time you spent coding will be more than if you just do it manually..
+
+glossary:
+    title: Glossary
+    title2: Data types
+    integers:
+        title: Integers
+        content1: "are whole numbers, meaning no decimal, 1,2,3, are integers, 1.001, are not."
+        intlimit: integer limitations
+        content2: |
+            The largest integer that can be represented accurately in a single number in Mindustry (double-precision floating-point format) is {hl:maxpower:yel}, which equals to {hl:maxvalue:yel}
+            from {hl:minpower:yel}, which is {hl:minvalue:yel}.
+            Beyond these limits, floating-point representation may lead to inaccuracies due to the way numbers are rounded.
+        maxpower: 2^53
+        maxvalue: "9007199254740992"
+        minpower: -2^53
+        minvalue: "-9007199254740992"
+    float:
+        title: Float
+        content: "Opposite of integers, decimal numbers, 1.001, are float."
+    boolean:
+        title: Boolean
+        content: "A data type that can have 1 of 2 states, true or false, 0 or 1."
+    strings:
+        title: Strings
+        content: "a sequence of characters, different from {link:variables:#variables}, in mlog strings are enclosed by \" (quotation mark) (\"Hello, world\" is a string)."
+        variables: Variables
+    blreference:
+        title: Block or Unit Reference
+        content: |
+            every block and unit has a unique reference, so every block and unit can be differentiated from each other, 
+            internally they look like {code:messagere_ference} or {code:poly_reference}, 
+            these are not normally viewable in vanilla, but they do appear in the {link:vars_tab:#vars-tab}, indicated by the keyword "building" on the right column, but you cannot see the exact reference number (the {code:refnum} part).
+            {br}in game these references are stored in a variable like {link:building_variable:#links},
+            or {link:unit:#unit}, 
+            they can also be written to a normal variable
+        messagere_ference: message#98257
+        poly_reference: poly#49178
+        vars_tab: vars tab
+        refnum: "#982..."
+        building_variable: Building Variable
+        unit: "@unit"
+    contentname: 
+        title: Content name
+        content: |
+            in-game content/item names, like {code:copper:content-name}, {code:surge:content-name}, {code:antumbra:content-name} kebab case naming, and case sensitive {br}these are {b:not} variables, these are {b:values} that can be stored in variables 
+            {br}
+            {br}content name can be found in the {link:appendix:#appendix}
+        copper: "@copper"
+        surge: "@surge-alloy"
+        antumbra: "@antumbra"
+        not: not
+        values: values
+        appendix: appendix
+
+basic_concept:
+    title: Basic concept
+    processors:
+        title: Processors
+        content: There are 3 types of Logic Processors, Micro processor, Logic processor, and Hyper processor, each have different speeds and range (Information can be found in the game’s info menu). 
+    processors_ui:
+        title: Processor’s UI
+        content: |
+            when opening a processor by clicking the pencil icon: 
+            {br} {img:image/ui3.png:left130} 
+            {br} you will be prompted to this screen:
+            {br} {img:image/ui.png:false}
+            {br} the {code:add} button ({img:image/ui7.png:top15 width120}) opens a menu to add an instruction:
+            {br} {img:image/ui1.png:false}
+            {br} the {code:vars} Vars ({img:image/vars.png:top15 width120}) opens a menu showing all of your variables and its type
+            {br}
+            {br} this menu is very useful for debugging
+            {br} {img:image/data types.png:width800}
+            {br} {code:Number:field} is either an {link:integer:#integers} or a {link:float:#float}
+            {br} {code:String:field} is a {link:string:#strings} of characters
+            {br} {code:Content:field} is a {link:Content_name:#contentname}
+            {br} {code:Building:field} is a {link:Building_Reference:#building-reference}
+            {br} {code:Building:field} is a {link:Unit_Reference:#building-reference}
+            {br} the {code:edit} button ({img:image/ui5.png:top15 width120}) opens a menu to export/import codes
+            {br} {img:image/ui2.png:width300 left160 mtop20}
+            {br} when clicking “Copy to Clipboard” it will copy the code of the processor to your clipboard, 
+                unlike a schematic, mlog code are plain readable text, {link:more_info:#writing-in-text-editor}
+            {br} this mlog code can be pasted into a processor again using the "import from clipboard"
+        add: add
+        vars: vars
+        edit: edit
+        more_info: click here for more info
+        integer: integer
+        float: float
+        Number: Number
+        String: String
+        string: string
+        Content: Content
+        Content_name: Content name
+        Building: Building
+        Building_Reference: Building Reference
+        Unit_Reference: Unit Reference
+    how_processor_run_its_code:
+        title: How Processor run its code
+        content: |
+                They Always run Instruction from top to bottom 1 at a time
+                You can only jump and wait, you cannot make it run from bottom to top for example.
+                Here is a visualization:
+                {br} {video:image/print1.mp4:width700}
+                {br} with jumps:
+                {br} {video:image/vis jump.mp4:_}
+                {br} When the processor reach the end of its instruction it will go back to 0, repeating the loop indefinitely
+    links:
+        title: Links
+        content: | 
+            You can link a building to the processor by clicking the processor 
+            (you can see a circle, this is the processor range) and clicking the building
+            {br} {img:image/link.png:width600}
+
+            {br} {code:display1:variable}
+            is now a variable that can be used in the processor, it stores a {link:builref:#building-reference} 
+            is also sometimes called a “building variable”,
+            {br}building variable cannot be overwritten by any means, 
+            {br}in other words, you cannot use this variable to put in an output of an instruction
+            {br}however you can copy the its contents to another variable, Like {code:example1:op}
+            {br}the variable {code:mybuild:variable} is now the same as {code:display1:variable}, meaning you can use it the same way,
+            {br}however {code:mybuild:variable} is an independent variable (your variable) now, this means it also acts like a normal variable,
+            for example if the display block that is linked to the processor is destroyed the variable {code:display1:variable} will be null, 
+            but {code:mybuild:variable} will still have the last value it was set to, so you can still sensor things like 
+            {code:dead:content-name}from it
+        builref: building reference,
+        display1: display1
+        example1: set myBuilding = display1
+        mybuild: myBuilding
+        dead: "@dead"
+    variables:
+        title: Variables
+        content: |
+            Variables are the fundamental of programming, to put it simply, they are just named 
+            “containers” to store data to, for example the {code:set:op} instruction sets a variable:
+            {br} {img:image/set x 10.png:_}
+            {br}
+            {br} This will make {code:x:variable} a variable, this variable can be used for all 
+                sort of different things, for example, the {code:operation:op} instruction
+            {br}
+            {br} {img:image/operation.png:_}
+            {br}
+            {br} Because {code:x:variable op} is {hl:ten:yel}
+            this operation means {hl:ten:yel} + {hl:five:yel}, and the result of it is written to the {code:result:variable op} variable, 
+            meaning {code:result:variable op} is now {hl:fifteen:yel}. Of course it doesn’t have to be "result", you can write anything for it, 
+            different people write their variable differently, some chooses to write arbitrary words/letters like “peach” 
+            and others simply write “x+5”, whatever you choose is up to you, just keep in mind you have to remember them.
+            {br}
+            {br} an {hl:undefined:red} variable will have {hl:null:red} as their default value and this gets coerced to {hl:zero:yel}.
+            {br}
+            {br}a processor doesn't have a limit on how many variables it can have, however a processor has a 1000 instruction limit
+
+        set: set
+        op: op
+        x: x
+        ten: "10"
+        five: "5"
+        fifteen: "15"
+        result: result
+        undefined: "undefined"
+        null: "null"
+        zero: "0"
+        
+        operation: Operation
+        increment:
+            title: Incrementing Variable
+            content: |
+                Increment is the act or process of increasing
+                {br} {img:image/increment.png:_}
+                {br} Since processor loops, this will increase {code:x:variable op} by {hl:one:yel} every loop, as time goes on x will 
+                get bigger and bigger. This is what’s called incrementing a variable
+            x: x
+            one: "1"
+
+    built_in_vars:
+        title: Built In Variables
+        content: |
+            Built in variables are variables that have their value determined by the game, 
+            but can also change. they are preceded by “@”, here are lists of built in variables 
+            (if you’re just starting out you don’t have to read all of this you can always come back):
+        list:
+            counter: 
+                title: "@counter"
+                content: |
+                    @counter shows the current line number the processor runs at,
+                    {br}other than giving you crucial 
+                    information while debugging you can also use it by writing to it, changing its value, usage example:
+                    {br} {img:image/set counter 10.png:mwidth85vw}
+                    {br}
+                    {br} This acts like {code:jump_always:jump} where it will jump to instruction 10 If read it will return the next line instead:
+                    {br}
+                    {br} {img:image/set x @counter.png:mwidth85vw}
+                    {br} Since this {code:set:op} instruction is at line 10, the {code:x:variable} variable will be 11.
+                    Another usage example is: {link:counter_array:#counter-array}
+
+                jump_always: jump always
+                set: set
+                x: x
+                counter_array: "@counter Array"
+            this:
+                title: "@this"
+                content: |
+                    {b:this} shows the {link:buil_ref:#building-reference} 
+                    for that processor, example: anything that
+                    uses building reference can be replaced by this, so instead of
+                    {code:proc1:variable} you can write {code:this:variable} for this processor
+                this: "@this"
+                buil_ref: Building Reference
+                proc1: processor1
+            unit:
+                title: "{link:unit:#unit}"
+                unit: "@unit"
+                content: |
+                    {b:unit} shows the current unit that is stored in the processor as the 
+                    result of the {code:unit_bind:unit} instruction. 
+                    For more information go {link:control_unit:#controlling-units}
+                unit_bind: unit bind
+                control_unit: Controlling Units
+            thisxy:
+                title: "@thisx and @thisy"
+                content: Like the name suggest, both shows the coordinates location of the processor respectively
+            mapwh:
+                title: "@mapw and @maph"
+                content: |
+                    These shows the map width and map height, for example if your map width is 300 {code:mapw:variable} will be equal 300
+                mapw: "@mapw"
+            link: 
+                title: "@links"
+                content: |
+                    {b:links} shows the number of links the processor has, example: if you have
+                    3 buildings linked to the processor {code:display1:variable}, {code:display2:variable}, {code:display3:variable}, {code:links:variable} will be {hl:three:yel}
+                links: "@links"
+                display1: display1
+                display2: display2
+                display3: display3
+                three: "3"
+            ipt:
+                title: "@ipt"
+                content: |
+                    ipt stands for instruction per tick, this shows how many instruction a 
+                    processor run in a single tick 1 second is 60 ticks
+            time:
+                title: "@time, @tick, @second and @minute"
+                content: |
+                    Shows the playtime of the current save, this is updated every frame, NOT every time the processor checks for it
+                    {br} {code:time:variable} in millisecond 
+                    {br} {code:tick:variable} in tick(1/60th of a second)
+                    {br} {code:second:variable} in second
+                    {br} {code:minutes:variable} in minute
+                time: "@time"
+                tick: "@tick"
+                second: "@second"
+                minutes: "@minutes"
+            long:
+                content: Because this list is long you can check the {link:appendix:#appendix}
+                appendix: Appendix
+
+    constant:
+        title: Constants
+        content: |
+            Constant, they are like variable but you can’t write to them, their value are predetermined, 
+            for example {code:pi:variable}, like the name suggest it is pi π (  , 3.14159….), here are the list of constant 
+            (if you’re just starting out you don’t have to read all of this, you can always come back):
+        pi: "@pi"
+        list:
+            _null: 
+                title: "{b:__null}"
+                __null: "Null"
+                content: null means none, it has no value
+            truefalse:
+                title: "{b:_true} and {b:_false}"
+                _true: "true"
+                _false: "false"
+                content: true and false are booleans, they are interpreted to 1 and 0
+            pi:
+                title: "{b:_pi}"
+                _pi: "@pi"
+                content: "π, 3.14159…."
+            e:
+                title: "{b:_e}"
+                _e: "@e"
+                content: Mathematical constant e (2,71828…)
+            degtorad:
+                title: "{b:_degtorad}"
+                _degtorad: "@degToRad"
+                content: To convert degrees to radian, multiply the number with this
+            radtodeg:
+                title: "{b:_radtodeg}"
+                _radtodeg: "@radToDeg"
+                content: "Opposite of @degToRad"
+    buffers:
+        title: Buffers
+        content: |
+            Internally there is a Text buffer and a Draw buffer in each processor, 
+            when you use print or draw, when the processor runs it, it will store it in the buffer.
+            Example: if you {code:printfrog:draw} the word {code:frog} will be stored in the text buffer, 
+            then to get that word to a message block you have to use {code:printflush:draw} which transfer 
+            the items in the text buffer to the message block
+            {br}
+            {br} {img:image/print.png:width700}
+            {br} {img:image/darw ex.png:width700}
+            {br} It's the same case with draw.
+            {br}
+            {br}
+            The draw buffer has a limit of {hl:_256:yel} items, meaning you can only queue up {hl:_256:yel} draw operations before needing to flush; 
+            otherwise, any additional draws beyond {hl:_256:yel} will be discarded. 
+            Additionally, displays have a buffer limit of {hl:_1024:yel} operations per display update. 
+            Since the display updates once per tick when visible, 
+            flushing more than {hl:_1024:yel} items in a single tick will result in excess items being lost. 
+            However, when a display is off-screen (scrolled out of view), it is not updated at all. 
+            This means if a program continues drawing while the display is off-screen, the buffer can fill up, 
+            causing some operations to be lost even if the rate remained within the {hl:_1024:yel}-per-tick limit while the display was visible
+            {br}
+            {br}
+            The text buffer has a {hl:_400:yel} character limit, for example “frog” is 4 characters. 
+        printfrog: print "frog"
+        frog: frog
+        printflush: Print Flush
+        _256: "256"
+        _1024: "1024"
+        _400: "400"
+
+blocks:
+    title: Blocks
+    message:
+        title: Message
+        content: |
+            Is used with Print and Print Flush, can also be manually written by clicking it and clicking the pencil icon.
+            {br}has 400 characters limit (including spaces)
+            {br}will only show its text when hovered
+
+    switch:
+        title: Switch
+        content: |
+            Has 2 states, enabled and disabled / 1 and 0, state can be read using Sensor 
+            instruction, and can also be controlled with Control instruction.
+
+    display:
+        title: Display and Large Display
+        content: |
+            Is used with Draw and Draw Flush, 
+            {br} Normal display has a 88 * 88 resolution
+            {br} Large display has a 176 * 176 resolution
+            {br} the border (Bezel) is 8 pixels
+
+    cell:
+        title: Memory Cell and Memory Bank
+        content: |
+            A cell can store up to 64 values, but only numbers, while Bank can store up to 512 values
+            {br} How it works:
+            {br} Let’s use a cell as an example, imagine it is like a numbered storage boxes
+            {img:image/cell.png:mwidth85vw}
+            {br} {br}
+                the number below are called addresses, since a cell can store up to 
+                64 values that means there are 64 addresses in a cell, from  #0 to #63
+                you can then store a number in this line of boxes by an address, for example 
+                if you want to store a number to box number #3 you would write:
+            {br} {br}
+            {img:image/ex write.png:mwidth85vw}
+            {br} {br}
+                this will store the number {hl:_1838:yel} to box number #3, you then can read it again using {code:read:draw}
+            {br} {br}
+            {img:image/read 1.png:mwidth85vw}
+            {br} {br}
+                this will read whatever inside box number #3 ({hl:_1838:yel}) and put it in a variable 
+                called {code:result:variable draw}, therefore {code:result:variable draw} is now {hl:_1838:yel}
+                {br} {br}
+                the largest integer that can be stored in a single address is related to {link:integerlimitations:#integers}
+            {br}
+        _1838: "1838"
+        read: read
+        result: result
+        integerlimitations: integer limitation 
+instructions:
+    title: Instructions
+    read:
+        title: Read
+        content: |
+            Read a value from a certain object. this instruction can:
+            {br}Read a value from a cell.
+            {br}Read a variable value from other processor.
+            {br}Read strings directly and returning UTF-16 decimal value.
+            {br}
+            {img:image/read.png:mwidth85vw}
+            {br}
+            {code:result:variable draw} is your variable name
+            {br} {code:cell1:variable draw} is where to get the value from, a {link:builref:#building-reference}, for example {code:bank1:variable} for banks, {code:processor1:variable} for processors.
+            {br}{code:at:field} is location within the object you are reading from. 
+            {br}for example, a cells can store up to 64 values, this means there are  64 available addresses, starting at {hl:_0:yel}, meaning {hl:_0:yel} - {hl:_63:yel}. If there is a value of {hl:_10:yel} at {hl:_0:yel} in {code:cell1:variable draw}, then if you put {hl:_0:yel} in the {code:at:field} field the {code:result:variable draw} variable will be {hl:_10:yel}.
+            {br}For reading variables from other processor you have to put that variable name in a string and on the {code:at:field} field. for example there is a variable in {code:processor1:variable} called {code:that_variable:variable}, you need to put {code:processor1:variable} on the second field and {code:that_variable1:variable draw} (with quotes) on the {code:at:field} field, {code:result:variable draw} will then return whatever the value of {code:that_variable:variable} currently in {code:processor1:variable}.
+            {br}For reading strings simply put {code:strings:variable} on the second field (where {code:cell1:variable draw} currently is on the picture above) and index on the {code:at:field} field. For example if you put {code:strings:variable} then {hl:_0:yel} on the {code:at:field} field then {code:result:variable draw} will return {hl:_115:yel} because the UTF-16 decimal value of "s" is {hl:_115:yel}
+        result: result
+        cell1: cell1
+        bank1: bank1
+        processor1: processor1
+        that_variable: that_variable
+        that_variable1: '"that_variable"'
+        strings: '"strings"'
+        builref: building reference
+        _0: "0"
+        at: at
+        _63: "63"
+        _115: "115"
+        _10: "10"
+    write:
+        title: Write
+        content: |
+            Write a value from a certain object. this instruction can:
+            {br}write a value from to cell.
+            {br}write/change the value of a variable on other processor.
+            {br}
+            {img:image/write.png:mwidth85vw}
+            {br}
+            {code:result:variable draw} is your variable name
+            {br} {code:cell1:variable draw} is where to write the value to, a {link:builref:#building-reference}, for example {code:bank1:variable} for banks, {code:processor1:variable} for processors.
+            {br}{code:at:field} is location within the object you are writing to. 
+            {br}for example, a cells can store up to 64 values, this means there are  64 available addresses, starting at {hl:_0:yel}, meaning {hl:_0:yel} - {hl:_63:yel}. if you put {hl:_0:yel} in the {code:at:field} field that value in that cell will change to whatever the value of {code:result:variable draw} variable will is.
+            {br}For writing variables to other processor you have to put that variable name in a string and on the {code:at:field} field. for example there is a variable in {code:processor1:variable} called {code:that_variable:variable}, you need to put {code:processor1:variable} on the second field and {code:that_variable1:variable draw} (with quotes) on the {code:at:field} field, then the value of {code:that_variable:variable} will then be changed to whatever the value of {code:result:variable draw} currently is.
+        result: result
+        cell1: cell1
+        bank1: bank1
+        processor1: processor1
+        that_variable: that_variable
+        that_variable1: '"that_variable"'
+        strings: '"strings"'
+        builref: building reference
+        _0: "0"
+        at: at
+        _63: "63"
+        _115: "115"
+        _10: "10"
+        
+    draw:
+        title: Draw
+        content: Adds a command to the draw {link:buffer:#buffers}
+        buffer: buffer
+        clear:
+            title: Clear
+            content: |
+                Sets the entire screen to a specific color{br}
+                {img:image/draw clear.png:mwidth80vw}{br}
+                RGB stands for Red,Green,Blue{br}
+                Value can be from 0 (dimmest) to 255 (brightest){br}
+                Example: 255, 255, 255 is White
+        color:
+            title: Color
+            content: |
+                Sets the color of the next upcoming draw isntruction{br}
+                {img:image/draw color.png:mwidth80vw}{br}
+                RGBA stands for Red,Green,Blue,Alpha
+                {br}To put it simply Alpha is Opacity, it is how opaque the next draw instruction will be
+                {br}0 is 0% and 255 is 100% opaque
+                {br}Value can be from 0 (dimmest) to 255 (brightest)
+        col:
+            title: col
+            content: |
+                Same as color, but use hex color code instead of RGB color code
+                {br}Usually used with the {link:packcolor:#pack-color} instruction
+            packcolor: Pack Color
+            
+        stroke:
+            title: Stroke
+            content: Sets the line width for any upcoming draw operations
+        line:
+            title: Line
+            content: |
+                Draws a line from one coordinates to another coordinates{br}
+                {img:image/draw line.png:mwidth80vw}{br}
+                {code:x:field}, {code:y:field} is the first set of coordinates{br}
+                {code:x2:field}, {code:y2:field} is the second sets of coordinates
+            x: x
+            x2: x2
+            y: y
+            y2: y2
+        rect:
+            title: Rect
+            content: |
+                Draw a rectangle at the specified coordinates with the bottom left of the rectangle as its origin{br}
+                {img:image/draw rect.png:mwidth80vw}{br}
+                {code:x:field}, {code:y:field} is the rectangle coordinates{br}
+                {code:width:field} and {code:height:field} are the rectangle width and height
+            x: x
+            y: y
+            width: width
+            height: height
+        linerect:
+            title: Line Rect
+            content: Same as rect, but only draws the outline of the rectangle
+        poly:
+            title: Poly
+            content: |
+                Draw a polygon with its center as its origin{br}
+                {img:image/draw poly.png:mwidth80vw}{br}
+                {code:x:field}, {code:y:field} is the polygon coordinates{br}
+                {code:sides:field} is the number of sides the polygon will have{br}
+                {code:radius:field} is the radius of the polygon{br}
+                {code:rotation:field} will rotate the polygon, in degrees 
+            x: x
+            y: y
+            sides: sides
+            radius: radius
+            rotation: rotation
+        linepoly:
+            title: Line Poly
+            content: Same as poly, but only draws the outline of the polygon
+        triangle:
+            title: Triangle
+            content: | 
+                Draws a triangle with 3 different sets coordinates as its vertices{br}
+                {img:image/draw triangle.png:mwidth80vw}
+                {br}{code:x:field}, {code:y:field} is the first sets of coordinates{br}
+                {code:x2:field}, {code:y2:field} is the second sets of coordinates{br}
+                {code:x3:field}, {code:y3:field} is the second sets of coordinates
+            x: x
+            x2: x2
+            x3: x3
+            y: y
+            y2: y2
+            y3: y3
+        print:
+            title: Print
+            content: |
+                Draw text from the print buffer. only ASCII characters allowed. clears the print buffer. still needs to be draw flushed.
+                {img:image/drawprint.png:mwidth80vw}
+                {br}{code:x:field} where the origin of the text will be in the x axis.
+                {br}{code:y:field} where the origin of the text will be in the y axis.
+                {br}{code:align:field} where to draw the text relative to the origin.
+                {br}for example for {code:bottomleft:content-name} the text will be on the top left relative to the position of the origin, so the origin is on the bottom left of the text, this means the text will grow to the right.
+                {br}for {code:center:content-name} the origin will be in the middle of the text, this means the text will grow equally to the right and left.
+                {br}as far as i know, there isn't an option to make the text larger, but you can use draw scale, but this just enlarges it, it doesn't make the text
+                higher resolution
+            x: x
+            y: y
+            align: align
+            bottomleft: "@bottomLeft"
+            center: "@center"
+        image:
+            title: Image
+            content: |
+                Draws an image of something from the game with {link:contentname:#contentname}, such as {code:dagger:content-name} or {code:copper:content-name} with its center as its origin.
+                {br}Can also copy contents of a display to another display, by putting block reference of the display you're trying to copy on the {code:image:field} field.
+                {br}If it draws a picture of (oh no) that means whatever you're trying to draw either doesn't exist or not supported, the only work around is drawing it manually.
+                {br}{img:image/draw image.png:mwidth80vw}{br}
+                {code:x:field}, {code:y:field} is the of coordinates{br}
+                {code:image:field} is what image it will draw, you put object name here, like {code:dagger:content-name}{br}
+                {code:size:field} is the size of the image{br}
+                {code:rotation:field} will rotate the image, in degrees{br}
+                {b:nomod}
+            drawflush: "drawflush"
+            draw_image_0_0_display1_32_0_0: "draw image 0 0 display1 32 0 0"
+            drawflush_display2: "drawflush display2"
+
+            contentname: content name
+            nomod: cannot draw modded items!
+            dagger: "@dagger"
+            copper: "@copper"
+            be: Bleeding Edge
+            x: x
+            y: y    
+            image: image
+            size: size
+            rotation: rotation
+        translate:
+            title: Translate
+            content: |
+                Translate / offset the display coordinates, this instruction is cumulative, meaning it translate it by the specified number every flush.
+                {br}example: you draw something at 20, 20, running and flushing translate 10,10 will offset the display coordinates by 10, so your (draw at 20,20) is now appeared as it was drawn on 30,30.
+                {br}like said above it is cumulative, if you run and flush translate 10, 10 again it will offset it again by 10, so your (draw at 20,20) is now appeared as it was drawn on 40,40.
+                {br}also is stored in the display like any other draw instruction, meaning if other processors draw to that display it will also be translated.
+                {br}to reset it use draw reset.
+        scale:
+            title: Scale
+            content: |
+                scale the display coordinates / zooms it, this is also cumulative and stored in the display like translate.
+                {br}example: you draw a rectangle at 20, 20 with width and height of 20, 20, if you draw scale 2, 2 the rectangle will appear 2 times bigger / appeared as it was drawn with width and height of 40, 40.
+                {br}if you run and flush scale 2, 2 again it will scale it again by 2 times again.
+                {br}running scale 1,2 will work as you expected, scaling the y while not scaling the x.
+        rotate:
+            title: Rotate
+            content: |
+                rotate the display coordinates by a degree, also cumulative and stored in the display like translate and scale.
+        reset:
+            title: Reset
+            content: "resets all previous translate,scale,and rotate / will make your display coordinates normal / as it was like a new one."
+
+    drawflush:
+        title: Draw Flush
+        content: Flush the queued draw instruction(s) from the draw buffer to the specified displays with its building reference
+    print:
+        title: Print
+        content: |
+            Prints the specified value to the text buffer, can print both text and variables
+            {br}however you cannot print text and variable in 1 instruction, you have to use multiple instruction
+        list: 
+            linebreak: 
+                title: "\\n"
+                content: |
+                    Writing \n will write the next text to a new line, example:
+                    {br}
+                    {img:image/new line.png:mwidth80vw}
+            colors:
+                title: Printing colors “{b:brackets}"
+                content: |
+                    You can change printed colors with [ ], example{br}
+                    {img:image/print color.png:mwidth80vw}{br}
+                    You can either put color names or hexadecimal color code{br}
+                    Example of HEX color code is {code:FF0000} for red, you can simply search “hex color picker” on google to choose your own color
+                brackets: " [ ] "
+                FF0000: "#FF0000"
+            format:
+                title: Formats
+                content: |
+                    allows you to print variables in a string, instead of using multiple prints instruction
+                    {br}the pattern is \{0-9\}
+                    {br}
+                    {br}example:
+                    {br}{img:image/format.png:_}
+                    {img:image/format 1.png:_}
+                    {br}the first format will take \{0\} and the second format will take \{1\}.
+                    {br}can only go up to 9.
+                    {br}Format can also take strings directly.
+            emoji:
+                title: Emoji/icons
+                content: |
+                    Not really Mlog related but worth mentioning,
+                    {br}
+                    Mindustry utilizes a specific range within the private use area of Unicode, these can be found on 
+                    the source code :
+                    {link:link_text:https://github.com/Anuken/Mindustry/blob/9eb8492f4ab8daf15685128229489b7229cc1048/core/assets/icons/icons.properties#L4}
+                    {br}
+                    which are: {br}
+                                                                   
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                 
+                    {br}
+                    these might just look like boxes to you, but they are actually valid characters when pasted into the game
+                    {br}other than this, Mindustry also supports some public unicode characters, though what of and in what range is unknown
+                    , attempting to paste unsuported characters will just show nothing.
+                    {br}Here what they look like in game:
+                    {br}{img:image/unicode.png:mwidth75vw}
+                link_text: https://github.com/Anuken/Mindustry/blob/9eb8492f4ab8daf15685128229489b7229cc1048/core/assets/icons/icons.properties#L4
+    printflush:
+        title: Print Flush
+        content: |
+            Flush the queued print instruction(s) from the text {link:buffer:#buffers} to 
+            the specified message block with its building reference, {b:will_erase} previous message on the message block
+        buffer: buffer
+        will_erase: will erases
+    getlink:
+        title: Get Link
+        content: |
+            {code:getlink:control} gets the link of the processor linked building{br}
+            example : you have 2 buildings linked to the processor, {code:duo1:variable} and {code:duo2:variable}{br}
+            getlink {code:result:variable} #0 will get you {code:duo1:variable} and {br}
+            getlink {code:result:variable} #1 will get you {code:duo2:variable}{br}
+            The order is based on the order you link the buildings{br}
+            The buildings reference is then {code:result:variable}{br}
+            {img:image/getlink.png:height400}{img:image/getlink 2.png:height400}{br}
+            Using it with numbers is pretty useless, they are usually used with incrementing variables as its index, 
+            this way you can get multiple buildings without writing every building reference (message1,2,3….)
+        getlink: Get Link
+        duo1: duo1
+        duo2: duo2
+        result: result
+    control:
+        title: Control
+        content: |
+            Controls a building {code:of:field} a {link:buildreference:#building-reference}
+        of: of
+        buildreference: building reference or a unit reference
+        list:
+            enabled:
+                title: Enabled
+                content: |
+                    Enabled or disable a building, can be 0 or 1 or true and false
+                    {br}{img:image/control enabled.png:_}
+                    {br}{code:of:field} a {link:blockref:#building-reference}
+                    {br}{code:to:field} (state), {hl:_1:yel} / {hl:_true:yel} enable, {hl:_0:yel} / {hl:_false:yel} disable, 
+                    {br}when disabling a processor it pauses code execution until re-enabled again, resuming at the line number where it was disabled
+                    {br}{link:disabledblocks:#dblockbehaviour}
+                of: of
+                blockref: block reference
+                to: to
+                _1: "1"
+                _true: "true"
+                _0: "0"
+                _false: "false"
+                disabledblocks: here is a list of blocks behaviour when disabled
+            shoot:
+                title: Shoot
+                content: |
+                    Shoot at a coordinate position, 
+                    {br}{img:image/control.png:mwidth80vw}
+                    {br}{code:x:field} and {code:y:field} is coordinate location where to aim/shoot at
+                    {br}{code:shoot:field} {hl:_0:yel} or {hl:_1:yel}, {hl:_true:yel} or {hl:_false:yel}, if true tells the turret/unit to shoot, if false stop shooting
+                x: x
+                y: y
+                shoot: shoot
+                _0: "0"
+                _1: "1"
+                _true: "true"
+                _false: "false"
+            shootp:
+                title: Shootp
+                content: |
+                    Shoot at a unit/building but with velocity prediction
+                    {br}{img:image/control shootp.png:mwidth80vw}
+                    {br}{code:unit:field}, what object to aim/shoot at, it says "unit" but you can put a building reference there too.
+                    {br}{code:shoot:field} 0 or 1, true or false, if true tells the turret/unit to shoot, if false stop shooting
+                unit: unit
+                shoot: shoot
+            config:
+                title: Config
+                content: |
+                    Change the configuration of buildings, 
+                    {br}for example :
+                    {br}sorter config, by putting {link:itemname:#contentname} to the {code:to:field} arguments, eg {code:copper:content-name}, {code:lead:content-name}, {code:surgealloy:content-name}
+                    {br}unit factory config, by putting {link:unitname:#contentname} to the {code:to:field} arguments, eg {code:flare:content-name}, {code:dagger:content-name}, 
+                    unit factory only supports units it meant to create, if you put other unit name that it cant create it will just deselect all unit
+                itemname: item name
+                to: to
+                copper: "@copper"
+                lead: "@lead"
+                surgealloy : "@surge-alloy"
+                unitname: unit name
+                flare: "@flare"
+                dagger : "@dagger"
+            color:
+                title: Color
+                content: |
+                    Change the color of Illuminator block
+                    Usually used with {link:packcolor:#pack-color}
+                packcolor: pack color
+    radar:
+        title: Radar
+        content: |
+            Radar a unit in range of the building’s range
+            {br}{img:image/radar.png:mwidth88vw}
+            {br}{code:from:field} is {link:builref:#building-reference}
+            {br}{code:target:field} is a filter, target enemy means it will only radar enemy units
+            {br}{code:order:field} is sorting order, ascending or descending, can only be 0 or 1
+            {br}{code:sort:field} is a metric to sort results by, sort distance means it will get unit by distance
+            {br}In this example, since {code:order:field} is 1, and {code:sort:field} is distance, 
+            the unit returned is the closest to that building.
+            {br}Cannot get multiple units at the same time.
+            {br}{code:order:field} cannot be change to look for metrics in the middle e.g 0.5
+            {br}Will output the {link:unitref:#building-reference} to {code:result:variable control}
+        from: from
+        builref: building reference
+        target: target
+        order: order
+        sort: sort
+        unitref: unit reference
+        result: result
+    sensor:
+        title: Sensor
+        content: |
+            Sensor / get / read data from an object, usually buildings or units with their reference
+            {br}{img:image/sensor.png:mwidth88vw}
+            {br}{code:result:variable control} is your named variable
+            {br}{code:copper:content-name} is what data to get from the specified object, can be a unit or a building. (click the pencil icon beside it for a list of sensorable data alternatively see {link:Sensors:#sensors} for a list with explanation on each one) 
+            {br}{code:block1:variable control} building reference, it is what object to get the data from, can also be a {link:unitref:#controlling-units}
+            {br}Example:
+            {br}{img:image/sensor 1.png:mwidth88vw}
+            {br}This will get the amount of copper in {code:vault1:variable control}, the number will be stored in the variable {code:result:variable control}, let’s say the vault has 10 coppers, therefore {code:result:variable control} will be 10
+        result: result
+        copper: "@copper"
+        Sensors: Sensors
+        block1: block1
+        unitref: unit reference
+        vault1: vault1
+    set:
+        title: Set
+        content: Set a variable, either with numbers or with another variable (including unit or block reference)
+    operation:
+        title: Operation
+        content: |
+            Perform a single operation on 2 variables, or just numbers directly, example:
+            {br}{img:image/operation1.png:mwidth88vw}
+            {br}Let’s say {code:a:variable op} is {hl:_10:yel}, therefore this operation means {hl:_10:yel} + {hl:_5:yel}
+            {br}{code:result:variable op} will then be {hl:_15:yel}
+        a: a
+        _10: "10"
+        _5: "5"
+        result: result
+        _15: "15"
+        list:
+            add :
+                title: "+"
+                content: Addition 
+            sub :
+                title: "-"
+                content: Subtraction
+            mul :
+                title: "*"
+                content: Multiplication 
+            div :
+                title: "/"
+                content: Division
+            idiv :
+                title: "//"
+                content: Integer division, like division but it will round down the results
+            mod :
+                title: "%"
+                content: |
+                    {link:modulo:https://en.wikipedia.org/wiki/Modulo}, like division but it returns the remainder
+                modulo: Modulo operation
+            pow :
+                title: "^"
+                content: Power / exponentiation
+            sqrt :
+                title: "Sqrt"
+                content: Square root
+            equal :
+                title: "=="
+                content: |
+                    Check if the 2 variables are equal to each other
+                    {br}Returns 1 or 0 / true or false
+            not :
+                title: "not"
+                content: |
+                    Logical not, check if the 2 variables are not equal to each other
+                    {br}Returns 1 or 0 / true or false
+            land :
+                title: "And"
+                content: |
+                    {link:andgate:https://en.wikipedia.org/wiki/AND_gate}
+                    {br}Inputs and output are boolean
+                andgate: Logical AND Gate
+            lessThan :
+                title: "<"
+                content: |
+                    Less than, check if the first variable is less than the second variable
+                    {br}Returns 1 or 0 / true or false
+            lessThanEq :
+                title: "<="
+                content: |
+                    Less than equal, check if the first variable is less than equal the second variable
+                    {br}Returns 1 or 0 / true or false
+            greaterThan :
+                title: ">"
+                content: |
+                    Greater than, check if the first variable is greater than the second variable
+                    {br}Returns 1 or 0 / true or false
+            greaterThanEq :
+                title: ">="
+                content: |
+                    Greater than equal, check if the first variable is greater than equal the second variable
+                    {br}Returns 1 or 0 / true or false
+            log :
+                title: log
+                content: |
+                    {link:logarithm:https://en.wikipedia.org/wiki/Logarithm}, return the exponent given the base and the result
+                logarithm: Logarithm
+            log10 :
+                title: log 10
+                content: Logarithm in base 10
+            abs :
+                title: abs
+                content: "{link:Absolute:https://en.wikipedia.org/wiki/Absolute_value}"
+                Absolute: Absolute Number
+            floor :
+                title: floor
+                content: "{link:Floor:https://en.wikipedia.org/wiki/Floor_and_ceiling_functions}, Round down the specified number"
+                Floor: Floor
+            ceil :
+                title: ceil
+                content: "{link:Ceiling:https://en.wikipedia.org/wiki/Floor_and_ceiling_functions}, Round up the specified number"
+                Ceiling: Ceiling
+            shl :
+                title: "<<"
+                content: "{link:Bitwise:https://en.wikipedia.org/wiki/Bitwise_operation} {link:logical_shift:https://en.wikipedia.org/wiki/Logical_shift} left"
+                Bitwise: Bitwise
+                logical_shift: Logical Shift
+            shr :
+                title: ">>"
+                content: "{link:Bitwise:https://en.wikipedia.org/wiki/Bitwise_operation} {link:logical_shift:https://en.wikipedia.org/wiki/Logical_shift} right"
+                Bitwise: Bitwise
+                logical_shift: Logical Shift
+            or :
+                title: or
+                content: "{link:Bitwise:https://en.wikipedia.org/wiki/Bitwise_operation} or"
+                Bitwise: Bitwise
+            band :
+                title: b-and
+                content: "{link:Bitwise:https://en.wikipedia.org/wiki/Bitwise_operation} and"
+                Bitwise: Bitwise
+            xor :
+                title: XOR
+                content: "{link:Bitwise:https://en.wikipedia.org/wiki/Bitwise_operation} XOR"
+                Bitwise: Bitwise
+            flip :
+                title: flip
+                content: "{link:Bitwise:https://en.wikipedia.org/wiki/Bitwise_operation} flip"
+                Bitwise: Bitwise
+            max :
+                title: max
+                content: return the largest number out of the 2 number
+            min :
+                title: min
+                content: return the smallest number out of the 2 number
+            angle :
+                title: angle
+                content: |
+                    Angle of {link:vector:#vectors} in degrees,usually used like: Angle = ((x1-x2) (y1-y2))
+                    {br}internally the code does:
+                    {br}ang1 = atan2(a,b) * 180/π (convert into degrees)
+                    {br}{hl:_result:aq} = {
+                        if ang1 < 0 = ({hl:_ang1360:yel}),
+                        otherwise = ({hl:_ang1:yel})
+                    }
+                    {br}where {hl:_a:yel} is the first variable and {hl:_b:yel} is the second
+                _result: result
+                _ang1360 : ang1 + 360
+                _ang1: ang1
+                _a: a
+                _b: b
+                vector: vector
+
+            angleDiff :
+                title: angle diff
+                content: |
+                    Absolute distance between to angles in degrees, usually used like: angdiff = (ang1)(ang2)
+                    {br}innternally the code does:
+                    {br}a = a % 360
+                    {br}b = b % 360
+                    {br}d1 = (a - b + 360) % 360
+                    {br}d2 = (b - a + 360) % 360
+                    {br}{hl:_result:aq} = min(d1, d2)
+                    {br}where {hl:_a:yel} is the first variable and {hl:_b:yel} is the second
+                _result: result
+                _a: a
+                _b: b
+            len :
+                title: len
+                content: |
+                    Length of {link:vector:#vectors}, usually used like: len = ((x1-x2) (y1-y2)).
+                    {br}internally the code does:
+                    {br}{hl:_result:aq} = {hl:formula:yel}
+                    {br}where {hl:_a:yel} is the first variable and {hl:_b:yel} is the second
+                _result: result
+                formula: "√ (a * a + b * b)"
+                _a: a
+                _b: b
+                vector: vector
+
+            noise :
+                title: noise
+                content: |
+                    2d simplex noise
+                    {br}takes 2 value as coordinates and outputs a value from -1 to 1 
+                    {br}unlike rand, noise is detemernistic, which means a pair of coordinates will always outputs the same result
+                    {br}for more information to how it internally works check {link:link:https://github.com/Anuken/Arc/blob/master/arc-core/src/arc/util/noise/Simplex.java}
+                    the "raw2d" function/method
+                link: https://github.com/Anuken/Arc/blob/master/arc-core/src/arc/util/noise/Simplex.java
+            rand :
+                title: rand
+                content: generate a random float in range of 0 to the specified value
+            sin :
+                title: sin
+                content: "{link:Sin:https://en.wikipedia.org/wiki/Sine_and_cosine}, in degrees"
+                Sin: Sin
+            cos :
+                title: cos
+                content: "{link:Cos:https://en.wikipedia.org/wiki/Sine_and_cosine}, in degrees"
+                Cos: Cos
+            tan :
+                title: tan
+                content: "{link:Tan:https://en.wikipedia.org/wiki/Sine_and_cosine}, in degrees"
+                Tan: Tan
+            asin :
+                title: asin
+                content: "{link:Asin:https://en.wikipedia.org/wiki/Inverse_trigonometric_functions}, in degrees"
+                Asin: Asin
+            acos :
+                title: acos
+                content: "{link:Acos:https://en.wikipedia.org/wiki/Inverse_trigonometric_functions} , in degrees"
+                Acos: Acos
+            atan :
+                title: atan
+                content: "{link:Atan:https://en.wikipedia.org/wiki/Inverse_trigonometric_functions}, in degrees"
+                Atan: Atan
+    select:
+        title: Select
+        content: |
+            A ternary operator.
+            {br}{img:image/select.png:_}
+            {br}Sets a variable to a value based on whether the condition is True or not. If not, it sets it to another value.
+            {br}{code:result:variable op} will be the variable set by this instruction.
+            {br}{code:if:field} is the condition.
+            {br}{code:then:field} is the value to set {code:result:variable op} to when the condition is {hl:_true:yel}.
+            {br}{code:else:field} is the value to set {code:result:variable op} to when the condition is {hl:_false:yel}.
+        result: result
+        if: if
+        then: then
+        else: else
+        _true: "True"
+        _false: "False"
+
+    lookup:
+        title: Lookup
+        content: |
+            Look up an item/liquid/unit/block type by ID.
+            {br}Total counts of each type can be accessed with:
+            {br}{code:unitcount:content-name} / {code:itemCount:content-name} / {code:liquidCount:content-name} / {code:blockCount:content-name}, which is : 
+            {br}{hl:_56:yel} / {hl:_22:yel} / {hl:_11:yel} / {hl:_254:yel} (as of v146), respectively, they are a constant.
+            {br}For the inverse operation, sensor {code:id:content-name} of the object
+            {br}Example:
+            {br}{img:image/lookup1.png:mwidth85vw}
+            {br}This operation is looking up item with an id of 1, which is lead, therefore {code:result:variable op} will then be {code:lead:content-name}, a {link:contentname:#contentname}, which can be used for things like sensor :
+            {br}{img:image/lookup.png:mwidth85vw}
+            {br} {code:lead_count:variable control} is now a variable containing number of lead in {code:vault1:variable control}
+            {br}Lookup are usually used with an {link:incremetvar:#incrementing-variable}
+            {br}Lists of IDs can be found in the {link:appendix:#appendix}
+        unitcount: "@unitcount"
+        itemCount: "@itemCount"
+        liquidCount: "@liquidCount"
+        blockCount: "@blockCount"
+        _56: "56"
+        _22: "22"
+        _11: "11"
+        _254: "254"
+        id: "@id"
+        result: result
+        lead: "@lead"
+        contentname: content name
+        lead_count: lead_count
+        vault1: vault1
+        incremetvar: incrementing variable
+        appendix: Appendix
+    packcolor:
+        title: Pack Color
+        content: |
+            Packs RGBA color into a single number, is usually used with  {code:drawcollink:draw} and {link:controlcolor:#control-color}
+            {br} Since it's a single number it can be stored to 1 address on {link:cells:#cell}, 
+            instead of 4 addresses with the usual RGBA, making reading and writing a lot easier too.
+            {img:image/pack color.png:mwidth85vw}
+            {br} {link:RGBA:#draw} is their respective color, can also be directly written with a 
+            number, value is from 0 (dimmest) to 1 (brightest)
+            You can unpack a Packed color by dividing it by {hl:_00000001:yel}, this will 
+            return 32-bit unsigned integer, 8 bits for each value, example : a {hl:_255:yel} 
+            color when unpacked will return {hl:_4294967295:yel}, which is the maximum value of 32-bit 
+            unsigned integer, converting it to binary will return {hl:_1:yel} 
+            ( 8 bit for each value ), by using the {code:shr:op} and 
+            {code:bitnop:op} you can extract each color value manually.
+            {br} or use {code:unpackcolor:op}.
+        drawcollink: "{link:drawcol:#draw-col}" #nested token
+        drawcol: draw col
+        controlcolor: control color
+        cells: cells/banks
+        RGBA: RGBA
+        _00000001: "%00000001"
+        _255: "255,255,255,255"
+        _4294967295: "4294967295"
+        _1: "11111111111111111111111111111111"
+        shr: "bit shift right operation"
+        bitnop: "bitwise and operation"
+        unpackcolor: unpackcolor
+    unpackcolor:
+        title: Unpack Color
+        content: |
+            Unpack packed color to their individual value
+            {br}{img:image/unpackcolor.png:_}
+            {br}{code:r:variable op} is the variable of the red value of the packed color
+            {br}{code:g:variable op} is the variable of the green value of the packed color
+            {br}{code:b:variable op} is the variable of the blue value of the packed color
+            {br}{code:a:variable op} is the variable of the alpha value of the packed color
+            {br}{code:unpack:field} is the input for packed color, usually stems from {code:packcolor:op} instruction
+        r: r
+        g: g
+        b: b
+        a: a
+        unpack: unpack
+        packcolor: packcolor
+
+    wait:
+        title: Wait
+        content: Wait the specified number of seconds, in other words, pausing the processor for that amount of seconds
+    stop:
+        title: Stop
+        content: |
+            Completely stops the processor from running, cannot be resumed in any way other than rebuilding or refreshing the code, 
+            to pause a processor disable it instead using {code:link:control}
+        link: "{link:control:#control} enable" #nested token
+        control: control
+    end:
+        title: End
+        content: |
+            End the process, when a processor run this line it will go back to 0 as if it reach the 
+            {link:eoi:#how-processor-run-its-code}, similar to {code:jump0:jump}
+        eoi: end of the instruction
+        jump0: jump always 0
+    jump:
+        title: Jump
+        content: |
+            Jump to a line number on the processor with a condition
+            {br}if condition are true jump to the specified line, if false does not jump (continuing to instruction below it
+
+        list:
+            equal:
+                title: ==
+                content: Check if the 2 variables are equal to each other
+            not:
+                title: Not
+                content: Logical not, check if the 2 variables are not equal to each other
+            lessThan: 
+                title: "<"
+                content: Less than, check if the first variable is less than the second variable
+            lessThanEq:
+                title: "<="
+                content: Less than equal, check if the first variable is less than equal the second variable
+            greaterThan:
+                title: ">"
+                content: Greater than, check if the first variable is greater than the second variable
+            greaterThanEq:
+                title: ">="
+                content: Greater than equal, check if the first variable is greater than equal the second variable
+            strictEqual:
+                title: "==="
+                content: |
+                    Strict equal, usually used to check for null, example:
+                    {br}0 == null is true, while 0 === null is false
+            always:
+                title: Always
+                content: Always jump regardless
+
+controlling_units:
+    title: Controlling Units
+    list:
+        unit:
+            title: "@unit"
+            content: |
+                Can only store 1 unit at any given time, stores the unit reference, 
+                like building reference, unit reference are different from each other, even the same type
+                {br} {code:unit:variable} are the unit that the processor use when using {code:ucontrol:unit}, more explanation in the {link:ucontrol:#unit-control} section
+            ucontrol: unit control
+            unit: "@unit"
+        binding:
+            title: Binding
+            content: |
+                unlike the name say, {code:ubind:unit} instruction itself 
+                does not bind, {code:ucontrol:unit}, {code:uradar:unit}, {code:ulocate:unit} are what binds unit.
+                
+                {br}{code:ubind:unit} just gets a unit's {link:reference:#building-reference} and puts it in a variable called {code:unit:variable}
+                
+                {br}{img:image/bind.png:mwidth85vw}
+                {img:image/bind2.png:mwidth85vw}
+                
+                {br}If you hover your mouse on either the unit or the 
+                processor you will see a yellow box showing what unit 
+                the processor is binding or what processor the unit is 
+                binded to, this is called Binded.
+                {br}Being Binded is different from being in the {code:unit:variable} variable.
+                {br}A processor can have multiple units binded but can ONLY have one unit in the {code:unit:variable} variable.
+                {br}A binded unit means the processor is now in full control of the unit, you cannot give it commands anymore using the RTS Commands, the only 
+                way to get the unit back is either control(posses) the 
+                unit or unbind it which can be done with either destroying 
+                the processor, or refreshing/altering the processor code, units will 
+                also be automatically un-binded after 10 seconds with no 
+                {code:ucontrol:unit}, {code:uradar:unit}, 
+                and {code:ulocate:unit} instruction received, 
+                this applies regardless even if the unit is still in the middle of doing something.
+                
+                {br}A unit that is currently controlled(possesed) by the player can also be "bound" but only to retrieve data from it; controlling is not possible.
+            ubind: unit bind
+            ucontrol: unit control
+            uradar: unit radar
+            ulocate: unit locate
+            reference: reference
+            unit: "@unit"
+        boosting:
+            title: Boosting
+            content: |
+                Some ground units can boost, boosting allows them to fly over anything air units can, albeit slower, these units are: Nova, Pulsar, Quasar, and Vela
+        payload:
+            title: Payload
+            content: |
+                Payload is a block/unit that is not physically placed in the world, they are either on a conveyor or picked up by unit,
+                {br}however if you save its reference prior to making it a payload up you can still sensor data from it like {code:x:content-name} and {code:y:content-name}, although {code:dead:content-name} will be true.
+                {br}unit's payload capacity can be found in-game's info menu
+                {br}Example: 3x3  means the unit can carry 9 of 1x1 blocks, 2 of 2x2 blocks and, 1 of 3x3 blocks
+                {br}for units its the same, a mace size is 1.25 x 1.25 meaning it will take 1.5625 block worth of space as payload
+            x: "@x"
+            y: "@y"
+            dead: "@dead"
+    unit_bind:
+        title: Unit Bind
+        content: |
+            Bind 1 unit and put its reference in the {code:unit:variable} variable,
+            {br} When binding a unit {code:type:content-name} (using {link:contentname:#contentname}) it will bind in an order
+            {br}the order of bind is determined by how old it is, the first unit alive will be binded first and the most recent unit is last
+            {br}When looped (meaning the {code:unitbind:unit} instruction is run again) it will bind the next unit in the order, when it reach the end it will go back and bind the first order
+            {br}Here’s a visualization : the red box indicates that the unit is in the {code:unit:variable} variable
+            {br}{video:image/vis bind.mp4:mwidth85vw}
+            {br}Don’t worry about instruction line 1,2,3, they are there just to make the code not 1 instruction, to more easily visualize it.
+            {br}Let’s say the first mega reference {code:mega1}, when {code:mega1} is binded it store the reference in 
+            {code:unit:variable} meaning {code:unit:variable} 
+            is now {code:mega1}, and so on with {code:mega2}, 3, 4, ... 
+            {br}
+            {br}Unit bind can also be used with a variable that stores a unit reference to bind that specific unit directly,
+            {br}for example the {code:radar:control} instruction can output a unit reference to a variable, you can 
+            use that variable for {code:ubind:unit}, 
+            {br}another example after binding a {code:type:content-name} with {code:ubind:unit} you can save 
+            {code:unit:variable} to another variable, then rebind that unit with the variable
+        unit: "@unit"
+        type: "@[type]"
+        contentname: content name
+        unitbind: unit bind
+        mega1: mega#1
+        mega2: mega#2
+        radar: radar
+        ubind: ubind
+    unit_control:
+        title: Unit Control
+        content: |
+            Unit control, controls exactly {b:one} unit in the {code:unit:variable} variable, 
+            it does NOT controls all binded units.
+            {br}It might seem that way because processor loops, everytime it loops {code:ubind:unit} it binds a new unit and controls it, it does this very fast that it looks like its controlling all unit at once. 
+            {br}it also does NOT wait for task completion before running the next {code:unitcontrol:unit} instruction (for example using move and expecting the instructions after that move to only be executed after the unit arrives at the destination),
+            Like the visualization you see above, the processor doesn’t care what instruction you put in it, it will just run it regardless, it is not smart, you have to specify it yourself.
+        one: one
+        unit: "@unit"
+        ubind: ubind
+        unitcontrol: Unit control
+
+        list:
+            move:
+                title: Move
+                content: |
+                    Move the unit to the specified coordinates in a straight line 
+                    Once the instruction is run it will move to that coordinates even if you immediately remove the instruction, its similar to RTS controls (shift clicking and left click to move unit to the cursor location)
+                    {br}{img:image/ucontrol move.png:mwidth80vw}
+
+            approach:
+                title: Approach
+                content: |
+                    Similar to move but it has a radius, the unit will stop at the radius
+                    {br}{video:image/approach.mp4:mwidth80vw}
+                    {br}{img:image/unit control1.png:mwidth80vw}
+
+            pathFind:
+                title: pathFind
+                content: |
+                    Path find to the specified location
+                    Usually used with grounded units as {code:Move:unit} moves the unit in a straight line and grounded units can get stuck in buildings
+                    If the specified location is inside a building or invalid the unit will not move, they will stay in place
+                Move: Move
+            autoPathFind:
+                title: autoPathFind
+                content: |
+                    Automatically pathfinds to the nearest enemy core or drop point.{br}
+                    This is the same as standard wave enemy pathfinding
+
+            idle:
+                title: Idle
+                content: Stop moving, but keep building/mining, the default state
+            stop:
+                title: Stop
+                content: Stop moving, mining, and building
+            boost:
+                title: Boost
+                content: |
+                    Enable {link:boosting:#boosting}, boolean, 1 = boost, 0 = don’t boost. cannot be disabled if boosted unit cannot land (on top of blocks/buildings)
+                boosting: boosting
+            target:
+                title: Target
+                content: |
+                    Shoot a coordinate position, boolean, 1 = shoot, 0 = stop shooting
+                    {br}{img:image/unit control.png:mwidth80vw}
+
+            targetP:
+                title: TargetP
+                content: Same as target but shoot a unit reference instead and with velocity prediction
+            itemDrop:
+                title: ItemDrop
+                content: |
+                    Drops items the unit is currently carrying to the specified location	
+                    {br}{img:image/unit control itemdrop.png:mwidth80vw}
+                    {br}{code:to:field} a {link:builref:#building-reference}
+                    {br}{code:amount:field} is how many to drop
+                    {br}Unit have to be within ({hl:within_range:yel}) tiles of the targeted block (from the middle), else it does nothing
+                    {br}Can also drop to {code:air:content-name} which will discard the item anywhere
+                    {br}to drop everything just put a large number like 999
+                    {br}Unit has an interaction limit of 1,5 seconds, meaning it can only take/drop item every 1,5 seconds
+                to: to
+                builref: building reference
+                amount: amount
+                within_range: "5.625 + [block size] / 2"
+                air: "@air"
+            itemTake:
+                title: ItemTake
+                content: |
+                    Takes items from the specified building to the unit, unit’s item capacity can be found in-game’s info menu,
+                    {br}{code:from:field} a {link:builref:#building-reference}
+                    {br}{code:amount:field} is how many to take
+                    {br}a unit can only carry 1 type item at a time
+                    {br}Unit have to be within {hl:within_range:yel} tiles of the targeted block (from the middle), else it does nothing,
+                    {br}to take the maximum amount the unit can take just put a large number like 999,
+                    {br}Unit has an interaction limit of 1.5 seconds, meaning it can only take/drop item every 1.5 seconds.
+                from: from
+                amount: amount
+                builref: building reference
+                within_range: "5.625 + [block size] / 2"
+
+            payDrop:
+                title: PayDrop
+                content: | 
+                    Drop {link:payload:#payload} at current location.
+                payload: payload
+            payTake:
+                title: PayTake
+                content: |
+                    Pick up a block or a unit at current location and turn it into a {link:payload:#payload}
+                    {br}if multiple blocks/unit is below the taker location it will take block/unit that is closest to the taker location (taker {code:x:content-name} and {code:y:content-name})
+                    {br}for example a unit taker location is exactly at 10,10 , there's 2 unit below it at 9.8,10 and 9.9,10 , when using paytake it will take the 9.9,10 unit
+                payload: payload
+                x: "@x"
+                y: "@y"
+
+            payEnter:
+                title: PayEnter
+                content: Land/enter on a building directly below the unit, that accept payload, like reconstructor
+            mine:
+                title: Mine
+                content: Mine a coordinate position, if out of range or not mineable will do nothing
+            build: 
+                title: Build
+                content: |
+                    Build a block at specified location, if out of range or invalid will do nothing
+                    {br}{img:image/unit control build.png:mwidth80vw}
+                    {br}{code:x:field}, {code:y:field} is build location
+                    {br}{code:block:field} is what block to build, {link:contentname:#contentname}
+                    {br}{code:rotation:field} is what orientation the block is built, 0 is right, 1 is up, 2 is left, and 3 is down
+                    {br}{code:Config:field}, configuration of blocks, eg, if {code:copper:content-name} when building a sorter will set the sorter to {code:copper:content-name}. 
+                    Additionally can be a building reference, eg, if {code:this:content-name} when building a processor will copy {code:this:content-name} processor’s code to the built processor
+                x: x
+                y: y
+                block: block
+                rotation: rotation
+                Config: Config
+                copper: "@copper" 
+                this: "@this"
+                contentname: Content name
+
+            getBlock:
+                title: getBlock
+                content: |
+                    Gets a block at a specified location, outputs will be null if out of range
+                    {br}{img:image/ucontrol getblock.png:mwidth80vw}
+                    {br}{code:x:field}, {code:y:field} is coordinate location to get the block
+                    {br}{code:type:field} is an output, it will output the type of block to the variable
+                    {br}{code:building:field} is an output, it will output the {link:builref:#building-reference} to the variable
+                    {br}{code:floor:field} is an output, it will output the type of floor to the variable
+                    {br}
+                    {br}the range of getblock is max(27.5, {unit's range})
+                    {br}which means takes the highest number between the two 
+                    {br}
+                    {br}when getBlock-ing a cell,bank, or a display you can still write/draw to them even if the unit is no longer present, 
+                    only the building reference is needed for these blocks, this means you can get them once and then unbind/move the unit
+                    your variable of {code:building:variable unit} will remain until either you overwrite it or the processor is refreshed.
+                    {br}however you can't enable/disable or config getBlock-ed buildings,
+                x: x
+                y: y
+                type: type
+                building: building
+                builref: building reference
+                floor: floor
+
+            within:
+                title: Within
+                content: |
+                    Check if unit is within a position with a radius
+                    {br}{img:image/unit control within.png:mwidth80vw}
+                    {br}{code:x:field},{code:y:field} is coordinate location to check if unit is within that coordinate
+                    {br}{code:radius:field} is the radius of the within
+                    {br}returns boolean
+                    {br}{code:result:field} is the result, 0 / 1, true / false
+                    {br}Example: (the @unit variable is mega shown on the picture)
+                    {br}{img:image/ucontrol within.png:mwidth80vw}
+                    {br}{img:image/vis ucontrol within.png:mwidth80vw}
+                    {img:image/vis ucontrol within 1.png:mwidth80vw}
+                    {br}In this two scenario, the first picture will have the 
+                    variable {code:result:variable} true because the unit is within the circle, 
+                    while the second picture is false because it is outside the circle
+                x: x
+                y: y
+                radius: radius
+                result: result
+
+            unbind:
+                title: Unbind
+                content: Immediately {link:unbind:#binding} unit
+                unbind: unbind
+            flag:
+                title: Flag
+                content: |
+                    Gives the unit a numeric flag, essentially assigning a 
+                    number to a unit, this number serves no purpose other 
+                    than being read, what you do with the number is up to you
+                    {br}the flag "lives" in the unit, meaning a unit will permanently retains its flag until written again, even if the processor is destroyed
+                    {br}Unit default flag is 0
+                    {br}a unit can only store 1 numeric flag
+                    {br}The largest integer that can be stored in a single flag is related to {link:intlimit:#integers}
+                intlimit: integer limitations
+                
+    unit_radar:
+        title: Unit Radar
+        content: |
+            {img:image/unit radar.png:_}
+            {br}{code:Unit_radar:unit} locates other unit around the {code:unit:content-name} unit within the unit’s range (information can be found in-game’s info menu)
+            {br}{code:target:field} is a filter of what category of unit it will radar, enemy means it will radar enemy units
+            {br}{code:order:field} is sorting order, ascending or descending, can only be 0 or 1
+            {br}{code:sort:field} is a metric to sort results by, distance means it will get unit by distance
+            {br}Since order is 1, the unit gotten is the closest to that {code:unit:content-name}’s unit
+            {br}Will output the unit reference to {code:result:variable unit}.
+            {br}sort distance order 1 = closest, 0 = furthest
+            {br}sort health, maxHealth, armor, shield order 1 = highest, 0 = lowest
+        Unit_radar: Unit radar
+        unit: "@unit"
+        target: target
+        order: Order
+        sort: sort
+        result: result
+    unit_locate: 
+        title: Unit Locate
+        content: |
+            Locates the nearest building/ore/spawn to the unit without needing to be in the unit’s range, but limited to what it can locates
+        list:
+            building:
+                title: Building
+                content: |
+                    Will locate a building of the selected group, in this case, core,
+                    {br}{img:image/unit locate.png:_}
+                    {br}{code:Find:field} what group to find, {span:TOADD:toadd}
+                    {br}{code:Enemy:field} is whether to locate enemy building’s or not, true means it will locate enemy’s building, false means it will locate ally building
+                    {br}{code:outX:field} and {code:outY:field} are the building’s output coordinates
+                    {br}{code:Found:field} is an output on whether the building is found(exist in the map) or not, true means it is found, false means it is not found
+                    {br}{code:Building:field} is an output of that building reference, if locating for enemy blocks, will only return if that building is within {hl:formula:yel} of the unit,
+                    if locating for ally blocks, will return that building regardless, else will return null instead
+                Find: find
+                TOADD: "TO ADD#"
+                Enemy: Enemy
+                outX: outX
+                outY: outY
+                Found: Found
+                Building: Building
+                formula: "max(27.5, {unit's range})"
+            ore: 
+                title: ore
+                content: |
+                    Will locate an ore of the selected type, in this case {code:copper:content-name}
+                    {br}{img:image/unit locate 2.png:mwidth80vw}
+                    {br}{code:Find:field} what group to find
+                    {br}{code:Ore:field} what ore to find, takes {link:Content_name:#contentname}
+                    {br}{code:outX:field} and {code:outY:field}are the tile's output coordinates
+                    {br}{code:Found:field} is an output on whether the tile is found(exist in the map) or not, true means it is found, false means it is not found
+                    {br}May not consistently return the closest tile, but will always return the closest "vein"
+                copper: "@copper"
+                Find: Find
+                Ore: Ore
+                outX: outX
+                outY: outY
+                Found: Found
+                Content_name: Content name
+            spawn: 
+                title: spawn
+                content: Will locate an enemy spawn point, may be a core or a position
+            damaged: 
+                title: Damaged
+                content: Will locate an ally damaged building
+
+
+logic_examples:
+    title: Simple Logic examples
+    content: 
+    list:
+        universal_switch:
+            title: Universal Switch
+            content: |
+                {video:image/vis getlink.mp4:_} {img:image/getlink ex.jpg:_}
+                {br} line 0 : {link:sensor:#sensor} for @enabled in {code:switch1:variable}, stores the state in the {code:switch:variable} variable
+                {br} line 1 : {link:getlink:#get-link} with {code:link:variable}, which is an {link:incrementing_variable:#incrementing-variable}
+                {br} line 2 : {link:sensor:#sensor} for @type in {code:block:variable} for later
+                {br} line 3 : {link:increment:#incrementing-variable} the variable {code:link:variable}
+                {br} line 4 : resets the variable {code:link:variable} when it reached @links using the % operator
+                {br} line 5 : {link:jump:#jump} if {code:type:variable} is @switch, this ensures that the switch building does not get controlled
+                {br} line 6 : {link:control:#control} the enabled of {code:block:variable}, which is the results of getlink, to {code:switch:variable}
+            incrementing_variable: incrementing variable
+            sensor: sensor
+            switch1: switch1
+            switch: switch
+            getlink: getlink
+            link: link
+            increment: increment
+            jump: jump
+            type: type
+            control: control
+            block: block
+        shuttle_logic:
+            title: Shuttle Logic
+            content: |
+                {video:image/vis shuttle.mp4:_}
+                {br} Line 0 : {link:bind:#unit-bind} a flare
+                {br} Line 1 : {link:locate:#unit-locate} an ally core, outputs its coordinates to {code:cx:variable},{code:cy:variable}, and building reference to {code:core:variable}
+                {br} Line 2 - 3 : get the coordinates of the linked vault using {link:sensor:#sensor}
+                {br} Line 4 : {link:sensoring:#sensor} the {link:totalItems:#totalitems} from {code:unit:content-name} to get the amount of items the unit are currently carrying
+                {br} Line 5 : a conditional {link:jump:#jump}, jump to (move to core) and take item if the item the unit are currently carrying is 0
+                {br} Else jump to move to (vault and drop item)
+                {br} Line 6-7: {link:move:#move} to vault and take item from vault
+                {br} Line 8 : {link:end:#end}, to make sure both (move to core) and (move to vault) cannot run in the same time
+                {br} Line 9-10 : {link:move:#move} to core and take @copper from core
+                {br}
+                {br} The key is to not put 2 or more move that the processor can run “simultaneously”, in other words don’t make the unit move to 2 location or more “simultaneously”.
+                {br} Either move to core or move to vault based on a condition
+            end: end
+            bind: bind
+            locate: locate
+            cx: cx
+            cy: cy
+            core: core
+            sensor: sensor
+            sensoring: sensoring
+            totalItems: "@totalItems"
+            unit : "@unit"
+            jump: jump
+            move: move
+# ── Auto-generated entries ──────────────────────────────────────
+        thorium_reactor_fail_safe:
+            title: "Thorium Reactor Fail Safe"
+            content: |
+                line 0 : {link:getlink:#get-link} with {code:i:variable}, which is an {link:incrementing_variable:#incrementing-variable}, writes the result to {code:block:variable}
+                {br}line 1 : {link:sensor:#sensor} for cryofluid in {code:block:variable}, writes the result to {code:cryo:variable}
+                {br}line 2 : {link:compare:#jump} if {code:cryo:variable} > (greater than) 15, if it is {code:fail:variable} will be true, else {code:fail:variable} will be false
+                {br}line 3 : {link:control:#control} {code:block:variable} to {code:fail:variable} which controls the thorium reactors to {code:fail:variable}, if line 2 is true then {code:fail:variable} is true, thus enabling the thorium reactor
+                {br}line 4 : {link:incrementing_the_variable:#incrementing-variable} {code:i:variable}
+                {br}line 5 : resets the variable {code:i:variable} when it reached {code:links:content-name} using the % operator
+            i: "i"
+            block: "block"
+            cryo: "cryo"
+            fail: "fail"
+            links: "@links"
+            getlink: "getlink"
+            incrementing_variable: "incrementing variable"
+            sensor: "sensor"
+            compare: "compare"
+            control: "control"
+            incrementing_the_variable: "incrementing the variable"
+        counter_array:
+            title: "@counter Array"
+            content: |
+                This is a bit more advanced than previous examples but it is very useful especially for unit multibind, assuming you already know what an array is you can simulate it using the @counter variable
+                {br}
+                {video:image/Counter_Array.mp4:width700}
+                {br}The variable ‘array’ is now an array, this is a static array, meaning the size of the array is fixed, you can however expand the size of the array to how many you want
+        lookup_array:
+            title: "Lookup Array"
+            content: |
+                A lookup array is another form of array in Mlog that make use of the {code:read:draw} instruction capabilities to read variables values from processors
+                {br}{video:image/lookup_array.mp4:width800}
+                {br}Line 0 : define the variables for the lookup array. we use {code:draw:draw} because its the most efficient instruction at defining the most amount of variables in 1 instruction. The defined variables are null, which is fine because we will store the values ourself.
+                {br}Line 1 : Set {code:i:variable op} to 0, this is your index variable to access the Array
+                {br}Line 2 : By using lookup we get a content name from the index variable
+                {br}Line 3 : We increment our index.
+                {br}Line 4 : We get the string equivalent of the content name that we get previously from lookup, because in order to read variables from processors using the {code:read:draw} instruction, the {code:at:field} field value must a string, and sensoring {code:_name:content-name} from a content name gives us a string. This will become our array key.
+                {br}Line 5 : Write a value to the array on index {code:i:variable}, this is optional, in practice you would fill this with what ever you want to store in the array, like a unit reference.
+                {br}Line 6 : Read the value from {code:this:variable} (so we don't need another processor) processor using our derived key string which is also derived from our index {code:i:variable}
+                {br}Line 7 : At this point the core part of the lookup array is done, you can use the value from the array to your needs, in this case we just print it.
+                {br}Line 8 : {code:printflush:draw} the value
+                {br}
+                {br} there are downsides to this method, primarily because we can't have more than 1 arrays in a single processor. This can be worked around by just offesetting the second array index by a certain amount, for example the first array will use index 0-9, if you need another array then the second array will use index 10-20. Or use the other lookup method like liquid or unit, which doesn't have as much length as block
+            draw: "{link:_draw:#draw}"
+            _draw: draw triangle
+            read: "{link:_read:#read}"
+            _read: read
+            i: i
+            at: at
+            _name: "@name"
+            this: "{link:_this:#built-in-variable}"
+            _this: "@this"
+            printflush: "{link:_printflush:#print-flush}"
+            _printflush: printflush
+
+advanced:
+    title: "Advanced"
+    writing_in_text_editor:
+        title: "Writing in text editor"
+        content: |
+            Mlog are essentially plain text, this means you can use any text editor to write mlog, including Notepad
+            {br}Here are some things that makes it easier to write in plain text:
+            {br}In these example i will be using Visual Studio Code with “Mindustry Logic” extension
+            {br}
+            {br}a new VS Code extension for Mlog is available at “{link:mindustry_logic_for_vscode:https://marketplace.visualstudio.com/items?itemName=JeanJPNM.mlogls-vscode}”, made by JeanJPNM
+            . This extension brings actual support for mlog, like syntax highlighting, intellisense, diagnostic messages, and more, if you’re writing with VSCode I recommend checking this out.
+        mindustry_logic_for_vscode: "Mindustry Logic for VSCode"
+
+        title2: "Lables"
+        content2: "Labels are replacement for jumps number, this way you can write freely without needing to worry about jump numbers"
+        title3: "Comments"
+        content3: "Comments will be removed when importing the code to the game"
+        title4: "Combining lines"
+        content4: "You can combine lines with “ ; “"
+        title5: "Tabs and newlines"
+        content5: "Tabs and newlines will also be removed when importing the code to the game, this is just for better readability"
+        content6: "List of mlog {link:instruction_in_text_form:#text-form-instruction}"
+        instruction_in_text_form: "instruction in text form"
+    transpiler:
+        title: Transpiler
+        content: Transpiler is a program that translate programming language to another programming language
+
+    mods:
+        title: Mods
+        content: these mods add little to none new content, their purpose is to enhance logic, not add to them
+        list:
+            yr2:
+                title: yr2 Logic Debugger
+                content: |
+                    a common and popular choice, can be found in the game's mod browser
+                    {br}a very comprehensive mod that enchance the ui of logic, gives many excellent extra feature like:
+                poin1: viewing memory cells content in real time
+                poin2: viewing all processor's variables in real time
+                poin3: view currently binded unit with a red line trace to the unit
+                poin4: and much more
+
+            dn:
+                title: Logic Debugger By DeltaNedas
+                content: can be found in the game's mod browser {br} features
+                poin1: Step through logic instructions
+                poin2: viewing memory cells content in real time
+                poin3: viewing all processor's variables in real time
+
+            dn_extended:
+                title: Logic Debugger Extended
+                content: | 
+                    an extended version of Logic Debugger By Deltanedas extended By zxtej
+                    {br}Repo : {link:link:https://github.com/zxtej/ldb}
+                link: "https://github.com/zxtej/ldb"
+
+            infinite:
+                title: Infinite/logics
+                content: |
+                    Gives faster processor and world processor, max ipt of which is 6 Million (6.000.000) compared to world processor vanilla which is 500.
+                    {br} Gives larger and borderless displays
+                    {br} can be found in the game's mods browser
+
+            new_console:
+                title: New Console
+                content: Gives a new console ui superior to the built-in one {br} can be found in the game's mods browser
+
+            time_control:
+                title: Time Control
+                content: |
+                    speed up / slow down the game.
+                    {br}when used with a logic debugger you can see each instruction execution in slow motion, might give a better understanding how a code works, or debugging.
+                    {br}can be found in the game's mods browser
+    subframe:
+        title: Antithreading / Subframe
+        content: |
+            uses the game update order to force multiple processors into one.
+            {br}Every ingame frame the game updates blocks from left to right and bottom to top, this is not always true if you just recently placed a block, to fix this reload your save.
+            {br}`wait 1e-3` or just `wait 0.001` will make the processor wait exactly a single frame before continuing running the instructions after it, this also depends on your game FPS
+            {br}using these you can make multiple processors run instructions at the same time
+            {br}use cases for this are very minimal, ( I, of course, don’t know every detail about this, the use cases i did use this for was drawing into a single display with multiple processor without it flashing)
+            
+
+world_logic:
+    title: "World Logic"
+    content: |
+        World processor are processor that controls how the world behave, they have every instruction a normal processor have plus world instruction
+        {br}They have unlimited range
+        {br}They can link and control every buildings including enemy’s
+        {br}they can bind and control every units including enemy’s
+        {br}Maximum IPT of a world processor is 500, which can be set using {code:setrate:wp}
+    setrate: "Set Rate"
+    how_to_get_world_processor:
+        title: "How to get World Processor"
+        content: |
+            World processor are editor only object, go to the editor - choose a map -
+            at the top left there is a hamburger button {img:image/hamburger.png:_} ,
+            click on it and go to “Edit In-Game” {img:image/wp.png:_}, world processor
+            along with world cell and world message will appear in the processor menu,
+            however this mode is equivalent to pause mode as nothing runs including processors,
+            go back to the editor open the hamburger button and choose “Playtest” {img:image/playtest.png:_} instead, this allows
+            you to edit and run processor in real time, although not placing new ones.
+            {br}{br}
+            Alternatively in the "Map info", accessible from the editor, then "Rules", you can enable "Allow Editing World Processors" under "Resources & Building" section. This will make world processors accessible even outside the editor.
+            {br}
+            {br}
+            For maps you don't have editor access to (like campaign) you can use the console ("Settings" > "Game" > "Enable Console". {code:f8:key} on Desktop) to make world processor available, typing 
+            {br}{code:show_wp} will make world processor available in the menu, and
+            {br}{code:enable_testing} allows you to edit them
+            (making the map into a playtest mode), we are basically doing the
+            same thing as the former method but using the console instead, however when you exit out
+            of the world the game thinks you are in the editor thus putting you in the editor without saving any changes,
+            auto save does work though, so you might want to lower the auto save interval, or you can disable the playtest mode using :
+            {br}{code:disable_testing} before exiting the world
+            {br}{br}
+        show_wp: "Blocks.worldProcessor.buildVisibility = BuildVisibility.shown"
+        enable_testing: "Vars.state.playtestingMap=Vars.state.map"
+        disable_testing: "Vars.state.playtestingMap=null"
+        f8 : F8
+        mod: mod
+    query:
+        title: Query
+        content: |
+            Queries units/buildings in a specified area
+            {br}{img:image/query.png:_}
+            {br}{code:circle:variable wp} area mode, can be either circle or rect (rectangular). Determines the shape of the area to query, will fetch all units/buildings (based on query mode) in this area
+            {br}{code:unit:variable wp} query mode, can be either unit or building.
+            {br}{code:team:field} team filtering, query will only get objects from this team, null for all teams.
+            {br}{code:x:field} the x coordinate to query.
+            {br}{code:y:field} the y coordinate to query.
+            {br}{code:radius:field} (if circle mode), the radius of the circle area with {code:x:field} {code:y:field} as the center of the circle
+            {br}{code:width:field} (if rect mode) the width of the rectangle area with {code:x:field} {code:y:field} as the bottom left of the rectangle
+            {br}{code:height:field} (if rect mode) the height of the rectangle area with {code:x:field} {code:y:field} as the bottom left of the rectangle.
+            {br}Fetches all units/buildings references in the specified area and put them as an indexed list in the {code:_queries:variable} variable. Starts from index {hl:_0:yel}.
+            {br}References can be retrieved from {code:_queries:variable} by using {code:read:draw}, by putting {code:_queries:variable} on the second field and the index on the {code:at:field} field.
+            {br}Returns regular unit/block {link:reference:#building-reference}
+
+        circle: circle
+        unit: unit
+        team: team
+        radius: radius
+        width: width
+        height: height
+        x: x
+        y: y
+        _queries: "@queries" 
+        _0: "0"
+        read: "{link:_read:#read}"
+        _read: read
+        at: at
+        reference: reference
+    get_block:
+        title: "Get block"
+        content: "Get tile information at the specified coordinates"
+        content2: |
+            {code:result:field} the output
+            {br}{code:get:field} what to get, can be:
+            {br}{span:codefloorfield_get_the_floor_name_of_the:spin}
+            {br}{code:at:field} x and y coordinate respectively
+        result: "result"
+        get: "get"
+        floor: "floor"
+        ore: "ore"
+        block: "block"
+        building: "building"
+        at: "at"
+        codefloorfield_get_the_floor_name_of_the: |
+            {code:floor:field} get the floor name of the specified coordinate
+            {br}{code:ore:field} get the ore name of the specified coordinate
+            {br}{code:block:field} get the block name of the specified coordinate
+            {br}{code:building:field} get the building reference of the specified coordinate
+    set_block:
+        title: "Set Block"
+        content: "Set tile at the specified coordinates"
+        content2: |
+            {code:set:field} what type to set, can be :
+            {br}{span:codefloorfield_set_the_floor_to_the_spec:spin}
+            {br}{code:to:field} what tile to set, content name, name can be found on {link:environment:#environment}
+            {br}{code:at:field} x and y coordinate respectively
+            {br}{code:team:field} what team to set the block to, can be team name or a number 0 - 255
+        set: "set"
+        floor: "floor"
+        ore: "ore"
+        block: "block"
+        to: "to"
+        at: "at"
+        team: "team"
+        environment: "Environment"
+        codefloorfield_set_the_floor_to_the_spec: |
+            {code:floor:field} set the floor to the specified name and Coordinate
+            {br}{code:ore:field} set ore to the specified name and coordinate
+            {br}{code:block:field} set block to the specified name and coordinate
+    spawn_unit:
+        title: "Spawn Unit"
+        content: "spawn a unit at the specified coordinates"
+        content2: |
+            {code:result:field}, the output, unit reference
+            {br}{code:spawn:field} what unit to spawn, content name, name can be found on {link:units:#units}
+            {br}{code:at:field} x and y coordinate respectively
+            {br}{code:team:field} what team the unit spawned belong to, can be team name or a number 0 - 255
+            {br}{code:rot:field} rotation, which direction the unit is facing when spawned, in degrees, for reference : 360/0 is right, 90 is up
+        result: "result"
+        spawn: "spawn"
+        at: "at"
+        team: "team"
+        rot: "rot"
+        units: "Units"
+    apply_status:
+        title: "Apply Status"
+        content: "apply a status effect to a unit"
+        content2: |
+            {code:apply:field} or {code:clear:field}, whether apply or clear the status effect
+            {br}{code:wet:field} what status to apply to the unit
+            {br}{code:to:field} unit, unit reference
+            {br}{code:for:field} duration of the status
+        apply: "apply"
+        clear: "clear"
+        wet: "wet"
+        to: "to"
+        for: "for"
+    weather_sense:
+        title: "Weather Sense"
+        content: |
+            Sense the current weather is the specified weather type, returns boolean.
+            {br}{img:image/weather_sense.png:_}
+            {br}{code:weather:field}, what weather to sense.
+        weather: weather
+    weather_set:
+        title: "Weather Set"
+        content: |
+            Set the current state of the weather to the specified type.
+            {br}{img:image/weather_set.png:_}
+            {br}{code:weather:field}, what weather to set the map to.
+        weather: weather
+    spawn_wave:
+        title: "Spawn Wave"
+        content: "{span:TOADD:toadd}"
+        TOADD: TO ADD
+    set_rule:
+        title: "Set Rule"
+        content: "set the game rule, this is the same as the game setting in the map editor"
+        content2: |
+            currentWaveTime
+            {br}{span:change_the_current_wave_timer_in_seconds:spin}
+            {br}waveTimer
+            {br}{span:TOADD:toadd}
+            {br}waves
+            {br}{span:TOADD:toadd}
+            {br}wave
+            {br}{span:set_wave_number:spin}
+            {br}waveSpacing
+            {br}{span:change_the_timer_for_the_next_wave_in_se:spin}
+            {br}waveSending
+            {br}{span:TOADD:toadd}
+            {br}attackMode
+            {br}{span:TOADD:toadd}
+            {br}enemyCoreBuildRadius
+            {br}{span:set_how_large_the_radius_of_the_no_build:spin}
+            {br}dropZoneRadius
+            {br}{span:set_how_large_the_annihilation_radius_ar:spin}
+            {br}unitCap
+            {br}{span:set_the_cap_of_unit_that_can_be_construc:spin}
+            {br}mapArea
+            {br}{span:set_the_size_of_the_playable_field_in_th:spin}
+            {br}lightning
+            {br}{span:boolean_whether_to_enable_lightning_or_n:spin}
+            {br}ambientLight
+            {br}{span:set_the_dark_part_of_light_colors_in_oth:spin}
+            {br}solarMultiplier
+            {br}{span:set_the_multiplier_solar_panels_produce_:spin}
+            {br}dragMultiplier
+            {br}
+            {br}ban
+            {br}
+            {br}unban
+            {br}
+            {br}unitBuildSpeed
+            {br}{span:set_the_build_speed_of_units:spin}
+            {br}unitHealth
+            {br}{span:set_the_multiplier_of_unit_health_does_n:spin}
+            {br}unitCost
+            {br}{span:set_multiplier_of_unit_construction_cost:spin}
+            {br}unitDamage
+            {br}{span:set_the_multiplier_of_unit_damage:spin}
+            {br}blockHealth
+            {br}{span:set_the_multiplier_of_block_health:spin}
+            {br}blockDamage
+            {br}{span:set_the_multiplier_of_block_damage_turre:spin}
+            {br}rtsMinWeight
+            {br}{span:TOADD:toadd}
+            {br}rtsMinSquad
+            {br}{span:TOADD:toadd}
+        TOADD: TO ADD
+        x: "x"
+        y: "y"
+        width: "width"
+        height: "height"
+        damage_calculation: "damage calculation"
+        change_the_current_wave_timer_in_seconds: "change the current wave timer, in seconds"
+        set_wave_number: "set wave number"
+        change_the_timer_for_the_next_wave_in_se: "change the timer for the next wave, in seconds"
+        set_how_large_the_radius_of_the_no_build: "set how large the radius of the no build zone around the enemy core"
+        set_how_large_the_annihilation_radius_ar: "set how large the annihilation radius around the enemy spawn point"
+        set_the_cap_of_unit_that_can_be_construc: "set the cap of unit that can be constructed"
+        set_the_size_of_the_playable_field_in_th: |
+            set the size of the playable field in the map/sector
+            {br}starts at the bottom left
+            {br}{code:x:field} and {code:y:field} is the offset from 0,0
+            {br}{code:width:field} and {code:height:field} is the size of the map, calculated from the offset
+        boolean_whether_to_enable_lightning_or_n: "boolean, whether to enable lightning or not, if disabled all section of the map (other solid walls) will be fully bright"
+        set_the_dark_part_of_light_colors_in_oth: "set the ‘dark’ part of light colors, in other words change colors of shadows"
+        set_the_multiplier_solar_panels_produce_: "set the multiplier solar panels produce power"
+        set_the_build_speed_of_units: "set the build speed of units"
+        set_the_multiplier_of_unit_health_does_n: |
+            set the multiplier of unit health, does not actually change unit max health, increase
+            resistance instead, actual damage received = (damage received / unitHealth)
+            as for ‘damage received’ check {link:damage_calculation:#damage-calculation}
+        set_multiplier_of_unit_construction_cost: "set multiplier of unit construction cost"
+        set_the_multiplier_of_unit_damage: "set the multiplier of unit damage"
+        set_the_multiplier_of_block_health: "set the multiplier of block health"
+        set_the_multiplier_of_block_damage_turre: "set the multiplier of block damage (turrets, explosion, etc)"
+    flush_message:
+        title: "Flush Message"
+        content: "display a message on player’s screen from the text buffer, will wait until the previous message finishes"
+        content2: |
+            {br}{br}{code:announce:field} center of the screen
+            {br}{img:image/message.png:_}
+            {br}{br}{code:notify:field} top of the screen
+            {br}{img:image/message 3.png:_}
+            {br}{br}{code:toast:field}
+            {br}{img:image/message 4.png:_}
+            {br}{br}{code:mission:field}
+            {br}{img:image/message 2.png:_}
+        announce: "announce"
+        notify: "notify"
+        toast: "toast"
+        mission: "mission"
+    cutscene:
+        title: "Cutscene"
+        content: |
+            manipulate the camera, players cannot move/interact in this mode
+            {br}does not have duration cutscene will stays until {code:cutscene_stop:wp} is used
+            {br}{span:codepanfield_moves_the_camera_to_the_spe:spin}
+        cutscene_stop: "cutscene stop"
+        pan: "pan"
+        zoom: "zoom"
+        stop: "stop"
+        codepanfield_moves_the_camera_to_the_spe: |
+            {code:pan:field} moves the camera to the specified coordinates, with specified speed
+            {br}{code:zoom:field} zooms the camera, value is from 0 to 1, although can be more it is limited by the game, this limit is the same as your manual zoom limit, when used not with {code:pan:field} will zoom to 0,0 instead
+            {br}{code:stop:field} stops previous cutscene
+    effect:
+        title: "Effect"
+        content: |
+            display a particle effect on the world, you can click the `warn` to view every available effect
+            {br}{span:TOADD:toadd}
+        TOADD: TOADD
+    explosion:
+        title: "Explosion"
+        content: |
+            {img:image/v8_explosion.png:mwidth85vw}
+            {br}create an explosion
+        content2: |
+            {code:team:field} what team the explosion belong to, explosion cannot harm ally blocks
+            {br}{code:x:field} {code:y:field} where to create the explosion
+            {br}{code:radius:field} size of explosion, block outside this radius does not take damage
+            {br}{code:damage:field} the damage of the explosion
+            {br}{code:air:field} whether to damage air or nor, true means it will damage air (air units, boosted units, etc)
+            {br}{code:ground:field} whether to damage ground or nor, true means it will damage ground (ground unit, blocks, etc)
+            {br}{code:pierce:field} whether to pierce buildings or not, if false, it will need a line of sight from the explosion to the block, if something is in the way that block will not be damaged
+            {br}{code:effect:field} whether to pierce show the visual effect of the explosion or not
+        team: "team"
+        x: "x"
+        y: "y"
+        radius: "radius"
+        damage: "damage"
+        air: "air"
+        ground: "ground"
+        pierce: "pierce"
+        effect: "effect"
+    set_rate:
+        title: "Set Rate"
+        content: "Set the speed of the processor, in instruction per tick, 1 second = 60 ticks"
+    fetch:
+        title: "Fetch"
+        content: |
+            get {code:unit:field}/{code:player:field}/{code:core:field}/{code:building:field}
+            and output their reference to {code:result:variable}, by index
+            {br}or {code:unitcount:field}/{code:playercount:field}/{code:corecount:field}/{code:buildcount:field}
+            {br}which gets their respective total count (alive/exist) in the map
+        unit: "unit"
+        player: "player"
+        core: "core"
+        building: "building"
+        result: "result"
+        unitcount: "unitCount"
+        playercount: "playerCount"
+        corecount: "coreCount"
+        buildcount: "buildCount"
+        content2: |
+            {code:team:field} what team to fetch the object, content name, eg. {code:sharded:content-name}
+            {br}{code:item:field} index, starts at 0, 0 being the first object
+            {br}{br}when an object dies the last object index will replace the object index that dies
+            {br}for example: you have 10 conveyors indexed from 1-10, conveyor #5 is deconstructed, conveyor
+            {br}#10 will the become #5, then a new placed conveyor will become #10
+        team: "team"
+        sharded: "@sharded"
+        item: "#"
+    sync:
+        title: "Sync"
+        content: "sync a variable across all devices, used mainly in multiplayer, to avoid desyncing"
+    set_flag:
+        title: "Set Flag"
+        content: |
+            set a global flag / global variable, flag content can only be 0 or 1, true or false
+            {br}flag name is enclosed by ` " `
+            {br}this flag can be read anywhere in the map using the {code:get_flag:wp} instruction
+        get_flag: get flag
+    get_flag:
+        title: "Get Flag"
+        content: |
+            read the flag/variable created by {code:set_flag:wp}
+            {br}reads the content of the flag
+            {br}writes the result the the {code:result:variable} variable
+        set_flag: set flag
+        result: result
+    set_prop:
+        title: "Set Prop"
+        content: |
+            {img:image/set prop.png:mwidth85vw}
+            {br}sets the properties of a unit or building
+            {code:of:field} unit/building Reference
+            {br}{code:to:field} value
+            {br}{span:TOADD:toadd}
+        TOADD: TOADD
+        of: "of"
+        to: "to"
+        list:
+            x:
+                title: "@x"
+                content: sets the location x of the object
+            y:
+                title: "@y"
+                content: sets the location y of the object
+            velocityx:
+                title: "@velocityX"
+                content: sets the velocity of the x axis of the object
+            velocityy:
+                title: "@velocityY"
+                content: sets the velocity of the y axis of the object
+            rotation:
+                title: "@rotation"
+                content: sets the rotation of the object, follows mindustry angle system
+            speed:
+                title: "@speed"
+                content: Sets the max speed of the object
+            armor:
+                title: "@armor"
+                content:
+            health:
+                title: "@health"
+                content: Sets the health of the object (not max health)
+            shield:
+                title: "@shield"
+                content:
+            team:
+                title: "@team"
+                content:
+            flag:
+                title: "@flag"
+                content:
+            totalpower:
+                title: "@totalPower"
+                content:
+            payloadtype:
+                title: "@payloadType"
+                content:
+            bullettime:
+                title: "@bulletTime"
+                content:
+            bulletlifetime:
+                title: "@bulletLifetime"
+                content:
+    play_sound:
+        title: Play Sound
+        content: |
+            {img:image/play sound.png:_}
+            {br}plays a sound from the game’s sfx, include all of the game’s .ogg file, can be found in sounds folder.
+            {br}{code:volume:field} controls the volume of the played sound.
+            {br}{code:pitch:field} change the pitch of the played sound, .
+            {br} the formula is, pitch = 2 ^ ([semitone change] / 12 ).
+            {br} for example @sfx-press tone is c4 to make it c5 meaning increase it by 12 semitone :
+            {br} 2 ^ (12 / 12) = 2
+            {br} or c6 : 2 ^ (24 / 12) = 4
+            {br} or c3 : 2 ^ (-12 / 12) = 0.5
+            {br}{code:pan:field} pans the sound to the left or right
+            {br}{code:limit:field}, if true prevents sound from being played if the sound has already played in the same frame, this prevents ear destroying sounds
+        volume: "volume"
+        pitch: "pitch"
+        pan: "pan"
+        limit: "limit"
+    make_marker:
+        title: "Make Marker"
+        content: |
+            Makes a Marker
+            {br}a marker is an entity in the map that shows content to the user, for example when you select a unit (shift + drag click) a diamond
+            shaped box appear around that unit, that is a marker, or when you tell a unit to move a line appears, that is also considered a marker,
+            the floating text in the beginning tutorial is also a marker.
+            {br}
+            {br}{code:id:field} is numeric identity of the Marker, id is 32 bit signed integer, meaning from -2147483648 to 2147483647, outside these range markers will be clamped to these values
+            {br}for example 2147483647 and 2147483648 will both be considered as 2147483647
+            {br}however note that the total number of markers is limited to 20.000
+            {br}
+            {br}game created markers like the examples above doesn't intervere with player made markers
+            {br}currently there is a bug with the {code:replace:field} argument where it replaces other markers than the specified id
+            {br}
+            {br}{code:x:field}, {code:y:field}
+            {br}marker location with the middle of the marker as its origin
+            {br}
+            {br}{code:replace:field} determines whether this marker will replace exsisting previous markers that has the same id
+            {br}it is recommended to just keep it false
+            {br}
+            {br}{code:shapetext:field}
+            {br}a rectangular shape with a text above it
+            {br}
+            {br}{code:point:field}
+            {br}an expanding red circle
+            {br}
+            {br}{code:shape:field}
+            {br}a rectangular shape
+            {br}
+            {br}{code:text:field}
+            {br}a text with a semi transparant black background
+            {br}
+            {br}{code:line:field}
+            {br}a line
+            {br}
+            {br}{code:texture:field}, makes a marker for a Texture.
+            {br}initially invisible until texture is defined, using {code:setmarker_texture:wp}.
+            {br}texture can be anything that is available in the game.
+            {br}
+            {br}{code:quad:field}, are quadrilateral / a 4 sided polygon.
+            {br}a quad has 4 vertices and 4 sides.
+            {br}each vertices position can be set using {code:setmarker_posi:wp}.
+            {br}texture is initially just pure white, can be defined with {code:setmarker_texture:wp},
+            {br}then needs to be further defined with {code:setmarker_uvi:wp} to set the texture location within the quad.
+        id: "id"
+        replace: "replace"
+        x: "x"
+        y: "y"
+        shapetext: "shapeText"
+        point: "point"
+        shape: "shape"
+        text: "text"
+        line: "line"
+        texture: "Texture"
+        setmarker_texture: "setmarker texture"
+        quad: "Quad"
+        setmarker_posi: "setmarker posi"
+        setmarker_uvi: "setmarker uvi"
+    set_marker:
+        title: "Set Marker"
+        content: |
+            {img:image/v8_setmarker.png:_}
+            {br}Sets a property of a marker with the specified id.
+            {br}{br}setting a {code:null} value to any fields in {code:setmarker:wp}
+            will {b:not} change the value to 0, but instead just kept the previous value of that marker.
+            {br}
+            {br}{code:remove:field}
+            {br}remove the marker
+            {br}
+            {br}{code:world:field}
+            {br}
+            {br}
+            {br}{code:minimap:field}
+            {br}
+            {br}
+            {br}{code:autoscale:field}
+            {br}automatically scales the size of the marker depending on player camera zoom
+            {br}
+            {br}{code:pos:field}
+            {br}repositions the marker
+            {br}
+            {br}{code:endpos:field}
+            {br}used for positioning the other end of the {code:line:field} marker
+            {br}
+            {br}{code:drawlayer:field}
+            {br}sets the layer where the markers sits on, a higher number means it will overlap objects with lower numbers
+            {br}if you're familiar with programming it is sometimes called the "z-index"
+            {br}
+            {br}{code:color:field}
+            {br}sets the color of the marker
+            {br}
+            {br}{code:radius:field}
+            {br}
+            {br}
+            {br}{code:stroke:field}
+            {br}
+            {br}
+            {br}{code:rotation:field}
+            {br}
+            {br}
+            {br}{code:shape:field}
+            {br}
+            {br}
+            {br}{code:arc:field}
+            {br}
+            {br}
+            {br}{code:flushtext:field}
+            {br}
+            {br}
+            {br}{code:fontsize:field}
+            {br}
+            {br}
+            {br}{code:textheight:field}
+            {br}
+            {br}
+            {br}{code:labelflags:field}
+            {br}
+            {br}
+            {br}{code:texture:field}, sets the texure of a marker.
+            {br}the {code:printflush:field} argument are boolean,
+            {br}when true it uses the text in the text buffer as the name,
+            {br}otherwise uses the {code:name:field} argument.
+            {br}name can be game content name, like {code:router:content-name}, or {code:surgealloy:content-name}, if doesn't work use file name instead.
+            {br}can also be file name, like {code:itemcopper} or {code:spritesnoisepng},
+            {br}when using a file name, write it exactly like shown above, including quotes, {b:not_like} {code:spritesnoisepng} or {code:spritesnoisepng2}.
+            {br}file names can be found on {link:httpsgithubcomanukenmindustrytreemasterc:https://github.com/Anuken/Mindustry/tree/master/core/assets-raw/sprites}
+            {br}
+            {br}the {code:name:field} argument now supports block reference too, so you can set the texture of a marker to a display's content by putting the display block reference on the {code:name:field} argument. like {code:setmarker_texture_0_0_display1_0:wp}
+            {br}content is live, meaning if the display content changes the marker texture will also change in realtime.
+            {br}
+            {br}{code:texturesize:field}
+            {br}
+            {br}
+            {br}{code:posi:field}, sets the vertices location of a quad, location are world x,y location
+            {br}with index from 0-3
+            {br}each index repesents each vertices
+            {br}
+            {br}{code:uvi:field}, sets each vertices of the texture relative to the quad (UV Mapping with index)
+            {br}with index from 0-3
+            {br}each index repesents each vertices, example:
+            {br}#0 (0,0)
+            {br}#1 (1,0)
+            {br}#2 (1,1)
+            {br}#3 (0,1)
+            {br}will sets each texture vertices exactly where the quad vertices are, this means texture will stretch/reform to the quad shapes
+            {br}
+            {br}{code:colori:field}, similar to uvi, if indexes are set to different colors; color will gradient from one to the other
+            {br}with index from 0-3
+            {br}each index repesents each vertices, example:
+            {br}#0 (0,0)
+            {br}#1 (1,0)
+            {br}#2 (1,1)
+            {br}#3 (0,1)
+            {br}
+            {br}{code:color:field}, change the color of the marker.
+            {br}color only tints the color of the marker,
+            {br}meaning a marker that already has a color, like setting the color of a texture to white doesn't effect them, it will appear as its original texture color,
+            {br}since quad doesn't have a color quad will take the full color the specified color.
+            {br}{br}{span:TOADD:toadd}
+        setmarker: "setmarker"
+        remove: "remove"
+        world: "world"
+        minimap: "minimap"
+        autoscale: "autoscale"
+        pos: "pos"
+        endpos: "endPos"
+        drawlayer: "drawLayer"
+        color: "color"
+        radius: "radius"
+        stroke: "stroke"
+        rotation: "rotation"
+        arc: "arc"
+        flushtext: "flushText"
+        fontsize: "fontSize"
+        textheight: "textHeight"
+        labelflags: "labelFlags"
+        printflush: "printFlush"
+        name: "name"
+        router: "@router"
+        surgealloy: "@surge-alloy"
+        itemcopper: "\"item-copper\""
+        spritesnoisepng: "sprites/noise.png"
+        spritesnoisepng2: "@sprites/noise.png"
+        setmarker_texture_0_0_display1_0: "setmarker texture 0 0 display1 0"
+        texturesize: "textureSize"
+        posi: "posi"
+        uvi: "uvi"
+        colori: "colori"
+        httpsgithubcomanukenmindustrytreemasterc: "https://github.com/Anuken/Mindustry/tree/master/core/assets-raw/sprites"
+        not: "not"
+        not_like: "NOT LIKE"
+        null: "null"
+        line: "line"
+        shape: "shape"
+        texture: "Texture"
+    # FIX {code:name} 
+    locale_print:
+        title: Locale Print
+        content: |
+            Prints a property from the map locale bundles to the text buffer,
+            allowing to create multi-language maps by displaying different localized texts corresponding to the player's selected language.
+            {br}Locale bundles are accessible in the map editor, {code:map_info} -> {code:locale_bundles}
+            {br}{img:image/localeprint.png:_}
+            {br}in the left side add your languages, each languages can have different properties, to add properties click {code:add} on the right side.
+            {br}A property have a name and a value, the name is what you write on the {code:locale_print:wp} instruction, the {code:locale_print:wp}
+            instruction then gets the value of that property according to the player's language and then put them in the print buffer, can then be
+            {code:print_flush:draw}ed as normal.
+            {br}
+            {br}so for example if you have a property in the English language named {code:welcome} you can {code:locale_print_welcome:wp}, this will put
+            the property values of {code:welcome} to the processor print buffer, in this case {code:welcome_this_text_will_appear_for_player}.,
+            if the player's language is English.
+            {br}
+            {br}when you create a new property it usually copies itself to all of your added languages, unless you disable {code:apply_changes_to_all_locales:field} at the top of the locale bundles menu.
+            if a language does not have a property that other languages have, that property in languages that does have it will have a yellow border, meaning there are a language(s) in your selection that does not have a property
+            with that name, if you try to {code:locale_print:wp} this it will default to the properties in English, if there is no properties in English too will output {code:localename} 
+            {br}a blue border on properties means the value of that properties is the same accros language(s)
+            {br}here's an example:
+            {br}{img:image/localeprintexample.png:_}
+            {br}
+            {br}property values supports formatting like normal {code:print:draw} does, like placeholders {code:0}, colors {code:red},
+            newlines {code:n}
+            {br}
+            {br}for mobile devices you can add {code:mobile} at the end of the property name, for example {code:welcomemobile}, if players are on mobile
+            the instruction {code:locale_print_welcome:wp} will search properties ending with {code:mobile} first and displays that, if it doesn't exist
+            will use the regular {code:welcome} property instead
+        map_info: "Map Info"
+        locale_bundles: "Locale Bundles"
+        add: "add"
+        locale_print: "locale print"
+        print_flush: "print flush"
+        welcome: "welcome"
+        locale_print_welcome: "locale print \"welcome\""
+        welcome_this_text_will_appear_for_player: "Welcome (this text will appear for players using English)"
+        apply_changes_to_all_locales: "Apply Changes To All Locales"
+        print: "print"
+        red: "[red]"
+        n: "\\n"
+        mobile: ".mobile"
+        welcomemobile: "welcome.mobile"
+        localename: "???{name}???"
+
+bleeding_edge:
+    title: "Bleeding Edge"
+    content: |
+        {span:TOADD:toadd}
+        {br}{br}Bleeding edge is the newest test version of mindustry, like Early Access or Beta Build
+        {br}BE version can be found and downloaded on
+        {link:httpsgithubcomanukenmindustrybuilds:https://github.com/Anuken/MindustryBuilds}
+        {br}
+        {br}BE feature are subject to change, therefore i cannot make sure these information are up to date
+        {br}
+        {br}Some Information are gathered from {link:cardillan:https://github.com/cardillan/mindcode/wiki/Changes-to-Mindustry-Logic} Github Wiki
+    TOADD: TOADD
+    httpsgithubcomanukenmindustrybuilds: "https://github.com/Anuken/MindustryBuilds"
+    cardillan: "Cardillan"
+    title2: "{delete:1}"
+    content2: "{delete:0:1}"
+    at: "at"
+    to: "to"
+    read_result_mindustry_at_0: "read result = \"Mindustry\" at 0"
+    null: "null"
+    title3: "Setrule"
+    content3: |
+        - new rule {code:cangameover:field}
+        {br}- new rule {code:unitminespeed:field}
+        {br}- new rule {code:dragmultiplier:field}
+    cangameover: "canGameOver"
+    unitminespeed: "unitMineSpeed"
+    dragmultiplier: "dragMultiplier"
+    title4: "Flush message"
+    content4: "- new field {code:success:field}"
+    success: "success"
+    title5: "Lookup"
+    content5: "- now supports {code:team:field} lookup"
+    team: "team"
+    title6: "Print char"
+    content6: |
+        print a character and put it in the text buffer like print does, however
+        takes integer (UTF-16) as an input instead of string.
+    httpswikipediaorgwikiascii: "https://wikipedia.org/wiki/ASCII"
+    title7: "Unit Control deconstruct"
+    content7: |
+        {code:ucontrol_deconstruct_0_0_0_0_0:unit}
+        {br}attempts to tell {code:unit:variable} to deconstructs a block at the specified coordinates, if the unit is in range and able to deconstruct it
+        {br}else does nothing
+        {br}note that this instruction will not be available if the rule of "Logic Unit Deconstruction" is disabled in the world/map rule settings
+    ucontrol_deconstruct_0_0_0_0_0: "ucontrol deconstruct 0 0 0 0 0"
+    unit: "@unit"
+    title8: "{delete:1}"
+    content8: "{delete:0}"
+    content9: "{delete:0:1}"
+    title9: "{delete:1}"
+    content10: "{delete:0:1}"
+    title10: "{delete:1}"
+    content11: "{delete:0:1}"
+    title11: "{delete:1}"
+    content12: "{delete:0:1}"
+    title12: "{delete:1}"
+    content13: "{delete:0:1}"
+    title13: "{delete:1}"
+    content14: "{delete:0:1}"
+    title14: "{delete:1}"
+    content15: "{delete:0:1}"
+    title15: "{delete:1}"
+    content16: "{delete:0:1}"
+    title16: "{delete:1}"
+    content17: "{delete:0:1}"
+    title17: "{delete:1}"
+    content18: "{delete:0:1}"
+    title18: "{delete:1}"
+    content19: "{delete:0:1}"
+    shapetext: "shapeText"
+    point: "point"
+    shape: "shape"
+    text: "text"
+    line: "line"
+    texture: "Texture"
+    setmarker_texture: "setmarker texture"
+    quad: "Quad"
+    setmarker_posi: "setmarker posi"
+    setmarker_uvi: "setmarker uvi"
+    content20: "{delete:0:1}"
+    title19: "{delete:1}"
+    content21: "{delete:0:1}"
+    title20: "{delete:1}"
+    content22: "{delete:0:1}"
+    title21: "{delete:1}"
+    content23: "{delete:0:1}"
+    title22: "op sign"
+    content24: |
+        New operation for {link:operation:#operation}
+        {br}Returns 0 only when the operand is strictly equal to 0, -1 for negative and 1 for positive numbers.
+    operation: "operation"
+    title23: "op logn"
+    content25: |
+        New operation for {link:operation:#operation}
+        {br}example : {code:op_logn_result_1000_10:op}
+        {br}Computes the logarithm of 1000 in base 10
+        {br}result : 3
+        {br}because 10^3 = 1000
+    op_logn_result_1000_10: "op logn result 1000 10"
+    title24: "op round"
+    content26: |
+        New operation for {link:operation:#operation}
+        {br}Rounds the value to the nearest integer.
+    title25: "op emod"
+    content27: |
+        New operation for {link:operation:#operation}
+        {br}{link:euclidian_modulo:https://en.wikipedia.org/wiki/Euclidean_division}
+        {br}Example : {code:op_emod_result_3_5:op}
+        {br}Means: compute -3 mod 5, returning a positive result.
+        {br}Result: result = 2
+        {br}Because -3 mod 5 = 2 in positive modulo (since -3 ≡ 2 (mod 5)).
+    op_emod_result_3_5: "op emod result -3 5"
+    euclidian_modulo: "Euclidian Modulo"
+    title26: "op ushr"
+    content28: |
+        New operation for {link:operation:#operation}
+        {br}Example : {code:op_ushr_result_8_1:op}
+        {br}{hl:_8:yel} >>> {hl:_8bin:yel}
+        {br}Unsigned right shift by 1:
+        {br}{hl:_8binshift:yel} = {hl:_2147483644:yel}
+    op_ushr_result_8_1: "op ushr result -8 1"
+    _8: "-8"
+    _8bin: "11111111 11111111 11111111 11111000"
+    _8binshift: "11111111 11111111 11111111 11111000"
+    _2147483644: "2147483644"
+    title27: "{delete:1}"
+    content29: "{delete:0:1}"
+    title28: "{delete:1}"
+    content30: "{delete:0:1}"
+    title29: "{delete:1}"
+    content31: "{delete:0:1}"
+    title30: "{delete:1}"
+    content32: "{delete:0:1}"
+    title31: "{delete:1}"
+    content33: "{delete:0:1}"
+    title32: "@memoryCapacity"
+    content34: |
+        return the capacity of the selected memory cell/bank
+        {br}example:
+        {br}{code:sensor_memory_memorycapacity_in_bank1:control}
+        {br}will return the memory capacity of bank1, which is 512
+    sensor_memory_memorycapacity_in_bank1: "sensor memory = @memoryCapacity in bank1"
+    title33: "@totalPayload"
+    content35: |
+        return the total payload carried by the unit
+        {br}counted per tile, so a 2x2 block will count as 4
+        {br}example:
+        {br}{code:sensor_result_totalpayload_in_unit:control}
+        {br}when {code:unit:variable} is carrying a copper wall for example, will return 4
+        {br}if carrying a unit will return the unit's size, a mace for example has a size of 1.25 x 1.25, which is 1.5625
+        {br}every payload carried size added together
+    sensor_result_totalpayload_in_unit: "sensor result = @totalPayload in @unit"
+    title34: "@payloadCapacity"
+    content36: |
+        return the payload capacity of the unit
+        {br}example:
+        {br}{code:sensor_result_payloadcapacity_in_unit:control}
+        {br}when {code:unit:variable} is an oct will return 30.25
+    sensor_result_payloadcapacity_in_unit: "sensor result = @payloadCapacity in @unit"
+    title35: "{delete:1}"
+    content37: "{delete}"
+    title36: "@displayHeight and @displayWidth"
+    content38: "Returns the display height and width of a display, in pixels"
+    title37: "@bufferUsage"
+    content39: |
+        Returns the number of commands currently in that display graphic buffer, useful for checking when to flush
+        {br}
+        Also Returns total string/characters length when used on a message block, but not length of text buffer
+    title38: "@operations"
+    content40: |
+        Returns the number of drawflush operations on a display since map reload (allows detecting the display needs to be redrawn).
+    title39: "@buildX"
+    content41: |
+        Returns the x coordinate of the current building tile of a unit, if the unit is building something, otherwise returns null
+    title40: "@buildY"
+    content42: |
+        Returns the y coordinate of the current building tile of a unit, if the unit is building something, otherwise returns null
+    title41: "@building"
+    content43: |
+        If used on a unit, returns the {link:block_reference:#building-reference} of the building currently being constructed ({code:build11234:field}, {code:build23456:field}, etc), if the unit is building something.
+        {br}If used on a building (a {link:block_reference:#building-reference}, eg {code:build11234:field}), returns {link:content_name:#contentname} of what type the block will become once it's built ({code:conveyor:content-name}, {code:router:content-name}, etc).
+        This is different from @type, which just returns the {link:content_name:#contentname} of the block, if @type is used for build#1234 it will just return {code:build1:content-name}
+        {br}example:
+        {br}{code:sensor_bref_unit_building:control}
+        {br}{code:sensor_btype_bref_building:control}
+        {br}when {code:unit:variable} is building a router, will return the block reference of that building in {code:bref:variable}, and then return {code:router:content-name} in {code:btype:variable}
+    build11234: "build1#1234"
+    build23456: "build2#3456"
+    conveyor: "@conveyor"
+    build1: "@build1"
+    sensor_bref_unit_building: "sensor bRef @unit @building"
+    sensor_btype_bref_building: "sensor bType bRef @building"
+    bref: "bRef"
+    btype: "bType"
+    block_reference: "block reference"
+    content_name: "content name"
+    title42: "@breaking"
+    content44: |
+        If used on a unit, returns the {link:block_reference:#building-reference} of the building currently being deconstructed ({code:build11234:field}, {code:build23456:field}, etc), if the unit is breaking something.
+        {br}If used on a building (a {link:block_reference:#building-reference}, eg {code:build11234:field}), returns boolean of whether the building is currently being deconstructed or not.
+        {br}example:
+        {br}{code:sensor_bref_unit_breaking:control}
+        {br}{code:sensor_isbreaking_building_breaking:control}
+        {br}when {code:unit:variable} is deconstructing a router, will return the block reference of that building in {code:bref:variable}, and then return true in {code:isbreaking:variable}
+    sensor_bref_unit_breaking: "sensor bRef @unit @breaking"
+    sensor_isbreaking_building_breaking: "sensor isBreaking @building @breaking"
+    isbreaking: "isBreaking"
+    maxunits:
+        title: "@maxUnits"
+        content: |
+            Returns the maximum number of units a team can have. Can only be sensed from cores.
+            {br}{code:example:control}
+        example: sensor cap core1 @maxUnits
+
+    technical: 
+        title: Technical
+        counter:
+            title: "@counter"
+            content: |
+                The @counter is set back to numeric value at the start of the execution of each instruction. It is now impossible to assign null or an object value to @counter in any way - all such assignments (regardless of the actual assignment mechanism) are effectively ignored.
+        parser:
+            title: "Mlog Parser"
+            content: |
+                The Mlog parser now correctly understands the literal {hl:_0xFFFFFFFF80000000:yel} and can convert it into its binary form. 
+                This hexadecimal value represents the minimum possible 32-bit signed integer ({code:_Integer.MIN_VALUE}), which is {hl:_-2147483648:yel}.
+                However, the parser still fails to interpret the following numbers:
+            _0xFFFFFFFF80000000: "0xFFFFFFFF80000000"
+            _Integer.MIN_VALUE: Integer.MIN_VALUE
+            _-2147483648: "-2147483648"
+
+            item1: 
+                title: "{hl:_-9223372036854775808:yel}"
+                content: |
+                    This is the smallest possible 64-bit signed integer ({code:_Long.MIN_VALUE}).
+                    {br}The parser can't parse this number in any format (decimal, hexadecimal, binary).
+                _-9223372036854775808: "-9223372036854775808"
+                _Long.MIN_VALUE: "Long.MIN_VALUE"
+            
+            item2: 
+                title: Hexadecimal values from {hl:_0x8000000000000001:yel} to {hl:_0x800000000000000F:yel}
+                content: |
+                    These are just above {code:_Long.MIN_VALUE} in value.
+                    {br}The parser can't handle these when they're written in hexadecimal format.
+                _0x8000000000000001: "0x8000000000000001"
+                _0x800000000000000F: "0x800000000000000F"
+                _Long.MIN_VALUE: "Long.MIN_VALUE"
+
+            item3:
+                title: |
+                    Binary value {raw:<span style="color: yellow; word-wrap: break-word;">0b1000000000000000000000000000000000000000000000000000000000000001</span>}
+                content: |
+                    This is a 64-bit binary number slightly larger than {code:_Long.MIN_VALUE}.
+                    {br}The parser can't handle this specific binary literal.
+                _Long.MIN_VALUE: "Long.MIN_VALUE"
+
+        control_instruction:
+            title: control instruction
+            content: the control instruction can control any block in the processor's range, not just blocks directly linked to it
+
+            
+            
+            
+            
+extras:
+    title: "Extras"
+    content: "These are niche question that very small number of people might have"
+    mindustry_coordinate_system:
+        title: "Mindustry coordinate system"
+        content: |
+            unlike traditional Cartesian Coordinate System where the center point of a coordinate is on the edge of a block Mindustry chooses the middle of a block as its center point instead
+            {br}{img:image/coordinate system.png:_}
+            {br}the game still uses Cartesian but just offset by 0.5
+            {br}the game also by default set 0,0 to the very bottom left of the world, this means all campaign world and most custom worlds (since you can set the coordinate offset in the editor) playfield are always positive
+    configure_turns_to_config:
+        title: "The word {hl:configure:aq} turns to {hl:config:aq}"
+        content: |
+            in v6 the {hl:config:aq} property was renamed to {hl:configure:aq}. To ensure backwards compatibility with old code
+            the game automatically changes the word {hl:configure:aq} to config
+            {br}if you use this as a variable it will still works, you just can't have "{hl:configure:aq}" anymore
+            {br}this applies both when writing in game and importing from text
+        config: config
+        configure: configure
+    you_cannot_spawn_scathe_missile:
+        title: "{delete:1:0}"
+        content: |
+            To spawn a Scathe missile you have to spawn a unit capable of carrying a payload, set that unit payload to scathe missile using {code:setprop:wp} and {code:scathemissle:content-name}, make the unit drop the payload and then kill the unit
+            {br}you can also setprop properties of the scathe missile.
+            {br}by using {code:fetch:wp} with {code:scathemissile:content-name} as the `unit` argument you can get the scathe missile reference
+            {br}you can put this reference to the {code:setprop:wp} instruction to set the properties of the missile.
+        setprop: "setprop"
+        scathemissle: "@scathe-missle"
+        fetch: "fetch"
+        scathemissile: "@scathe-missile"
+    modded_items_and_draw_image:
+        title: "Modded items and draw image"
+        content: "the game doesn’t generate logic icons for modded items, this means you cannot draw it using draw image"
+    ai_chatbot_doenst_understand_mlog:
+        title: "AI chatbot doesn’t understand Mlog"
+        content: |
+            AI chatbot like ChatGPT / Copilot / Aria, can’t do and doesn’t understand Mlog, to my knowledge there is no AI currently that can assist you with Mlog
+    getting_unit_cap:
+        title: "Getting unit cap"
+        content: |
+            There currently no way of getting the unit cap consistently, there are workarounds however, assuming the default cap isn’t changed you can count how many cores there are in the map and what type it is, if you know both of those you can get the unit cap by summing up all of those core(s) ‘Max Active Unit’
+            Shard has a unit cap of 8, foundation is 16, and nucleus is 24, info of which can be found in the game’s info menu
+            {br}on {link:be_version:#bleeding-edge} however, there is a new sensor property {link:maxunits:#max-units} that returns the unit cap directly, but it is not available in the stable version yet.
+        be_version: Bleeding edge version
+        maxunits: "{code:maxUnits:field}"
+        maxUnits: "@maxUnits"
+    v6_unit_control_with_logic:
+        title: "v6 unit controls with logic"
+        content: |
+            you cannot 100% replicate v6 unit controlling with logic, formation and shooting is possible, but support units cannot help you build like they used to in v6, although not perfect the RTS controls is the best we currently have
+    damage_calculation:
+        title: "Damage calculation"
+        content: |
+            every unit has an armor value, in most cases damage is just simply subtracted by this armor value, formula is
+            {br}damage received = max (damage * 0.1 , damage - armor)
+            {br}example :
+            {br}unit = corvus, armor = 9
+            {br}enemy turret = lancer, damage = 140
+            {br}
+            {br}damage received = max ( 140 * 0.1 , 140 - 9)
+            {br}damage received = max ( 14 , 131)
+            {br}damage received = 131
+    math:
+        title: "Math"
+        content: Math is useful in every language. Since there are so many topics, I will only explain the ones commonly used in Mindustry.
+        list:
+            trigonometry:
+                title: Trigonometry
+                content: |
+                    {br}Sine
+                    {br}Calculates how much a point moves along the Y-axis based on an angle.
+                    {br}for example: Imagine a clock hand (arrow) with a length of 1, the arrow is currently point to 3 o'clock, let's say that is 0°, 
+                    {br}now rotate the arrow counterclock wise by 45°, the arrow is now pointing between 1 and 2 (1:30), 
+                    {br}now place a point at the tip of the arrow, 
+                    {br}in just the Y-axis what is the length from the center of the clock to that point?
+                    {br}this is what sin(45°) gets, which is 0.707106..., 
+                    {br}Cosine does the same but in the X-axis instead
+                    {br}{br}using this you can plot a point based on another point
+                    {br}for example you want to plot a point in front of a unit, sensor its {hl:_@rotation:yel}, sine and cosine it,
+                    {br}the new point formula is 
+                    {hl:formula1:bg-lg} and 
+                    {hl:formula2:bg-lg}
+                    {br}where 
+                    
+                    
+                    {hl:Xcurrent:bg-lg} and 
+                    {hl:Ycurrent:bg-lg} is the current location of the unit, which you can get by sensoring it for 
+                    {hl:_@x:yel} and {hl:_@y:yel}
+                    {br}this will plot a point with a length exactly 1 from the unit, to increase the length just multiply the output of the sine and cosine:
+                    {br}
+                    {hl:formula3:bg-lg} and 
+                    {hl:formula4:bg-lg}, same as before add this to the current unit position, this will make a point in front of the unit with a length of exactly 5
+                formula1: Xnew = Xcurrent + Cos({hl:_@rotation:bg-g-yel})
+                formula2: Ynew = Ycurrent + Sin({hl:_@rotation:bg-g-yel})
+                formula3: 5*Cos(@rotation)
+                formula4: 5*Sin(@rotation)
+                Xcurrent: Xcurrent
+                Ycurrent: Ycurrent
+                _@rotation: "@rotation"
+                _@x: "@x"
+                _@y: "@y"
+            lerp:
+                title: LERP (Linear Interpolation)
+                # using {raw} here because of the <sub> elements
+                content: |
+                    {br}in Mindustry it is mainly used for getting a point in between 2 known points, the general formula are:
+                    {br}{raw:<mark class="lg">X<sub>new</sub> = (1 - t) * X<sub>1</sub> + t * X<sub>2</sub></mark>}
+                    {br}{raw:<mark class="lg">Y<sub>new</sub> = (1 - t) * Y<sub>1</sub> + t * Y<sub>2</sub></mark>}
+                    {br}{raw:where X<sub>1</sub> and Y<sub>1</sub>} is the first known point and
+                    {br}{raw:X<sub>2</sub> and Y<sub>2</sub>} is the second known point
+                    {br}t is ratio from 1 point to the other, for example if you wanna get a point in the middle of 2 known point put t as 0.5
+                    {br}or if you want 75% of the way, put t as 0.75
+            vectors:
+                title: Vectors
+                content: |
+                    {br}{link:Vector:https://en.wikipedia.org/wiki/Euclidean_vector} is defined by a : Direction, and Magnitude
+                    {br}Direction is where the vector is pointing at
+                    {br}Magnitude is how long the vector is
+                    {br}for example : a vector with direction of (1,0), since the X component of the direction is 1 and Y is 0 
+                    this means the vector is pointing straight to the right with a magnitude of 1
+                    {br}how do we know this?
+                    {br}assume the vector base is (0,0) then draw a point with 
+                    the direction as its location (1,0), now you have 2 points, from the vector 
+                    base draw a line/arrow to the second point, now you know where the vector is pointing
+                    {br}to get the magnitude we have to do some calculation:
+                    {br}{raw:<mark class="lg">Magnitude = √(D<sub>x</sub>)<sup>2</sup> + (D<sub>y</sub>)<sup>2</sup></mark>}
+                    {br}or you can use mindustry built in instruction the 
+                    {raw:<mark class="op">op len</mark> by putting D<sub>x</sub> and D<sub>y</sub>}
+                    {br}
+                    {br}for 2 points in space how do we get a vector from one to another?
+                    {br}if you remember vector is just a point pointing to another point in space
+                    {br}point A : (10,10) point B : (15,20), let's say you want to get a vector from A to B
+                    {br}you only need to get the displacement from A to B, this can be easily calculated by just subtracting each component from each point
+                    {br}{raw:C = (B<sub>x</sub> - A<sub>x</sub>), (B<sub>y</sub> - A<sub>y</sub>)}
+                    {br}C = (5,10), thats it, C is now a vector
+                    {br}if you add C to A the location of A will now become B, add it again it will be at another point of (20,30)
+                    {br}
+                    {br}what is the use of vector?, imagine you have a ball, you throw it directly upwards with the speed of let's say 
+                    10 unit/second, that ball now have a vector of (0,10), vector can be used to determined an object velocity
+                    {br}in programming, you have a point that you want to move, unlike reality you cannot move an object with infinite precision
+                    , you can only step through (usually per tick), you want to move it 12 units to the right per second, its simple, just add (12,0) to your
+                    point every second, you might say it looks like its jumping not moving, well we really can't get an object to move in the digital world like in reality
+                    only the illusion of moving, so you want to add the vector to your point in quicker succession with smaller magnitude, let's say 60 times per seconds
+                    you want to add (0.2,0) to your point every 1/60th of a second to get it to move 12 units in 1 second
+                Vector: Vector
+                
+    self_linking_processor:
+        title: "Linking a processor to itself"
+        content: |
+            normally {code:control_enabled_this_0:control}, doesn't work, but if you link the processor to itself it does
+            {br}to link a processor to itself you either need a modified schematic file or using the console:
+            {br}{code:varsworldtilex_ybuildlinksaddnew_logicbl}
+            {br}replace the x and y to the coordinates of the processor, and paste it to the console, this will make the processor link it self
+            {br}now {code:control_enabled_this_0:control} will work,
+            {br}there might be some other uses for it, but i haven't found any, if you do feel free to contact me so i can update this
+        control_enabled_this_0: "control enabled @this 0"
+        varsworldtilex_ybuildlinksaddnew_logicbl: "Vars.world.tile(x, y).build.links.add(new LogicBlock.LogicLink(x, y, \"processor1\", true))"
+
+built_in_vars2:
+    global:
+        waveNumber: 
+            title: "@waveNumber"
+            content: number of wave currently
+        waveTime:
+            title: "@waveTime"
+            content: current countdown time for next wave
+        derelict:
+            title: "@derelict"
+            content: derelict team
+        sharded:
+            title: "@sharded"
+            content: sharded team
+        crux:
+            title: "@crux"
+            content: crux team
+        malis:
+            title: "@malis"
+            content: malis team
+        green:
+            title: "@green"
+            content: green team
+        blue:
+            title: "@blue"
+            content: blue team
+        solid:
+            title: "{delete}"
+            content: "{delete:0:1}"
+        block:
+            title: "@block"
+            content: '-'
+        manifold:
+            title: "@manifold"
+            content: '-'
+        assembly_drone:
+            title: "@assembly-drone"
+            content: '-'
+        turret_unit_build_tower:
+            title: "@turret-unit-build-tower"
+            content: '-'
+        blockCount:
+            title: "@blockCount"
+            content: count of total different type of block in the game
+        unitCount:
+            title: "@unitCount"
+            content: count of total different type of unit in the game
+        itemCount:
+            title: "@itemCount"
+            content: count of total different type of item in the game
+        liquidCount:
+            title: "@liquidCount"
+            content: count of total different type of liquid in the game
+
+
+
+
+
+    sensors:
+        totalItems:
+            title: "@totalItems"
+            content: |
+                total items the object is currently holding; returns integer
+        firstItem:
+            title: "@firstItem"
+            content: |
+                the first item the object is currently holding
+                {br}returns item names, eg, @copper, @lead, @surge-alloy
+        totalLiquids:
+            title: "@totalLiquids"
+            content: |
+                total liquid units the object is currently holding; returns number
+        totalPower:
+            title: "@totalPower"
+            content: |
+                total power stored in a singular battery, returns number, can also check if a block is powered or not, returns boolean
+        itemCapacity:
+            title: "@itemCapacity"
+            content: |
+                the maximum item capacity an object can hold, for vault it is 1000 even though it can store each item for 1000; returns number, information can also be found on ingame’s info menu
+        liquidCapacity:
+            title: "@liquidCapacity"
+            content: |
+                the maximum liquid units capacity an object can hold; returns number, information can also be found on ingame’s info menu
+        powerCapacity:
+            title: "@powerCapacity"
+            content: |
+                the maximum power unit a battery can hold; returns number, information can also be found on ingame’s info menu
+        powerNetStored:
+            title: "@powerNetStored"
+            content: |
+                the power currently stored in the net (all connected batteries); returns number
+        powerNetCapacity:
+            title: "@powerNetCapacity"
+            content: |
+                the maximum power unit a net of battery can hold; returns number
+        powerNetIn:
+            title: "@powerNetIn"
+            content: |
+                the gross power of net generators (anything that generate power); returns number
+        powerNetOut:
+            title: "@powerNetOut"
+            content: |
+                the load power of net (anything that uses power); returns number
+        ammo:
+            title: "@ammo"
+            content: |
+                the number of shot a turret can shoot, doesn’t necessarily mean total items in turret
+        ammoCapacity:
+            title: "@ammoCapacity"
+            content: |
+                the maximum amount of items (ammo) a turret can hold; returns number
+        currentAmmoType:
+            title: "@currentAmmoType"
+            content: |
+                return the ammo type used by a turret
+                {br}example:
+                {br}{code:sensor_result_currentammotype_in_duo1:control}
+                {br}when {code:duo1:variable} is an using copper as its ammo will return {code:copper:content-name}
+            sensor_result_currentammotype_in_duo1: "sensor result = @currentAmmoType in duo1"
+            duo1: "duo1"
+            copper: "@copper"
+        health:
+            title: "@health"
+            content: |
+                the current health of object, returns number
+        maxHealth:
+            title: "@maxHealth"
+            content: |
+                the maximum health of object, returns number
+        heat:
+            title: "@heat"
+            content: |
+                heat of object, like heat in thorium reactor / force projector, returns number
+        efficiency:
+            title: "@efficiency"
+            content: |
+                efficiency of a block depending its resources, eg, a block needs 100 power but there's only 50, efficiency will 
+                return 0.5, or 15 liquid but there's only 7, will return 0.46. returns number
+                {br}not affected by floor type, eg thermal generator on magma rock, or water extractor on ice (still return 1)
+                    
+        progress:
+            title: "@progress"
+            content: |
+                progress of an object, eg, launch pad when on their cooldown, foreshadow when on their cooldown; returns number, 0 - 1
+        timescale:
+            title: "@timescale"
+            content: |
+                multipliers of boosted object (overdrived with overdrive projector or overdrive dome), returns number, 1 is normal value, 1.5 is when overdrive with overdrive projector, 2.5 is dome
+        rotation:
+            title: "@rotation"
+            content: |
+                rotation of object, returns number in degrees,0 - 360, 360/0 is right, 90 is up, 180 is left, 270 is down
+                {br}for blocks its: 0 is right, 1 is up, 2 is left, and 3 is down
+        x:
+            title: "@x"
+            content: |
+                the x coordinate location of the object; returns number
+        y:
+            title: "@y"
+            content: |
+                the y coordinate location of the object; returns number
+        velocityX:
+            title: "@velocityX"
+            content: |
+                an object x velocity, in blocks/second
+                {br}example:
+                {br}{code:sensor_vx_unit_velocityx:wp}
+                {br}returns {code:vx:variable} as a number of the {code:unit:variable} velocity in blocks/second
+                {br}can also be think of as a vector,
+                {br}by using {code:op_len:op} on the {code:unit:variable}'s {code:velocityx:content-name} and {code:velocityy:content-name} you can get the unit current speed
+                {br}this variable also avaiable in {code:setprop:wp}
+            sensor_vx_unit_velocityx: "sensor vx @unit @velocityX"
+            vx: "vx"
+            op_len: "op len"
+            velocityx: "@velocityX"
+            velocityy: "@velocityY"
+            setprop: "setprop"
+            unit: "@unit"
+        velocityY:
+            title: "@velocityY"
+            content: |
+                an object y velocity, in blocks/second
+                {br}example:
+                {br}{code:sensor_vx_unit_velocityy:wp}
+                {br}returns {code:vy:variable} as a number of the {code:unit:variable} velocity in blocks/second
+                {br}can also be think of as a vector,
+                {br}by using {code:op_len:op} on the {code:unit:variable}'s {code:velocityx:content-name} and {code:velocityy:content-name} you can get the unit current speed
+                {br}this variable also avaiable in {code:setprop:wp}
+            sensor_vx_unit_velocityy: "sensor vy @unit @velocityY"
+            vy: "vy"
+            op_len: "op len"
+            velocityx: "@velocityX"
+            velocityy: "@velocityY"
+            setprop: "setprop"
+            unit: "@unit"
+        shootX:
+            title: "@shootX"
+            content: |
+                the x coordinate value of what that object is targeting, returns number, if used on a player will return their cursor position
+        shootY:
+            title: "@shootY"
+            content: |
+                the y coordinate value of what that object is targeting, returns number, if used on a player will return their cursor position
+        cameraX:
+            title: "@cameraX"
+            content: |
+                the x coordinate location of the object’s camera; returns number, if used on a player will return their camera position, if object doesn't have a camera returns 0, if used on an invalid object, returns null.
+        cameraY:
+            title: "@cameraY"
+            content: |
+                the y coordinate location of the object’s camera; returns number, if used on a player will return their camera position, if object doesn't have a camera returns 0, if used on an invalid object, returns null.
+        cameraWidth:
+            title: "@cameraWidth"
+            content: |
+                the width of the object’s camera view; returns number, if used on a player will return their camera view width, if object doesn't have a camera returns 0, if used on an invalid object, returns null.
+        cameraHeight:
+            title: "@cameraHeight"
+            content: |
+                the height of the object’s camera view; returns number, if used on a player will return their camera view height, if object doesn't have a camera returns 0, if used on an invalid object, returns null.
+        size:
+            title: "@size"
+            content: |
+                The size of object; returns number, eg, foreshadow is 4 because it is 4x4, information can also be found on ingame’s info menu.
+                {br}Can also return the length of strings
+                {br}{code:sensor_length_size_in_mindustry:control}
+                {br}will return 9
+            sensor_length_size_in_mindustry: "sensor length = @size in \"Mindustry\""
+        solid:
+            title: "@solid"
+            content: |
+                an object solidness
+                {br}example:
+                {br}{code:sensor_s_conveyor1_solid:wp}
+                {br}returns {code:isSolid:variable} as 0
+                {br}while a wall for example returns 1
+            sensor_s_conveyor1_solid: "sensor isSolid conveyor1 @solid"
+            isSolid: "isSolid"
+        dead:
+            title: "@dead"
+            content: |
+                whether the object is dead or not, returns booelan, 1 is dead, 0 is not dead
+        range:
+            title: "@range"
+            content: |
+                range of object; returns number, information can also be found on ingame’s info menu
+        shooting:
+            title: "@shooting"
+            content: |
+                whether the object is shooting or not, returns boolean, 1 is shooting, 0 is not shooting
+        boosting:
+            title: "@boosting"
+            content: |
+                whether the object is boosting or not; returns boolean, 1 is boosting, 0 is not boosting
+        mineX:
+            title: "@mineX"
+            content: |
+                if unit is mining returns the x coordinate value of that unit mining location, else returns -1
+        mineY:
+            title: "@mineY"
+            content: |
+                if unit is mining returns the y coordinate value of that unit mining location, else returns -1
+        mining:
+            title: "@mining"
+            content: |
+                whether the unit is mining or not; returns boolean, 1 is mining, 0 is not mining
+        speed:
+            title: "@speed"
+            content: |
+                the object maximum speed, in tiles/second; returns number, information can also be found on ingame’s info menu, there is currently no variable for current speed
+        team:
+            title: "@team"
+            content: |
+                the object team; returns integers, 1 is sharded, 2 is crux, …. there are a total of 256 available team in mindustry
+                {br}    0 = @derelict
+                {br}    1 = @sharded
+                {br}    2 = @crux
+                {br}    3 = @malis
+                {br}    4 = @green
+                {br}    5 = @blue
+                {br}    6 - 255 = unnamed
+        type:
+            title: "@type"
+            content: |
+                returns the object’s {link:content_name:#contentname} (not reference), eg, for router returns `@router` , not a string
+            content_name: content name
+        flag:
+            title: "@flag"
+            content: |
+                the object’s flags; returns number, unit can be flagged with `ucontrol flag`
+        controlled:
+            title: "@controlled"
+            content: |
+                check if unit is controlled, returns : 
+                {br}        0 , if unit is not controlled by anything
+                {br}        @ctrlProcessor or 1, if unit is controlled by processor
+                {br}        @ctrlPlayer or 2, if unit is controlled by a player
+                {br}        @ctrlCommad or 3, if unit is controlled by a player command
+        controller:
+            title: "@controller"
+            content: |
+                returns the controller reference, if processor will returns that processor building reference, else returns the unit reference itself
+        name:
+            title: "@name"
+            content: |
+                name of player, returns string
+        payloadCount:
+            title: "@payloadCount"
+            content: |
+                number of payload the unit is currently carrying, returns integer
+        payloadType:
+            title: "@payloadType"
+            content: |
+                name of payload, will return only the last picked up payload, returns name
+        id:
+            title: "@id"
+            content: |
+                returns the {link:content_name:#contentname} ID, returns integer
+                {br}(a {link:reference:#building-reference} {b:does_not} have an @id)
+            content_name: content name
+            reference: reference
+            does_not: does not
+                    
+        enabled:
+            title: "@enabled"
+            content: |
+                whether the object is enabled or not, returns boolean; 1 is enabled, 0 is disabled
+        config:
+            title: "@config"
+            content: |
+                configuration of object, eg, sorter item names
+        color:
+            title: "@color"
+            content: |
+                color of illuminator, returns packed color
+                {br}can also sensor the color of a {code:content_item:content-name} like {code:copper:content-name} or {code:lead:content-name}
+            content_item: "@content-item"
+            copper: "@copper"
+            lead: "@lead"
+                    
+                    

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mlog Invention</title>
+    <link rel="icon" href="..\image\micro-processor.png" type="image/png">
+    <link rel="stylesheet" href="../../root.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+<body style="font-family: 'Courier New', Courier, monospace; background-color: var(--bg-base); color: white;">
+    <h1 style="margin-top: 3vw;">
+        Mlog Invention
+    </h1>
+    <h2>
+        Documenting Mlog invention that i deemed fit.
+    </h2>
+    <h3 class="warning" style="color: red;">if a schematic is bugged/not working/have trouble using, please reach out to corresponding creator, not me!</h3>
+    <hr><div class="warning" style="font-size:medium;margin-right: 10vw;" ><span style="color: yellow;">for creators</span> : i do not alter either your code or your notes(schematic description), i found these schematics/invention in the public <a href="https://discord.com/invite/mindustry">Mindustry discord server</a>
+    ,i put them here for easy access and sorting, 
+    <br> if you want to remove your schematic from here for any reason feel free to reach out to me, either by making an issue on this github repository or dm-ing me directly, i will remove it no question asked</div>
+    <hr><div class="warning" style="font-size: 18px;margin-right: 10vw;color:lime; ">
+        this page act like the #curated-schematics in the mindustry discord server but only for logics, where users can find great and useful logic schematics without the thousands of meme schematics.
+        <br>some are fully comprehensive, sophisticated, ready to use schematic,
+        <br>and some are just to give a general idea on how to do something.
+    </div>
+    <hr>
+    <ul>    
+        <li>
+            <b>Display Power Monitor by <span style="color: aqua;" >Yruei</span></b>
+            <div>
+                File: <a href="MlogFiles/(S) Digits Power Display.msch">(Small) Digits Power Display.msch</a>
+                <br>File: <a href="MlogFiles/(M) Digits Power Display.msch">(Medium) Digits Power Display.msch</a>
+                <br>File: <a href="MlogFiles/(H) Digits Power Display.msch">(Hyper) Digits Power Display.msch</a>
+                <br><img src="MlogFiles/power monitor.png" alt="">
+                <br><span style="color: lime;">Display the status of your power grid to a large display</span>
+                <br>if you think its too bulky, try the single processor : <a href="MlogFiles/(1Proc) Digits Power Display.msch">(Single Processor) Digits Power Display.msch</a>
+                <br><br><span style="color: yellow;">Creator notes:</span>
+                <br>Just connect the node to your grid
+            </div>
+        </li>
+        <hr>
+        <li>
+            <b>Mining Panel v6 By <span style="color: aqua;">Yruei</span></b>
+            <div>
+                File: <a href="MlogFiles/Mining Panel v6.msch">Mining Panel v6.msch</a>
+                <br><img src="MlogFiles/mining panel.png" alt="" style="width: 300px;">
+                <br><span style="color: lime;">allows users to controls units capable of mining to mine the desired ore(s) and deposit it to the core
+                    <br>displays the amount of each ores in a progress bar style with transitioning colors from red to green</span>
+                <br><br><span style="color: yellow;">Creator notes:</span>
+                <br>Top switches determined how many units will mine, top switches increases, bottom switches decreases
+                <br>Bottom switches determined what ore(s) to mine, if multiple are enabled units will mine the lowest amount ore in core
+            </div>
+        </li>
+        <hr>
+        <li>
+            <b>Mining Director By <span style="color: aqua;">MrSnoot</span></b>
+            <div style="margin-right: 10vw;">
+                File : <a href="MlogFiles/Mining_Director.msch">Mining Director.msch</a>
+                <br>Source : <a href="https://discord.com/channels/391020510269669376/640604827344306207/1221239952742944868">Discord</a>
+                <br><span style="color: yellow;"> Creator notes:</span>
+                <br>Mining Director v2.0.1
+                <br>
+                <br>DESCRIPTION:
+                <br>
+                <br>Makes units mine a specific ore type and deposit it into an output block (can be any block with an inventory, ex. a vault, a silicon crucible).
+                <br>
+                <br>USAGE:
+                <br>1. Open the processor and set the 'MODE' and 'RECRUIT_RADIUS' to values of your choice (default values of 2 and 3, respectively)
+                <br>2. Connect the processor to an output block.
+                <br>3. Select the type of ore that you want mined from the sorter.
+                <br>4. Command your chosen mining units, and move them within the 'RECRUIT_RADIUS' of the processor (typically, this will be directly on top of the processor).
+                <br>
+                <br>If you want to change the ore being mined, select a different ore type from the sorter.
+                <br>
+                <br>To reset the processor, which will unbind and unflag all controlled units, press the button. WARNING: Any Pulsars or Quasars currently above water will stop boosting and die upon a reset.
+                <br>
+                <br>CAVEATS:
+                <br>
+                <br>The specific ore tile being mined won't necessarily be the one closest to the output.
+                <br>
+                <br>If the processor is destroyed, units must be unflagged before being used again by this schematic.
+                <br>
+                <br>If new units which are already carrying items become bound by the processor, or if the mined ore type is changed and some units are still carrying the old item type, the units will attempt to deposit those items into the output block. This may softlock some units if ex. some units try to deposit lead into a silicon crucible. If this happens, either press the reset button, or possess each unit to reset them individually.
+                <br>
+                <br>ADDITIONAL NOTES:
+                <br>
+                <br>Regular version can handle all 120 mining units simultaneously, Lite version can handle about 24, and Poor Man's version can handle about 5. However, ODD or multiple instances of this schematic are recommended for large scenarios.
+                <br>
+                <br>Mining-Capable Units: Pulsar, Quasar, Mono, Poly, Mega
+            </div>
+        </li>
+        <hr>
+        <li>
+            <b>OverArch (v0.3.8) By <span style="color: aqua;">SBytes</span></b>
+            <div>
+                File : <a href="MlogFiles/OverArch_v0.3.8.msch">OverArch_v0.3.8.msch</a>
+                <br>Source : <a href="https://discord.com/channels/391020510269669376/878022862915653723/1043928884074266756">Discord</a>
+                <br><span style="color: lime;">Automatically fill an overdrive dome with Silicon and Phase Fabric with a unit</span>
+                <br><br><span style="color: yellow;">Creator notes:</span>
+                <br>OverArch v0.3.8
+                <br>by SBytes
+                <br>
+                <br>Stable as of now. Ping SByte#7574 on discord for discussions regarding the logic.
+                <br>
+                <br><< Info >>
+                <br>The ODD Logic
+                <br>Heavily inspired by Ultimate Dome Loader (thanks highfire1 :D)
+                <br>
+                <br><< Features >>
+                <br>1. 4 unit type binding in the following order: flare, poly, mega, mono
+                <br>2. Allows 2 multibinded units with up to 550 range (varies depending on unit type)
+                <br>3. Diagnostics!
+                <br>4. Auto detects linked dome & message block.
+                <br>
+                <br><< Notes >>
+                <br>- Due to its sheer speed it likely will desync a lot in multiplayer.
+                <br>- How have I not uploaded this to #curated-schematics all this time??
+            </div>
+        </li>
+        <hr>
+        <li>
+            <b>exactcounterf By <span style="color: aqua;">routerchain</span></b>
+            <div>File : <a href="MlogFiles/exactcounterf.msch">exactcounterf.msch</a>
+                <br>Source : <a href="https://discord.com/channels/391020510269669376/878022862915653723/1088135628291588128">Discord</a>
+            <br><img src="MlogFiles/exactcounterf.png" alt="" style="max-width: 200px;">
+            <br><span style="color: lime;">Displays item contents in a storage to a display, connect both processor to a core/container/vault, or anything that can store an item</span>
+            <br><span style="color: yellow;">Creator notes:</span>
+            <br>Exact container item counter featuring a RIDICULOUSLY FAST draw routine ripped from lldb.
+            <br>
+            <br>Help me.
+            <br>
+            <br>-made by [#9b59b6]router[] (BasedUser#2215)</div>
+        </li>
+        <hr>
+        <li>
+            <b>lldb By <span style="color: aqua;">routerchain</span></b>
+            <div>
+                File : <a href="MlogFiles/lldb.msch">lldb.msch</a>
+                <br>Source : <a href="https://discord.com/channels/391020510269669376/878022862915653723/1084176689782870088">Discord</a>
+                <br><img src="MlogFiles/lldb.png" alt="">
+                <br><span style="color: lime;">Displays contents of a memory cell to a display, connect both World Processor to a cell</span>
+                <br><span style="color: yellow;">Creator Notes:</span>
+                <br>The final word in logic debugging. (v1.1)
+                <br>
+                <br>A playtest-only tool for debugging memory cells.
+                <br>While this doesn't load all 64 memory values at once, it's still trivial with minimal tweaking.
+                <br>Supports floating point output, although the last several digits will be off due to floating point and log10.
+                <br>Dependencies: <span style="overflow-wrap: break-word;">Vars.state.rules.revealedBlocks.add(Blocks.worldProcessor)</span>
+                <br>
+                <br>-made by [#9b59b6]router[] (BasedUser#2215)
+                <br>
+                <br>* 1.1
+                <br>- Fixed a bug where negative floats wouldn't print.
+            </div>
+        </li>
+        <hr>
+        <li>
+            <b>Pack & Unpack method By <span style="color: aqua;">Yruei</span></b>
+            <div>
+                File : <a href="MlogFiles/pack & unpack method.msch">Pack & Unpack method.msch</a>
+                <br><img src="MlogFiles/pack & unpack method.png" alt="" style="width: 700px;">
+                <br><span style="color: lime;">Gives 2 type of packing and unpacking of 2 numbers into one method, gives a general idea how to pack numbers.
+                    <br>because of how numbers is stored in computers the left method (bit shitf) is technically better, but the right might be more intuitive
+                </span>
+            </div>
+        </li>
+        <hr>
+        <li>
+            <b>Velocity Prediction (ripple) By <span style="color: aqua;">Yruei</span></b>
+            <div>
+                File : <a href="MlogFiles/ripple prediction.msch">ripple prediction.msch</a>
+                <br><div style="display: flex;"><img src="MlogFiles/target prediction.png" alt="" style="max-width: 40vw;"> 
+                <div style="margin: 20px;">
+                    <span style="color: yellow;">Yellow dot</span> = Turret 
+                    <br><span style="color: lime;">Green dot</span> = Target
+                    <br><span style="color: red;">Red dot</span> = Predicted Target location
+                    <br><span style="color: red;">Red line</span> = Turret aim 
+                </div>
+            </div>
+                <br><span style="color: lime;">target prediction with velocity, recreates the `targetp` instruction, gives a general idea how to predict a moving target</span>
+            </div>
+        </li>
+        <hr>
+        <li>
+            <b>Unpack Color By <span style="color: aqua;"> Yruei</span></b>
+            <div>
+                File : <a href="MlogFiles/Unpack color.msch">Unpack color.msch</a>
+                <br><img src="MlogFiles/unpack color.png" alt="" style="max-height: 500px;">
+                <br><span style="color: lime;">Gives a method on how to unpack a packed color, the variable R,G,B,A is now their respective color value from 0-255,
+                <br>the `color` variable is divided by %00000001</span>
+            </div>
+        </li>
+        <hr>
+        <li>
+            <b>Unit Counter By <span style="color: aqua;">Yruei</span></b>
+            <br>File : <a href="MlogFiles/Unit Counter.msch">Unit Counter.msch</a>
+            <br><img src="MlogFiles/unit counter.png" alt="" style="max-width: 80vw;">
+            <br>Code Text :
+            <br><div class="code">
+                set Unit_Counter 0
+                <br>ubind @poly
+                <br>jump 9 strictEqual @unit null
+                <br>set first @unit
+                <br>ubind @poly
+                <br>sensor dead first @dead
+                <br>jump 0 equal dead true
+                <br>op add Unit_Counter Unit_Counter 1
+                <br>jump 4 notEqual first @unit
+                <br>print Unit_Counter
+                <br>printflush message1
+            </div>
+            <br><span style="color: lime;">Count a the total amount of a specific type of unit in a map,
+            <br>you can change the unit type by changing both `ubind`s to the unit you want
+            </span>
+        </li>
+        <hr>
+        <li>
+            <b>Number drawer By <span style="color: aqua;">Yruei</span></b>
+            <br>File : <a href="MlogFiles/Number Drawer.msch">Number Drawer.msch</a>
+            <br><img src="MlogFiles/number drawer.png" alt="">
+            <div class="codebox">
+                <pre>
+                    <code style="font-family: 'Courier New', Courier, monospace;">
+#initial variables (change as needed)
+set number 0 #number that will be drawn
+set xloc 88 #number location on screen coordinates (right to left)
+set yloc 88
+set DistBtwn 0 #distance between numbers (0 = auto)
+set sizex 15 #horizontal size (if possible input a number that can be divided by 3)
+set sizey 20 #vertical size (if possible input a number that can be divided by 5)
+#if not might leave some lines artifacts
+set bgwidth 100 #background width, generally = [number length] * [sizex])
+
+
+#initial calculation (do not change anything below here)
+op sub bgx xloc bgwidth
+op div size2 sizex 3
+op mul size8 size2 2
+op div size2y sizey 5 
+op mul size4y size2y 2
+op mul size6y size2y 3
+op mul size8y size2y 4
+op add yb6 yloc size6y 
+op add yb2 yloc size2y
+draw stroke size2
+jump auto greaterThan DistBtwn 0
+    op add DistBtwn sizex size2
+auto:
+set xloc1 xloc
+set val number
+
+loop: #main loop
+    op mod wn val 10
+    op idiv val val 10
+    op sub xloc1 xloc1 DistBtwn
+    draw color 255 255 255
+
+#draw number
+    op mul wn wn 7
+    op add @counter @counter wn
+    #digit 0
+        draw lineRect xloc1 yloc sizex sizey
+    jump loop greaterThan val 0
+    draw color 0 0 0 255 #this is tied to draw rect after flush (background), if you dont use that you can remove this for a little bit more performance
+    jump flush always
+    noop 
+    noop
+    noop
+    #digit 1
+        op add xb1 xloc1 size8
+        draw rect xb1 yloc size2 sizey
+    jump loop greaterThan val 0
+    draw color 0 0 0 255 #this is tied to draw rect after flush (background), if you dont use that you can remove this for a little bit more performance
+    jump flush always
+    noop
+    noop
+    #digit 2
+        draw rect xloc1 yloc sizex sizey
+        draw color 0 0 0 255
+        op add xb1 xloc1 size2 
+        draw rect xloc1 yb6 size8 size2y
+        draw rect xb1 yb2 size8 size2y
+    jump loop greaterThan val 0
+    jump flush always
+    #digit 3
+        draw rect xloc1 yloc sizex sizey
+        draw color 0 0 0 255
+        draw rect xloc1 yb6 size8 size2y
+        draw rect xloc1 yb2 size8 size2y
+    jump loop greaterThan val 0
+    jump flush always
+    noop
+    #digit 4
+        draw rect xloc1 yloc sizex sizey
+        draw color 0 0 0 255
+        op add xb1 xloc1 size2
+        draw rect xb1 yb6 size2 size4y
+        draw rect xloc1 yloc size8 size4y
+    jump loop greaterThan val 0
+    jump flush always
+    #digit 5
+        draw rect xloc1 yloc sizex sizey
+        draw color 0 0 0 255
+        op add xb1 xloc1 size2
+        draw rect xb1 yb6 size8 size2y
+        draw rect xloc1 yb2 size8 size2y
+    jump loop greaterThan val 0
+    jump flush always
+    #digit 6
+        draw rect xloc1 yloc sizex sizey
+        draw color 0 0 0 255
+        op add xb1 xloc1 size2
+        draw rect xb1 yb6 size8 size2y
+        draw rect xb1 yb2 size2 size2y
+    jump loop greaterThan val 0
+    jump flush always
+    #digit 7
+        draw rect xloc1 yloc sizex sizey
+        draw color 0 0 0 255
+        draw rect xloc1 yloc size8 size8y
+    jump loop greaterThan val 0
+    jump flush always
+    noop
+    noop
+    #digit 8
+        draw rect xloc1 yloc sizex sizey
+        draw color 0 0 0 255
+        op add xb1 xloc1 size2
+        draw rect xb1 yb6 size2 size2y
+        draw rect xb1 yb2 size2 size2y
+    jump loop greaterThan val 0
+    jump flush always
+    #digit 9
+        draw rect xloc1 yloc sizex sizey
+        draw color 0 0 0 255
+        op add xb1 xloc1 size2
+        draw rect xb1 yb6 size2 size2y
+        draw rect xloc1 yb2 size8 size2y
+    jump loop greaterThan val 0
+    jump flush always
+
+    flush:
+    drawflush display1
+        draw rect bgx yloc bgwidth sizey #background, alter as needed
+        op add number number 1 #add 1 to [number] (incremental demonstration), alter as needed
+    set val number
+    set xloc1 xloc
+    jump loop always
+                    </code>
+                </pre>
+            </div>
+            <span style="color: lime;">Gives an easier readable code to number drawing</span>
+        </li>
+    </ul>
+   
+</body>
+</html>

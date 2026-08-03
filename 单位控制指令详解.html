@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mindustry Logic 单位控制指令深度详解</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+    background:#0f0f23;
+    color:#d4d4e8;
+    font-family:'Segoe UI','Microsoft YaHei',sans-serif;
+    line-height:1.85;
+    font-size:15px;
+    padding-right:270px;
+}
+main{max-width:900px;margin:0 auto;padding:40px 30px 80px;}
+
+h1{
+    font-size:2em;color:#ff6b6b;
+    border-left:5px solid #ff6b6b;
+    padding-left:15px;margin-bottom:10px;
+    padding-top:5px;padding-bottom:5px;
+}
+h2{
+    font-size:1.5em;color:#4ecdc4;
+    border-left:4px solid #4ecdc4;
+    padding-left:12px;margin-top:45px;margin-bottom:20px;
+    padding-top:3px;padding-bottom:3px;
+}
+h3{
+    font-size:1.2em;color:#ffe66d;
+    border-left:3px solid #ffe66d;
+    padding-left:10px;margin-top:30px;margin-bottom:15px;
+}
+h4{
+    font-size:1.05em;color:#a8e6cf;
+    border-left:3px solid #a8e6cf;
+    padding-left:10px;margin-top:25px;margin-bottom:12px;
+}
+p{margin-bottom:12px;}
+ul,ol{margin-left:25px;margin-bottom:12px;}
+li{margin-bottom:6px;}
+strong{color:#ff9b4a;font-weight:bold;}
+a{color:#6db4ff;text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+code{
+    font-family:'Consolas','Courier New',monospace;
+    background:#1a1a3e;
+    padding:2px 6px;border-radius:4px;
+    font-size:0.88em;color:#c77dff;
+}
+pre{
+    background:#1a1a3e;
+    border:1px solid #2e2e5e;
+    border-radius:8px;
+    padding:16px 20px;
+    overflow-x:auto;
+    margin-bottom:16px;
+    line-height:1.6;
+}
+pre code{
+    background:none;padding:0;
+    font-size:0.88em;color:#d4d4e8;
+}
+
+/* Syntax highlighting tokens */
+.tok-inst{color:#ff9b4a;font-weight:bold;}
+.tok-param{color:#6db4ff;}
+.tok-comment{color:#6a6a8a;font-style:italic;}
+.tok-string{color:#7ed07e;}
+.tok-var{color:#c77dff;}
+.tok-num{color:#f0a8a8;}
+.tok-label{color:#ffd966;font-weight:bold;}
+.tok-op{color:#ff7eb6;}
+.tok-kw{color:#ff9b4a;font-weight:bold;}
+.tok-type{color:#82d4ff;}
+.tok-fn{color:#7ed07e;}
+
+table{
+    width:100%;border-collapse:collapse;
+    margin-bottom:16px;font-size:0.92em;
+}
+th,td{border:1px solid #3a3a5e;padding:8px 12px;text-align:left;}
+th{background:#2a2a4e;color:#ffe66d;font-weight:bold;}
+tr:nth-child(even){background:#1a1a3e;}
+tr:nth-child(odd){background:#15153a;}
+
+/* TOC */
+#toc{
+    position:fixed;right:0;top:0;
+    width:250px;height:100vh;
+    overflow-y:auto;
+    background:#12122e;
+    border-left:1px solid #2e2e5e;
+    padding:20px 15px;font-size:0.82em;
+    z-index:100;
+    box-shadow:-2px 0 10px rgba(0,0,0,0.3);
+}
+.toc-title{
+    color:#4ecdc4;font-size:1.15em;font-weight:bold;
+    margin-bottom:15px;padding-bottom:10px;
+    border-bottom:1px solid #2e2e5e;
+}
+#toc ul{list-style:none;margin-left:0;}
+#toc ul ul{margin-left:14px;}
+#toc li{margin-bottom:3px;}
+#toc a{
+    color:#8888aa;display:block;
+    padding:3px 6px;border-radius:4px;
+    transition:all 0.15s;
+}
+#toc a:hover{color:#6db4ff;background:#1a1a3e;}
+#toc a.active{color:#4ecdc4;background:#1a1a3e;font-weight:bold;border-left:2px solid #4ecdc4;}
+
+/* Note boxes */
+.note-box{
+    background:rgba(255,230,109,0.08);
+    border-left:4px solid #ffe66d;
+    padding:12px 16px;margin:15px 0;
+    border-radius:0 6px 6px 0;
+}
+.warning-box{
+    background:rgba(255,107,107,0.08);
+    border-left:4px solid #ff6b6b;
+    padding:12px 16px;margin:15px 0;
+    border-radius:0 6px 6px 0;
+}
+.key-box{
+    background:rgba(78,205,196,0.08);
+    border-left:4px solid #4ecdc4;
+    padding:12px 16px;margin:15px 0;
+    border-radius:0 6px 6px 0;
+}
+
+/* Q&A */
+.qa{margin:20px 0;padding:16px 20px;background:#15153a;border-radius:8px;border:1px solid #2a2a4e;}
+.qa-question{color:#ffe66d;font-weight:bold;margin-bottom:10px;font-size:1.05em;}
+.qa-answer{margin-left:5px;}
+.qa-answer p{margin-bottom:10px;}
+.qa-answer p:last-child{margin-bottom:0;}
+
+/* Back to top */
+#back-top{
+    position:fixed;bottom:30px;left:30px;
+    width:44px;height:44px;
+    background:#2a2a4e;color:#4ecdc4;
+    border:1px solid #3a3a5e;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:1.2em;
+    opacity:0;transition:opacity 0.3s;
+    z-index:99;
+}
+#back-top.visible{opacity:1;}
+#back-top:hover{background:#3a3a5e;}
+
+@media(max-width:1200px){
+    body{padding-right:0;}
+    #toc{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav id="toc">
+    <div class="toc-title">目录导航</div>
+    <ul>
+        <li><a href="#overview">概述</a></li>
+        <li><a href="#ch1">第一章：ubind</a>
+            <ul>
+                <li><a href="#s1-1">1.1 指令格式</a></li>
+                <li><a href="#s1-2">1.2 功能说明</a></li>
+                <li><a href="#s1-3">1.3 源码实现分析</a></li>
+                <li><a href="#s1-4">1.4 深度问答</a></li>
+                <li><a href="#s1-5">1.5 绑定顺序机制</a></li>
+            </ul>
+        </li>
+        <li><a href="#ch2">第二章：ucontrol</a>
+            <ul>
+                <li><a href="#s2-1">2.1 指令格式</a></li>
+                <li><a href="#s2-2">2.2 执行前置条件</a></li>
+                <li><a href="#s2-3">2.3 逐指令分析</a></li>
+            </ul>
+        </li>
+        <li><a href="#ch3">第三章：uradar</a>
+            <ul>
+                <li><a href="#s3-1">3.1 指令格式</a></li>
+                <li><a href="#s3-2">3.2 功能说明</a></li>
+                <li><a href="#s3-3">3.3 筛选器</a></li>
+                <li><a href="#s3-4">3.4 排序依据</a></li>
+                <li><a href="#s3-5">3.5 缓存机制</a></li>
+                <li><a href="#s3-6">3.6 代码示例</a></li>
+            </ul>
+        </li>
+        <li><a href="#ch4">第四章：ulocate</a>
+            <ul>
+                <li><a href="#s4-1">4.1 指令格式</a></li>
+                <li><a href="#s4-2">4.2 定位模式</a></li>
+                <li><a href="#s4-3">4.3 建筑类型</a></li>
+                <li><a href="#s4-4">4.4 距离规则</a></li>
+                <li><a href="#s4-5">4.5 缓存机制</a></li>
+                <li><a href="#s4-6">4.6 代码示例</a></li>
+                <li><a href="#s4-7">4.7 减少控制干扰</a></li>
+            </ul>
+        </li>
+        <li><a href="#ch5">第五章：实战示例</a>
+            <ul>
+                <li><a href="#s5-1">5.1 单控</a></li>
+                <li><a href="#s5-2">5.2 群控</a></li>
+                <li><a href="#s5-3">5.3 采矿</a></li>
+                <li><a href="#s5-4">5.4 多类型协同</a></li>
+            </ul>
+        </li>
+        <li><a href="#appendix">附录：sensor 属性</a></li>
+    </ul>
+</nav>
+
+<main>
+
+<h1>Mindustry Logic 单位控制指令深度详解</h1>
+
+<section id="overview">
+<h2>概述</h2>
+<p>本文档基于 Mindustry 159.7 版本源码，深入分析 logic 中所有与单位控制相关的指令：<strong>ubind</strong>、<strong>ucontrol</strong>、<strong>uradar</strong>、<strong>ulocate</strong>。每条指令从功能、参数类型、底层实现机制、边界条件等多角度进行严谨分析。</p>
+</section>
+
+<!-- ==================== 第一章 ==================== -->
+<section id="ch1">
+<h2>第一章：ubind（单位绑定）</h2>
+
+<h3 id="s1-1">1.1 指令格式</h3>
+<pre><code class="logic">ubind type</code></pre>
+<ul>
+    <li>参数：<code>type</code>（可以是 content 类型的单位类型变量如 <code>@mono</code>，也可以是 unit 类型的具体单位实例变量）</li>
+</ul>
+
+<h3 id="s1-2">1.2 功能说明</h3>
+<p>ubind 指令用于将处理器绑定到一个单位，绑定后该单位引用被存入环境变量 <code>@unit</code>。后续的 ucontrol、uradar、ulocate 指令都作用于 <code>@unit</code> 指向的单位。</p>
+
+<h3 id="s1-3">1.3 源码实现分析</h3>
+<p>ubind 的实现位于 LExecutor.java 的 UnitBindI 内部类中。其核心逻辑分为三个分支：</p>
+
+<h4>分支一：当 type 是 UnitType（content 类型）时</h4>
+<pre><code class="java">if(type.obj() instanceof UnitType type &amp;&amp; type.logicControllable){
+    Seq&lt;Unit&gt; seq = exec.team.data().unitCache(type);
+    if(seq != null &amp;&amp; seq.any()){
+        exec.binds[type.id] %= seq.size;
+        if(exec.binds[type.id] &lt; seq.size){
+            exec.unit.setconst(seq.get(exec.binds[type.id]));
+        }
+        exec.binds[type.id] ++;
+    }else{
+        exec.unit.setconst(null);
+    }
+}</code></pre>
+<div class="key-box">
+<p><strong>关键点：</strong></p>
+<ol>
+    <li>处理器内部维护一个 <code>binds</code> 数组，以 UnitType.id 为索引，为每种单位类型维护一个独立的计数器</li>
+    <li>每次执行 <code>ubind @mono</code> 时，取 <code>binds[mono.id]</code> 对应的单位，然后计数器+1</li>
+    <li>计数器通过 <code>%= seq.size</code> 实现循环：到末尾后回到开头</li>
+    <li>单位列表来自 <code>team.data().unitCache(type)</code>，这是一个按单位类型分组的缓存</li>
+    <li>该缓存在 Teams.updateData() 中重建，遍历 Groups.unit 中所有单位按类型分组</li>
+</ol>
+</div>
+
+<h4>分支二：当 type 是 Unit（unit 实例类型）时</h4>
+<pre><code class="java">else if(type.obj() instanceof Unit u &amp;&amp; (u.team == exec.team || exec.privileged) &amp;&amp; u.type.logicControllable){
+    exec.unit.setconst(u);
+}</code></pre>
+<div class="key-box">
+<p><strong>关键点：</strong></p>
+<ol>
+    <li>直接将 <code>@unit</code> 设置为指定的单位实例</li>
+    <li>不影响 binds 数组的计数器</li>
+    <li>需要单位与处理器同队（或处理器为特权世界处理器）</li>
+    <li>单位类型必须 logicControllable</li>
+</ol>
+</div>
+
+<h4>分支三：其他情况</h4>
+<pre><code class="java">else{
+    exec.unit.setconst(null);
+}</code></pre>
+<p><code>@unit</code> 被设为 null。</p>
+
+<h3 id="s1-4">1.4 深度问答</h3>
+
+<div class="qa">
+<div class="qa-question">Q1：ubind 能绑定什么单位？</div>
+<div class="qa-answer">
+<p>ubind 可以绑定两种"单位"：</p>
+<ul>
+    <li><strong>UnitType（content 类型）</strong>：如 <code>@mono</code>、<code>@poly</code>、<code>@flare</code> 等。这不是绑定某个具体单位，而是告诉处理器"给我这种类型的一个单位"。处理器会从队伍中该类型的单位缓存中循环取出单位。</li>
+    <li><strong>Unit（unit 实例类型）</strong>：即一个具体的单位对象引用。这可以是之前保存到变量中的 <code>@unit</code>，也可以是 uradar 搜索到的目标，也可以是世界处理器 fetch 获取的单位。</li>
+</ul>
+<p>不能绑定的单位：</p>
+<ul>
+    <li>非 logicControllable 的单位（源码中检查 <code>type.logicControllable</code>）</li>
+    <li>不同队伍的单位（非特权处理器）</li>
+</ul>
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-question">Q2：ubind 能绑定玩家控制的单位吗？</div>
+<div class="qa-answer">
+<p>可以，但有条件。玩家控制的单位仍然是 Unit 对象。如果用 content 类型绑定，且玩家控制的单位属于该类型且与处理器同队，它会被包含在 unitCache 中，因此可能被绑定。</p>
+<p>但绑定后能否控制取决于 ucontrol 的 checkLogicAI 检查：</p>
+<pre><code class="java">unit.controller().isLogicControllable()</code></pre>
+<p>玩家控制的单位的 controller 是 Player，其 isLogicControllable() 返回值决定了逻辑是否能接管控制。在实际游戏中，逻辑可以"绑定"玩家单位（获取其引用到 <code>@unit</code>），但控制行为可能受限。</p>
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-question">Q3：如果只写两行指令——绑定单位并让单位移动到逻辑身上，为什么能绑定所有相关种类的单位？</div>
+<div class="qa-answer">
+<pre><code class="logic">ubind @mono
+ucontrol move @thisx @thisy 0 0 0</code></pre>
+<p>这涉及单位绑定的循环机制：</p>
+<ol>
+    <li>处理器是循环执行的（执行到末尾回到开头）</li>
+    <li>每次执行 <code>ubind @mono</code>，binds[mono.id] 计数器+1，绑定下一个 mono</li>
+    <li>当计数器超过单位列表大小时，<code>%= seq.size</code> 使其回到0，重新从第一个 mono 开始</li>
+    <li>因此，只要处理器持续运行，它会依次绑定所有存活的 mono 类型单位，每个单位都会被执行一次 move 指令</li>
+    <li>这就是"群控"的基础：两行代码就能控制所有同类单位</li>
+</ol>
+<div class="note-box">
+<p><strong>重要</strong>：单位列表的大小和顺序在单位增减时会变化。当单位被删除时，使用"置换删除"（将末尾单位交换到被删位置），这会导致绑定顺序变化。</p>
+</div>
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-question">Q4：如果分别使用 ubind @mono 和 ubind @omura，绑定顺序还成立吗？</div>
+<div class="qa-answer">
+<pre><code class="logic">ubind @mono
+ubind @omura</code></pre>
+<p><strong>成立，但需要理解其独立性</strong>：</p>
+<ol>
+    <li>binds 数组以 UnitType.id 为索引。<code>@mono</code> 和 <code>@omura</code> 是不同的 UnitType，有不同的 id</li>
+    <li><code>ubind @mono</code> 使用 binds[mono.id]，<code>ubind @omura</code> 使用 binds[omura.id]</li>
+    <li>两个计数器完全独立，互不影响</li>
+    <li>执行流程：第一次循环绑定 mono[0] 和 omura[0]，第二次循环绑定 mono[1] 和 omura[1]...</li>
+    <li>但注意：执行 <code>ubind @omura</code> 后，<code>@unit</code> 被设为 omura 单位，此时 <code>ucontrol</code> 作用于 omura。如果要在 <code>ubind @mono</code> 后立即控制 mono，需要在两条 ubind 之间插入 ucontrol</li>
+</ol>
+</div>
+</div>
+
+<div class="qa">
+<div class="qa-question">Q5：如果一个变量 U 存的是 unit 类型的变量，执行 ubind U 然后 ubind @omura，会发生什么？</div>
+<div class="qa-answer">
+<pre><code class="logic">ubind U
+ubind @omura</code></pre>
+<p>分析：</p>
+<ol>
+    <li><code>ubind U</code>：U 是 unit 实例变量，走分支二。直接将 <code>@unit</code> 设为 U 指向的单位。<strong>不修改 binds 数组的任何计数器</strong></li>
+    <li><code>ubind @omura</code>：<code>@omura</code> 是 UnitType，走分支一。使用 binds[omura.id] 取下一个 omura 单位</li>
+    <li>两条指令的绑定行为完全独立：U 的绑定不影响 <code>@omura</code> 的循环计数</li>
+    <li>最终 <code>@unit</code> 指向的是 omura 单位（第二条 ubind 覆盖了第一条的结果）</li>
+    <li>如果要在绑定 U 后控制 U，必须在两条 ubind 之间插入 ucontrol 指令</li>
+</ol>
+<div class="key-box">
+<p><strong>关键结论</strong>：</p>
+<ul>
+    <li>content 类型绑定使用独立的循环计数器（按类型）</li>
+    <li>unit 实例绑定是直接赋值，不参与循环</li>
+    <li>每次执行 ubind 都会覆盖 <code>@unit</code>，之前的绑定结果丢失（除非保存到其他变量）</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h3 id="s1-5">1.5 绑定顺序的底层机制</h3>
+<p>单位缓存 <code>unitsByType</code> 的构建过程（Teams.java）：</p>
+<ol>
+    <li>缓存通过 <code>updateData()</code> 方法定期重建</li>
+    <li>重建时遍历 <code>Groups.unit</code>（游戏中所有单位的集合）</li>
+    <li>按单位类型分组存入 <code>unitsByType[type.id]</code> 数组</li>
+    <li>Groups.unit 的迭代顺序取决于单位的添加顺序（即单位的生成顺序）</li>
+</ol>
+<p>因此，绑定顺序本质上是<strong>单位的生成顺序</strong>。同类型的单位按生成时间先后被依次绑定。</p>
+<p>当单位死亡/被移除时：</p>
+<ul>
+    <li>缓存会在下次 updateData() 重建时更新</li>
+    <li>Seq 的删除操作通常使用置换删除（swap and pop），即将最后一个元素移到被删位置</li>
+    <li>这会导致绑定顺序在单位死亡后发生变化</li>
+</ul>
+</section>
+
+<!-- ==================== 第二章 ==================== -->
+<section id="ch2">
+<h2>第二章：ucontrol（单位控制）</h2>
+
+<h3 id="s2-1">2.1 指令格式</h3>
+<pre><code class="logic">ucontrol type p1 p2 p3 p4 p5</code></pre>
+
+<h3 id="s2-2">2.2 执行前置条件</h3>
+<p>每次 ucontrol 执行时，首先调用 checkLogicAI() 验证：</p>
+<ol>
+    <li><code>@unit</code> 指向的对象必须是有效的 Unit（unit.isValid()）</li>
+    <li><code>@unit</code> 必须是当前绑定的单位（exec.unit.obj() == unit）</li>
+    <li>单位队伍必须与处理器相同（或处理器特权）</li>
+    <li>单位的 controller 必须是 logicControllable 的</li>
+    <li>如果 controller 不是 LogicAI，则创建新的 LogicAI 替换原控制器</li>
+</ol>
+<p>验证通过后设置 <code>ai.controlTimer = LogicAI.logicControlTimeout</code>（10秒超时）。</p>
+<div class="note-box">
+<p>如果10秒内没有新的 ucontrol/uradar/ulocate 指令作用于该单位，控制超时，单位恢复原AI。</p>
+</div>
+
+<h3 id="s2-3">2.3 逐指令深度分析</h3>
+
+<h4>2.3.1 idle - 原地待命</h4>
+<pre><code class="logic">ucontrol idle 0 0 0 0 0</code></pre>
+<ul>
+    <li><strong>功能</strong>：设置 ai.control = idle，单位原地不动</li>
+    <li><strong>注意</strong>：idle 状态下单位仍会继续采矿和建造（这是默认行为），不是完全停止</li>
+    <li><strong>对比 stop</strong>：stop 会主动停止采矿和建造，idle 不会</li>
+    <li><strong>源码</strong>：<code>ai.control = type;</code> 仅此一行</li>
+</ul>
+
+<h4>2.3.2 stop - 停止一切</h4>
+<pre><code class="logic">ucontrol stop 0 0 0 0 0</code></pre>
+<ul>
+    <li><strong>功能</strong>：设置 ai.control = stop，同时 <code>unit.mineTile = null</code> 和 <code>unit.clearBuilding()</code></li>
+    <li><strong>效果</strong>：单位完全停止移动、采矿和建造</li>
+</ul>
+<pre><code class="java">ai.control = type;
+ai.moveX = x1;
+ai.moveY = y1;
+if(type == LUnitControl.stop){
+    unit.mineTile = null;
+    unit.clearBuilding();
+}</code></pre>
+<ul>
+    <li><strong>注意</strong>：stop 仍然设置了 moveX/moveY，但在 updateMovement 中 stop 分支只调用 clearBuilding()，不移动</li>
+</ul>
+
+<h4>2.3.3 move - 移动到坐标</h4>
+<pre><code class="logic">ucontrol move x y 0 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：x, y 为世界坐标（像素坐标，通过 World.unconv 转换）</li>
+    <li><strong>功能</strong>：设置 ai.control = move, ai.moveX = x, ai.moveY = y</li>
+    <li><strong>实现</strong>：LogicAI.updateMovement() 中调用 <code>moveTo(Tmp.v1.set(moveX, moveY), 1f, 30f)</code></li>
+    <li><strong>注意</strong>：不会等待到达目的地就执行下一条指令。单位会持续向目标移动直到被新的控制指令改变</li>
+</ul>
+
+<h4>2.3.4 approach - 接近到一定半径</h4>
+<pre><code class="logic">ucontrol approach x y radius 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：x, y 目标坐标；radius 接近半径</li>
+    <li><strong>功能</strong>：移动到距离目标 radius 范围内</li>
+    <li><strong>实现</strong>：<code>moveTo(Tmp.v1.set(moveX, moveY), moveRad - 7f, 7, true, null)</code></li>
+    <li><strong>注意</strong>：实际停止距离比 radius 小7（源码中 moveRad - 7f）</li>
+</ul>
+
+<h4>2.3.5 pathfind - 寻路移动</h4>
+<pre><code class="logic">ucontrol pathfind x y 0 0 0</code></pre>
+<ul>
+    <li><strong>功能</strong>：使用寻路算法移动到目标坐标</li>
+    <li><strong>实现</strong>：飞行单位直接 moveTo；地面单位使用 controlPath.getPathPosition 寻路</li>
+    <li><strong>注意</strong>：地面单位会绕过障碍物</li>
+</ul>
+
+<h4>2.3.6 autoPathfind - 自动寻路</h4>
+<pre><code class="logic">ucontrol autoPathfind 0 0 0 0 0</code></pre>
+<ul>
+    <li><strong>功能</strong>：自动寻路至最近的敌方核心或敌人生成点</li>
+    <li><strong>实现</strong>：查找最近敌方核心，若距离超过 range*0.5 则移动。飞行单位直接飞向目标，地面单位使用 Pathfinder.fieldCore 寻路</li>
+    <li><strong>注意</strong>：在波次模式下，如果距离生成点足够近（dropZoneRadius + 120f），则不移动</li>
+</ul>
+
+<h4>2.3.7 boost - 助推</h4>
+<pre><code class="logic">ucontrol boost enable 0 0 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：enable（0=关闭, 1=开启）</li>
+    <li><strong>功能</strong>：设置 ai.boost = bool(p1)</li>
+    <li><strong>实现</strong>：在 updateMovement 中，如果单位 canBoost 且非飞行单位：
+        <ul>
+            <li>shouldBoost = boost || unit.onSolid() || (飞行中且无法降落)</li>
+            <li>调整 unit.elevation</li>
+        </ul>
+    </li>
+    <li><strong>注意</strong>：只有 canBoost 的单位有效。飞行单位本身就在飞，boost 无额外效果</li>
+</ul>
+
+<h4>2.3.8 target - 瞄准坐标射击</h4>
+<pre><code class="logic">ucontrol target x y shoot 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：x, y 目标坐标（世界坐标）；shoot（0=只瞄准不射击, 1=射击）</li>
+    <li><strong>功能</strong>：设置 ai.posTarget 为目标坐标，ai.aimControl = target，ai.shoot = shoot</li>
+    <li><strong>实现</strong>：在 target() 方法中返回 posTarget，单位武器瞄准该位置</li>
+    <li><strong>注意</strong>：只控制瞄准方向和是否射击，不控制移动</li>
+</ul>
+
+<h4>2.3.9 targetp - 瞄准目标射击</h4>
+<pre><code class="logic">ucontrol targetp unit shoot 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：unit（Teamc 类型，可以是 Unit 或 Building 对象）；shoot（0/1）</li>
+    <li><strong>功能</strong>：设置 ai.mainTarget 为目标，ai.aimControl = targetp，ai.shoot = shoot</li>
+    <li><strong>实现</strong>：在 target() 方法中返回 mainTarget，单位武器自动瞄准该目标</li>
+    <li><strong>深度分析</strong>：p1.obj() 必须是 Teamc 接口的实例。Teamc 是 Unit 和 Building 共同实现的接口，因此 targetp 既可以瞄准单位也可以瞄准建筑</li>
+    <li><strong>注意</strong>：如果 p1 不是 Teamc（比如传了数字或 null），mainTarget 被设为 null，单位不会瞄准任何目标</li>
+</ul>
+
+<h4>2.3.10 itemDrop - 放下物品</h4>
+<pre><code class="logic">ucontrol itemDrop building amount 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：building（Building 对象或 <code>@air</code>）；amount（数量）</li>
+    <li><strong>功能</strong>：将单位携带的物品放入指定建筑</li>
+    <li><strong>特殊</strong>：如果 building 是 <code>@air</code>（Blocks.air），则直接清空单位携带的物品（丢弃）</li>
+    <li><strong>距离检查</strong>：<code>logicItemTransferRange + build.block.size * tilesize/2f</code>（logicItemTransferRange = 5.625 tiles）</li>
+    <li><strong>超时</strong>：1.5秒传输延迟（transferDelay = 60f * 1.5f）</li>
+    <li><strong>条件</strong>：建筑必须同队、有效、allowDeposit()、单位在范围内、建筑接受该物品</li>
+</ul>
+
+<h4>2.3.11 itemTake - 取出物品</h4>
+<pre><code class="logic">ucontrol itemTake building item amount 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：building（Building 对象）；item（Item content 类型，如 <code>@copper</code>）；amount（数量）</li>
+    <li><strong>功能</strong>：从指定建筑取出物品到单位</li>
+    <li><strong>距离检查</strong>：同 itemDrop</li>
+    <li><strong>超时</strong>：同 itemDrop</li>
+    <li><strong>条件</strong>：建筑必须同队、有效、有 items、item 是 Item 类型、单位在范围内、单位能接受该物品</li>
+</ul>
+
+<h4>2.3.12 payDrop - 释放载荷</h4>
+<pre><code class="logic">ucontrol payDrop 0 0 0 0 0</code></pre>
+<ul>
+    <li><strong>功能</strong>：释放单位携带的载荷（如建筑方块）</li>
+    <li><strong>条件</strong>：单位必须是 Payloadc 接口实例且有载荷</li>
+    <li><strong>超时</strong>：1.5秒</li>
+</ul>
+
+<h4>2.3.13 payTake - 拾取载荷</h4>
+<pre><code class="logic">ucontrol payTake takeUnits 0 0 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：takeUnits（0=拾取建筑载荷, 1=拾取单位载荷）</li>
+    <li><strong>功能</strong>：
+        <ul>
+            <li>takeUnits=1：查找附近 AI 地面单位并拾取（距离 = unit.type.hitSize * 2f）</li>
+            <li>takeUnits=0：拾取当前位置建筑上的载荷</li>
+        </ul>
+    </li>
+    <li><strong>超时</strong>：1.5秒</li>
+</ul>
+
+<h4>2.3.14 payEnter - 进入建筑</h4>
+<pre><code class="logic">ucontrol payEnter 0 0 0 0 0</code></pre>
+<ul>
+    <li><strong>功能</strong>：进入/降落到当前位置的建筑上</li>
+    <li><strong>条件</strong>：当前位置有建筑、建筑同队、build.canControlSelect(unit)</li>
+    <li><strong>用途</strong>：如 mono 进入修复厂、大型单位进入载荷工厂</li>
+</ul>
+
+<h4>2.3.15 mine - 采矿</h4>
+<pre><code class="logic">ucontrol mine x y 0 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：x, y 采矿位置（世界坐标）</li>
+    <li><strong>功能</strong>：设置 unit.mineTile 为指定位置的 tile</li>
+    <li><strong>条件</strong>：unit.canMine() 且 tile 是有效矿脉</li>
+    <li><strong>注意</strong>：单位会自动飞/走到矿脉位置并采矿</li>
+</ul>
+
+<h4>2.3.16 flag - 设置标记</h4>
+<pre><code class="logic">ucontrol flag value 0 0 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：value（数值）</li>
+    <li><strong>功能</strong>：设置 unit.flag = value</li>
+    <li><strong>特性</strong>：标记值永久保存在单位上，即使处理器被销毁也不会丢失。可通过 sensor 读取 <code>@flag</code></li>
+    <li><strong>用途</strong>：给单位分组标记，如 flag=1 表示"采矿组"，flag=2 表示"战斗组"</li>
+    <li><strong>注意</strong>：每个单位只能存1个数字 flag</li>
+</ul>
+
+<h4>2.3.17 build - 建造建筑</h4>
+<pre><code class="logic">ucontrol build x y block rotation config</code></pre>
+<ul>
+    <li><strong>参数</strong>：
+        <ul>
+            <li>x, y：建造位置（世界坐标）</li>
+            <li>block：Block content 类型（如 <code>@conveyor</code>）</li>
+            <li>rotation：方向（0=右, 1=上, 2=左, 3=下）</li>
+            <li>config：配置值，可以是 Content（如 <code>@copper</code> 设置分类器）或 Building（复制另一个建筑的配置，如复制处理器代码）</li>
+        </ul>
+    </li>
+    <li><strong>条件</strong>：需要 state.rules.logicUnitBuild 或特权处理器；unit.canBuild()；block 可建造</li>
+    <li><strong>实现</strong>：计算 tile 坐标，创建 BuildPlan，添加到单位的建造计划列表</li>
+    <li><strong>注意</strong>：如果目标位置已有相同建筑且旋转相同，则不重复建造</li>
+</ul>
+
+<h4>2.3.18 getBlock - 获取方块信息</h4>
+<pre><code class="logic">ucontrol getBlock x y type building floor</code></pre>
+<ul>
+    <li><strong>参数</strong>：x, y 坐标；type, building, floor 是输出变量</li>
+    <li><strong>输出</strong>：
+        <ul>
+            <li>type：该位置的 Block（建筑类型 content）</li>
+            <li>building：该位置的 Building 实例（如果有建筑）</li>
+            <li>floor：该位置的 Floor 或 overlay（如果有矿石覆盖层则返回矿石，否则返回地板）</li>
+        </ul>
+    </li>
+    <li><strong>范围检查</strong>：max(unit.range(), unit.type.buildRange)</li>
+    <li><strong>注意</strong>：获取的 building 引用即使单位离开后仍可用于 write/draw（对 cell/bank/display），但不能用于 enable/disable 或 config</li>
+</ul>
+
+<h4>2.3.19 within - 距离检查</h4>
+<pre><code class="logic">ucontrol within x y radius result</code></pre>
+<ul>
+    <li><strong>参数</strong>：x, y 目标坐标；radius 半径；result 输出变量</li>
+    <li><strong>输出</strong>：result = 1（在范围内）或 0（不在范围内）</li>
+    <li><strong>注意</strong>：within 会触发控制状态（标记单位为被逻辑控制）。如果只需要距离检查而不想控制单位，应手动计算：<code>op len dist dx dy</code> 其中 dx=x1-x0, dy=y1-y0</li>
+</ul>
+
+<h4>2.3.20 unbind - 解除控制</h4>
+<pre><code class="logic">ucontrol unbind 0 0 0 0 0</code></pre>
+<ul>
+    <li><strong>功能</strong>：调用 unit.resetController()，单位恢复原 AI</li>
+    <li><strong>注意</strong>：解除的是"控制"状态，不是"绑定"。<code>@unit</code> 仍然指向该单位，但单位不再被逻辑控制</li>
+</ul>
+<div class="warning-box">
+<p><strong>警告</strong>：除非确信已控制单位，否则不要随意使用 unbind，可能打断其他逻辑或单位默认AI</p>
+</div>
+
+<h4>2.3.21 deconstruct - 拆除建筑</h4>
+<pre><code class="logic">ucontrol deconstruct x y 0 0 0</code></pre>
+<ul>
+    <li><strong>参数</strong>：x, y 拆除位置（世界坐标）</li>
+    <li><strong>条件</strong>：需要 state.rules.logicUnitDeconstruct 或特权处理器；unit.canBuild()</li>
+    <li><strong>实现</strong>：设置 ai.plan.breaking = true，添加拆除计划</li>
+</ul>
+</section>
+
+<!-- ==================== 第三章 ==================== -->
+<section id="ch3">
+<h2>第三章：uradar（单位雷达）</h2>
+
+<h3 id="s3-1">3.1 指令格式</h3>
+<pre><code class="logic">uradar target1 target2 target3 sort 0 order output</code></pre>
+<ul>
+    <li>参数：3个筛选器、排序依据、占位符（填0）、排序方向（0=逆序/最远最低, 1=正序/最近最高）、输出变量</li>
+</ul>
+
+<h3 id="s3-2">3.2 功能说明</h3>
+<p>以当前绑定的 <code>@unit</code> 为中心，在其范围内搜索单位，返回最符合条件的目标。是单位控制语句，会发出控制信号并标记单位为已控制。</p>
+
+<h3 id="s3-3">3.3 筛选器</h3>
+<table>
+<tr><th>筛选器</th><th>说明</th></tr>
+<tr><td>any</td><td>任意单位</td></tr>
+<tr><td>enemy</td><td>敌方单位</td></tr>
+<tr><td>ally</td><td>友方单位</td></tr>
+<tr><td>player</td><td>玩家控制的单位</td></tr>
+<tr><td>attacker</td><td>有攻击能力的单位</td></tr>
+<tr><td>flying</td><td>飞行单位</td></tr>
+<tr><td>boss</td><td>BOSS单位</td></tr>
+<tr><td>ground</td><td>地面单位</td></tr>
+</table>
+<p>三个筛选器是 AND 关系：单位必须同时满足所有筛选条件才会被搜索到。</p>
+
+<h3 id="s3-4">3.4 排序依据</h3>
+<table>
+<tr><th>排序依据</th><th>说明</th><th>order=1</th><th>order=0</th></tr>
+<tr><td>distance</td><td>距离（取负值）</td><td>最近</td><td>最远</td></tr>
+<tr><td>health</td><td>当前血量</td><td>最高</td><td>最低</td></tr>
+<tr><td>shield</td><td>盾量</td><td>最高</td><td>最低</td></tr>
+<tr><td>armor</td><td>护甲</td><td>最高</td><td>最低</td></tr>
+<tr><td>maxHealth</td><td>血量上限</td><td>最高</td><td>最低</td></tr>
+</table>
+
+<h3 id="s3-5">3.5 缓存机制</h3>
+<p>uradar 使用 LogicAI 的 radars 缓存：</p>
+<ul>
+    <li><code>ai.checkTargetTimer(this)</code> 检查是否可以执行新搜索</li>
+    <li>radars 是一个 ObjectSet，存入的是指令对象本身</li>
+    <li>targetTimer 每 40 tick（约0.67秒）清空一次 radars</li>
+    <li>在清空前，同一指令对象再次执行时返回 false，使用缓存结果</li>
+    <li>这意味着同一单位短时间内重复 uradar 会返回旧目标</li>
+</ul>
+
+<h3 id="s3-6">3.6 代码示例</h3>
+<pre><code class="logic"># 搜索最近的敌方飞行单位
+ubind @flare
+uradar enemy flying any distance 0 1 target
+jump skip equal target null 0
+ucontrol targetp target 1 0 0 0
+skip:</code></pre>
+</section>
+
+<!-- ==================== 第四章 ==================== -->
+<section id="ch4">
+<h2>第四章：ulocate（单位定位）</h2>
+
+<h3 id="s4-1">4.1 指令格式</h3>
+<pre><code class="logic">ulocate locate group enemy ore outX outY outFound outBuild</code></pre>
+<ul>
+    <li>参数：定位模式、建筑类型（仅building模式）、是否搜索敌方、矿物类型（仅ore模式）、输出X、输出Y、输出是否找到、输出建筑引用</li>
+</ul>
+
+<h3 id="s4-2">4.2 定位模式</h3>
+<table>
+<tr><th>模式</th><th>说明</th><th>参数用途</th></tr>
+<tr><td>building</td><td>定位建筑</td><td>group指定建筑类型，enemy指定敌我</td></tr>
+<tr><td>ore</td><td>定位矿脉</td><td>ore指定矿物类型</td></tr>
+<tr><td>spawn</td><td>定位敌方出生点</td><td>无额外参数</td></tr>
+<tr><td>damaged</td><td>定位受损建筑</td><td>无额外参数（仅己方）</td></tr>
+</table>
+
+<h3 id="s4-3">4.3 建筑类型（group参数）</h3>
+<p>core, storage, generator, turret, factory, repair, rally, battery, reactor</p>
+
+<h3 id="s4-4">4.4 距离规则</h3>
+<ul>
+    <li><strong>友方建筑</strong>：始终返回最近的（无距离限制）</li>
+    <li><strong>敌方建筑</strong>：仅在 <code>max(27.5, unit.range())</code> 范围内返回</li>
+    <li><strong>矿物</strong>：返回最近的矿脉（可能不是最近的单个矿石tile，而是最近的矿脉）</li>
+    <li><strong>出生点</strong>：返回最近的敌方出生点</li>
+    <li><strong>受损建筑</strong>：返回最近的己方受损建筑</li>
+</ul>
+
+<h3 id="s4-5">4.5 缓存机制</h3>
+<p>ulocate 也使用 LogicAI 的 execCache 和 checkTargetTimer：</p>
+<ul>
+    <li>每个指令实例有自己的 Cache 对象（存储 x, y, found, build）</li>
+    <li>在 checkTargetTimer 返回 false 时使用缓存值</li>
+    <li>40 tick 内重复执行同一 ulocate 指令返回缓存结果</li>
+</ul>
+
+<h3 id="s4-6">4.6 代码示例</h3>
+<pre><code class="logic"># 定位最近的敌方核心
+ubind @flare
+ulocate building core true 0 coreX coreY found coreBuild
+jump skip equal found 0 0
+ucontrol move coreX coreY 0 0 0
+skip:</code></pre>
+
+<pre><code class="logic"># 定位最近的铜矿并采矿
+ubind @mono
+ulocate ore 0 0 @copper oreX oreY found 0
+jump skip equal found 0 0
+ucontrol mine oreX oreY 0 0 0
+skip:</code></pre>
+
+<h3 id="s4-7">4.7 减少控制干扰</h3>
+<p>ulocate 是单位控制语句，会对单位发出控制信号。如果对非控制类逻辑（如只需定位信息的逻辑）反复使用 ulocate，会造成控制干扰。</p>
+<div class="note-box">
+<p><strong>解决方案</strong>：绑定一个未被控制的"侦察单位"，专门用于 ulocate，获取信息后通过 flag 或变量传递给其他逻辑。</p>
+</div>
+</section>
+
+<!-- ==================== 第五章 ==================== -->
+<section id="ch5">
+<h2>第五章：综合实战示例</h2>
+
+<h3 id="s5-1">5.1 单控一个单位（稳定控制）</h3>
+<pre><code class="logic"># 绑定一个空闲的 mono 并稳定控制
+bind:
+ubind @mono
+# 检查是否已被其他逻辑控制
+sensor ctrl @unit @controller
+jump bind notEqual ctrl @this
+# 检查是否已被其他逻辑控制（@controlled）
+sensor controlled @unit @controlled
+jump bind equal controlled @ctrlProcessor
+# 现在有了一个未被控制的 mono
+control:
+ucontrol move 100 200 0 0 0
+# 检查控制权是否还在
+sensor ctrl @unit @controller
+jump bind notEqual ctrl @this
+jump control always 0 0</code></pre>
+
+<h3 id="s5-2">5.2 群控所有 flare 攻击敌方核心</h3>
+<pre><code class="logic">ubind @flare
+# 定位敌方核心
+ulocate building core true 0 cx cy found 0
+jump skip equal found 0 0
+ucontrol move cx cy 0 0 0
+ucontrol target cx cy 1 0 0
+skip:</code></pre>
+<p>这个两行核心代码（ubind + ucontrol）在处理器循环执行时会依次控制所有 flare。</p>
+
+<h3 id="s5-3">5.3 采矿自动化</h3>
+<pre><code class="logic">loop:
+ubind @mono
+# 检查是否已有足够物品
+sensor items @unit @totalItems
+jump full greaterThanEq items 10
+# 定位矿脉
+ulocate ore 0 0 @copper oreX oreY found 0
+jump loop equal found 0 0
+# 去采矿
+ucontrol mine oreX oreY 0 0 0
+jump loop always 0 0
+full:
+# 去核心放矿
+ulocate building core false 0 cx cy found core
+jump loop equal found 0 0
+ucontrol move cx cy 0 0 0
+ucontrol itemDrop core 100 0 0 0
+jump loop always 0 0</code></pre>
+
+<h3 id="s5-4">5.4 多类型单位协同</h3>
+<pre><code class="logic"># 控制 mono 采矿
+ubind @mono
+ulocate ore 0 0 @copper ox oy found 0
+jump mono_skip equal found 0 0
+ucontrol mine ox oy 0 0 0
+mono_skip:
+
+# 控制 flare 巡逻
+ubind @flare
+ucontrol move @thisx @thisy 0 0 0
+uradar enemy any any distance 0 1 target
+jump flare_skip equal target null 0
+ucontrol targetp target 1 0 0 0
+flare_skip:</code></pre>
+</section>
+
+<!-- ==================== 附录 ==================== -->
+<section id="appendix">
+<h2>附录：单位控制相关 sensor 属性</h2>
+<table>
+<tr><th>属性</th><th>说明</th></tr>
+<tr><td>@x, @y</td><td>单位坐标</td></tr>
+<tr><td>@health, @maxHealth</td><td>血量/血量上限</td></tr>
+<tr><td>@shield, @armor</td><td>盾量/护甲</td></tr>
+<tr><td>@speed</td><td>速度</td></tr>
+<tr><td>@team</td><td>队伍</td></tr>
+<tr><td>@type</td><td>单位类型（UnitType content）</td></tr>
+<tr><td>@flag</td><td>标记值（由 ucontrol flag 设置）</td></tr>
+<tr><td>@controlled</td><td>控制状态（0=未控制, @ctrlProcessor=逻辑控制, @ctrlPlayer=玩家控制, @ctrlCommand=RTS指令控制）</td></tr>
+<tr><td>@controller</td><td>控制者（Building 引用，即处理器）</td></tr>
+<tr><td>@flying</td><td>是否飞行</td></tr>
+<tr><td>@boosting</td><td>是否助推</td></tr>
+<tr><td>@shooting</td><td>是否射击</td></tr>
+<tr><td>@mineX, @mineY</td><td>采矿位置</td></tr>
+<tr><td>@mining</td><td>是否正在采矿</td></tr>
+<tr><td>@buildX, @buildY</td><td>建造位置</td></tr>
+<tr><td>@building</td><td>正在建造</td></tr>
+<tr><td>@breaking</td><td>正在拆除</td></tr>
+<tr><td>@payloadCount</td><td>载荷数量</td></tr>
+<tr><td>@payloadType</td><td>载荷类型</td></tr>
+<tr><td>@totalPayload</td><td>总载荷</td></tr>
+<tr><td>@payloadCapacity</td><td>载荷容量</td></tr>
+<tr><td>@range</td><td>范围</td></tr>
+<tr><td>@name</td><td>名称</td></tr>
+<tr><td>@id</td><td>编号</td></tr>
+</table>
+</section>
+
+</main>
+
+<div id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</div>
+
+<script>
+function escapeHtml(text){
+    return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function highlightLogic(text){
+    text=escapeHtml(text);
+    var regex=/(&[a-zA-Z]+;)|(#[^\n]*)|(@\w+)|(\b\d+\.?\d*\b)|(\b(?:ubind|ucontrol|uradar|ulocate|jump|sensor|op|set|print|draw|write|read|drawflush|printflush|getlink|control|radar|wait|end)\b)|(\b(?:equal|notEqual|greaterThan|lessThan|greaterThanEq|lessThanEq|always|strictEqual|add|sub|mul|div|mod|pow|min|max|len|sin|cos|tan|asin|acos|atan|log|log10|noise|abs|sqrt|rand|angle|dst|not|or|and|xor|true|false)\b)|([a-z_]\w*:(?=\n|$))|([a-zA-Z_]\w*)/g;
+    var result='',lastIdx=0,match;
+    while((match=regex.exec(text))!==null){
+        result+=text.substring(lastIdx,match.index);
+        if(match[1]){result+=match[1];}
+        else if(match[2]){result+='<span class="tok-comment">'+match[2]+'</span>';}
+        else if(match[3]){result+='<span class="tok-var">'+match[3]+'</span>';}
+        else if(match[4]){result+='<span class="tok-num">'+match[4]+'</span>';}
+        else if(match[5]){result+='<span class="tok-inst">'+match[5]+'</span>';}
+        else if(match[6]){result+='<span class="tok-op">'+match[6]+'</span>';}
+        else if(match[7]){result+='<span class="tok-label">'+match[7]+'</span>';}
+        else if(match[8]){result+='<span class="tok-param">'+match[8]+'</span>';}
+        lastIdx=regex.lastIndex;
+    }
+    result+=text.substring(lastIdx);
+    return result;
+}
+
+function highlightJava(text){
+    text=escapeHtml(text);
+    var regex=/(&[a-zA-Z]+;)|(\/\/[^\n]*)|("(?:[^"\\]|\\.)*")|(@\w+)|(\b\d+\.?\d*[fLdD]?\b)|(\b(?:if|else|for|while|return|new|null|true|false|instanceof|void|public|private|protected|static|final|class|extends|implements|import|package|this|super|int|float|double|long|boolean|byte|char|short)\b)|(\b[A-Z]\w*\b)|(\b[a-z]\w*(?=\())/g;
+    var result='',lastIdx=0,match;
+    while((match=regex.exec(text))!==null){
+        result+=text.substring(lastIdx,match.index);
+        if(match[1]){result+=match[1];}
+        else if(match[2]){result+='<span class="tok-comment">'+match[2]+'</span>';}
+        else if(match[3]){result+='<span class="tok-string">'+match[3]+'</span>';}
+        else if(match[4]){result+='<span class="tok-var">'+match[4]+'</span>';}
+        else if(match[5]){result+='<span class="tok-num">'+match[5]+'</span>';}
+        else if(match[6]){result+='<span class="tok-kw">'+match[6]+'</span>';}
+        else if(match[7]){result+='<span class="tok-type">'+match[7]+'</span>';}
+        else if(match[8]){result+='<span class="tok-fn">'+match[8]+'</span>';}
+        lastIdx=regex.lastIndex;
+    }
+    result+=text.substring(lastIdx);
+    return result;
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+    document.querySelectorAll('code.logic').forEach(function(el){
+        el.innerHTML=highlightLogic(el.textContent);
+    });
+    document.querySelectorAll('code.java').forEach(function(el){
+        el.innerHTML=highlightJava(el.textContent);
+    });
+
+    // Scrollspy
+    var sections=document.querySelectorAll('section[id]');
+    var navLinks=document.querySelectorAll('#toc a');
+    var observer=new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(entry.isIntersecting){
+                var id=entry.target.id;
+                navLinks.forEach(function(link){
+                    link.classList.remove('active');
+                    if(link.getAttribute('href')==='#'+id){
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    },{rootMargin:'-15% 0px -75% 0px'});
+    sections.forEach(function(section){observer.observe(section);});
+
+    // Back to top button
+    var backBtn=document.getElementById('back-top');
+    window.addEventListener('scroll',function(){
+        if(window.scrollY>400){backBtn.classList.add('visible');}
+        else{backBtn.classList.remove('visible');}
+    });
+});
+</script>
+</body>
+</html>
