@@ -257,15 +257,16 @@ end
 
 逐个分类学习所有 Logic 积木，理解其功能、参数和源码实现：
 
-| 分类 | 文件夹 | 内容 |
-|------|--------|------|
-| 控制单位 | `01_Control Unit` | ubind, ucontrol, uradar, ulocate（已完成） |
-| 控制程序 | `02_Control Flow` | set, op, jump, end, wait, lookup, pack 等 |
-| 操作 | `03_Operations` | sensor, control, radar, getlink 等 |
-| 输入输出 | `04_IO` | print, draw, read, write, flushMessage 等 |
-| 控制方块 | `05_Block Control` | setblock, getblock 等 |
-| 世界 | `06_World` | setrule, setprop, spawn, cutscene 等（世界处理器专属） |
-| 实战案例 | `07_实战案例` | 兵控逻辑分类、单控/群控/多控实战、挖矿逻辑、多核优化等 |
+| 分类 | 文件夹 | 内容 | 状态 |
+|------|--------|------|------|
+| 控制单位 | `01_Control Unit` | ubind, ucontrol, uradar, ulocate（24 个） | 已完成 |
+| 控制程序 | `02_Control Flow` | noop, wait, stop, end, jump（5 个） | 已完成 |
+| 操作 | `03_Operations` | set, op, select, lookup, packcolor, unpackcolor（6 个） | 已完成 |
+| 输入输出 | `04_IO` | read, write, draw, print, printchar, format（6 个） | 已完成 |
+| 控制方块 | `05_Block Control` | getlink, control, radar, sensor, drawflush, printflush（6 个） | 已完成 |
+| 世界 | `06_World` | setrate, getblock, setblock, spawn, setrule, fetch 等（26 个，世界处理器专属） | 已完成 |
+| 实战案例 | `07_实战案例` | 兵控逻辑分类、单控/群控/多控实战、挖矿逻辑、多核优化等（12 个） | 已完成 |
+| 学习记录 | `08_学习记录.md` | 分类总结、源码验证、常见陷阱、修复记录 | 已完成 |
 
 ### 第二阶段：理解网络同步问题
 

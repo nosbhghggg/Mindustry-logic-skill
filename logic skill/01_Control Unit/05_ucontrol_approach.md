@@ -23,6 +23,8 @@ x、y 参数为 **tile 坐标**，处理器内部通过世界坐标转换（`Wor
 
 移动单位到距离目标 (x, y) 指定 radius 范围内即停止。适用于需要单位靠近某个目标但不必精确到达目标点的情况。
 
+approach 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
 ## 源码实现
 
 1. 设置控制状态为 approach（`ai.control = approach`）

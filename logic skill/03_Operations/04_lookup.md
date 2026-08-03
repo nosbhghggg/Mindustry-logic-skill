@@ -44,7 +44,7 @@ jump skip equal _cond 0
 lookup block _result _i
 # 此处可对 _result 进行操作，如 sensor 读取信息
 op add _i _i 1
-jump loop always 0 0
+jump loop always
 skip:
 end
 ```

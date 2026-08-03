@@ -43,6 +43,7 @@ x、y 参数为 **tile 坐标**，处理器内部通过世界坐标转换（`Wor
 
 ## 注意事项
 
+- pathfind 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）
 - 旧版本中的 `pathfind` 实际执行的是 `autoPathfind` 的功能（自动寻路至敌方核心）
 - 新版本中 `pathfind` 已改为按指定坐标寻路。如果导入旧版本的处理器代码，旧的 `pathfind` 指令会寻路至坐标 (0, 0)
 

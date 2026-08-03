@@ -3,7 +3,7 @@
 ## 导出格式
 
 ```
-ucontrol within x y radius result
+ucontrol within x y radius result 0
 ```
 
 ## 参数说明
@@ -31,11 +31,11 @@ ucontrol within x y radius result
 - within 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。这是因为 within 属于 ucontrol 指令，在执行前会调用 `checkLogicAI()` 并刷新控制计时器。
 - **替代方案**：如果只需要检查距离而不想触发控制状态，应手动用 `op len` 计算单位与目标点的距离，再与半径比较：
   ```
-  # 手动距离检查（不触发控制）
-  op sub dx @unitx targetX
-  op sub dy @unity targetY
-  op len dist dx dy
-  op lessThan result dist radius
+  ## 手动距离检查（不触发控制）
+  op sub _dx @unitx targetX
+  op sub _dy @unity targetY
+  op len _dist _dx _dy
+  op lessThan result _dist radius
   ```
 - 适合在已经控制单位的场景下使用，避免在仅需信息查询时意外控制单位。
 

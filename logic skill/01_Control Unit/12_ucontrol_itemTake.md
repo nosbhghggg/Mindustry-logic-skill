@@ -3,7 +3,7 @@
 ## 导出格式
 
 ```
-ucontrol itemTake from item amount 0
+ucontrol itemTake from item amount 0 0
 ```
 
 共7个token：`ucontrol` `itemTake` `<p1=from>` `<p2=item>` `<p3=amount>` `<p4=0>` `<p5=0>`

@@ -18,6 +18,8 @@ ucontrol autoPathfind 0 0 0 0 0
 
 自动寻路至最近的敌方核心或敌人生成点。无需指定目标坐标，单位会自动寻找进攻目标。
 
+autoPathfind 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
 ## 源码实现
 
 1. 设置控制状态为 autoPathfind（`ai.control = autoPathfind`）

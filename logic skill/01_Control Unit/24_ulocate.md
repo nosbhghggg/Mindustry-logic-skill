@@ -67,7 +67,7 @@ ulocate locate flag enemy ore outX outY outFound outBuild
 - ulocate 是 **单位控制语句**，会通过 `checkLogicAI()` 将单位标记为被逻辑控制，并刷新控制计时器（`controlTimer = logicControlTimeout`，即 10 秒）。
 - 坐标输出（outX、outY）为 **tile 坐标**（瓦片坐标），处理器内部会通过世界坐标转换（`World.unconv`，即乘以 tilesize=8）转为像素坐标。
 - **重要**：游戏内编辑器中，"是否搜索敌方"默认为 true（1）。如果需要搜索己方建筑，必须将该参数改为 0/false。
-- 建筑类型（group）参数仅在 building 模式下有效；矿物类型（ore）参数仅在 ore 模式下有效。其他模式下这些参数被忽略。
+- flag 参数仅在 building 模式下有效；矿物类型（ore）参数仅在 ore 模式下有效。其他模式下这些参数被忽略。
 - outBuild 输出在 building 和 damaged 模式下返回建筑引用，在 ore 和 spawn 模式下通常为 null。
 - 由于缓存机制，如果需要实时获取最新目标，需要间隔超过 40 tick 或改变搜索参数。
 - 敌方建筑搜索中，outBuild（建筑引用）有范围限制（`max(unit.range(), buildingRange)`，buildingRange=220 像素），但 outX/outY/outFound 不受此限制。友方建筑的 outBuild 始终输出，不受范围限制。

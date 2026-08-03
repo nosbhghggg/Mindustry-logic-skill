@@ -15,7 +15,7 @@ uradar target1 target2 target3 sort 0 order output
 | p3       | target3  | RadarTarget | 第三个筛选器                                                 |
 | p4       | sort     | RadarSort | 排序依据                                                     |
 | p5       | -        | -        | 占位符，固定为 0（源码中为 radar 字段，构造时设为 "0"）      |
-| p6       | order    | 数值     | 排序方向：0=逆序（最远/最低优先），1=正序（最近/最高优先）   |
+| p6       | order    | 数值     | 排序方向：0=反序（最远/最低优先），1=正序（最近/最高优先）   |
 | p7       | output   | 输出变量 | 输出：搜索到的目标单位引用，未找到则为 null                 |
 
 ### 筛选器（RadarTarget）可选值
@@ -50,8 +50,8 @@ uradar target1 target2 target3 sort 0 order output
 - **搜索中心**：以 `@unit` 为中心进行搜索，搜索范围为单位的雷达范围。
 - **筛选逻辑**：三个筛选器（target1、target2、target3）为 AND 关系，单位必须同时满足所有三个条件才被纳入候选。
 - **排序逻辑**：根据 sort 指定的属性对候选单位排序，order 决定排序方向：
-  - order=0：逆序，返回排序值最大/最远的单位（如 distance 降序返回最远的）。
-  - order=1：正序，返回排序值最小/最近的单位（如 distance 升序返回最近的）。
+  - order=0：反序，返回排序值最小/最远的单位（如 distance 返回最远的）。
+  - order=1：正序，返回排序值最大/最近的单位（如 distance 返回最近的）。
 - **指令复用**：底层复用 `RadarI` 指令实现，但搜索来源固定为 `@unit`（而非雷达建筑）。
 - **缓存机制**：使用 LogicAI 的 radars 缓存集。在 **40 tick** 内重复执行相同的 uradar 指令会返回缓存的旧结果，而不是重新搜索。这避免了高频搜索带来的性能开销。
 

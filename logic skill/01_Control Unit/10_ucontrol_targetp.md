@@ -3,7 +3,7 @@
 ## 导出格式
 
 ```
-ucontrol targetp unit shoot 0 0
+ucontrol targetp unit shoot 0 0 0
 ```
 
 共7个token：`ucontrol` `targetp` `<p1=unit>` `<p2=shoot>` `<p3=0>` `<p4=0>` `<p5=0>`

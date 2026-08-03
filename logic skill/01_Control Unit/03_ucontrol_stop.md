@@ -18,6 +18,8 @@ ucontrol stop 0 0 0 0 0
 
 完全停止单位的移动、采矿和建造。单位进入完全静止状态。
 
+stop 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
 ## 源码实现
 
 执行以下三步操作：

@@ -18,6 +18,8 @@ ucontrol idle 0 0 0 0 0
 
 设置单位的控制状态（control）为 `idle`（原地待命）。单位停止执行之前的移动等控制命令，原地不动。
 
+idle 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
 ## 源码实现
 
 仅设置控制状态为 idle（`ai.control = idle`），不进行其他操作。

@@ -25,6 +25,8 @@ ucontrol move x y 0 0 0
 
 设置单位的移动目标位置。单位会持续向目标坐标移动。
 
+move 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
 ## 源码实现
 
 1. 设置控制状态为 move（`ai.control = move`）
