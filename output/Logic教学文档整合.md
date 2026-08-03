@@ -1,0 +1,14461 @@
+# 像素工厂 Logic 编程教学文档整合
+
+> 本文档由 `merge_docs.py` 自动生成，共整合 89 个文件。
+> 扫描规则：先扫描当前层级文件（按编号排序），再扫描文件夹（按编号排序），递归处理。
+
+## 目录索引
+
+1. [00_Logic入门与学习大纲.md](#00_Logic入门与学习大纲)
+2. [08_学习记录.md](#08_学习记录)
+3. [01_Control Unit\01_ubind.md](#01_Control Unit-01_ubind)
+4. [01_Control Unit\02_ucontrol_idle.md](#01_Control Unit-02_ucontrol_idle)
+5. [01_Control Unit\03_ucontrol_stop.md](#01_Control Unit-03_ucontrol_stop)
+6. [01_Control Unit\04_ucontrol_move.md](#01_Control Unit-04_ucontrol_move)
+7. [01_Control Unit\05_ucontrol_approach.md](#01_Control Unit-05_ucontrol_approach)
+8. [01_Control Unit\06_ucontrol_pathfind.md](#01_Control Unit-06_ucontrol_pathfind)
+9. [01_Control Unit\07_ucontrol_autoPathfind.md](#01_Control Unit-07_ucontrol_autoPathfind)
+10. [01_Control Unit\08_ucontrol_boost.md](#01_Control Unit-08_ucontrol_boost)
+11. [01_Control Unit\09_ucontrol_target.md](#01_Control Unit-09_ucontrol_target)
+12. [01_Control Unit\10_ucontrol_targetp.md](#01_Control Unit-10_ucontrol_targetp)
+13. [01_Control Unit\11_ucontrol_itemDrop.md](#01_Control Unit-11_ucontrol_itemDrop)
+14. [01_Control Unit\12_ucontrol_itemTake.md](#01_Control Unit-12_ucontrol_itemTake)
+15. [01_Control Unit\13_ucontrol_payDrop.md](#01_Control Unit-13_ucontrol_payDrop)
+16. [01_Control Unit\14_ucontrol_payTake.md](#01_Control Unit-14_ucontrol_payTake)
+17. [01_Control Unit\15_ucontrol_payEnter.md](#01_Control Unit-15_ucontrol_payEnter)
+18. [01_Control Unit\16_ucontrol_mine.md](#01_Control Unit-16_ucontrol_mine)
+19. [01_Control Unit\17_ucontrol_flag.md](#01_Control Unit-17_ucontrol_flag)
+20. [01_Control Unit\18_ucontrol_build.md](#01_Control Unit-18_ucontrol_build)
+21. [01_Control Unit\19_ucontrol_deconstruct.md](#01_Control Unit-19_ucontrol_deconstruct)
+22. [01_Control Unit\20_ucontrol_getBlock.md](#01_Control Unit-20_ucontrol_getBlock)
+23. [01_Control Unit\21_ucontrol_within.md](#01_Control Unit-21_ucontrol_within)
+24. [01_Control Unit\22_ucontrol_unbind.md](#01_Control Unit-22_ucontrol_unbind)
+25. [01_Control Unit\23_uradar.md](#01_Control Unit-23_uradar)
+26. [01_Control Unit\24_ulocate.md](#01_Control Unit-24_ulocate)
+27. [02_Control Flow\01_noop.md](#02_Control Flow-01_noop)
+28. [02_Control Flow\02_wait.md](#02_Control Flow-02_wait)
+29. [02_Control Flow\03_stop.md](#02_Control Flow-03_stop)
+30. [02_Control Flow\04_end.md](#02_Control Flow-04_end)
+31. [02_Control Flow\05_jump.md](#02_Control Flow-05_jump)
+32. [03_Operations\01_set.md](#03_Operations-01_set)
+33. [03_Operations\02_op.md](#03_Operations-02_op)
+34. [03_Operations\03_select.md](#03_Operations-03_select)
+35. [03_Operations\04_lookup.md](#03_Operations-04_lookup)
+36. [03_Operations\05_packcolor.md](#03_Operations-05_packcolor)
+37. [03_Operations\06_unpackcolor.md](#03_Operations-06_unpackcolor)
+38. [04_IO\01-read.md](#04_IO-01-read)
+39. [04_IO\02-write.md](#04_IO-02-write)
+40. [04_IO\03-draw.md](#04_IO-03-draw)
+41. [04_IO\04-print.md](#04_IO-04-print)
+42. [04_IO\05-printchar.md](#04_IO-05-printchar)
+43. [04_IO\06-format.md](#04_IO-06-format)
+44. [05_Block Control\01-getlink.md](#05_Block Control-01-getlink)
+45. [05_Block Control\02-control.md](#05_Block Control-02-control)
+46. [05_Block Control\03-radar.md](#05_Block Control-03-radar)
+47. [05_Block Control\04-sensor.md](#05_Block Control-04-sensor)
+48. [05_Block Control\05-drawflush.md](#05_Block Control-05-drawflush)
+49. [05_Block Control\06-printflush.md](#05_Block Control-06-printflush)
+50. [06_World\01_setrate.md](#06_World-01_setrate)
+51. [06_World\02_getblock.md](#06_World-02_getblock)
+52. [06_World\03_setblock.md](#06_World-03_setblock)
+53. [06_World\04_spawn.md](#06_World-04_spawn)
+54. [06_World\05_bullet.md](#06_World-05_bullet)
+55. [06_World\06_status.md](#06_World-06_status)
+56. [06_World\07_weathersense.md](#06_World-07_weathersense)
+57. [06_World\08_weatherset.md](#06_World-08_weatherset)
+58. [06_World\09_spawnwave.md](#06_World-09_spawnwave)
+59. [06_World\10_setrule.md](#06_World-10_setrule)
+60. [06_World\11_message.md](#06_World-11_message)
+61. [06_World\12_cutscene.md](#06_World-12_cutscene)
+62. [06_World\13_effect.md](#06_World-13_effect)
+63. [06_World\14_explosion.md](#06_World-14_explosion)
+64. [06_World\15_fetch.md](#06_World-15_fetch)
+65. [06_World\16_getflag.md](#06_World-16_getflag)
+66. [06_World\17_setflag.md](#06_World-17_setflag)
+67. [06_World\18_setprop.md](#06_World-18_setprop)
+68. [06_World\19_playsound.md](#06_World-19_playsound)
+69. [06_World\20_playmusic.md](#06_World-20_playmusic)
+70. [06_World\21_setmarker.md](#06_World-21_setmarker)
+71. [06_World\22_makemarker.md](#06_World-22_makemarker)
+72. [06_World\23_localeprint.md](#06_World-23_localeprint)
+73. [06_World\24_sync.md](#06_World-24_sync)
+74. [06_World\25_query.md](#06_World-25_query)
+75. [06_World\26_clientdata.md](#06_World-26_clientdata)
+76. [07_实战案例\00_萌新兵控入门.md](#07_实战案例-00_萌新兵控入门)
+77. [07_实战案例\01_兵控逻辑分类与绑定规范.md](#07_实战案例-01_兵控逻辑分类与绑定规范)
+78. [07_实战案例\02_单控逻辑.md](#07_实战案例-02_单控逻辑)
+79. [07_实战案例\03_群控逻辑.md](#07_实战案例-03_群控逻辑)
+80. [07_实战案例\04_多控逻辑.md](#07_实战案例-04_多控逻辑)
+81. [07_实战案例\05_挖矿逻辑.md](#07_实战案例-05_挖矿逻辑)
+82. [07_实战案例\06_单位数量检测.md](#07_实战案例-06_单位数量检测)
+83. [07_实战案例\07_多核优化控制.md](#07_实战案例-07_多核优化控制)
+84. [07_实战案例\08_自定义单位点阵.md](#07_实战案例-08_自定义单位点阵)
+85. [07_实战案例\09_均衡挖矿系统.md](#07_实战案例-09_均衡挖矿系统)
+86. [07_实战案例\10_搬运逻辑.md](#07_实战案例-10_搬运逻辑)
+87. [07_实战案例\11_建筑物品选择逻辑.md](#07_实战案例-11_建筑物品选择逻辑)
+88. [07_实战案例\12_变量表完整性检查.md](#07_实战案例-12_变量表完整性检查)
+89. [07_实战案例\13_无旗多控搬运逻辑.md](#07_实战案例-13_无旗多控搬运逻辑)
+
+<!-- 文件: 00_Logic入门与学习大纲.md -->
+
+
+---
+
+
+# 00 - Logic 入门与学习大纲
+
+## 什么是 Logic
+
+Logic 是像素工厂（Mindustry）中的逻辑处理器系统，使用类汇编语言（Mlog）进行编程。玩家可以通过编写 Logic 代码来控制单位、建筑、显示屏等游戏元素，实现自动化生产、军事指挥、信息显示等高级功能。
+
+Logic 代码以文本形式编写，导入处理器后转化为指令序列执行。每条指令由指令名和参数组成，以空格分隔，一行一条指令。
+
+---
+
+## 基础常识
+
+### 变量系统
+
+Logic 中的变量无需声明，直接赋值即可使用。变量名区分大小写。
+
+**变量类型**：
+- **数值（number）**：存储浮点数，如 `42`、`3.14`
+- **对象（object）**：存储游戏对象引用，如单位（Unit）、建筑（Building）
+- **字符串（string）**：仅用于 `print` 指令的文本输出，用双引号包裹，如 `"hello"`
+- **null**：空值，表示"无对象"
+
+**环境变量**（以 `@` 开头，只读）：
+
+| 环境变量 | 说明 |
+|----------|------|
+| `@counter` | 当前执行的指令索引（程序计数器） |
+| `@unit` | 当前绑定的单位（通过 `ubind` 设置） |
+| `@this` | 当前处理器自身的建筑引用 |
+| `@thisx` | 当前处理器的 X 坐标（tile 坐标） |
+| `@thisy` | 当前处理器的 Y 坐标（tile 坐标） |
+| `@ipt` | 当前处理器每 tick 执行的指令数 |
+| `@links` | 当前处理器链接的建筑数量 |
+| `@time` | 游戏运行时间（毫秒） |
+| `@tick` | 游戏运行 tick 数 |
+
+**content 类型变量**（以 `@` 开头）：引用游戏中的内容对象，如 `@copper`（铜矿）、`@mono`（mono单位）、`@conveyor`（传送带）等。
+
+### 坐标系统
+
+Logic 中使用 **tile 坐标**（瓦片坐标），与游戏内像素坐标的换算关系为：
+- **像素坐标 = tile 坐标 × 8**（tilesize = 8）
+- 处理器内部通过 `World.unconv` 将 tile 坐标转为像素坐标（即乘以 8）
+- 处理器通过 `World.conv` 将像素坐标转为 tile 坐标（即除以 8）
+
+### 指令执行流程
+
+1. 处理器从 `@counter = 0` 开始执行
+2. 每次执行一条指令后，`@counter` 自动 +1
+3. 执行到最后一条指令后，`@counter` 超出指令数组范围，自动重置为 0（回到开头循环执行）
+4. `jump` 指令可以修改 `@counter` 实现条件跳转或无条件跳转
+5. `end` 指令将 `@counter` 设为指令数组长度，等效于跳回开头
+
+### 注释
+
+- 在游戏外部编写代码时，使用 `#` 开头写注释。导入游戏后注释会自动清除（LParser 中 `#` 触发注释读取至行尾）
+- `##` 注释与 `#` 注释效果相同，不会影响行号跳转或标签跳转
+- 注释行不生成语句，不占用指令索引
+
+---
+
+## 处理器类型与执行速度
+
+### 处理器对比
+
+| 处理器 | @ipt | 链接范围 | 尺寸 | 备注 |
+|--------|------|----------|------|------|
+| 微型处理器（micro-processor） | 2 | 10 格 | 1x1 | 最基础，成本低 |
+| 逻辑处理器（logic-processor） | 8 | 22 格 | 2x2 | 中等性能 |
+| 超级处理器（hyper-processor） | 25 | 42 格 | 3x3 | 需要冷却液 |
+| 世界处理器（world-processor） | 8（默认，可通过 `setrate` 修改，最大 1000） | 全图 | 1x1 | privileged，全图范围，不可被攻击 |
+
+### 执行模型详解
+
+每个处理器每帧（tick）的执行逻辑：
+
+1. **累积执行点数**：`accumulator += edelta() * ipt`
+   - `edelta()` 是经过时间缩放的帧时间增量（考虑加速倍率）
+   - `ipt` 是每 tick 指令数
+2. **执行指令**：当 `accumulator >= 1` 时，执行一条指令并 `accumulator--`
+3. **累积上限**：`accumulator` 最大为 `maxInstructionScale * ipt`（默认 maxInstructionScale=5），防止游戏卡顿时累积过多
+4. **中断机制**：`wait` 指令会设置 `yield = true`，中断当前 tick 的执行，等待下一 tick 继续
+
+**关键理解**：处理器的 @ipt 决定了它在每帧内能执行多少条指令。@ipt 越高，逻辑响应越快。对于需要快速响应的场景（如实时瞄准、高频检测），应使用高 @ipt 的处理器。
+
+### @ipt 与实际执行速度的关系
+
+- 游戏默认运行在 60 FPS（每秒 60 tick）
+- 微型处理器（@ipt=2）：每秒最多执行 120 条指令
+- 逻辑处理器（@ipt=8）：每秒最多执行 480 条指令
+- 超级处理器（@ipt=25）：每秒最多执行 1500 条指令
+- 世界处理器（@ipt=8 默认）：每秒最多执行 480 条指令，但可通过 `setrate` 提高到最大 1000（每秒 60000 条）
+
+---
+
+## 跳转规范
+
+### 使用标签跳转
+
+编写 Logic 时**统一使用跳转标签进行跳转**，不使用行号跳转。原因：
+- 行号跳转维护困难，插入或删除指令后行号会偏移
+- 标签跳转直观可读，修改代码时无需调整行号
+
+### 跳转标签不占用逻辑条数（重要）
+
+**跳转标签不是指令，不占用实际的逻辑条数。** 在 LParser 解析过程中，标签定义（如 `skip1:`）仅记录当前语句索引（`line` 值），不生成任何语句对象（Statement），不占用指令数组中的位置。因此：
+
+- 标签前后的指令在指令数组中是连续的，标签本身不会增加 `@counter` 的步进
+- 标签的数量不会影响处理器的执行速度（@ipt 消耗的是实际指令，而非标签）
+- 与注释类似，标签只是"位置标记"，不是可执行的积木
+
+### 跳转指向的是积木，而不是标签（重要）
+
+**跳转的实际目标是积木（指令），而不是标签本身。** 标签只是一个位置标记，告诉解析器"跳转到这个标记下方的第一条积木"。理解这一点至关重要：
+
+- 在游戏内可视化编辑器中，跳转目标是通过选择积木来定位的，标签下方没有积木就无法选中
+- 在源码层面，标签存储的是当前 `line` 值（语句索引）。跳转时将 `@counter` 设为该索引值，处理器从该索引处的指令开始执行
+- 如果标签在文件末尾且下方无积木，`line` 等于 `statements.size()`，`@counter` 超出指令数组范围，`runOnce()` 会将其重置为 0（跳回开头），行为不可靠
+
+### 标签踩空问题
+
+**重要**：如果跳转标签在一行积木的最尾部（标签下方没有任何积木），导入游戏后该标签将无法正常跳转到目标位置。
+
+**正确做法**：
+- 标签下方必须紧跟至少一条积木指令
+- 如果需要跳转到程序末尾重新开始，直接使用 `end` 指令
+- 不要在文件末尾放置裸标签
+
+**示例（错误）**：
+```
+jump skip1 equal found 0 0
+ucontrol move cx cy 0 0 0
+skip1:
+```
+`skip1:` 下方没有积木，踩空。标签指向的索引超出了指令数组范围。
+
+**示例（正确）**：
+```
+jump skip1 equal found 0 0
+ucontrol move cx cy 0 0 0
+skip1:
+end
+```
+`skip1:` 下方有 `end` 积木，跳转目标明确。
+
+---
+
+## 网络同步问题
+
+### 问题概述
+
+像素工厂是联机游戏，Logic 在多人模式下会出现同步问题。同步问题的根源在于：某些指令的执行结果需要在客户端和服务器之间同步，而同步过程存在延迟。
+
+### 不受同步影响的指令
+
+以下指令由服务器逻辑直接操作，不涉及客户端下达，即使有不同步也没有实际影响：
+- `ubind`（单位绑定）
+- `ucontrol` 所有子指令（move、stop、target、mine、flag 等）
+- `uradar`（单位雷达）
+- `ulocate`（单位定位）
+
+这些指令操作的是单位对象，单位的物理状态由服务器统一计算并同步，不存在客户端独立修改的问题。
+
+### 受同步影响的指令
+
+以下指令涉及建筑状态读写，在多人模式下可能出现同步问题：
+- `read`/`write`（读写内存建筑的存储单元）
+- `control`（控制建筑的配置，如传送带筛选、炮塔目标等）
+- `sensor`（读取建筑状态时，可能读取到过时数据）
+- `draw` 系列指令（绘制到显示屏，可能出现闪烁或延迟）
+- `print`（向消息建筑输出文本）
+
+### 应对策略
+
+1. **避免高频写入**：对同一建筑的 `write`/`control` 操作不要每帧执行，可以加计数器降低频率
+2. **读取容错**：对 `sensor` 读取的结果做合理性判断，不盲目信任
+3. **幂等设计**：确保重复执行相同指令不会产生不同结果
+4. **世界处理器**：对于需要严格同步的操作，使用世界处理器（privileged），它在服务器端执行，不存在客户端同步问题
+
+---
+
+## 帧差问题
+
+### 什么是帧差
+
+每个逻辑处理器在一帧（tick）内执行 `@ipt` 条指令。不同处理器在同一帧内**按顺序执行**，先执行的处理器完成所有指令后，后执行的处理器才开始。
+
+### 帧差的实际表现
+
+以 `ucontrol flag` 为例：
+
+- **写入**：`unit.flag = p1.num()` — 直接字段赋值，无缓存，立即生效
+- **读取**：`sensor @flag` — 直接读取 `unit.flag` 字段，无缓存
+
+当两个处理器 A 和 B 在同一帧内对同一单位操作：
+
+1. 处理器 A 执行：`ucontrol flag 1`，然后 `sensor flagVal @unit @flag` → 读到 **1**
+2. 处理器 B 执行：`ucontrol flag 2`，然后 `sensor flagVal @unit @flag` → 读到 **2**
+
+两个处理器都读到了自己设置的值。原因是**执行顺序**：A 先执行完所有指令，B 后执行。A 写入并读取完成后，B 才覆盖写入新值。这不是因为缓存未同步，而是因为处理器在同一 tick 内顺序执行。
+
+### 帧差的影响
+
+- **单处理器内无帧差**：同一处理器内先写后读，读到的就是刚写入的值
+- **多处理器间有帧差**：两个处理器在同一帧内操作同一目标，后执行者会覆盖先执行者的写入
+- **跨帧无帧差**：处理器 A 在第 N 帧写入，处理器 B 在第 N+1 帧读取，读到的是 A 的最终值
+
+### 有缓存机制的指令
+
+部分指令有 40 tick 缓存机制，重复执行返回旧结果而非重新计算：
+- `uradar`（单位雷达搜索）
+- `ulocate`（单位定位）
+- `radar`（建筑雷达搜索）
+
+这些指令的帧差表现与直接读写不同：缓存结果在 40 tick 内不变，即使目标已经移动或消失。
+
+---
+
+## 大型表格生成规范
+
+### 使用 Python + 游戏源码打表
+
+在编写 Logic 教学文档时，经常需要引用游戏内的大型表格数据，例如：
+
+- 建筑的物品需求列表（建造所需材料）
+- 各类单位的属性数据（血量、速度、攻击范围等）
+- 处理器的参数对比表
+- 所有 BlockFlag 枚举值
+- 所有 LCategory 分类
+
+**强制要求**：这类大型表格**必须使用 Python 脚本配合游戏源码自动生成**，而非手动编写。原因：
+
+1. **准确性**：游戏版本更新时数据会变化，手动编写极易出错或过时
+2. **完整性**：游戏源码中有数百个建筑和单位，手动列举容易遗漏
+3. **可维护性**：游戏更新后只需重新运行脚本即可刷新表格
+
+### 打表流程
+
+1. 编写 Python 脚本，解析游戏源码（Java 文件或编译后的 class/jar）
+2. 提取所需数据（如建筑的 `itemCapacity`、`health`、`requirements` 等字段）
+3. 生成 Markdown 表格格式
+4. 将生成的表格粘贴到教学文档中
+5. 在表格旁标注数据来源的游戏版本号
+
+### 已有的打表脚本
+
+项目中使用过的打表脚本存放在临时工作目录中，包括：
+- 建筑属性提取脚本
+- BlockFlag 枚举提取脚本
+- 单位属性提取脚本
+
+---
+
+## 学习大纲
+
+### 第一阶段：理解每个积木的用途
+
+逐个分类学习所有 Logic 积木，理解其功能、参数和源码实现：
+
+| 分类 | 文件夹 | 内容 | 状态 |
+|------|--------|------|------|
+| 控制单位 | `01_Control Unit` | ubind, ucontrol, uradar, ulocate（24 个） | 已完成 |
+| 控制程序 | `02_Control Flow` | noop, wait, stop, end, jump（5 个） | 已完成 |
+| 操作 | `03_Operations` | set, op, select, lookup, packcolor, unpackcolor（6 个） | 已完成 |
+| 输入输出 | `04_IO` | read, write, draw, print, printchar, format（6 个） | 已完成 |
+| 控制方块 | `05_Block Control` | getlink, control, radar, sensor, drawflush, printflush（6 个） | 已完成 |
+| 世界 | `06_World` | setrate, getblock, setblock, spawn, setrule, fetch 等（26 个，世界处理器专属） | 已完成 |
+| 实战案例 | `07_实战案例` | 兵控逻辑分类、单控/群控/多控实战、挖矿逻辑、多核优化等（12 个） | 已完成 |
+| 学习记录 | `08_学习记录.md` | 分类总结、源码验证、常见陷阱、修复记录 | 已完成 |
+
+#### 各文件夹内容详情
+
+**`01_Control Unit`（控制单位，24 个文件）**
+
+单位绑定与控制相关指令。所有 ucontrol 子指令都会触发控制状态（`checkLogicAI()` + `controlTimer` 刷新），由服务器逻辑直接操作，无网络同步问题。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01_ubind.md` | `ubind` | 绑定单位到 `@unit`，不触发控制状态 |
+| `02`-`22` | `ucontrol` 子指令 | idle/stop/move/approach/pathfind/autoPathfind/boost/target/targetp/itemDrop/itemTake/payDrop/payTake/payEnter/mine/flag/build/deconstruct/getBlock/within/unbind |
+| `23_uradar.md` | `uradar` | 单位雷达搜索，40 tick 缓存，调用 `checkLogicAI` 但不刷新 `controlTimer` |
+| `24_ulocate.md` | `ulocate` | 单位定位（建筑/矿石/出生点/受损建筑），40 tick 缓存，刷新 `controlTimer` |
+
+> `代码实战/最nd的代码实战.md` 为原始参考文档，包含 4300 行社区实战代码，`07_实战案例` 中的文件均从此文档拆分整理而来。
+
+**`02_Control Flow`（控制程序，5 个文件）**
+
+控制流指令，管理指令执行顺序。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01_noop.md` | `noop` | 空操作，消耗一条指令但不做任何事 |
+| `02_wait.md` | `wait` | 等待指定秒数，设置 `yield = true` 中断当前 tick。`curTime` 和 `accumulator` 被序列化同步 |
+| `03_stop.md` | `stop` | 停止执行，设置 `yield = true`，下一 tick 继续 |
+| `04_end.md` | `end` | 跳回程序开头（`@counter = instructions.length`） |
+| `05_jump.md` | `jump` | 条件跳转，统一使用标签跳转。标签不占用指令索引，跳转目标为标签下方的第一条积木 |
+
+**`03_Operations`（操作，6 个文件）**
+
+变量赋值与运算指令。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01_set.md` | `set` | 变量赋值，`set result value` |
+| `02_op.md` | `op` | 40 余种运算符（算术、比较、位运算、三角函数等）。一元运算（如 `abs`/`sin`/`cos`/`floor`）第二参数被忽略。`equal` 有 0.000001 浮点容差，`strictEqual` 无容差 |
+| `03_select.md` | `select` | 三元选择运算，`select result a b cond`（cond≠0 取 a，否则取 b） |
+| `04_lookup.md` | `lookup` | 根据索引获取内容对象（item/block/unit/liquid），`@itemCount`/`@unitCount` 等表示可查找总数 |
+| `05_packcolor.md` | `packcolor` | 将 RGBA 分量打包为颜色整数。位于 `end` 之后时可作为编译期变量声明 |
+| `06_unpackcolor.md` | `unpackcolor` | 将颜色整数解包为 RGBA 分量 |
+
+**`04_IO`（输入输出，6 个文件）**
+
+输入输出指令，涉及网络同步问题。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01-read.md` | `read` | 读取。`LogicBuild`（`@this`）：字符串地址访问处理器变量，数字地址访问 `links` 数组；`MemoryBuild`：数字地址访问内存库 |
+| `02-write.md` | `write` | 写入。`LogicBuild`：仅处理字符串地址，保留对象类型；`MemoryBuild`：数字地址写入内存库 |
+| `03-draw.md` | `draw` | 在显示屏上绘制（clear/color/line/rect/triangle），可能被服务器封禁 |
+| `04-print.md` | `print` | 向打印缓存输出文本或数值 |
+| `05-printchar.md` | `printchar` | 打印 Unicode 字符（接收整数码点或 content 引用对象） |
+| `06-format.md` | `format` | 格式化输出，将变量插入文本模板 |
+
+**`05_Block Control`（控制方块，6 个文件）**
+
+建筑操作指令，涉及网络同步问题。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01-getlink.md` | `getlink` | 根据索引获取处理器链接的建筑 |
+| `02-control.md` | `control` | 控制建筑（配置筛选、启用/禁用等） |
+| `03-radar.md` | `radar` | 建筑雷达搜索，有缓存机制 |
+| `04-sensor.md` | `sensor` | 传感器，读取建筑/单位属性（`@x`/`@y`/`@dead`/`@flag`/`@config` 等） |
+| `05-drawflush.md` | `drawflush` | 将绘制缓存刷新到显示屏 |
+| `06-printflush.md` | `printflush` | 将打印缓存刷新到消息板 |
+
+**`06_World`（世界，26 个文件）**
+
+世界处理器（privileged processor）专属指令。世界处理器在服务器端执行，不存在客户端同步问题，可绑定敌方单位，通过 `setrate` 修改执行速度（最大 1000 ipt）。
+
+| 文件 | 指令 | 说明 |
+|------|------|------|
+| `01_setrate.md` | `setrate` | 设置世界处理器执行速度（1-1000） |
+| `02_getblock.md` | `getblock` | 获取指定坐标的方块信息 |
+| `03_setblock.md` | `setblock` | 设置指定坐标的方块 |
+| `04_spawn.md` | `spawn` | 在指定坐标生成单位 |
+| `05_bullet.md` | `bullet` | 生成子弹 |
+| `06_status.md` | `status` | 对单位施加状态效果 |
+| `07_weathersense.md` | `weathersense` | 检测当前天气 |
+| `08_weatherset.md` | `weatherset` | 设置天气 |
+| `09_spawnwave.md` | `spawnwave` | 生成敌人波次 |
+| `10_setrule.md` | `setrule` | 修改游戏规则（如无限弹药、单位上限等） |
+| `11_message.md` | `message` | 向所有玩家发送消息 |
+| `12_cutscene.md` | `cutscene` | 控制玩家镜头 |
+| `13_effect.md` | `effect` | 播放视觉特效 |
+| `14_explosion.md` | `explosion` | 产生爆炸 |
+| `15_fetch.md` | `fetch` | 获取单位/建筑/玩家数据 |
+| `16_getflag.md` | `getflag` | 读取世界标记 |
+| `17_setflag.md` | `setflag` | 设置世界标记 |
+| `18_setprop.md` | `setprop` | 修改单位/建筑属性 |
+| `19_playsound.md` | `playsound` | 播放音效 |
+| `20_playmusic.md` | `playmusic` | 播放音乐 |
+| `21_setmarker.md` | `setmarker` | 设置地图标记文本 |
+| `22_makemarker.md` | `makemarker` | 创建持久地图标记 |
+| `23_localeprint.md` | `localeprint` | 打印本地化文本 |
+| `24_sync.md` | `sync` | 手动触发同步 |
+| `25_query.md` | `query` | 查询玩家数据 |
+| `26_clientdata.md` | `clientdata` | 读写客户端数据 |
+
+**`07_实战案例`（12 个文件）**
+
+社区实战代码分析，所有案例均来自原始参考文档并经过源码验证。
+
+| 文件 | 主题 | 核心技术 |
+|------|------|----------|
+| `01_兵控逻辑分类与绑定规范.md` | 单位绑定规范 | `ubind` 绑定顺序、`@unit` 绑定规律、单位种类切换 |
+| `02_单控逻辑.md` | 单单位控制 | `ucontrol move`/`target`/`pathfind`、攻击距离判断、flag 标记 |
+| `03_群控逻辑.md` | 多单位群控 | `uradar` 搜索目标、`ucontrol within` 距离检测、三角函数超视距攻击、残血修复 |
+| `04_多控逻辑.md` | 多单位独立控制 | `ucontrol flag` 唯一标记、16 进制位压缩存储单位索引、定时存活检测、按需补充 |
+| `05_挖矿逻辑.md` | 自动挖矿 | 矿物搜索、背包管理、"大风车"路径优化、超远距离交矿、e 核兼容 |
+| `06_单位数量检测.md` | 单位计数 | `lookup unit` 遍历单位类型、`ubind` 循环计数、`printchar` 图标显示 |
+| `07_多核优化控制.md` | 多核通信 | 分配核 + 控制核架构、`draw triangle` 编译期变量声明、`read`/`write` 处理器间通信 |
+| `08_自定义单位点阵.md` | 编队控制 | 阵型字符串 + 旋转算法、4 核架构（分配/主控/热操作/生成）、`packcolor` 变量表 |
+| `09_均衡挖矿系统.md` | 均衡挖矿 | 4 核架构（设置/打印/分配/主控）、权重分配算法、三级分层（T3/T2/T1）、E 核兼容 |
+| `10_搬运逻辑.md` | 物品搬运 | `jump` 链式查表（远古版）、字符串打表 + `lookup`（新版）、多单位并行搬运 |
+| `11_建筑物品选择逻辑.md` | 需求识别 | `@counter` 跳转表动态分派、物品位图打包、电弧瞄准选核、配置代码逻辑 |
+| `12_变量表完整性检查.md` | 变量表检查 | `draw triangle`/`packcolor` 变量声明完整性验证、建筑类型名匹配检测 |
+
+**`08_学习记录.md`**
+
+学习总结文档，包含：
+- 各分类积木的数量统计与完成状态
+- 源码验证记录（控制状态机制、`wait` 同步、`read`/`write` 行为等）
+- 常见陷阱与问题解决方案（`ulocate` 参数格式、标签踩空、变量名规范等）
+- 实战案例的技术要点总结
+
+### 第二阶段：理解网络同步问题
+
+- 学习哪些指令受同步影响，哪些不受影响
+- 掌握应对同步问题的策略（幂等设计、降频写入、世界处理器）
+- 理解帧差的原因和表现
+- 学会利用帧差实现特定功能（如多处理器协调）
+
+### 第三阶段：学习世界处理器
+
+- 世界处理器（privileged processor）拥有特殊权限
+- 可以执行普通处理器无法执行的指令（如 `setrule`、`spawn`、`cutscene` 等）
+- 可以绑定敌方单位
+- 可以通过 `setrate` 修改执行速度（最大 1000 ipt）
+- 在服务器端执行，不存在客户端同步问题
+
+---
+
+## 环境变量速查
+
+### 处理器相关
+
+| 变量 | 说明 |
+|------|------|
+| `@counter` | 当前指令索引 |
+| `@unit` | 当前绑定的单位 |
+| `@this` | 当前处理器建筑引用 |
+| `@thisx` / `@thisy` | 处理器坐标（tile 坐标） |
+| `@ipt` | 每 tick 指令数 |
+| `@links` | 链接的建筑数量 |
+| `@time` | 游戏运行时间（毫秒） |
+| `@tick` | 游戏 tick 数 |
+
+### 游戏状态
+
+| 变量 | 说明 |
+|------|------|
+| `@mapw` / `@maph` | 地图宽/高（tile 单位） |
+| `@waveNumber` | 当前波数 |
+| `@waveTime` | 距离下一波的时间 |
+| `@enemies` | 当前敌方单位数 |
+| `@allies` | 当前友方单位数 |
+
+### 单位类型（常用）
+
+| 变量 | 说明 |
+|------|------|
+| `@mono` | Mono（采矿飞行单位） |
+| `@poly` | Poly（建造飞行单位） |
+| `@flare` | Flare（基础飞行战斗单位） |
+| `@dagger` | Dagger（基础地面战斗单位） |
+| `@mace` | Mace（中级地面战斗单位） |
+| `@alpha` | Alpha（核心初始单位） |
+| `@beta` | Beta |
+| `@gamma` | Gamma |
+
+
+<!-- 文件: 08_学习记录.md -->
+
+
+---
+
+
+# 08 - Logic 学习记录
+
+## 学习概览
+
+本文件记录了像素工厂（Mindustry）Logic 汇编编程的系统性学习过程，涵盖全部 6 个分类的积木指令、实战案例、源码验证结论及常见陷阱。
+
+**游戏版本**：Mindustry 159.7
+**源码路径**：`Mindustry-159.7/core/src/mindustry/logic/`
+**文档总数**：74 个积木文档 + 12 个实战案例 + 1 个入门大纲 + 本学习记录
+
+---
+
+## 一、分类学习总结
+
+### 1. 控制单位（01_Control Unit）- 24 个指令
+
+**核心指令**：`ubind`、`ucontrol`（20 个子指令）、`uradar`、`ulocate`
+
+**关键知识点**：
+
+- **ubind 绑定机制**：`ubind @type` 绑定指定类型单位到 `@unit`。若绑定 content 类型变量（如 `@mono`），按类型顺序绑定；若绑定 unit 类型变量，直接绑定该单位引用。绑定顺序遵循单位列表顺序，每帧推进一个。
+- **ucontrol 控制状态**：所有 ucontrol 子指令在执行前调用 `checkLogicAI()`，将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器（`controlTimer = logicControlTimeout`）。10 秒内无新指令则恢复原 AI。玩家单位 `isLogicControllable()` 返回 false，不受 ucontrol 影响。
+- **uradar 缓存**：40 tick 缓存，重复执行返回旧结果。调用 `checkLogicAI()` 但**不刷新** `controlTimer`。
+- **ulocate 格式**：始终 9 个 token：`ulocate <locate> <flag> <enemy> <ore> <outX> <outY> <outFound> <outBuild>`。flag 参数必须为有效 BlockFlag 枚举值（如 `core`），不能用数字。坐标输出不受范围限制，仅建筑引用受范围限制。
+- **ucontrol flag 帧差**：直接字段赋值（`unit.flag = p1.num()`），无缓存。两个处理器同一帧操作同一单位时表现为执行顺序差异，非缓存问题。
+
+**源码验证结论**：
+- `UnitControlI` 类有 p1-p5 共 5 个参数 + type，共 7 个 token
+- 所有 ucontrol 子指令（含 idle、flag、getBlock、within、unbind 等）均调用 `checkLogicAI()` 并刷新 `controlTimer`
+- `UnitBindI`（ubind）不调用 `checkLogicAI()`
+- `UnitLocateI`（ulocate）调用 `checkLogicAI()` 并刷新 `controlTimer`
+
+### 2. 控制程序（02_Control Flow）- 5 个指令
+
+**核心指令**：`noop`、`wait`、`stop`、`end`、`jump`
+
+**关键知识点**：
+
+- **jump 标签机制**：跳转标签不占用实际的逻辑条数。LParser 中标签定义仅记录当前 `line` 值（语句索引），不生成 Statement 对象。跳转实际指向的是标签下方的第一条积木，而非标签本身。
+- **标签踩空问题**：标签下方必须紧跟至少一条积木指令。若标签在文件末尾无后续语句，`line` 等于 `statements.size()`，`@counter` 超出指令数组范围，`runOnce()` 重置为 0（跳回开头），行为不可靠。
+- **end 指令**：将 `@counter` 设为 `instructions.length`，下一帧 `runOnce()` 重置为 0，等效于跳回开头。
+- **stop 指令**：自锁机制，将 `@counter` 回退一条，设置 `yield = true` 和 `stop = true`，处理器停止执行直到被远程修改 `@counter`。
+- **wait 同步机制**：`curTime`（已等待时间）和 `accumulator`（执行点数累积器）均被序列化同步。多人模式下因 `Time.delta` 微小差异可能导致轻微计时偏差，但状态本身同步。`wait` 设置 `yield = true` 中断当前 tick 执行。
+- **## 注释**：LParser 中 `#` 触发 `comment()` 方法读取至行尾，注释行不生成语句、不占用指令索引，不影响任何形式的 jump。
+
+### 3. 操作（03_Operations）- 6 个指令
+
+**核心指令**：`set`、`op`、`select`、`lookup`、`packcolor`、`unpackcolor`
+
+**关键知识点**：
+
+- **set 赋值**：`if(!to.constant) to.set(from)`。LVar.set 是类型感知赋值，保留源值的类型（数值或对象）。
+- **op 运算**：支持 30+ 运算符，包括算术、位运算、三角函数、逻辑运算等。函数式运算（max/min/angle/len/noise）有单独分类。一元运算符（abs/sin/cos/log/sqrt 等）忽略 b 参数。
+- **select 选择**：`result.set(op.test(comp0, comp1) ? a : b)`。与 op 的区别：op 是数值运算，select 是条件选择，结果保留 a 或 b 的原始类型（使用 `set()` 而非 `setnum()`）。
+- **lookup 查找**：通过逻辑 ID（logicId）查找游戏内容对象。逻辑 ID 是按内容类型分配的连续编号，与内容 ID（contentId）不同。返回 UnlockableContent 对象。
+- **packcolor/unpackcolor**：颜色打包/解包。`packcolor` 将 RGBA 四分量打包为 double 值（Color.toDoubleBits），`unpackcolor` 反向操作。`%ff0000ff` 格式的颜色字面量等效于 `packcolor` 结果。
+
+### 4. 输入输出（04_IO）- 6 个指令
+
+**核心指令**：`read`、`write`、`draw`、`print`、`printchar`、`format`
+
+**关键知识点**：
+
+- **read/write 与 @this**：LogicBuild 实现了 LReadable/LWritable 接口，当目标为 `@this`（处理器自身）时：
+  - **字符串地址**：通过 `optionalVar(varName)` 按变量名访问处理器内部变量，**可以存储对象引用**（如单位、建筑）。这是处理器间通信的核心机制。
+  - **数字地址**：read 访问 `links` 数组返回链接建筑；write **不执行任何操作**（与 read 不对称）。
+  - **与内存库的区别**：内存库（MemoryBuild）只能存储 double 数字，无法存储对象引用；write 通过 `value.num()` 转换为 double 丢失对象类型。
+- **draw 绘制**：16 种绘制模式（clear/color/stroke/line/rect/poly/triangle/image/text 等）。绘制命令先写入 graphicsBuffer（maxGraphicsBuffer=256），通过 `drawflush` 刷新到显示屏。
+- **print 打印**：文本先写入 textBuffer（maxTextBuffer=400），通过 `printflush` 刷新到消息建筑。`print` 接受字符串和数值，`printchar` 输出 Unicode 码点或内容 emoji。
+- **format 格式化**：在 textBuffer 中查找 `{N}` 格式的占位符（N 为编号最小者优先），替换为 format 指令的值。
+- **网络同步**：IO 指令涉及建筑状态读写，在多人模式下可能出现同步问题。read/write 操作内存建筑时数据需要序列化同步，control 操作建筑配置可能延迟生效。
+
+### 5. 控制方块（05_Block Control）- 6 个指令
+
+**核心指令**：`getlink`、`control`、`radar`、`sensor`、`drawflush`、`printflush`
+
+**关键知识点**：
+
+- **getlink 获取链接**：通过索引获取处理器链接的建筑列表（links 数组）。maxLinks = 6000。处理器链接范围：微型 10 格、逻辑 22 格、超级 42 格、世界处理器全图。
+- **control 控制建筑**：5 种子类型（enabled/config/color/shoot/shootp）。通过 BuildingComp.control 方法分发到各子类重写。
+- **radar 建筑雷达**：40 tick 缓存。order=1 为正序（最近/最高优先），order=0 为反序（最远/最低优先）。distance 排序使用负值（-dst2），所以正序返回距离最近的单位。
+- **sensor 传感器**：读取建筑/单位的属性。通过 Senseable 接口的 sense/senseObject 方法获取。
+- **drawflush/printflush**：将缓冲区内容刷新到目标建筑。多处理器向同一目标写入时，后执行的完全覆盖先前内容（非追加）。
+
+### 6. 世界（06_World）- 26 个指令
+
+**核心指令**：`setrate`、`getblock`、`setblock`、`spawn`、`setrule`、`fetch`、`setflag`/`getflag`、`setprop`、`cutscene`、`explosion` 等
+
+**关键知识点**：
+
+- **特权指令**：所有世界分类指令都是 `privileged()`，只能在世界处理器（World Processor）上运行。
+- **世界处理器特性**：在服务器端执行，不存在客户端同步问题；全图链接范围；可通过 `setrate` 修改 @ipt（最大 1000）；不可被攻击。
+- **setflag/getflag**：全局标记系统，通过 `state.rules.tag` 实现跨处理器键值对通信。
+- **fetch 查询**：获取指定队伍的单位/建筑数量或实例。FetchType 枚举包括 unit/build/coreCount/unitCount/buildCount/playerCount。
+- **setprop 设置属性**：直接设置建筑属性，type 参数可以是物品（@copper）、液体（@water）或 sensor 属性（@enabled）。
+- **getblock/setblock**：操作指定坐标的方块/地板/覆盖层，layer 参数为 TileLayer 枚举（block/floor/overlay）。
+
+---
+
+## 二、实战案例学习
+
+### 12 个实战案例覆盖的主题
+
+| 编号 | 文件 | 主题 | 核心技术 |
+|------|------|------|----------|
+| 01 | 兵控逻辑分类与绑定规范 | 绑定规范 | flag 计算、单位分类 |
+| 02 | 单控逻辑 | 单单位控制 | ubind + ucontrol move/target |
+| 03 | 群控逻辑 | 多单位控制 | flag 标记 + 循环绑定 |
+| 04 | 多控逻辑 | 多处理器控制 | lookup + 处理器变量法（@this 读写） |
+| 05 | 挖矿逻辑 | 自动挖矿 | ulocate ore + ucontrol mine |
+| 06 | 单位数量检测 | 数量统计 | ubind 循环计数 + flag |
+| 07 | 多核优化控制 | 多核架构 | 分配核 + 控制核 + write/read 通信 |
+| 08 | 自定义单位点阵 | 阵列控制 | 坐标变换 + 旋转 + 多核协作 |
+| 09 | 均衡挖矿系统 | 资源管理 | 4 核架构 + 权重算法 + 分类器打表 |
+| 10 | 搬运逻辑 | 物品运输 | 单位造价倍率 + 建筑需求查表 |
+| 11 | 建筑物品选择逻辑 | 自动配置 | control config + 需求识别 |
+| 12 | 变量表完整性检查 | 调试工具 | read/write 处理器变量空间 |
+
+### 关键实战技术
+
+- **多控逻辑的 lookup + 处理器变量法**：利用 `lookup` 获取游戏内容对象名称（字符串），用 `read`/`write` 配合 `@this` 将单位引用直接存储到处理器自身的变量空间。这是处理器间通信的核心机制，与内存库不同，处理器变量空间可以存储对象引用。
+- **flag 标记法**：通过 `ucontrol flag` 为单位设置唯一标识，实现单位与处理器的绑定关系。flag 值通常使用处理器坐标计算（`@thisx * 1000 + @thisy`）。
+- **多核架构**：分配核负责将单位引用写入共享变量空间，控制核负责读取并控制单位。通过 `write @unit @this "varName"` 和 `read unit @this "varName"` 实现处理器间通信。
+
+---
+
+## 三、源码验证记录
+
+### 已验证的关键源码结论
+
+| 验证项 | 源码位置 | 结论 |
+|--------|----------|------|
+| ucontrol 全部子指令触发控制状态 | LExecutor.java UnitControlI.run() | switch 前调用 checkLogicAI() + 设置 controlTimer |
+| ubind 不触发控制状态 | LExecutor.java UnitBindI.run() | 不调用 checkLogicAI() |
+| uradar 不刷新 controlTimer | LExecutor.java UnitRadarI.run() | 调用 checkLogicAI() 但不设置 controlTimer |
+| ulocate 调用 checkLogicAI | LExecutor.java UnitLocateI.run() | 调用 checkLogicAI() + 设置 controlTimer |
+| ucontrol flag 直接赋值 | LExecutor.java | `unit.flag = p1.num()`，无缓存 |
+| wait 序列化同步 | LogicBlock.write()/read() | curTime 和 accumulator 被序列化 |
+| LogicBuild read 行为 | LogicBuild.read() | 字符串地址→optionalVar，数字地址→links 数组 |
+| LogicBuild write 行为 | LogicBuild.write() | 字符串地址→optionalVar+set，数字地址→不操作 |
+| 标签不占用指令条数 | LParser | 标签仅记录 line 值，不生成 Statement |
+| ## 注释不影响 jump | LParser | # 触发 comment() 读取至行尾，不生成语句 |
+| op 运算符符号 | LogicOp.java | and=b-and, land=and, emod=%%, not=flip |
+| radar 缓存 40 tick | LogicAI.java | targetTimer = 40f |
+| maxLinks = 6000 | LogicBlock.java | `private static final int maxLinks = 6000` |
+
+---
+
+## 四、常见陷阱与解决方案
+
+### 导入陷阱
+
+| 陷阱 | 原因 | 解决方案 |
+|------|------|----------|
+| ulocate ore 模式 flag 填 0 变灰积木 | BlockFlag.valueOf("0") 抛异常 | flag 参数必须填有效枚举值（如 core） |
+| 跳转标签在文件末尾踩空 | line=statements.size()，counter 超出范围 | 标签下方紧跟 end 指令 |
+| ucontrol 参数不足 7 个 token | 导出格式缺少末尾 0 | 确保所有 ucontrol 指令 7 个 token |
+| `%00000001` 被解析为颜色值 | % 前缀触发 packcolor | 使用 `0b1` 或 `1` 表示数字 1 |
+| 变量名以数字开头 | LParser 解析失败 | 变量名必须以字母开头 |
+| printflush 缺少参数 | InvalidStatement | 必须指定目标建筑 |
+
+### 同步陷阱
+
+| 陷阱 | 影响 | 解决方案 |
+|------|------|----------|
+| 多处理器同一帧操作同一单位 | 帧差导致后执行者覆盖 | 理解执行顺序，设计时避免冲突 |
+| read/write 建筑状态多人不同步 | 可能读取到过时数据 | 使用世界处理器或幂等设计 |
+| uradar/ulocate 40 tick 缓存 | 重复执行返回旧结果 | 换绑单位或等待缓存过期 |
+| 高频 write 同步延迟 | 建筑状态更新延迟 | 降频写入，加计数器 |
+
+### 命名陷阱
+
+| 陷阱 | 原因 | 解决方案 |
+|------|------|----------|
+| 行号跳转维护困难 | 插入/删除指令后行号偏移 | 统一使用标签跳转 |
+| 中文变量名 | 不符合 camelCase 规范 | 使用英文 camelCase 命名 |
+| 变量名与指令同名 | 混淆 | 避免使用 read/write/set 等作为变量名 |
+
+---
+
+## 五、项目文件结构
+
+```
+mindustry logic skill/
+├── AGENTS.md                           # 项目规范
+├── .gitignore
+├── logic skill/
+│   ├── 00_Logic入门与学习大纲.md        # Logic 基础与学习大纲
+│   ├── 01_Control Unit/                 # 控制单位（24 个文件）
+│   │   ├── 01_ubind.md ~ 24_ulocate.md
+│   │   └── 代码实战/最nd的代码实战.md     # 参考文档
+│   ├── 02_Control Flow/                 # 控制程序（5 个文件）
+│   │   └── 01_noop.md ~ 05_jump.md
+│   ├── 03_Operations/                   # 操作（6 个文件）
+│   │   └── 01_set.md ~ 06_unpackcolor.md
+│   ├── 04_IO/                           # 输入输出（6 个文件）
+│   │   └── 01-read.md ~ 06-format.md
+│   ├── 05_Block Control/                # 控制方块（6 个文件）
+│   │   └── 01-getlink.md ~ 06-printflush.md
+│   ├── 06_World/                        # 世界处理器（26 个文件）
+│   │   └── 01_setrate.md ~ 26_clientdata.md
+│   ├── 07_实战案例/                      # 实战案例（12 个文件）
+│   │   └── 01_兵控逻辑分类.md ~ 12_变量表检查.md
+│   └── 08_学习记录.md                    # 本文件
+├── Yrueii.github.io-main/               # 参考资源（Mlog 文档站）
+├── learn-mindustry-logic-main/          # 参考资源（Logic 教程）
+├── logic学习总结.html                    # 早期学习总结
+└── 单位控制指令详解.html                  # 早期单位控制文档
+```
+
+**统计**：
+- 积木文档：73 个（24 + 5 + 6 + 6 + 6 + 26）
+- 实战案例：12 个
+- 入门大纲：1 个
+- 学习记录：1 个
+- **总计**：87 个文档文件
+
+---
+
+## 六、文档审查与修复记录
+
+### 第一轮审查修复（源码验证）
+
+修复了以下关键错误：
+1. ucontrol flag 文档错误标注"不触发控制状态" → 修正为"会触发控制状态"
+2. ucontrol getBlock 文档错误标注"不触发控制状态" → 修正为"会触发控制状态"
+3. wait 指令同步机制未验证 → 源码验证 curTime/accumulator 被序列化
+4. ulocate 范围限制描述错误 → 修正为"坐标不受限，仅建筑引用受限"
+5. 8 个文件中"内存库"描述错误 → 修正为"处理器变量空间"
+
+### 第二轮审查修复（完整复查）
+
+修复了以下问题：
+1. **01_Control Unit**：
+   - 文件 02-07 补充控制状态标注
+   - 文件 10/11/12/21 导出格式补齐 7 个 token
+   - 文件 23 uradar order 参数描述矛盾修正
+   - 文件 24 ulocate "group"统一为"flag"
+   - 文件 21 代码示例注释符号和变量命名修正
+
+2. **02-05 分类**：
+   - getlink.md 链接范围错误修正（16→22, 25→42）
+   - getlink.md 处理器类型标注错误修正
+   - radar.md order 参数矛盾修正
+   - radar.md 缓存间隔 30→40 tick
+   - lookup.md 冗余参数修正
+
+3. **07_实战案例**：
+   - 05_挖矿逻辑.md 非法变量名 `0.75unitC` → `unitCRatio`
+   - 09_均衡挖矿系统.md `%00000001` → `1`
+   - 10_搬运逻辑.md `printflush` 缺参数 → `printflush message1`
+   - 04/08 flag 计算 `b` → `0`
+   - 08 变量名拼写错误修正（reaeX→readX, Nub→Num）
+   - 11 变量名 `:介绍` → `intro`
+
+### 06_World 分类创建
+
+从源码中提取了全部 26 个世界处理器专属指令，创建了完整的文档集合，涵盖：
+- setrate（设置执行速度）
+- getblock/setblock（方块操作）
+- spawn/bullet（生成单位/子弹）
+- status（状态效果）
+- weathersense/weatherset（天气控制）
+- spawnwave（波次生成）
+- setrule（游戏规则）
+- message（全局消息）
+- cutscene（镜头控制）
+- effect/explosion（特效/爆炸）
+- fetch（数量查询）
+- getflag/setflag（全局标记）
+- setprop（属性设置）
+- playsound/playmusic（音效/音乐）
+- setmarker/makemarker（地图标记）
+- localeprint（本地化打印）
+- sync（变量同步）
+- query（区域查询）
+- clientdata（客户端数据）
+
+---
+
+## 七、后续学习方向
+
+1. **深入实战**：将 07_实战案例中的代码逐个导入游戏验证，确保所有代码可正确运行
+2. **Python 打表**：使用 Python 脚本配合游戏源码生成建筑物品需求表、单位属性表等大型表格
+3. **高级主题**：研究世界处理器的高级用法（如自定义波次、地图标记系统、镜头动画）
+4. **性能优化**：深入研究多核架构的最佳实践，优化处理器间通信效率
+5. **Mod 开发**：结合 Java 和 Arc 引擎知识，开发自定义 Logic 指令或处理器类型
+
+
+<!-- 文件: 01_Control Unit\01_ubind.md -->
+
+
+---
+
+
+# 01 - ubind（单位绑定）
+
+## 导出格式
+
+```
+ubind <type>
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| type | 绑定目标。可以是 **content类型的单位类型**（如 `@mono`、`@poly`），也可以是 **unit实例变量**（存储了单位引用的变量） |
+
+## 功能
+
+将处理器绑定到一个单位，绑定结果存入环境变量 `@unit`。`@unit` 是所有 `ucontrol` 指令的操作对象——只有先通过 `ubind` 绑定了单位，后续的控制指令才会生效。
+
+---
+
+## 深度分析
+
+### 两种绑定方式
+
+#### 1. content类型绑定（如 `ubind @mono`）
+
+处理器内部维护一个 **binds 数组**，以 `UnitType.id` 为索引。每次执行 `ubind` 时：
+
+- 从队伍数据（team data）的单位缓存（unitCache）中取出该类型的单位列表
+- 用一个计数器记录当前取到了第几个，通过 **取模运算**（`binds[type.id] %= seq.size`）实现循环
+- 每次执行都取下一个同类型单位，遍历完一遍后从头开始
+
+#### 2. unit实例绑定（如 `ubind myUnit`）
+
+直接将 `@unit` 设置为该变量引用的单位，**不参与 binds 计数器的循环**。这是一种"指定单位"的绑定方式。
+
+### 为什么两行代码能控制所有同类单位？
+
+处理器以极高频率循环执行代码。每轮循环中：
+
+1. `ubind @mono` 取出下一个 mono 单位存入 `@unit`
+2. `ucontrol move x y 0 0 0` 控制该单位移动
+
+由于 binds 计数器每轮递增并取模循环，处理器在多轮循环中依次绑定到每一个同类单位，从而实现"批量控制"。
+
+### 绑定计数器的独立性
+
+- 不同 content 类型（如 `@mono` 和 `@omura`）的绑定计数器 **完全独立**，互不影响
+- **unit实例绑定不影响 content 类型的循环计数器**。也就是说，`ubind myUnit` 不会打乱 `ubind @mono` 的计数进度
+
+### 绑定顺序的本质
+
+绑定顺序本质上是 **单位的生成顺序**，来源于 `Groups.unit` 的迭代顺序。需要注意的是：
+
+- 单位死亡时，缓存列表使用 **置换删除**（swap and pop）方式移除该单位
+- 这种删除方式会将末尾单位移动到被删除位置，**会导致顺序变化**
+- 因此在单位频繁死亡/生成时，绑定顺序可能发生跳变
+
+### 绑定限制
+
+- **不能绑定非 logicControllable 的单位**：只有控制器（controller）为 logicControllable 的单位才能被绑定
+- **非特权处理器不能绑定敌方单位**：只有特权世界处理器（privileged processor）才能绑定敌方队伍的单位
+
+---
+
+## 重要提示
+
+- **每次 `ubind` 都会覆盖 `@unit`**：之前的绑定结果会丢失。如果需要保留某个单位的引用，应在绑定后立即将其保存到其他变量（如 `set savedUnit @unit`）
+- `@unit` 的初始值为 `null`，在首次 `ubind` 之前，所有 `ucontrol` 指令都不会产生效果
+
+---
+
+## 关于绑定玩家单位
+
+可以绑定玩家单位到 `@unit`（获取引用），但能否实际控制取决于 `isLogicControllable` 检查。
+
+## 源码验证结论
+
+- ubind 可以绑定玩家控制的单位（`@unit` 变量会指向该单位），但所有 ucontrol/uradar/ulocate 指令对玩家单位无效。原因是 `checkLogicAI()` 会检查 `unit.controller().isLogicControllable()`，而 `Player.isLogicControllable()` 返回 `false`。
+- 当玩家正在控制的单位被 ubind 绑定后，若玩家停止控制（如切到其他单位或死亡），单位恢复默认 AI，此时逻辑指令才能生效。
+
+---
+
+
+
+<!-- 文件: 01_Control Unit\02_ucontrol_idle.md -->
+
+
+---
+
+
+# 02 - ucontrol idle（原地待命）
+
+## 导出格式
+
+```
+ucontrol idle 0 0 0 0 0
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| p1 ~ p5 | 无实际用途，全部填 0 |
+
+> ucontrol 的导出格式始终为 7 个 token（含指令名），未使用的参数位填 0。
+
+## 功能
+
+设置单位的控制状态（control）为 `idle`（原地待命）。单位停止执行之前的移动等控制命令，原地不动。
+
+idle 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
+## 源码实现
+
+仅设置控制状态为 idle（`ai.control = idle`），不进行其他操作。
+
+## 与 stop 的关键区别
+
+**idle 状态下单位仍会继续采矿和建造**——这是单位的默认行为。idle 只是把控制权"交还"给默认行为，并非完全停止。
+
+- `idle`：停止移动等控制命令，但 **继续** 采矿和建造
+- `stop`：完全停止一切，包括采矿和建造
+
+## 用途
+
+让单位停止执行之前的控制命令（如 move、approach 等），回到默认行为。例如，当单位正在移动到某处，但你想让它停下来继续采矿时，可以使用 idle。
+
+---
+
+
+
+<!-- 文件: 01_Control Unit\03_ucontrol_stop.md -->
+
+
+---
+
+
+# 03 - ucontrol stop（停止一切）
+
+## 导出格式
+
+```
+ucontrol stop 0 0 0 0 0
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| p1 ~ p5 | 无实际用途，全部填 0 |
+
+> ucontrol 的导出格式始终为 7 个 token（含指令名），未使用的参数位填 0。
+
+## 功能
+
+完全停止单位的移动、采矿和建造。单位进入完全静止状态。
+
+stop 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
+## 源码实现
+
+执行以下三步操作：
+
+1. 设置控制状态为 stop（`ai.control = stop`）
+2. 清空采矿目标（`unit.mineTile = null`）——单位停止采矿
+3. 清空建造计划（`unit.clearBuilding()`）——单位停止建造
+
+## 与 idle 的关键区别
+
+| 行为 | idle | stop |
+|------|------|------|
+| 移动 | 停止 | 停止 |
+| 采矿 | **继续** | **停止** |
+| 建造 | **继续** | **停止** |
+
+stop 会 **主动停止** 采矿和建造，而 idle 不会。如果需要单位完全停止一切活动，应使用 stop。
+
+## 用途
+
+- 紧急停止单位的所有活动
+- 在重新分配任务前清除单位当前的工作状态
+- 防止单位在采矿/建造时受到攻击
+
+---
+
+
+
+<!-- 文件: 01_Control Unit\04_ucontrol_move.md -->
+
+
+---
+
+
+# 04 - ucontrol move（移动到坐标）
+
+## 导出格式
+
+```
+ucontrol move x y 0 0 0
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| x | 目标位置的 X 坐标（tile 坐标） |
+| y | 目标位置的 Y 坐标（tile 坐标） |
+| p3 ~ p5 | 无实际用途，填 0 |
+
+## 坐标说明
+
+这里的 x、y 参数是 **tile 坐标**（游戏中小地图格子坐标）。处理器内部通过世界坐标转换（`World.unconv`）将其乘以 tilesize（8）转换为 **像素坐标**，供单位移动逻辑使用。
+
+- tile 坐标 → 像素坐标：`像素坐标 = tile 坐标 × 8`
+- 例如：`ucontrol move 50 30 0 0 0` 表示移动到 tile (50, 30)，即像素坐标 (400, 240)
+
+## 功能
+
+设置单位的移动目标位置。单位会持续向目标坐标移动。
+
+move 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
+## 源码实现
+
+1. 设置控制状态为 move（`ai.control = move`）
+2. 设置移动目标坐标（`ai.moveX = x`，`ai.moveY = y`）
+3. 在 LogicAI 的更新移动（updateMovement）中，调用移动到目标（moveTo），参数为：
+   - 目标位置：moveX, moveY
+   - 到达精度：1 格
+   - 减速范围：30 格
+
+## 重要提示
+
+**不会等待到达才执行下一条指令。** `ucontrol move` 只是设置一个移动目标，设置后立即继续执行后续代码。单位会在后续的物理更新中持续向目标移动，直到被新的控制指令改变。
+
+这意味着在循环中，`ucontrol move` 每轮都会被重新设置，单位会不断朝着最新设定的目标移动。
+
+---
+
+
+
+<!-- 文件: 01_Control Unit\05_ucontrol_approach.md -->
+
+
+---
+
+
+# 05 - ucontrol approach（接近到一定半径）
+
+## 导出格式
+
+```
+ucontrol approach x y radius 0 0
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| x | 目标位置的 X 坐标（tile 坐标） |
+| y | 目标位置的 Y 坐标（tile 坐标） |
+| radius | 接近半径（单位会移动到距离目标此半径范围内停止） |
+| p4 ~ p5 | 无实际用途，填 0 |
+
+## 坐标说明
+
+x、y 参数为 **tile 坐标**，处理器内部通过世界坐标转换（`World.unconv`）乘以 tilesize（8）转换为像素坐标。
+
+## 功能
+
+移动单位到距离目标 (x, y) 指定 radius 范围内即停止。适用于需要单位靠近某个目标但不必精确到达目标点的情况。
+
+approach 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
+## 源码实现
+
+1. 设置控制状态为 approach（`ai.control = approach`）
+2. 设置移动目标坐标（`ai.moveX = x`，`ai.moveY = y`）
+3. 设置接近半径（`ai.moveRad = radius`）
+4. 在 LogicAI 的更新移动（updateMovement）中，调用移动到目标（moveTo），参数为：
+   - 目标位置：moveX, moveY
+   - 实际停止距离：**moveRad - 7**（比指定的 radius 小 7）
+   - 接近精度：7
+
+> 注意：源码中实际停止距离为 `moveRad - 7f`，即单位会在距离目标 `radius - 7` 的位置就停止移动。
+
+## 与 move 的区别
+
+| 特性 | move | approach |
+|------|------|----------|
+| 停止位置 | 精确到目标点（精度 1 格） | 距离目标 radius 范围内 |
+| 到达精度 | 1 格 | 7 格 |
+| 减速范围 | 30 格 | 7 格 |
+| 适用场景 | 需要精确到达某点 | 需要靠近但不必到达 |
+
+- **move** 会一直移动到目标点（精度 1 格），减速范围较大（30 格）
+- **approach** 在指定半径外就停止，适用于让单位在安全距离外环绕目标
+
+---
+
+
+
+<!-- 文件: 01_Control Unit\06_ucontrol_pathfind.md -->
+
+
+---
+
+
+# 06 - ucontrol pathfind（寻路移动）
+
+## 导出格式
+
+```
+ucontrol pathfind x y 0 0 0
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| x | 目标位置的 X 坐标（tile 坐标） |
+| y | 目标位置的 Y 坐标（tile 坐标） |
+| p3 ~ p5 | 无实际用途，填 0 |
+
+## 坐标说明
+
+x、y 参数为 **tile 坐标**，处理器内部通过世界坐标转换（`World.unconv`）乘以 tilesize（8）转换为像素坐标。
+
+## 功能
+
+使用寻路算法移动到目标坐标。与 move 不同，pathfind 会为地面单位计算绕过障碍物的路径。
+
+## 源码实现
+
+1. 设置控制状态为 pathfind（`ai.control = pathfind`）
+2. 设置移动目标坐标（`ai.moveX = x`，`ai.moveY = y`）
+3. 在 LogicAI 的更新移动（updateMovement）中，根据单位类型采取不同策略：
+   - **飞行单位**：直接移动到目标（moveTo），与 move 行为相同
+   - **地面单位**：使用寻路路径获取（controlPath.getPathPosition）获取路径节点，沿路径逐段移动
+
+## 与 move 的区别
+
+| 特性 | move | pathfind |
+|------|------|----------|
+| 飞行单位 | 直线移动 | 直线移动（行为相同） |
+| 地面单位 | 直线移动，可能卡墙 | 绕过障碍物寻路移动 |
+| 性能开销 | 低 | 较高（需计算路径） |
+
+- **move** 是直线移动，地面单位遇到墙壁等障碍物时可能卡住
+- **pathfind** 会为地面单位计算绕行路径，避免卡墙
+
+## 注意事项
+
+- pathfind 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）
+- 旧版本中的 `pathfind` 实际执行的是 `autoPathfind` 的功能（自动寻路至敌方核心）
+- 新版本中 `pathfind` 已改为按指定坐标寻路。如果导入旧版本的处理器代码，旧的 `pathfind` 指令会寻路至坐标 (0, 0)
+
+---
+
+
+
+<!-- 文件: 01_Control Unit\07_ucontrol_autoPathfind.md -->
+
+
+---
+
+
+# 07 - ucontrol autoPathfind（自动寻路）
+
+## 导出格式
+
+```
+ucontrol autoPathfind 0 0 0 0 0
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| p1 ~ p5 | 无实际用途，全部填 0 |
+
+> ucontrol 的导出格式始终为 7 个 token（含指令名），未使用的参数位填 0。
+
+## 功能
+
+自动寻路至最近的敌方核心或敌人生成点。无需指定目标坐标，单位会自动寻找进攻目标。
+
+autoPathfind 会触发控制状态（通过 `checkLogicAI()` 将单位控制器替换为 LogicAI 并刷新 10 秒控制计时器 `controlTimer`）。
+
+## 源码实现
+
+1. 设置控制状态为 autoPathfind（`ai.control = autoPathfind`）
+2. 在 LogicAI 的更新移动（updateMovement）中：
+   - 查找最近敌方核心（closestEnemyCore）
+   - 若距离超过 `range × 0.5`，则开始移动
+   - **飞行单位**：直接飞向目标核心
+   - **地面单位**：使用核心寻路场（Pathfinder.fieldCore）进行寻路移动
+
+## 波次模式特殊处理
+
+在波次模式下（即存在敌方波次攻击的生存模式），有额外逻辑：
+
+- 如果单位距离敌人生成点足够近（降落区半径 + 120 像素范围内），则 **不移动**
+- 这是为了避免单位在敌人即将出现的区域过度聚集
+
+## 源码验证结论
+
+- autoPathfind 在非波次模式（如 PvP、沙盒）下仍然生效。非波次模式下跳过出生点检查逻辑，单位始终向最近的敌方核心移动。
+- 飞行单位直接飞向敌方核心（若无敌方核心则原地不动）；地面单位通过寻路系统（Pathfinder.fieldCore）向敌方核心寻路。
+
+## 与 pathfind 的区别
+
+| 特性 | pathfind | autoPathfind |
+|------|----------|--------------|
+| 目标 | 用户指定坐标 | 自动寻找最近敌方核心 |
+| 参数 | 需要 x, y | 无需参数 |
+| 适用场景 | 移动到特定位置 | 自动进攻敌方基地 |
+
+---
+
+
+
+<!-- 文件: 01_Control Unit\08_ucontrol_boost.md -->
+
+
+---
+
+
+# 08 - ucontrol boost（助推）
+
+## 导出格式
+
+```
+ucontrol boost enable 0 0 0 0
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| enable | 助推开关。**0 = 关闭助推**，**非 0 = 开启助推** |
+| p2 ~ p5 | 无实际用途，填 0 |
+
+> 布尔参数规则：0 表示 false，非 0 表示 true。
+
+## 功能
+
+控制单位的助推状态。助推可以使单位升空飞行或加速移动。
+
+## 源码实现
+
+1. 设置助推状态（`ai.boost = bool(p1)`），将参数转换为布尔值
+2. 在 LogicAI 的更新移动（updateMovement）中，如果单位 **可助推**（canBoost）且 **非飞行类型**：
+   - 判断是否应该助推：助推开启 **或** 站在固体方块上 **或** 飞行中且无法降落
+   - 根据判断结果调整单位升降高度（elevation）
+
+## 注意事项
+
+- **只有 canBoost 的单位才有效**。部分单位类型不支持助推，对它们使用 boost 没有任何效果
+- **飞行类型单位本身就在飞行**，boost 对它们无额外的升空效果
+- boost 的主要作用是让地面单位临时升空越过障碍物或在必要时加速
+- boost 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+> **源码验证**：boost 对飞行类型单位（`unit.type.flying == true`）完全无效。源码中 boost 逻辑的条件为 `unit.type.canBoost && !unit.type.flying`，飞行类型单位的整个 boost 代码块被跳过。
+
+## 适用单位示例
+
+- 支持 boost 的地面单位（如部分机甲）可以使用 boost 临时升空
+- 纯飞行单位（如 mono、flare）使用 boost 通常无效
+
+---
+
+
+
+<!-- 文件: 01_Control Unit\09_ucontrol_target.md -->
+
+
+---
+
+
+# 09 - ucontrol target（瞄准坐标）
+
+## 导出格式
+
+```
+ucontrol target x y shoot 0 0
+```
+
+共7个token：`ucontrol` `target` `<p1=x>` `<p2=y>` `<p3=shoot>` `<p4=0>` `<p5=0>`
+
+## 参数说明
+
+| 参数 | 位置 | 类型 | 说明 |
+|------|------|------|------|
+| x | p1 | number | 目标坐标x（tile坐标） |
+| y | p2 | number | 目标坐标y（tile坐标） |
+| shoot | p3 | number | 射击开关，0=只瞄准不射击，非0=射击 |
+| p4 | p4 | - | 保留参数，固定为0 |
+| p5 | p5 | - | 保留参数，固定为0 |
+
+## 功能说明
+
+让单位武器瞄准指定坐标，并可选择是否射击。
+
+该指令只控制单位的瞄准方向和射击行为，**不控制单位移动**。单位会停留在原地，武器自动转向目标坐标。
+
+## 源码实现要点
+
+- 设置位置目标（`ai.posTarget.set(x, y)`）：将传入的坐标写入AI的位置目标缓存
+- 设置瞄准控制模式（`ai.aimControl = target`）：标记当前为坐标瞄准模式
+- 清空主目标（`ai.mainTarget = null`）：因为是坐标瞄准，不需要具体对象目标
+- 设置射击开关（`ai.shoot = bool(p3)`）：根据第三个参数决定是否开火
+- 在 `LogicAI` 的 `target()` 方法中返回 `posTarget`，单位武器自动瞄准该位置
+
+## 注意事项
+
+- **只控制瞄准和射击，不控制移动**。若需要单位移动到某处，请配合 `ucontrol move` 使用
+- 所有 x、y 参数均为 **tile坐标**，处理器内部通过世界坐标转换（`World.unconv`）转为像素坐标（乘以 `tilesize = 8`）
+- 布尔参数规则：0 = false，非0 = true
+- 武器是否能实际射击还取决于武器自身的射程、冷却等属性
+- target 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+
+
+<!-- 文件: 01_Control Unit\10_ucontrol_targetp.md -->
+
+
+---
+
+
+# 10 - ucontrol targetp（瞄准对象）
+
+## 导出格式
+
+```
+ucontrol targetp unit shoot 0 0 0
+```
+
+共7个token：`ucontrol` `targetp` `<p1=unit>` `<p2=shoot>` `<p3=0>` `<p4=0>` `<p5=0>`
+
+## 参数说明
+
+| 参数 | 位置 | 类型 | 说明 |
+|------|------|------|------|
+| unit | p1 | Teamc | 目标对象，可以是 Unit 或 Building |
+| shoot | p2 | number | 射击开关，0=只瞄准不射击，非0=射击 |
+| p3 | p3 | - | 保留参数，固定为0 |
+| p4 | p4 | - | 保留参数，固定为0 |
+| p5 | p5 | - | 保留参数，固定为0 |
+
+## 功能说明
+
+让单位武器瞄准指定的对象（单位或建筑），并可选择是否射击。
+
+与 `target` 不同，`targetp` 瞄准的是一个具体的游戏对象而非固定坐标，因此当目标移动时，单位的瞄准位置会跟随目标实时更新。
+
+## 源码实现要点
+
+- 设置瞄准控制模式（`ai.aimControl = targetp`）：标记当前为对象瞄准模式
+- 设置主目标（`ai.mainTarget = p1.obj() instanceof Teamc t ? t : null`）：判断 p1 是否为 `Teamc` 接口实例，是则设为主目标，否则设为 null
+- 设置射击开关（`ai.shoot = bool(p2)`）
+- **`Teamc` 接口说明**：`Teamc` 是 `Unit` 和 `Building` 共同实现的接口，所以 `targetp` 既可以瞄准单位，也可以瞄准建筑
+
+## 注意事项
+
+- p1 参数**必须是 `Teamc` 接口实例**。如果传入的不是 `Teamc`（例如传了数字或 null），主目标会被设为 null，单位不会瞄准任何目标
+- 布尔参数规则：0 = false，非0 = true
+- 目标移动时，单位武器会自动跟随瞄准
+- targetp 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+## 源码验证结论
+
+- `targetp` 的 `p1` 参数接受任何 `Teamc` 对象（包括己方单位、己方建筑、敌方单位、敌方建筑），不进行队伍过滤。源码中仅检查 `p1.obj() instanceof Teamc t`，无 team 判断。
+- `shoot` 参数由 `p2.bool()` 设置，同样不区分队伍。但实际是否射击取决于武器系统的逻辑，武器系统通常不会射击己方目标。
+- 因此 targetp 可以用于瞄准己方建筑/单位（如维修场景），但不会实际射击己方目标。
+
+
+
+<!-- 文件: 01_Control Unit\11_ucontrol_itemDrop.md -->
+
+
+---
+
+
+# 11 - ucontrol itemDrop（放置物品）
+
+## 导出格式
+
+```
+ucontrol itemDrop to amount 0 0 0
+```
+
+共7个token：`ucontrol` `itemDrop` `<p1=to>` `<p2=amount>` `<p3=0>` `<p4=0>` `<p5=0>`
+
+## 参数说明
+
+| 参数 | 位置 | 类型 | 说明 |
+|------|------|------|------|
+| to | p1 | Building / Blocks | 目标建筑；传 `@air` 表示丢弃到地面 |
+| amount | p2 | number | 传输的物品数量 |
+| p3 | p3 | - | 保留参数，固定为0 |
+| p4 | p4 | - | 保留参数，固定为0 |
+| p5 | p5 | - | 保留参数，固定为0 |
+
+## 功能说明
+
+让单位将携带的物品传输到目标建筑中，或将物品丢弃到地面（当目标为 `@air` 时）。
+
+## 源码实现要点
+
+- **目标是空气方块时**（`Blocks.air`）：直接清空单位携带物品（`unit.clearItem()`），将物品丢弃到地面
+- **目标是建筑时**：
+  - 获取建筑（`p1.building()`）
+  - 检查建筑是否同队、有效、允许存入（`allowDeposit`）、单位是否在范围内
+  - 满足条件后调用传输物品到目标（`Call.transferItemTo`）
+
+## 注意事项
+
+- **距离检查**：逻辑物品传输范围 + 建筑大小 * tileSize / 2（`logicItemTransferRange = 5.625` tiles）。单位必须在范围内才能传输
+- **传输超时**：1.5 秒传输延迟（`transferDelay = 60f * 1.5f`），即两次传输之间需要间隔一定时间
+- **传输条件**（全部满足才能传输）：
+  1. 建筑必须与单位同队
+  2. 建筑必须有效（未摧毁）
+  3. 建筑必须允许存入物品（`allowDeposit`）
+  4. 单位必须在传输范围内
+  5. 建筑必须接受该物品类型
+- itemDrop 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+
+
+<!-- 文件: 01_Control Unit\12_ucontrol_itemTake.md -->
+
+
+---
+
+
+# 12 - ucontrol itemTake（取走物品）
+
+## 导出格式
+
+```
+ucontrol itemTake from item amount 0 0
+```
+
+共7个token：`ucontrol` `itemTake` `<p1=from>` `<p2=item>` `<p3=amount>` `<p4=0>` `<p5=0>`
+
+## 参数说明
+
+| 参数 | 位置 | 类型 | 说明 |
+|------|------|------|------|
+| from | p1 | Building | 来源建筑 |
+| item | p2 | Item content | 物品类型，如 `@copper` |
+| amount | p3 | number | 取走的数量 |
+| p4 | p4 | - | 保留参数，固定为0 |
+| p5 | p5 | - | 保留参数，固定为0 |
+
+## 功能说明
+
+让单位从目标建筑中取走指定类型和数量的物品。
+
+## 源码实现要点
+
+- 获取建筑（`p1.building()`）
+- 检查建筑是否同队、有效、建筑中是否有该物品、单位是否在范围内
+- 调用取走物品（`Call.takeItems`）
+- **实际取出数量**：`min(建筑中该物品数, min(请求数量, 单位可接受数))`，即取三者中的最小值，不会超出建筑存量或单位容量
+
+## 注意事项
+
+- **传输超时**：同 `itemDrop`（1.5 秒传输延迟，`transferDelay = 60f * 1.5f`），两次取物之间需要间隔一定时间
+- **取物条件**（全部满足才能取走）：
+  1. 建筑必须与单位同队
+  2. 建筑必须有效（未摧毁）
+  3. 建筑中必须含有请求的物品类型
+  4. 单位必须在传输范围内（同 `itemDrop` 的距离检查）
+- 实际取出数量可能小于请求数量（受建筑存量和单位容量限制）
+- itemTake 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+
+
+<!-- 文件: 01_Control Unit\13_ucontrol_payDrop.md -->
+
+
+---
+
+
+# 13 - ucontrol payDrop（丢弃载荷）
+
+## 导出格式
+
+```
+ucontrol payDrop 0 0 0 0 0
+```
+
+共7个token：`ucontrol` `payDrop` `<p1=0>` `<p2=0>` `<p3=0>` `<p4=0>` `<p5=0>`
+
+## 参数说明
+
+| 参数 | 位置 | 类型 | 说明 |
+|------|------|------|------|
+| p1 | p1 | - | 无参数，固定为0 |
+| p2 | p2 | - | 无参数，固定为0 |
+| p3 | p3 | - | 无参数，固定为0 |
+| p4 | p4 | - | 无参数，固定为0 |
+| p5 | p5 | - | 无参数，固定为0 |
+
+## 功能说明
+
+释放单位当前携带的载荷（如建筑方块等），将其丢弃到当前位置。
+
+## 源码实现要点
+
+- 检查传输超时（`transferDelay`）
+- 判断单位是否为载荷载体（`Payloadc` 接口）且当前有载荷（`hasPayload`）
+- 满足条件后调用载荷丢弃（`Call.payloadDropped`），在单位当前位置释放载荷
+
+## 注意事项
+
+- **传输超时**：同 `itemDrop`（1.5 秒传输延迟，`transferDelay = 60f * 1.5f`）
+- 单位必须具备载荷携带能力（实现 `Payloadc` 接口），否则指令无效
+- 单位当前必须已携带载荷（`hasPayload` 为 true），否则不会执行丢弃操作
+- 常用于搬运建筑方块的单位（如 mega、quad 等载荷单位）
+- payDrop 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+
+
+<!-- 文件: 01_Control Unit\14_ucontrol_payTake.md -->
+
+
+---
+
+
+# 14 - ucontrol payTake（拾取载荷）
+
+## 导出格式
+
+```
+ucontrol payTake takeUnits 0 0 0 0
+```
+
+共7个token：`ucontrol` `payTake` `<p1=takeUnits>` `<p2=0>` `<p3=0>` `<p4=0>` `<p5=0>`
+
+## 参数说明
+
+| 参数 | 位置 | 类型 | 说明 |
+|------|------|------|------|
+| takeUnits | p1 | number | 拾取模式，0=拾取建筑载荷，非0=拾取单位载荷 |
+| p2 | p2 | - | 保留参数，固定为0 |
+| p3 | p3 | - | 保留参数，固定为0 |
+| p4 | p4 | - | 保留参数，固定为0 |
+| p5 | p5 | - | 保留参数，固定为0 |
+
+## 功能说明
+
+让单位拾取附近的载荷。根据 `takeUnits` 参数的不同，可以拾取建筑载荷（如建筑方块）或单位载荷（如地面单位）。
+
+## 源码实现要点
+
+- **takeUnits 非0（拾取单位载荷）**：
+  - 查找附近的 AI 地面单位，查找距离 = `unit.type.hitSize * 2f`（与单位体积相关）
+  - 筛选条件：目标不等于自身（`u != unit`）、是 AI 单位（`u.isAI()`）、已落地（`u.isGrounded()`）、可被拾取（`canPickup`）、在范围内（`within`）
+  - 满足条件后调用拾取单位载荷（`Call.pickedUnitPayload`）
+- **takeUnits 为0（拾取建筑载荷）**：
+  - 获取当前位置建筑
+  - 拾取建筑载荷或直接拾取建筑（`Call.pickedBuildPayload`）
+
+## 注意事项
+
+- **传输超时**：同 `itemDrop`（1.5 秒传输延迟，`transferDelay = 60f * 1.5f`）
+- 布尔参数规则：0 = false，非0 = true
+- 拾取单位载荷时，查找范围与单位体积相关（`unit.type.hitSize * 2f`），体积越大的单位搜索范围越广
+- 拾取单位载荷时，目标单位必须是已落地的 AI 地面单位
+- 单位必须具备载荷携带能力（实现 `Payloadc` 接口）
+- payTake 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+
+
+<!-- 文件: 01_Control Unit\15_ucontrol_payEnter.md -->
+
+
+---
+
+
+# 15 - ucontrol payEnter（进入建筑）
+
+## 导出格式
+
+```
+ucontrol payEnter 0 0 0 0 0
+```
+
+共7个token：`ucontrol` `payEnter` `<p1=0>` `<p2=0>` `<p3=0>` `<p4=0>` `<p5=0>`
+
+## 参数说明
+
+| 参数 | 位置 | 类型 | 说明 |
+|------|------|------|------|
+| p1 | p1 | - | 无参数，固定为0 |
+| p2 | p2 | - | 无参数，固定为0 |
+| p3 | p3 | - | 无参数，固定为0 |
+| p4 | p4 | - | 无参数，固定为0 |
+| p5 | p5 | - | 无参数，固定为0 |
+
+## 功能说明
+
+让单位进入当前所在位置的建筑，进行交互操作。
+
+典型用途包括：mono 进入修复厂维修、大型单位进入载荷工厂等。
+
+## 源码实现要点
+
+- 获取当前位置建筑（`world.buildWorld`）
+- 检查建筑是否同队且可选择控制进入（`canControlSelect`）
+- 满足条件后调用单位建筑控制选择（`Call.unitBuildingControlSelect`），让单位进入该建筑
+
+## 注意事项
+
+- 单位必须位于目标建筑上方（即单位当前位置存在建筑）才能触发进入
+- 建筑必须与单位同队，且支持控制进入功能（`canControlSelect`）
+- payEnter 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+## 源码验证结论
+
+- 通过源码验证，以下建筑实现了 `canControlSelect` 且支持 payEnter：
+  - **载荷建筑（PayloadBlock）**：如载荷装载器、载荷卸载器等。条件：单位非核心产出（`!spawnedByCore`）、允许进入载荷（`allowedInPayloads`）、建筑当前无载荷（`payload == null`）、单位接受载荷（`acceptUnitPayload`）、单位站在建筑上。
+  - **载荷传送带（PayloadConveyor）**：条件类似，额外限制单位大小（`unit.hitSize / tilesize <= payloadLimit`）。
+  - **核心（CoreBlock）**：`canControlSelect` 返回 `player.isPlayer()`，逻辑控制的单位不是玩家单位，因此 **核心不支持逻辑 payEnter**。
+  - 其他默认建筑：`canControlSelect` 返回 `false`，不支持 payEnter。
+
+
+
+<!-- 文件: 01_Control Unit\16_ucontrol_mine.md -->
+
+
+---
+
+
+# 16 - ucontrol mine（采矿）
+
+## 导出格式
+
+```
+ucontrol mine x y 0 0 0
+```
+
+共7个token：`ucontrol` `mine` `<p1=x>` `<p2=y>` `<p3=0>` `<p4=0>` `<p5=0>`
+
+## 参数说明
+
+| 参数 | 位置 | 类型 | 说明 |
+|------|------|------|------|
+| x | p1 | number | 采矿位置x坐标（tile坐标） |
+| y | p2 | number | 采矿位置y坐标（tile坐标） |
+| p3 | p3 | - | 保留参数，固定为0 |
+| p4 | p4 | - | 保留参数，固定为0 |
+| p5 | p5 | - | 保留参数，固定为0 |
+
+## 功能说明
+
+让单位前往指定位置进行采矿操作。
+
+单位会自动飞/走到矿脉位置并开始采矿。单位必须具备采矿能力。
+
+## 源码实现要点
+
+- 获取世界瓦片（`world.tileWorld`）：根据坐标取得对应的地图瓦片
+- 检查单位是否可采矿（`canMine`）：单位类型必须支持采矿
+- 设置采矿瓦片（`unit.mineTile = validMine ? tile : null`）：如果瓦片是有效矿脉则设为采矿目标，否则设为 null（停止采矿）
+
+## 注意事项
+
+- 单位**必须具备采矿能力**（`canMine` 为 true），否则指令无效。并非所有单位都能采矿
+- 所有 x、y 参数均为 **tile坐标**，处理器内部通过世界坐标转换（`World.unconv`）转为像素坐标（乘以 `tilesize = 8`）
+- 单位会自动移动到矿脉位置，不需要额外使用 `ucontrol move`
+- 如果指定坐标不是有效矿脉，单位的采矿瓦片会被设为 null，即停止采矿
+- mine 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+
+
+<!-- 文件: 01_Control Unit\17_ucontrol_flag.md -->
+
+
+---
+
+
+# 17 - flag（设置单位标记）
+
+## 导出格式
+
+```
+ucontrol flag value 0 0 0 0
+```
+
+## 参数说明
+
+| 参数位置 | 参数名 | 类型   | 说明                       |
+| -------- | ------ | ------ | -------------------------- |
+| p1       | value  | 数值   | 要写入单位标记的数值       |
+| p2       | -      | -      | 占位符，固定为 0           |
+| p3       | -      | -      | 占位符，固定为 0           |
+| p4       | -      | -      | 占位符，固定为 0           |
+| p5       | -      | -      | 占位符，固定为 0           |
+
+## 功能说明
+
+为当前绑定的单位设置一个数值标记（flag）。该标记会永久保存在单位身上，即使处理器被销毁也不会丢失。其他处理器可以通过 sensor 指令读取 `@flag` 属性来获取该标记值，从而实现单位分组、识别等逻辑。
+
+## 源码实现要点
+
+- **触发控制状态**：flag 与所有 ucontrol 子指令一样，在执行前会调用 `checkLogicAI()`，将单位的控制器替换为 LogicAI（如果尚未替换），并刷新控制计时器（`ai.controlTimer = logicControlTimeout`，即 10 秒）。这意味着 flag **会**影响单位的控制状态。
+- 直接设置单位标记字段（`unit.flag = p1.num()`），即将第一个参数的数值赋给单位的 flag 属性。
+- 写入的值会一直跟随单位，直到被新的 flag 指令覆盖或单位被销毁。
+
+## 注意事项
+
+- 每个单位只能存储 **1 个数字** flag。如果需要存储多个信息，需要自行设计编码方案（例如用位运算或数学运算把多个值打包到一个数字中）。
+- flag 是永久属性，处理器销毁后仍保留，除非单位本身被销毁。
+- 读取 flag 时使用 `sensor result @unit @flag`。
+- flag 的值可以是任意数字，包括负数和小数。
+- flag 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），10 秒内若无其他 ucontrol 指令执行，单位将恢复原 AI。
+
+## 未验证内容
+
+- 无
+
+
+
+<!-- 文件: 01_Control Unit\18_ucontrol_build.md -->
+
+
+---
+
+
+# 18 - build（逻辑建造）
+
+## 导出格式
+
+```
+ucontrol build x y block rotation config
+```
+
+## 参数说明
+
+| 参数位置 | 参数名   | 类型     | 说明                                            |
+| -------- | -------- | -------- | ----------------------------------------------- |
+| p1       | x        | 数值     | 建造位置的 tile 坐标 X                         |
+| p2       | y        | 数值     | 建造位置的 tile 坐标 Y                         |
+| p3       | block    | 内容引用 | 要建造的建筑类型，如 `@conveyor`、`@router` 等 |
+| p4       | rotation | 数值     | 建造方向：0=右，1=上，2=左，3=下               |
+| p5       | config   | 任意     | 建筑配置值，如传送带的分选物品等               |
+
+## 功能说明
+
+命令当前绑定的单位在指定位置建造一个指定类型的建筑，并可设置朝向和初始配置。这是逻辑处理器实现自动化建造的核心指令。
+
+## 源码实现要点
+
+- **前置条件检查**：需要游戏规则允许逻辑建造（`logicUnitBuild`）或处理器为特权处理器，且单位具备建造能力（`canBuild`），目标建筑类型本身也必须可建造。
+- **坐标与旋转计算**：将传入的 tile 坐标转换为瓦片坐标，并根据参数计算建筑的旋转方向。
+- **配置处理**（config 参数）：
+  - 如果传入的是 Content（内容对象，如某种物品），则直接使用该内容作为配置。
+  - 如果传入的是 Building（建筑实例引用），则尝试复制该建筑的配置信息。
+  - 其他情况配置为 null（无配置）。
+- **建造计划设置**：重置建造计划状态（如 `plan.progress = 0`），设置建造计划（`ai.plan.set`），并将建造计划添加到单位的建造列表中（`unit.addBuild`）。
+- **去重检查**：如果目标位置已存在相同类型且旋转相同的建筑，则不会重复下达建造计划。
+
+## 注意事项
+
+- 坐标参数 x、y 均为 **tile 坐标**（瓦片坐标），处理器内部会通过世界坐标转换（`World.unconv`，即乘以 tilesize=8）转为像素坐标。
+- 必须满足游戏规则的前置条件，否则指令无效（不会报错，但单位不会执行建造）。
+- rotation 的方向遵循 Mindustry 的标准旋转约定：0=向右，1=向上，2=向左，3=向下。
+- config 参数用于需要初始配置的建筑（如分选器的目标物品）。对于不需要配置的建筑，传入 0 即可。
+- build 会触发控制状态，将单位标记为被逻辑控制。
+
+## 源码验证结论
+
+- config 参数（p5）支持以下类型：
+  - **Content 类型**（如 Item、Liquid 等）：直接作为建造配置传入（如分选器的筛选物品）。
+  - **Building 类型**（如处理器建筑）：直接作为建造配置传入。当传入处理器建筑时，新建的处理器会复制该建筑的代码和链接配置。
+  - **其他类型**：config 被设为 null，建筑使用默认配置。
+- 因此，通过 build 指令建造处理器并传入已存在的处理器建筑引用，可以实现处理器代码的复制。
+
+
+
+<!-- 文件: 01_Control Unit\19_ucontrol_deconstruct.md -->
+
+
+---
+
+
+# 19 - deconstruct（逻辑拆除）
+
+## 导出格式
+
+```
+ucontrol deconstruct x y 0 0 0
+```
+
+## 参数说明
+
+| 参数位置 | 参数名 | 类型 | 说明                  |
+| -------- | ------ | ---- | --------------------- |
+| p1       | x      | 数值 | 拆除位置的 tile 坐标 X |
+| p2       | y      | 数值 | 拆除位置的 tile 坐标 Y |
+| p3       | -      | -    | 占位符，固定为 0       |
+| p4       | -      | -    | 占位符，固定为 0       |
+| p5       | -      | -    | 占位符，固定为 0       |
+
+## 功能说明
+
+命令当前绑定的单位前往指定位置拆除已有的建筑。单位会自动移动到目标位置并执行拆除操作。
+
+## 源码实现要点
+
+- **前置条件检查**：需要游戏规则允许逻辑拆除（`logicUnitDeconstruct`）或处理器为特权处理器，且单位具备建造/拆除能力（`canBuild`）。
+- **设置拆除计划**：将建造计划标记为拆除模式（`ai.plan.breaking = true`），表示这是一个拆除而非建造操作。
+- **可拆除性验证**：通过 `Build.validBreak` 检查目标位置是否允许拆除该建筑。
+- **添加到建造列表**：将拆除计划添加到单位的建造列表中（`unit.addBuild`），单位会自动执行。
+
+## 注意事项
+
+- 坐标参数 x、y 均为 **tile 坐标**，处理器内部会通过世界坐标转换（`World.unconv`，即乘以 tilesize=8）转为像素坐标。
+- 通常需要地图规则允许逻辑拆除（`logicUnitDeconstruct`），否则指令无效。
+- deconstruct 会触发控制状态，将单位标记为被逻辑控制。
+- 拆除计划与建造计划使用同一套机制，区别在于 `breaking` 标志位。
+- 单位会优先执行建造列表中的任务，先到先执行。
+
+## 未验证内容
+
+- 无
+
+
+
+<!-- 文件: 01_Control Unit\20_ucontrol_getBlock.md -->
+
+
+---
+
+
+# 20 - getBlock（获取方块信息）
+
+## 导出格式
+
+```
+ucontrol getBlock x y type building floor
+```
+
+## 参数说明
+
+| 参数位置 | 参数名   | 类型     | 说明                                   |
+| -------- | -------- | -------- | -------------------------------------- |
+| p1       | x        | 数值     | 查询位置的 tile 坐标 X                 |
+| p2       | y        | 数值     | 查询位置的 tile 坐标 Y                 |
+| p3       | type     | 输出变量 | 输出：该位置的方块/建筑类型（Block）   |
+| p4       | building | 输出变量 | 输出：该位置的建筑实例（Building 引用）|
+| p5       | floor    | 输出变量 | 输出：该位置的地板或覆盖层类型         |
+
+## 功能说明
+
+读取指定坐标处的方块信息，返回三个值：建筑类型、建筑实例引用、地板类型。这是逻辑处理器感知周围环境建筑布局的核心指令。
+
+## 源码实现要点
+
+- **范围检查**：计算最大有效范围（取单位范围与单位建造范围的较大值，`max(单位范围, 单位建造范围)`）。如果目标坐标不在范围内，三个输出变量全部设为 null。
+- **获取世界瓦片**：通过世界坐标转换获取目标位置的瓦片对象（`world.tileWorld`）。
+- **输出 type**：返回瓦片上的建筑类型（`tile.block()`），如 `@conveyor`、`@router` 等。如果该位置没有建筑，则返回空气方块类型。
+- **输出 building**：返回瓦片上的建筑实例引用（`tile.build`）。如果该位置没有建筑实例，则为 null。
+- **输出 floor**：如果该位置有矿石覆盖层（overlay），则返回覆盖层类型；否则返回地板类型（`floor`）。
+
+## 注意事项
+
+- 坐标参数 x、y 均为 **tile 坐标**，处理器内部会通过世界坐标转换（`World.unconv`，即乘以 tilesize=8）转为像素坐标。
+- **重要**：获取的 building 引用即使单位离开原范围后仍可使用。该引用可用于对存储类建筑（cell/bank/display）进行写入或绘制操作。
+- **限制**：获取的 building 引用 **不能** 用于启用/禁用建筑或修改其配置，这些操作仍需要单位在范围内。
+- 如果目标位置超出范围，所有三个输出都会被设为 null，可用于判断范围是否足够。
+- getBlock 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。
+
+## 未验证内容
+
+- 无
+
+
+
+<!-- 文件: 01_Control Unit\21_ucontrol_within.md -->
+
+
+---
+
+
+# 21 - within（范围检测）
+
+## 导出格式
+
+```
+ucontrol within x y radius result 0
+```
+
+## 参数说明
+
+| 参数位置 | 参数名 | 类型 | 说明                         |
+| -------- | ------ | ---- | ---------------------------- |
+| p1       | x      | 数值 | 目标位置的 tile 坐标 X       |
+| p2       | y      | 数值 | 目标位置的 tile 坐标 Y       |
+| p3       | radius | 数值 | 检测半径（tile 单位）        |
+| p4       | result | 输出变量 | 输出：在范围内返回 1，否则返回 0 |
+| p5       | -      | -    | 占位符，固定为 0             |
+
+## 功能说明
+
+检测当前绑定的单位是否在指定坐标的指定半径范围内，结果输出为 1（在范围内）或 0（不在范围内）。
+
+## 源码实现要点
+
+- **范围检测**：调用单位的范围检查方法（`unit.within`），判断单位与目标坐标的距离是否在指定半径内。
+- **结果输出**：在范围内则 `result = 1`，不在范围内则 `result = 0`。
+
+## 注意事项
+
+- 坐标参数 x、y 均为 **tile 坐标**，处理器内部会通过世界坐标转换（`World.unconv`，即乘以 tilesize=8）转为像素坐标。
+- within 会触发控制状态（通过 `checkLogicAI()` 将单位标记为被逻辑控制），与所有 ucontrol 子指令行为一致。这是因为 within 属于 ucontrol 指令，在执行前会调用 `checkLogicAI()` 并刷新控制计时器。
+- **替代方案**：如果只需要检查距离而不想触发控制状态，应手动用 `op len` 计算单位与目标点的距离，再与半径比较：
+  ```
+  ## 手动距离检查（不触发控制）
+  op sub _dx @unitx targetX
+  op sub _dy @unity targetY
+  op len _dist _dx _dy
+  op lessThan result _dist radius
+  ```
+- 适合在已经控制单位的场景下使用，避免在仅需信息查询时意外控制单位。
+
+## 未验证内容
+
+- 无
+
+
+
+<!-- 文件: 01_Control Unit\22_ucontrol_unbind.md -->
+
+
+---
+
+
+# 22 - unbind（解除逻辑控制）
+
+## 导出格式
+
+```
+ucontrol unbind 0 0 0 0 0
+```
+
+## 参数说明
+
+| 参数位置 | 参数名 | 类型 | 说明           |
+| -------- | ------ | ---- | -------------- |
+| p1       | -      | -    | 占位符，固定为 0 |
+| p2       | -      | -    | 占位符，固定为 0 |
+| p3       | -      | -    | 占位符，固定为 0 |
+| p4       | -      | -    | 占位符，固定为 0 |
+| p5       | -      | -    | 占位符，固定为 0 |
+
+## 功能说明
+
+解除当前单位身上的逻辑控制状态，使单位恢复其默认 AI 行为。单位将不再受处理器指令控制，回归原始的行为模式。
+
+## 源码实现要点
+
+- **先触发后解除**：unbind 与所有 ucontrol 子指令一样，在执行前会调用 `checkLogicAI()` 并刷新控制计时器。随后在 switch 分支中调用 `unit.resetController()`，将单位的控制器恢复为默认状态。
+- **重置控制器**：调用单位控制器重置方法（`unit.resetController()`），将单位的控制器恢复为类型默认的 AI 控制器。
+- 单位恢复原 AI 后，会按照其类型默认的行为逻辑运行（如攻击、巡逻、采矿等）。
+
+## 注意事项
+
+- **重要区分**：unbind 解除的是单位的"控制"状态，而非"绑定"状态。执行 unbind 后，`@unit` 变量仍然指向该单位，但单位不再被逻辑控制。
+- **警告**：除非确信已经通过 ucontrol 系列指令控制了单位，否则不要随意使用 unbind。如果单位正被其他逻辑处理器控制，unbind 可能会打断其他逻辑的运行，或干扰单位的默认 AI 行为。
+- unbind 后，单位身上的 flag 标记仍然保留（flag 是单位属性，不受控制状态影响）。
+- 执行 unbind 后，如需重新控制单位，无需重新 ubind（`@unit` 仍然指向该单位），只需再次执行 ucontrol/uradar/ulocate 指令即可（`checkLogicAI` 会重新接管控制）。
+
+## 未验证内容
+
+- 无
+
+
+
+<!-- 文件: 01_Control Unit\23_uradar.md -->
+
+
+---
+
+
+# 23 - uradar（单位雷达搜索）
+
+## 导出格式
+
+```
+uradar target1 target2 target3 sort 0 order output
+```
+
+## 参数说明
+
+| 参数位置 | 参数名   | 类型     | 说明                                                         |
+| -------- | -------- | -------- | ------------------------------------------------------------ |
+| p1       | target1  | RadarTarget | 第一个筛选器                                                 |
+| p2       | target2  | RadarTarget | 第二个筛选器                                                 |
+| p3       | target3  | RadarTarget | 第三个筛选器                                                 |
+| p4       | sort     | RadarSort | 排序依据                                                     |
+| p5       | -        | -        | 占位符，固定为 0（源码中为 radar 字段，构造时设为 "0"）      |
+| p6       | order    | 数值     | 排序方向：0=反序（最远/最低优先），1=正序（最近/最高优先）   |
+| p7       | output   | 输出变量 | 输出：搜索到的目标单位引用，未找到则为 null                 |
+
+### 筛选器（RadarTarget）可选值
+
+| 筛选器    | 说明                   |
+| --------- | ---------------------- |
+| any       | 任意单位               |
+| enemy     | 敌方单位               |
+| ally      | 友方单位               |
+| player    | 玩家单位               |
+| attacker  | 攻击型单位             |
+| flying    | 飞行单位               |
+| boss      | Boss 单位              |
+| ground    | 地面单位               |
+
+### 排序依据（RadarSort）可选值
+
+| 排序依据   | 说明         |
+| ---------- | ------------ |
+| distance   | 距离         |
+| health     | 当前血量     |
+| shield     | 护盾         |
+| armor      | 装甲         |
+| maxHealth  | 最大血量     |
+
+## 功能说明
+
+以当前绑定的单位（`@unit`）为中心，在其雷达范围内搜索符合筛选条件的单位，并按指定方式排序后返回最优先的一个目标。三个筛选器之间为 **AND（与）** 关系，即目标单位必须同时满足所有筛选条件才会被选中。
+
+## 源码实现要点
+
+- **搜索中心**：以 `@unit` 为中心进行搜索，搜索范围为单位的雷达范围。
+- **筛选逻辑**：三个筛选器（target1、target2、target3）为 AND 关系，单位必须同时满足所有三个条件才被纳入候选。
+- **排序逻辑**：根据 sort 指定的属性对候选单位排序，order 决定排序方向：
+  - order=0：反序，返回排序值最小/最远的单位（如 distance 返回最远的）。
+  - order=1：正序，返回排序值最大/最近的单位（如 distance 返回最近的）。
+- **指令复用**：底层复用 `RadarI` 指令实现，但搜索来源固定为 `@unit`（而非雷达建筑）。
+- **缓存机制**：使用 LogicAI 的 radars 缓存集。在 **40 tick** 内重复执行相同的 uradar 指令会返回缓存的旧结果，而不是重新搜索。这避免了高频搜索带来的性能开销。
+
+## 注意事项
+
+- uradar 是 **单位控制语句**，会通过 `checkLogicAI()` 将单位标记为被逻辑控制。但与 ucontrol/ulocate 不同，uradar **不会刷新控制计时器**（`controlTimer`），因此如果仅使用 uradar 而不执行其他 ucontrol/ulocate 指令，单位将在 10 秒后恢复原 AI。
+- 由于缓存机制，如果需要实时获取最新目标，需要间隔超过 40 tick 或改变筛选条件。
+- 当未找到符合条件的单位时，output 输出为 null。
+- 三个筛选器是 AND 关系，如果某个筛选器设为 `any`，则该条件不产生限制（等同于"不限"）。
+- order=0 和 order=1 的语义：
+  - 对于 distance：0=最远，1=最近。
+  - 对于 health/shield/armor/maxHealth：0=最低，1=最高。
+
+## 未验证内容
+
+- 无
+
+
+
+<!-- 文件: 01_Control Unit\24_ulocate.md -->
+
+
+---
+
+
+# 24 - ulocate（单位定位）
+
+## 导出格式
+
+```
+ulocate locate flag enemy ore outX outY outFound outBuild
+```
+
+共 9 个 token。所有参数在导出时始终全部写出，无论 locate 模式是什么。
+
+## 参数说明
+
+| 参数位置 | 参数名   | 类型     | 说明                                                   |
+| -------- | -------- | -------- | ------------------------------------------------------ |
+| p1       | locate   | LLocate  | 定位模式（见下方可选值）                               |
+| p2       | flag     | BlockFlag | 建筑类型标记。**必须是有效的 BlockFlag 枚举值**（如 `core`、`battery`），即使 locate 模式不是 building 也必须填写有效值，否则导入时 `BlockFlag.valueOf()` 会抛出异常导致灰色积木 |
+| p3       | enemy    | 数值     | 是否搜索敌方：1=true（搜索敌方），0=false（搜索己方） |
+| p4       | ore      | Content  | 矿物类型（仅 ore 模式使用，如 `@copper`）              |
+| p5       | outX     | 输出变量 | 输出：找到目标的 X 坐标                                 |
+| p6       | outY     | 输出变量 | 输出：找到目标的 Y 坐标                                 |
+| p7       | outFound | 输出变量 | 输出：是否找到（1=找到，0=未找到）                     |
+| p8       | outBuild | 输出变量 | 输出：找到的建筑引用（仅 building/damaged 模式有效）   |
+
+> **导入陷阱**：在 ore/spawn/damaged 模式下，flag 参数虽然不参与逻辑运算，但解析时仍会调用 `BlockFlag.valueOf()`。如果填 `0` 或其他非法值，会导致整条指令变为 InvalidStatement（灰色积木）。正确做法是始终填写一个有效的 BlockFlag 值（如 `core`）。
+
+### 定位模式（LLocate）可选值
+
+| 模式       | 说明                                       |
+| ---------- | ------------------------------------------ |
+| building   | 定位建筑                                   |
+| ore        | 定位矿脉                                   |
+| spawn      | 定位出生点                                 |
+| damaged    | 定位受损建筑                               |
+
+### 建筑类型（BlockFlag）可选值
+
+| 建筑类型 | 说明       |
+| -------- | ---------- |
+| core     | 核心       |
+| storage  | 仓储       |
+| generator | 发电设施  |
+| turret   | 炮塔       |
+| factory  | 工厂       |
+| repair   | 维修站     |
+| battery  | 电池       |
+| reactor  | 反应堆     |
+| drill    | 钻头       |
+| shield   | 力场投影器 |
+
+## 功能说明
+
+以当前绑定的单位（`@unit`）为中心，根据指定模式定位最近的目标建筑或资源，并输出其坐标、是否找到以及建筑引用。
+
+## 源码实现要点
+
+- **定位逻辑**：以 `@unit` 为中心，按照不同模式搜索目标。
+- **距离规则**：
+  - **友方建筑**（building 模式，enemy=0）：始终返回最近的符合条件的友方建筑，无范围限制。
+  - **敌方建筑**（building 模式，enemy=1）：搜索所有敌方建筑，坐标（outX、outY）和是否找到（outFound）始终输出。但建筑引用（outBuild）仅在单位处于 `max(unit.range(), buildingRange)`（buildingRange=220 像素=27.5 格）范围内时才输出，否则 outBuild 为 null。
+  - **矿物**（ore 模式）：返回最近的指定类型矿脉。
+  - **出生点**（spawn 模式）：返回最近的敌方出生点。
+  - **受损建筑**（damaged 模式）：返回最近的己方受损建筑。
+- **缓存机制**：使用缓存机制，在 **40 tick** 内重复执行相同的 ulocate 指令会返回缓存结果。
+
+## 注意事项
+
+- ulocate 是 **单位控制语句**，会通过 `checkLogicAI()` 将单位标记为被逻辑控制，并刷新控制计时器（`controlTimer = logicControlTimeout`，即 10 秒）。
+- 坐标输出（outX、outY）为 **tile 坐标**（瓦片坐标），处理器内部会通过世界坐标转换（`World.unconv`，即乘以 tilesize=8）转为像素坐标。
+- **重要**：游戏内编辑器中，"是否搜索敌方"默认为 true（1）。如果需要搜索己方建筑，必须将该参数改为 0/false。
+- flag 参数仅在 building 模式下有效；矿物类型（ore）参数仅在 ore 模式下有效。其他模式下这些参数被忽略。
+- outBuild 输出在 building 和 damaged 模式下返回建筑引用，在 ore 和 spawn 模式下通常为 null。
+- 由于缓存机制，如果需要实时获取最新目标，需要间隔超过 40 tick 或改变搜索参数。
+- 敌方建筑搜索中，outBuild（建筑引用）有范围限制（`max(unit.range(), buildingRange)`，buildingRange=220 像素），但 outX/outY/outFound 不受此限制。友方建筑的 outBuild 始终输出，不受范围限制。
+
+## 未验证内容
+
+- 无
+
+
+
+<!-- 文件: 02_Control Flow\01_noop.md -->
+
+
+---
+
+
+# 01 - noop（空操作）
+
+## 导出格式
+
+```
+noop
+```
+
+## 参数
+
+无参数。
+
+## 功能
+
+**用途：占位指令，不执行任何操作。**
+
+`noop` 是"no operation"的缩写。执行此指令时，处理器什么都不做，仅消耗一个指令位，然后继续执行下一条指令。
+
+## 源码实现要点
+
+### 语句定义
+
+`noop` 关键字注册到 `InvalidStatement` 类（`@RegisterStatement("noop")`）。该类没有任何字段，构建指令时直接返回一个 `NoopI` 实例（`new NoopI()`）。
+
+### 指令执行
+
+`NoopI` 的执行方法（`run`）方法体为空，不进行任何操作：
+
+- 不会修改计数器（`@counter`）
+- 不会设置 yield 标志
+- 不会读写任何变量
+
+处理器执行 `noop` 后，计数器正常递增，继续执行下一条指令。
+
+### 作为无效语句的回退
+
+`InvalidStatement` 类除了作为 `noop` 关键字的显式语句外，还承担另一个角色：当解析器遇到无法识别的指令时，也会生成 `InvalidStatement`（即 `NoopI`）。因此，代码中任何拼写错误或不受支持的指令，都会被静默替换为 `noop`，而不会导致处理器崩溃。
+
+## 注意事项
+
+- `noop` 会占用一个指令位，计入处理器的指令总数（上限由 `maxInstructions` 控制，默认 1000 条）
+- 在可视化编辑器中，`noop` 归类为 `unknown`（未知）分类，而非 `control`（控制）分类。但就功能而言，它属于控制流指令
+- 由于无效语句会被自动替换为 `noop`，如果发现处理器行为异常且代码中有拼写错误，那些错误行实际上就是 `noop`
+
+## 未验证内容
+
+- `noop` 在实际场景中是否有性能影响（理论上仅消耗一次指令调度开销，可忽略不计）
+
+
+<!-- 文件: 02_Control Flow\02_wait.md -->
+
+
+---
+
+
+# 02 - wait（等待）
+
+## 导出格式
+
+```
+wait <value>
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| value | 等待时间，单位为秒。可以是数值常量（如 `0.5`）或变量名。支持小数 |
+
+## 功能
+
+**用途：暂停处理器执行指定时间，到时后继续执行下一条指令。**
+
+`wait` 让处理器在当前指令处"停留"指定的秒数。在等待期间，处理器每个游戏 tick 都会重新执行该 `wait` 指令，累计已等待的时间，直到时间满足后才放行。
+
+## 源码实现要点
+
+### 语句定义
+
+`WaitStatement` 包含一个字符串字段 `value`（默认值 `"0.5"`），构建指令时通过 `builder.var(value)` 解析为 LVar 变量后传入 `WaitI`。
+
+### 指令执行
+
+`WaitI` 的执行方法（`run`）包含三个分支：
+
+**1. 等待时间 <= 0 时：**
+- 设置 yield 标志为 true（`exec.yield = true`），中断当前 tick 的执行
+- 重置累计时间为 0（`curTime = 0f`）
+- 不回退计数器，下一条指令将在下一个 tick 执行
+
+这相当于"让出一个 tick"——处理器暂停当前 tick 的剩余指令配额，下一个 tick 从下一条指令继续。
+
+**2. 累计时间已达到等待时间时（`curTime >= value`）：**
+- 重置累计时间为 0（`curTime = 0f`）
+- 不设置 yield，不回退计数器
+- 处理器继续执行下一条指令
+
+**3. 累计时间尚未达到等待时间时：**
+- 回退计数器（`exec.counter.numval --`），使下一个 tick 重新执行本条 `wait` 指令
+- 设置 yield 标志为 true（`exec.yield = true`），中断当前 tick 的执行
+- 累加已等待时间（`curTime += Time.delta / 60f`）
+
+### 时间累计机制
+
+`wait` 的等待不是一次性完成的，而是跨多个 tick 逐步累计。每个 tick 执行 `wait` 时：
+
+1. `runOnce()` 先递增计数器，然后执行 `wait` 指令
+2. 如果时间未到，`wait` 将计数器减 1（回到自身），并设置 yield
+3. yield 导致当前 tick 的执行循环中断
+4. 下一个 tick，处理器再次执行同一条 `wait` 指令，继续累计时间
+5. 当累计时间达到指定值时，`wait` 放行，计数器指向下一条指令
+
+### yield 与执行循环
+
+处理器的执行循环（`LogicBlock.update`）在每次调用 `runOnce()` 后检查 yield 标志。如果 yield 为 true，则重置 yield 为 false 并跳出循环，保留剩余的指令配额到下一个 tick。这是 `wait` 能够实现"暂停"的核心机制。
+
+## 注意事项
+
+- `wait 0` 或 `wait` 后跟负数会让出一个 tick（相当于暂停一帧），而不是无限等待。下一个 tick 会继续执行下一条指令
+- `value` 是变量引用而非快照值。如果在等待期间 `value` 被其他处理器远程修改，`wait` 会使用新的值来判断。这就是源码中 `value.num()` 每次都重新读取的原因
+- `wait` 的时间单位是秒，基于游戏时间（`Time.delta`）。在游戏暂停时，等待不会推进
+- 等待期间处理器的指令配额被保留（accumulator 不递减），因此等待结束后不会"补偿性"地 burst 执行大量指令
+- `wait` 会占用一个指令位
+
+## 源码验证结论
+
+- **游戏加速影响**：当游戏速度加快（如 2 倍速）时，`Time.delta` 按倍率增长。`wait` 的 `curTime += Time.delta / 60f` 会因此累加更快，`wait` 在游戏时间内的等待时长不变，但在现实时间中会按倍率缩短。
+- **处理器执行同步**：处理器的 `accumulator += edelta() * ipt` 也依赖 `Time.delta`（通过 `edelta()`），因此处理器在加速时每 tick 执行更多指令，与 `wait` 的加速保持同步。
+- **同步机制**：`wait` 的 `curTime` 和处理器的 `accumulator` 均被序列化同步（见 `LogicBlock.write()`/`read()`），多人模式下状态是同步的。但由于不同客户端的 `Time.delta` 可能存在微小差异，wait 计时可能有轻微偏差。
+
+
+<!-- 文件: 02_Control Flow\03_stop.md -->
+
+
+---
+
+
+# 03 - stop（停止执行）
+
+## 导出格式
+
+```
+stop
+```
+
+## 参数
+
+无参数。
+
+## 功能
+
+**用途：永久停止处理器执行。**
+
+`stop` 指令使处理器彻底停止运行。执行后，处理器不再执行任何后续指令，每个 tick 都停留在 `stop` 指令本身，形成一个"自锁"循环。
+
+## 源码实现要点
+
+### 语句定义
+
+`StopStatement` 没有任何字段，构建指令时直接返回一个 `StopI` 实例（`new StopI()`）。
+
+### 指令执行
+
+`StopI` 的执行方法（`run`）执行三步操作：
+
+1. **回退计数器**（`exec.counter.numval --`）：将计数器减 1，使其重新指向 `stop` 指令本身。由于 `runOnce()` 在执行指令前已递增计数器，减 1 后下一个 tick 将再次执行同一条 `stop` 指令
+2. **设置 yield 标志**（`exec.yield = true`）：中断当前 tick 的执行循环，防止处理器在同一 tick 内继续消耗指令配额
+3. **设置 stop 标志**（`exec.stop = true`）：标记处理器为"已停止"状态
+
+### 自锁机制
+
+`stop` 的"永久停止"效果并非通过一个单独的停止状态实现，而是通过 **自锁循环** 实现：
+
+- 每个 tick，`runOnce()` 执行 `stop` 指令
+- `stop` 将计数器回退到自身，并设置 yield
+- yield 中断当前 tick 的执行循环
+- 下一个 tick，计数器仍指向 `stop`，再次执行 `stop`，再次 yield
+- 如此循环，处理器永远不会执行 `stop` 之后的指令
+
+### stop 标志的检查
+
+`stop` 标志在 `LogicScript` 的执行循环中被检查（`!executor.stop`），一旦为 true 则终止脚本执行。但 `LogicScript` 目前在游戏中尚未启用（源码注释 `//TODO: this isn't used in the game yet`）。
+
+在正常的处理器执行循环（`LogicBlock.update`）中，`stop` 标志本身 **不被检查**。停止效果完全依赖计数器自锁和 yield 机制。
+
+### stop 标志的重置
+
+`stop` 标志在加载新程序时被重置为 false（`load` 方法中 `stop = false`）。因此，重新编程处理器是恢复执行的唯一方式。
+
+## 注意事项
+
+- `stop` 是 **不可逆的**（在不重新编程的前提下）。一旦执行，处理器将永久停留在 `stop` 指令处
+- 每个 tick 处理器仍会执行一次 `stop` 指令（然后 yield），因此处理器并非完全"休眠"，而是以最低开销运行
+- 如果需要在运行中动态恢复处理器，可以考虑用 `jump` 跳过 `stop` 指令，而非真正执行 `stop`
+- 重新编辑处理器代码（加载新程序）会重置 `stop` 标志，处理器恢复运行
+- `stop` 会占用一个指令位
+
+## 未验证内容
+
+- 是否可以通过外部处理器远程修改 `@counter` 变量来"跳过" stop 指令从而恢复执行（理论上可行，因为 `@counter` 是可写变量）
+
+
+<!-- 文件: 02_Control Flow\04_end.md -->
+
+
+---
+
+
+# 04 - end（跳回开头）
+
+## 导出格式
+
+```
+end
+```
+
+## 参数
+
+无参数。
+
+## 功能
+
+**用途：跳转回程序开头，从第一条指令重新开始执行。**
+
+`end` 指令将处理器计数器设置为指令数组长度，使其越界。下一次 `runOnce()` 调用时，计数器会被自动重置为 0，从而从第一条指令重新开始。
+
+## 源码实现要点
+
+### 语句定义
+
+`EndStatement` 没有任何字段，构建指令时直接返回一个 `EndI` 实例（`new EndI()`）。
+
+### 指令执行
+
+`EndI` 的执行方法（`run`）只有一行代码：
+
+将计数器设置为指令数组长度（`exec.counter.numval = exec.instructions.length`）。
+
+### 越界重置机制
+
+处理器的 `runOnce()` 方法在执行指令前会检查计数器是否越界：
+
+- 如果计数器 >= 指令数组长度，或计数器 < 0，则将计数器重置为 0（`counter.numval = 0`）
+- 重置后，从第一条指令开始执行
+
+因此，`end` 的效果是"下一次 `runOnce()` 时从头开始"。由于 `end` 不设置 yield 标志，如果当前 tick 还有剩余指令配额，处理器会在同一 tick 内立即从第一条指令继续执行。
+
+### 与自然结束的区别
+
+当处理器执行到最后一条指令后，计数器自然递增到指令数组长度。下一次 `runOnce()` 同样会重置计数器为 0。因此：
+
+- **代码末尾不写 `end`**：执行完最后一条指令后，自然回到开头
+- **代码末尾写 `end`**：显式回到开头
+
+两者效果相同。但 `end` 可以放在代码中间，实现"提前返回"——在满足某个条件时跳过后续指令，直接回到开头。通常配合 `jump` 指令使用。
+
+### 不设置 yield
+
+`end` 不设置 yield 标志，这意味着它不会中断当前 tick 的执行。如果当前 tick 还有指令配额（accumulator >= 1），处理器会在同一 tick 内继续从第一条指令执行。这与 `wait` 和 `stop` 不同——后两者都会设置 yield 来中断当前 tick。
+
+## 注意事项
+
+- `end` 是实现处理器循环执行的核心指令。处理器本质上是一个无限循环，`end`（或自然结束）使其不断从头开始
+- 由于 `end` 不设置 yield，在指令配额充足时，`end` 后的"新一轮"会在同一 tick 内立即开始执行。这意味着一个没有 `wait` 的简单程序可能在单个 tick 内循环多次
+- 在代码中间使用 `end` 可以实现"提前终止本轮循环"的效果
+- 文件末尾推荐使用 `end` 而非裸标签，以明确表示循环边界
+- `end` 会占用一个指令位
+
+## 未验证内容
+
+- 在极短的循环程序中（如只有 2-3 条指令），单个 tick 内的循环次数是否受 `maxInstructionScale` 限制
+
+
+<!-- 文件: 02_Control Flow\05_jump.md -->
+
+
+---
+
+
+# 05 - jump（条件跳转）
+
+## 导出格式
+
+```
+jump <dest> <op> <value> <compare>
+```
+
+当 `op` 为 `always` 时，`value` 和 `compare` 可省略：
+
+```
+jump <dest> always
+```
+
+## 参数
+
+| 参数 | 说明 |
+|------|------|
+| dest | 跳转目标。可以是 **标签名**（如 `loopStart`）或 **行号**（指令索引，从 0 开始）。推荐使用标签名 |
+| op | 比较运算符，类型为 `ConditionOp` 枚举。见下表 |
+| value | 比较左操作数。可以是数值常量、变量名或 content 引用（如 `@copper`） |
+| compare | 比较右操作数。同上 |
+
+### 比较运算符（ConditionOp）
+
+| 运算符 | 符号 | 说明 |
+|--------|------|------|
+| `equal` | == | 相等（数值比较带浮点容差 0.000001；对象比较用 `Structs.eq`） |
+| `notEqual` | not | 不相等 |
+| `lessThan` | < | 小于 |
+| `lessThanEq` | <= | 小于等于 |
+| `greaterThan` | > | 大于 |
+| `greaterThanEq` | >= | 大于等于 |
+| `strictEqual` | === | 严格相等（同时检查类型和值） |
+| `always` | always | 恒为真（无条件跳转，忽略 value 和 compare） |
+
+## 功能
+
+**用途：根据条件跳转到指定标签或行号，是 Logic 中实现循环和分支的核心指令。**
+
+`jump` 会对 `value` 和 `compare` 进行比较运算（由 `op` 决定运算方式）。如果条件成立，将计数器设置为跳转目标地址，下一条执行的指令就是目标处的指令。如果条件不成立，计数器正常递增，继续执行下一条指令。
+
+## 源码实现要点
+
+### 语句定义
+
+`JumpStatement` 包含以下字段：
+
+- `destIndex`（int）：跳转目标索引。在可视化编辑器中通过拖拽连线设置；在文本代码中使用标签名，由解析器转换为索引
+- `op`（ConditionOp）：比较运算符，默认值 `notEqual`
+- `value`（String）：左操作数，默认值 `"x"`
+- `compare`（String）：右操作数，默认值 `"false"`
+- `dest`（transient）：可视化编辑器中的目标元素引用，不参与序列化
+
+构建指令时，通过 `builder.var()` 将 `value` 和 `compare` 解析为 LVar 变量，连同 `op` 和 `destIndex` 传入 `JumpI`。
+
+### 指令执行
+
+`JumpI` 的执行方法（`run`）逻辑：
+
+1. 检查目标地址是否有效（`address != -1`）。如果地址为 -1（未解析的标签），跳转不执行
+2. 执行条件测试（`op.test(value, compare)`）
+3. 如果条件成立，将计数器设置为目标地址（`exec.counter.numval = address`）
+4. 如果条件不成立，什么都不做——计数器保持 `runOnce()` 已递增的值，继续执行下一条指令
+
+### 条件测试机制（ConditionOp.test）
+
+`ConditionOp` 的测试方法（`test`）根据运算符类型选择不同的比较方式：
+
+- **strictEqual（===）**：先检查两个操作数的类型是否一致（都是对象或都是数值），再比较值。对象用 `Structs.eq` 比较，数值用 `==` 比较
+- **equal / notEqual**：如果两个操作数都是对象，使用对象比较函数（`Structs.eq` / `!Structs.eq`）。否则使用数值比较，`equal` 带浮点容差（`Math.abs(a - b) < 0.000001`），`notEqual` 为其否定
+- **lessThan / lessThanEq / greaterThan / greaterThanEq**：始终使用数值比较（`va.num()` 和 `vb.num()`）
+- **always**：恒返回 true，忽略两个操作数
+
+### 标签解析
+
+在文本代码中，`jump` 的目标使用标签名。解析器（`LParser`）的处理流程：
+
+1. **标签定义**：单独一行的 `labelName:` 被识别为标签定义，记录该标签对应的指令索引
+2. **标签引用**：当 `jump` 的第二个 token 不是数字时，解析器将其识别为标签引用，临时替换为 -1，并记录待解析的跳转
+3. **索引解析**：所有语句解析完成后，遍历待解析的跳转列表，将标签名替换为实际的指令索引
+4. **错误检查**：如果引用的标签未定义，抛出错误（`"Undefined jump location"`）。如果标签重复定义，同样抛出错误
+
+### 跳转标签不占用逻辑条数（重要）
+
+**跳转标签不是指令，不占用实际的逻辑条数。** 在 LParser 解析过程中，标签定义（如 `loopStart:`）仅记录当前语句索引（`line` 值），不生成任何语句对象（Statement），不占用指令数组中的位置。这意味着：
+
+- 标签前后的指令在指令数组中是连续的，标签本身不会增加 `@counter` 的步进
+- 标签的数量不会影响处理器的执行速度（@ipt 消耗的是实际指令，而非标签）
+- 与注释（`#` / `##`）类似，标签只是"位置标记"，不是可执行的积木
+
+### 跳转指向的是积木，而不是标签（重要）
+
+**跳转的实际目标是积木（指令），而不是标签本身。** 标签只是一个位置标记，告诉解析器"跳转到这个标记下方的第一条积木"。
+
+- 在游戏内可视化编辑器中，跳转目标是通过选择积木来定位的，标签下方没有积木就无法选中
+- 在源码层面，标签存储的是当前 `line` 值（语句索引）。跳转时将 `@counter` 设为该索引值，处理器从该索引处的指令开始执行
+- 如果标签在文件末尾且下方无积木，`line` 等于 `statements.size()`，`@counter` 超出指令数组范围，`runOnce()` 会将其重置为 0（跳回开头），行为不可靠
+
+### 标签限制
+
+- 最多支持 500 个跳转标签（`maxJumps = 500`）
+- 标签名不能重复
+- 标签必须定义在跳转引用之前或之后均可（解析器在全部解析完成后才解析索引）
+
+## 注意事项
+
+- **推荐使用标签跳转**而非行号跳转。行号会随代码编辑而变化，标签则不会
+- **跳转标签不占用逻辑条数**：标签不是指令，不占用指令数组位置，不影响处理器执行速度
+- **跳转指向的是积木，而不是标签**：标签只是位置标记，跳转实际跳到的是标签下方的第一条积木指令。因此标签下方必须有积木，否则踩空
+- 当 `op` 为 `always` 时，`value` 和 `compare` 参数在文本格式中可以省略。解析器会保留默认值
+- `jump` 不设置 yield 标志。如果当前 tick 还有指令配额，跳转后会在同一 tick 内继续执行目标指令。这意味着 `jump` 构成的紧凑循环可能在单个 tick 内执行多次
+- 如果跳转目标地址为 -1（标签未解析成功），`jump` 不会跳转，等同于 `noop`
+- `equal` 和 `notEqual` 对数值使用浮点容差比较（0.000001），这是为了避免浮点精度问题导致的误判
+- `strictEqual`（===）在普通数值比较时返回 false（源码中其 function 为 `(a, b) -> false`），只有通过 `test` 方法的特殊路径才能得到正确结果
+- 跳转标签下方必须有积木指令，不能在文件末尾放置裸标签
+
+## 源码验证结论
+
+- **`strictEqual`（===）运算符**：源码 `ConditionOp.test()` 方法中，strictEqual 的判断逻辑为：先检查双方 `isobj` 标志是否一致，然后若均为对象则用 `Structs.eq()` 比较对象引用，若均为数字则用 `==` 比较数值。因此 `===` 可以用于判断两个 building 引用是否指向同一建筑（比较对象引用）。
+- **标签名**：LParser 中标签名通过读取非空白字符序列获得，支持字母、数字、下划线等字符，但不支持空格和特殊运算符字符。
+
+
+<!-- 文件: 03_Operations\01_set.md -->
+
+
+---
+
+
+# 01 - set（变量赋值）
+
+## 导出格式
+
+```
+set <result> <value>
+```
+
+## 参数说明
+
+| 参数 | 说明 |
+|------|------|
+| result | 目标变量名。赋值的结果将写入此变量 |
+| value | 源值。可以是数字字面量、变量名、或 `@` 开头的系统变量 |
+
+## 功能说明
+
+**用途：将一个值赋给目标变量。**
+
+`set` 是最基本的赋值指令。它将 `value` 的值完整复制到 `result` 中。赋值时会保留源变量的类型——如果源是数字，目标也变成数字；如果源是对象（如单位引用、建筑引用、content 引用），目标也变成对象。
+
+### 赋值类型示例
+
+```
+set myNum 42
+set myFlag 1
+set savedUnit @unit
+set myColor %ff0000ff
+```
+
+- `set myNum 42`：将数字 42 赋给 `myNum`
+- `set savedUnit @unit`：将当前绑定单位的对象引用赋给 `savedUnit`
+- `set myColor %ff0000ff`：将颜色字面量（红色，不透明）赋给 `myColor`
+
+## 源码实现要点
+
+### 语句定义（SetStatement）
+
+`SetStatement` 包含两个字段：`to`（目标变量）和 `from`（源值）。构建指令时生成 `SetI`，参数顺序为 `new SetI(builder.var(from), builder.var(to))`。
+
+### 指令执行（SetI.run）
+
+核心逻辑只有一行：
+
+```java
+if(!to.constant) to.set(from);
+```
+
+- 首先检查目标变量是否为常量（`to.constant`）。如果是常量（如数字字面量、`@` 开头的系统只读变量），则**静默跳过**，不执行赋值
+- 非常量时，调用 `to.set(from)` 完成赋值
+
+### LVar.set 方法
+
+`set(LVar other)` 会完整复制源变量的状态：
+
+- 复制 `isobj` 标志（标识变量是数字还是对象）
+- 如果是对象，复制 `objval`（对象引用）
+- 如果是数字，复制 `numval`（数值），并将无效值（NaN/Infinity）归零
+
+这意味着 `set` 是**类型感知**的赋值，不会将对象引用强转为数字或反之。
+
+## 注意事项
+
+- **写入常量变量无效**：如果 `result` 是数字字面量（如 `set 10 5`）或 `@` 开头的只读系统变量（如 `@time`、`@tick` 等），赋值会被静默忽略
+- **`@counter` 可以被 set**：`@counter` 不是常量变量，可以用 `set @counter 0` 来重置程序计数器实现跳转。但这种跳转方式容易出错，建议优先使用 `jump` 标签跳转或 `end` 指令
+- **对象赋值是引用复制**：`set savedUnit @unit` 后，`savedUnit` 和 `@unit` 指向同一个单位对象，修改单位属性会同时影响两者
+- **变量默认值**：未初始化的变量默认是 null 对象。对其进行 `num()` 取值会返回 0
+
+## 未验证内容
+
+无
+
+
+<!-- 文件: 03_Operations\02_op.md -->
+
+
+---
+
+
+# 02 - op（数学与逻辑运算）
+
+## 导出格式
+
+```
+op <op> <result> <a> <b>
+```
+
+## 参数说明
+
+| 参数 | 说明 |
+|------|------|
+| op | 运算符名称（使用枚举名，如 `add`、`lessThan`、`abs` 等，详见下方运算符列表） |
+| result | 结果变量名。运算结果写入此变量 |
+| a | 第一个操作数 |
+| b | 第二个操作数。一元运算时此参数被忽略，但仍需填写 |
+
+## 功能说明
+
+**用途：执行数学运算、逻辑比较、位运算等操作，将结果写入目标变量。**
+
+`op` 指令是 Logic 中最强大的运算工具，支持 40 余种运算符。根据运算符类型不同，分为三种使用形式：
+
+- **二元运算**：`result = a <op> b`（如 `op add result a b` → result = a + b）
+- **函数运算**：`result = <op>(a, b)`（如 `op max result a b` → result = max(a, b)）
+- **一元运算**：`result = <op>(a)`（如 `op abs result a 0` → result = |a|，b 被忽略）
+
+### 运算符完整列表
+
+#### 算术运算（二元）
+
+| 运算符名 | 符号 | 说明 |
+|----------|------|------|
+| `add` | `+` | 加法：a + b |
+| `sub` | `-` | 减法：a - b |
+| `mul` | `*` | 乘法：a × b |
+| `div` | `/` | 除法：a / b |
+| `idiv` | `//` | 整数除法：floor(a / b)，向下取整 |
+| `mod` | `%` | 取模：a % b，结果符号与 a 相同 |
+| `emod` | `%%` | 欧几里得取模：((a % b) + b) % b，结果始终非负（b 为正时） |
+| `pow` | `^` | 幂运算：a^b |
+| `logn` | `logn` | 指定底数对数：ln(a) / ln(b) = log_b(a) |
+
+#### 比较与逻辑运算（二元）
+
+| 运算符名 | 符号 | 说明 |
+|----------|------|------|
+| `equal` | `==` | 相等判断。数字比较使用浮点容差 0.000001；对象比较使用 `Structs.eq` |
+| `notEqual` | `not` | 不等判断。与 `equal` 相反 |
+| `land` | `and` | 逻辑与：a≠0 且 b≠0 时返回 1，否则返回 0 |
+| `lessThan` | `<` | 小于：a < b 时返回 1，否则返回 0 |
+| `lessThanEq` | `<=` | 小于等于：a ≤ b 时返回 1，否则返回 0 |
+| `greaterThan` | `>` | 大于：a > b 时返回 1，否则返回 0 |
+| `greaterThanEq` | `>=` | 大于等于：a ≥ b 时返回 1，否则返回 0 |
+| `strictEqual` | `===` | 严格相等：类型与值都必须相同。数字使用精确比较（无浮点容差），对象使用 `Structs.eq` |
+
+#### 位运算（二元）
+
+| 运算符名 | 符号 | 说明 |
+|----------|------|------|
+| `shl` | `<<` | 左移：(long)a << (long)b |
+| `shr` | `>>` | 右移（带符号）：(long)a >> (long)b |
+| `ushr` | `>>>` | 无符号右移：(long)a >>> (long)b |
+| `or` | `or` | 按位或：(long)a \| (long)b |
+| `and` | `b-and` | 按位与：(long)a & (long)b |
+| `xor` | `xor` | 按位异或：(long)a ^ (long)b |
+
+#### 函数运算（二元，函数式显示）
+
+| 运算符名 | 符号 | 说明 |
+|----------|------|------|
+| `max` | `max` | 最大值：max(a, b) |
+| `min` | `min` | 最小值：min(a, b) |
+| `angle` | `angle` | 反正切角度（atan2）：根据坐标 (a, b) 返回角度（度数，0=右，90=上） |
+| `angleDiff` | `anglediff` | 角度差：返回两个角度之间的最短角距离（度数） |
+| `len` | `len` | 向量长度：sqrt(a² + b²) |
+| `noise` | `noise` | Simplex 噪声：基于坐标 (a, b) 生成 [0, 1) 范围的伪随机值 |
+
+#### 一元运算
+
+| 运算符名 | 符号 | 说明 |
+|----------|------|------|
+| `not` | `flip` | 按位取反：~(long)a |
+| `abs` | `abs` | 绝对值：\|a\| |
+| `sign` | `sign` | 符号函数：a>0 返回 1，a<0 返回 -1，a=0 返回 0 |
+| `log` | `log` | 自然对数：ln(a) |
+| `log10` | `log10` | 常用对数：log10(a) |
+| `floor` | `floor` | 向下取整 |
+| `ceil` | `ceil` | 向上取整 |
+| `round` | `round` | 四舍五入取整 |
+| `sqrt` | `sqrt` | 平方根：√a |
+| `rand` | `rand` | 随机数：返回 [0, a) 范围内的随机浮点数 |
+| `sin` | `sin` | 正弦：输入为度数 |
+| `cos` | `cos` | 余弦：输入为度数 |
+| `tan` | `tan` | 正切：输入为度数 |
+| `asin` | `asin` | 反正弦：输出为度数 |
+| `acos` | `acos` | 反余弦：输出为度数 |
+| `atan` | `atan` | 反正切：输出为度数 |
+
+## 源码实现要点
+
+### 语句定义（OperationStatement）
+
+`OperationStatement` 包含四个字段：`op`（LogicOp 枚举）、`dest`（结果变量）、`a`（操作数1）、`b`（操作数2）。构建指令时生成 `OpI`：`new OpI(op, builder.var(a), builder.var(b), builder.var(dest))`。
+
+### 指令执行（OpI.run）
+
+执行逻辑根据运算符类型分三条路径：
+
+1. **`strictEqual`（===）**：特殊处理，检查两个变量的类型是否一致（同为对象或同为数字），再比较值。数字比较使用精确 `==`（无浮点容差），对象比较使用 `Structs.eq`
+
+2. **一元运算（`op.unary == true`）**：调用 `op.function1.get(a.num())`，只使用操作数 a，b 被忽略。结果通过 `dest.setnum()` 写入
+
+3. **二元运算**：
+   - 如果运算符提供了对象函数（`objFunction2`），且两个操作数**都是对象**，则使用对象函数进行运算。目前只有 `equal` 和 `notEqual` 提供了对象函数，使用 `Structs.eq` 比较对象
+   - 否则，对两个操作数调用 `num()` 取数值后，使用数值函数（`function2`）进行运算
+
+### 对象的数值转换
+
+当操作数为对象时，`num()` 方法的返回值：
+- 对象非 null → 返回 1
+- 对象为 null → 返回 0
+
+这意味着对对象使用算术运算（如 `op add`）没有实际意义，但比较运算可以正确判断对象是否非空。
+
+### 浮点相等容差
+
+`equal`（==）和 `notEqual`（not）对数字使用 0.000001 的容差进行比较：`Math.abs(a - b) < 0.000001`。这是因为浮点运算可能产生微小的精度误差。
+
+而 `strictEqual`（===）对数字使用精确 `==` 比较，不容许任何误差。
+
+## 注意事项
+
+- **一元运算仍需填写 b 参数**：虽然 b 被忽略，但文本格式固定为 5 个 token。建议填 0 保持整洁
+- **`equal` 与 `strictEqual` 的区别**：
+  - `equal`（==）：数字比较有浮点容差（0.000001），且当两个操作数类型不同（一个是数字一个是对象）时仍会取数值比较
+  - `strictEqual`（===）：类型必须一致才能返回 1，数字比较无容差
+- **`mod` 与 `emod` 的区别**：
+  - `mod`（%）：结果符号与被除数 a 相同。例如 -7 % 3 = -1
+  - `emod`（%%）：结果始终非负（当 b 为正时）。例如 -7 %% 3 = 2
+- **`rand` 的随机性**：使用全局随机状态（`GlobalVars.rand`），每次调用都会推进随机序列。同一处理器在同一 tick 内多次调用 `rand` 会得到不同的值
+- **三角函数使用度数**：`sin`/`cos`/`tan` 的输入是度数而非弧度，`asin`/`acos`/`atan` 的输出也是度数
+- **位运算强制转 long**：所有位运算会将操作数强制转换为 64 位整数（long）后运算
+- **结果始终是数字**：`op` 指令的结果通过 `setnum()` 写入，始终为数字类型，不会产生对象
+
+## 未验证内容
+
+- `noise` 运算符的精确输出范围和分布特性在不同坐标下的表现
+
+
+<!-- 文件: 03_Operations\03_select.md -->
+
+
+---
+
+
+# 03 - select（条件选择）
+
+## 导出格式
+
+```
+select <result> <op> <comp0> <comp1> <a> <b>
+```
+
+## 参数说明
+
+| 参数 | 说明 |
+|------|------|
+| result | 结果变量名。条件选择的结果写入此变量 |
+| op | 条件运算符（ConditionOp 枚举名，见下方列表） |
+| comp0 | 条件比较的第一个操作数 |
+| comp1 | 条件比较的第二个操作数 |
+| a | 条件为真时返回的值 |
+| b | 条件为假时返回的值 |
+
+## 功能说明
+
+**用途：根据条件比较结果，从两个值中选择一个赋给目标变量。相当于三元运算符 `result = (comp0 op comp1) ? a : b`。**
+
+`select` 指令先对 `comp0` 和 `comp1` 进行条件运算（使用指定的 `op` 运算符），如果条件成立则将 `a` 赋给 `result`，否则将 `b` 赋给 `result`。
+
+### 条件运算符列表
+
+| 运算符名 | 符号 | 说明 |
+|----------|------|------|
+| `equal` | `==` | 相等。数字比较使用浮点容差 0.000001；对象使用 `Structs.eq` |
+| `notEqual` | `not` | 不等。与 `equal` 相反 |
+| `lessThan` | `<` | 小于 |
+| `lessThanEq` | `<=` | 小于等于 |
+| `greaterThan` | `>` | 大于 |
+| `greaterThanEq` | `>=` | 大于等于 |
+| `strictEqual` | `===` | 严格相等。类型与值都必须相同，数字比较无浮点容差 |
+| `always` | `always` | 恒真。始终返回 a，忽略 comp0 和 comp1 |
+
+### 使用示例
+
+```
+# 如果 hp 小于 50，返回 0（危险），否则返回 1（安全）
+select status lessThan hp 50 0 1
+
+# 如果单位是 null（comp0 与 null 比较），选择备用值
+select backup equal myUnit null 1 0
+
+# always 运算符：始终选择 a
+select result always 0 0 myValue 0
+```
+
+## 源码实现要点
+
+### 语句定义（SelectStatement）
+
+`SelectStatement` 包含六个字段：`result`、`op`（ConditionOp 枚举）、`comp0`、`comp1`、`a`、`b`。构建指令时生成 `SelectI`。
+
+### 指令执行（SelectI.run）
+
+核心逻辑：
+
+```java
+if(result.constant) return;
+result.set(op.test(comp0, comp1) ? a : b);
+```
+
+- 首先检查 `result` 是否为常量，如果是则直接返回（静默跳过）
+- 调用 `op.test(comp0, comp1)` 进行条件判断，根据结果选择 `a` 或 `b`
+- 使用 `result.set()` 赋值，保留所选值的类型（数字或对象）
+
+### ConditionOp.test 方法
+
+条件判断的内部逻辑：
+
+1. **`strictEqual`（===）**：检查两个变量的类型是否一致（`isobj` 相同），再比较值。数字用精确 `==`，对象用 `Structs.eq`
+2. **其他运算符**：
+   - 如果运算符提供了对象函数（`objFunction`），且两个操作数**都是对象**，则使用对象函数比较。`equal` 和 `notEqual` 提供了对象函数
+   - 否则，对两个操作数调用 `num()` 取数值后，用数值函数比较
+3. **`always`**：直接返回 true，不检查任何操作数
+
+### 与 jump 指令的关系
+
+`select` 使用的 `ConditionOp` 与 `jump` 指令使用的是同一套条件运算符枚举。区别在于：
+- `jump`：条件成立时跳转
+- `select`：条件成立时选择 a，否则选择 b
+
+## 注意事项
+
+- **结果保留类型**：`select` 使用 `set()` 赋值而非 `setnum()`，所以 a 或 b 如果是对象（如单位引用），结果也会是对象。这是 `select` 与 `op` 的重要区别——`op` 的结果始终是数字
+- **`always` 运算符的用途**：当 `op` 为 `always` 时，条件恒为真，`select` 始终返回 a。这可以用于简化代码或作为占位
+- **`equal` 与 `strictEqual` 的区别**：与 `op` 指令中一致，`equal` 有浮点容差，`strictEqual` 无容差且要求类型一致
+- **comp0 和 comp1 是比较对象，a 和 b 是选择对象**：不要混淆这两组参数。comp0/comp1 用于条件判断，a/b 是待选择的值
+- **写入常量无效**：如果 `result` 是常量变量，赋值被静默跳过
+
+## 未验证内容
+
+无
+
+
+<!-- 文件: 03_Operations\04_lookup.md -->
+
+
+---
+
+
+# 04 - lookup（内容查找）
+
+## 导出格式
+
+```
+lookup <type> <result> <id>
+```
+
+## 参数说明
+
+| 参数 | 说明 |
+|------|------|
+| type | 内容类型。可选值：`block`、`unit`、`item`、`liquid`、`team` |
+| result | 结果变量名。查找结果（content 对象）写入此变量 |
+| id | 逻辑 ID（logic ID）。从 0 开始的整数索引 |
+
+## 功能说明
+
+**用途：通过逻辑 ID 查找游戏内容对象（方块、单位、物品、液体或队伍），返回可用于 sensor、ucontrol 等指令的 content 引用。**
+
+`lookup` 是连接"数字"与"游戏内容对象"的桥梁。许多指令需要 content 对象作为参数（如 `ubind @mono` 中的 `@mono` 就是 content），而 `lookup` 允许你通过数字 ID 动态获取这些对象。
+
+### 可查找的内容类型
+
+| 类型 | 说明 | 数量变量 | ID 范围 |
+|------|------|----------|---------|
+| `block` | 方块类型（如传送带、炮塔等） | `@blockCount` | 0 ~ @blockCount-1 |
+| `unit` | 单位类型（如 mono、poly 等） | `@unitCount` | 0 ~ @unitCount-1 |
+| `item` | 物品类型（如铜、铅等） | `@itemCount` | 0 ~ @itemCount-1 |
+| `liquid` | 液体类型（如水、矿渣等） | `@liquidCount` | 0 ~ @liquidCount-1 |
+| `team` | 队伍 | 无 | 0 ~ 255 |
+
+### 使用示例
+
+```
+# 查找 ID 为 0 的物品，存入 myItem
+lookup item myItem 0
+
+# 遍历所有方块类型
+set _i 0
+loop:
+op lessThan _cond _i @blockCount
+jump skip equal _cond 0
+lookup block _result _i
+# 此处可对 _result 进行操作，如 sensor 读取信息
+op add _i _i 1
+jump loop always
+skip:
+end
+```
+
+## 源码实现要点
+
+### 语句定义（LookupStatement）
+
+`LookupStatement` 包含三个字段：`type`（ContentType 枚举）、`result`、`id`。构建指令时生成 `LookupI`：`new LookupI(builder.var(result), builder.var(id), type)`。
+
+### 指令执行（LookupI.run）
+
+核心逻辑：
+
+```java
+dest.setobj(logicVars.lookupContent(type, from.numi()));
+```
+
+- 将 `id` 转为整数（`from.numi()`），调用 `GlobalVars.lookupContent(type, id)` 查找内容
+- 结果通过 `setobj()` 写入，始终为对象类型
+- 如果 ID 超出范围，返回 null 对象
+
+### lookupContent 方法
+
+查找逻辑分两种情况：
+
+1. **team 类型**：直接从 `Team.all[id]` 数组中取，ID 范围 0~255。队伍不是真正的 content，但可以在此查找
+2. **其他类型**：从 `logicIdToContent` 数组中取。这个数组以逻辑 ID 为索引，存储对应的 `UnlockableContent` 对象
+
+### 逻辑 ID（logic ID）与内容 ID（content ID）的区别
+
+- **逻辑 ID**：由 `logicids.dat` 文件定义，专门供 Logic 使用。从 0 开始连续编号，是 `lookup` 指令使用的 ID
+- **内容 ID**：游戏内部的 content ID（`content.id`），用于游戏其他系统。与逻辑 ID **不一定相同**
+
+游戏在初始化时读取 `logicids.dat`，建立逻辑 ID 到 content 的映射表（`logicIdToContent`）和反向映射表（`contentIdToLogicId`）。
+
+### 数量变量
+
+对于 block、unit、item、liquid 四种类型，系统会注册对应的数量变量（`@blockCount`、`@unitCount`、`@itemCount`、`@liquidCount`），表示可查找的 content 总数。team 类型没有数量变量，但 ID 范围固定为 0~255。
+
+## 注意事项
+
+- **结果为对象类型**：`lookup` 的结果通过 `setobj()` 写入，是 content 对象引用，不是数字。可以与 `@copper` 等 content 常量用 `op equal` 比较
+- **ID 超范围返回 null**：如果 ID 为负数或超出数量范围，结果为 null 对象。对其进行 `num()` 取值返回 0
+- **逻辑 ID 不等于内容 ID**：不要将 `sensor` 读到的 `@id` 直接用作 `lookup` 的 ID。`@id` 是内容 ID，`lookup` 需要的是逻辑 ID
+- **team 查找的特殊性**：team 不是 content，但可以在 `lookup` 中查找。查找结果可以用于需要 team 参数的指令
+- **遍历安全**：使用 `@xxxCount` 变量作为遍历上限，可以安全遍历所有 content，无需硬编码数量
+- **content 可能因模组而变**：不同模组环境下的逻辑 ID 映射不同，`@xxxCount` 的值也会变化。始终使用数量变量而非硬编码
+
+## 未验证内容
+
+无
+
+
+<!-- 文件: 03_Operations\05_packcolor.md -->
+
+
+---
+
+
+# 05 - packcolor（打包颜色）
+
+## 导出格式
+
+```
+packcolor <result> <r> <g> <b> <a>
+```
+
+## 参数说明
+
+| 参数 | 说明 |
+|------|------|
+| result | 结果变量名。打包后的颜色值（double）写入此变量 |
+| r | 红色通道，范围 0~1 |
+| g | 绿色通道，范围 0~1 |
+| b | 蓝色通道，范围 0~1 |
+| a | 透明度通道，范围 0~1（0=全透明，1=不透明） |
+
+## 功能说明
+
+**用途：将四个 0~1 范围的颜色通道值打包为一个 double 数值，供 `draw color` 等绘制指令使用。**
+
+Logic 中的颜色以 double 类型存储。`packcolor` 将 RGBA 四个通道压缩到一个 double 值中，方便在变量中传递和存储。
+
+### 使用示例
+
+```
+# 打包红色（R=1, G=0, B=0, A=1）
+packcolor red 1 0 0 1
+
+# 打包半透明绿色
+packcolor semiGreen 0 1 0 0.5
+
+# 将打包后的颜色用于绘制
+draw color red 0 0 0 0
+draw rect 10 10 50 50 0 0
+```
+
+## 源码实现要点
+
+### 语句定义（PackColorStatement）
+
+`PackColorStatement` 包含五个字段：`result`、`r`、`g`、`b`、`a`。构建指令时生成 `PackColorI`。
+
+### 指令执行（PackColorI.run）
+
+核心逻辑：
+
+```java
+result.setnum(Color.toDoubleBits(
+    Mathf.clamp(r.numf()),
+    Mathf.clamp(g.numf()),
+    Mathf.clamp(b.numf()),
+    Mathf.clamp(a.numf())
+));
+```
+
+- 对每个通道调用 `Mathf.clamp()` 将值限制在 [0, 1] 范围内。超出范围的值会被截断
+- 调用 `Color.toDoubleBits()` 将四个通道打包为一个 double 值
+- 结果通过 `setnum()` 写入，为数字类型
+
+### Color.toDoubleBits 方法
+
+将 RGBA 四个 [0, 1] 范围的浮点数转换为 0~255 的整数，然后组合为一个 32 位整数，最终存储为 double 的原始位表示。这个 double 值不是常规的数学数值，而是将颜色信息的位模式直接存储在 double 中。
+
+## 注意事项
+
+- **通道范围会被钳制**：所有通道值会被 `Mathf.clamp` 限制在 [0, 1] 范围内。传入负数变为 0，传入大于 1 的值变为 1
+- **结果不是常规数字**：打包后的 double 值是颜色的位模式，不能用于数学运算。对其进行 `op` 运算没有意义
+- **与颜色字面量的关系**：Logic 支持颜色字面量（如 `%ff0000ff`），在解析时也是调用 `Color.toDoubleBits` 生成相同的 double 值。因此 `packcolor red 1 0 0 1` 和 `set red %ff0000ff` 效果相同
+- **命名颜色**：Logic 还支持命名颜色语法 `%[colorName]`，如 `%[accent]`。这与 `packcolor` 无直接关系，但生成相同格式的值
+- **a=0 为全透明**：透明度通道 a 为 0 时颜色完全不可见，为 1 时完全不透明
+
+## 未验证内容
+
+无
+
+
+<!-- 文件: 03_Operations\06_unpackcolor.md -->
+
+
+---
+
+
+# 06 - unpackcolor（解包颜色）
+
+## 导出格式
+
+```
+unpackcolor <r> <g> <b> <a> <value>
+```
+
+## 参数说明
+
+| 参数 | 说明 |
+|------|------|
+| r | 红色通道输出变量名。解包后的红色分量（0~1）写入此变量 |
+| g | 绿色通道输出变量名。解包后的绿色分量（0~1）写入此变量 |
+| b | 蓝色通道输出变量名。解包后的蓝色分量（0~1）写入此变量 |
+| a | 透明度通道输出变量名。解包后的透明度分量（0~1）写入此变量 |
+| value | 待解包的颜色值（double，由 `packcolor` 或颜色字面量生成） |
+
+## 功能说明
+
+**用途：将一个打包的颜色 double 值解包为四个独立的 RGBA 通道变量（每个范围 0~1）。是 `packcolor` 的逆操作。**
+
+`unpackcolor` 将颜色值拆分为四个通道，方便单独读取或修改颜色分量。
+
+### 使用示例
+
+```
+# 将红色字面量解包到四个变量
+unpackcolor _r _g _b _a %ff0000ff
+# _r=1, _g=0, _b=0, _a=1
+
+# 修改透明度后重新打包
+unpackcolor _r _g _b _a myColor
+op mul _newA _a 0.5
+packcolor dimColor _r _g _b _newA
+# dimColor 是 myColor 的半透明版本
+```
+
+## 源码实现要点
+
+### 语句定义（UnpackColorStatement）
+
+`UnpackColorStatement` 包含五个字段：`r`、`g`、`b`、`a`、`value`。注意与前四个输出变量在前，输入值在最后。构建指令时生成 `UnpackColorI`。
+
+### 指令执行（UnpackColorI.run）
+
+核心逻辑：
+
+```java
+var color = Tmp.c1.fromDouble(value.num());
+r.setnum(color.r);
+g.setnum(color.g);
+b.setnum(color.b);
+a.setnum(color.a);
+```
+
+- 调用 `Tmp.c1.fromDouble()` 将 double 值还原为 Color 对象。该方法从 double 的原始位模式中提取 32 位整数，再拆分为 RGBA 四个 0~255 的字节，最后归一化为 0~1 的浮点数
+- 将四个通道分别通过 `setnum()` 写入对应的输出变量
+- 所有结果都是数字类型，范围 0~1
+
+### 与 packcolor 的关系
+
+`unpackcolor` 是 `packcolor` 的逆操作：
+
+```
+packcolor result r g b a    → result = toDoubleBits(r, g, b, a)
+unpackcolor r g b a result  → r, g, b, a = fromDouble(result)
+```
+
+先 pack 再 unpack，能还原出原始的 RGBA 值（在 0~1 范围内无损，因为 double 的位模式直接存储了 32 位颜色）。
+
+## 注意事项
+
+- **参数顺序与 packcolor 不同**：`packcolor` 是先 result 后 RGBA，`unpackcolor` 是先 RGBA 后 value。使用时注意不要混淆
+- **输出变量必须是可写变量**：四个输出变量不能是常量（如数字字面量），否则写入被静默跳过
+- **解包结果范围 0~1**：所有通道值归一化为 0~1 范围，与 `packcolor` 的输入范围一致
+- **对非颜色值解包**：如果 `value` 不是由 `packcolor` 或颜色字面量生成的值，解包结果是无意义的随机颜色
+- **使用临时变量**：解包通常用于临时分析或修改颜色，建议输出变量使用 `_` 开头的临时变量命名
+
+## 未验证内容
+
+无
+
+
+<!-- 文件: 04_IO\01-read.md -->
+
+
+---
+
+
+# 01 - read（读取内存建筑）
+
+> 用途：从内存建筑（Memory Cell、Memory Bank）或其他可读对象中按索引读取一个值，存入指定变量。
+
+## 导出格式
+
+```
+read result = cell1 at 0
+```
+
+等价的文本指令格式：
+
+```
+read <output> <target> <address>
+```
+
+- 积木编辑器中显示为 `read result = cell1 at 0`
+- 文本格式中三个参数依次为：输出变量、目标建筑、地址索引
+
+## 参数说明
+
+| 参数位置 | 参数名 | 说明 | 默认值 |
+|---------|--------|------|--------|
+| 1 | output | 接收读取结果的变量名 | result |
+| 2 | target | 目标建筑（通过 `@link` 名称或变量引用） | cell1 |
+| 3 | address | 读取的地址索引（从 0 开始） | 0 |
+
+## 功能说明
+
+`read` 指令从目标对象的内存中读取指定索引位置的值，并将结果写入输出变量。
+
+核心流程如下：
+
+1. 获取目标对象，检查它是否实现了 `LReadable`（可读）接口。
+2. 如果实现了该接口，先调用 `readable()` 方法进行权限校验：
+   - 建筑必须有效（`isValid()`）。
+   - 处理器必须拥有权限（特权处理器或同队伍且建筑非特权）。
+3. 校验通过后调用 `read(position, output)` 完成读取。
+
+### 不同目标对象的读取行为
+
+**内存建筑（Memory Cell / Memory Bank）**：
+- 地址参数作为**数字索引**使用，访问 `memory[]` 数组。
+- 地址越界（小于 0 或大于等于容量）时，输出变量被设为 `NaN`。
+- Memory Cell 容量为 64，Memory Bank 容量为 512。
+- 存储类型为 `double`，无法存储对象引用。
+
+**处理器自身（LogicBuild，通过 `@this` 或链接的处理器引用）**：
+- 当地址参数为**字符串**时，通过 `executor.optionalVar(varName)` 按变量名查找处理器内部变量。
+  - 若找到对应变量，将其值复制到输出变量（可以是对象引用，如单位、建筑等）。
+  - 若未找到对应变量，尝试通过 `optionalLink(varName)` 查找同名的链接建筑。
+- 当地址参数为**数字**时，将其作为索引访问处理器的 `links` 数组（链接建筑列表），返回对应位置的链接建筑。
+- **这是处理器间通信的核心机制**：通过字符串作为变量名键，可以直接读写处理器内部变量，包括对象引用。
+
+**其他可读对象**：
+- 如果目标是字符串（CharSequence），则返回对应索引处字符的 Unicode 码点（整数）；越界返回 `NaN`。
+- 如果目标是序列（Seq），则返回对应索引处的元素对象；越界返回 `null`。
+- 其他不可读对象，输出变量被设为 `null`。
+
+## 源码实现要点
+
+**ReadStatement（语句定义）** — 位于 `LStatements.java`。注册为 `read`，分类为 `LCategory.io`。构建时通过 `builder.var()` 解析三个参数（target、address、output），生成 `ReadI` 指令。
+
+**ReadI（指令执行）** — 位于 `LExecutor.java`。持有 `target`、`position`、`output` 三个 LVar。`run()` 方法中：
+- 先将 target 当作对象取出，判断是否为 `LReadable` 实例。
+- 若是，进行 `readable()` 权限检查后调用 `read()`。
+- 若不是，则按 CharSequence / Seq 的顺序尝试读取，最后兜底设为 `null`。
+
+**LReadable 接口** — 定义了 `readable(LExecutor exec)` 和 `read(LVar position, LVar output)` 两个方法。实现该接口的建筑包括：内存建筑（MemoryBuild）、消息建筑（MessageBuild）、处理器自身（LogicBuild）、画板（CanvasBuild）。
+
+**MemoryBuild.read()** — 地址越界时返回 `Double.NaN`（而非 0），这是通过 `output.setnum(...)` 写入的。
+
+**LogicBuild.read()** — 处理器自身的读取方法，行为与内存建筑完全不同：
+- 若 `position` 为字符串对象：调用 `executor.optionalVar(varName)` 按变量名查找处理器内部变量。找到则复制值到输出；未找到则调用 `optionalLink(varName)` 查找同名链接建筑。
+- 若 `position` 为数字：将其作为索引访问 `executor.links` 数组，返回对应位置的链接建筑。
+- 这使得 `read @this <变量名>` 可以直接读取处理器内部变量，包括对象引用（单位、建筑等），而非仅限 double 数字。
+
+## 注意事项
+
+- 地址索引从 0 开始，最大有效索引为容量减 1（Cell 为 63，Bank 为 511）。
+- 越界读取得到的是 `NaN`（Not a Number），可以用 `isfinite` 判断来过滤。
+- 内存建筑中存储的值始终是 `double` 类型（数字），无法直接存储对象/建筑引用。`write` 写入时也会调用 `value.num()` 转为数字。
+- **处理器自身（`@this`）的读取行为与内存建筑完全不同**：使用字符串作为变量名键可以读取处理器内部变量（包括对象引用），使用数字索引则读取链接建筑列表。这是多核通信的核心机制。
+- 读取消息建筑（Message Block）时，返回的是字符的 Unicode 码点而非子字符串。
+- 特权处理器可以读取任意队伍的建筑内存。
+
+## 网络同步注意事项
+
+- 内存建筑的内存数据通过建筑的 `write()` / `read()` 方法进行网络序列化保存，存档时会完整保存数组内容。
+- 在多人模式下，内存建筑的写入操作会在服务端和客户端之间同步。但由于处理器在客户端和服务端各执行一次，可能存在短暂的同步延迟。
+- 被拾起（pickup）的内存建筑无法携带内存数据（`canPickup()` 返回 false），这是为了避免大数组的同步问题。
+
+## 未验证内容
+
+无（所有读取行为均已通过源码验证，包括 LogicBuild 的字符串/数字地址读取、CharSequence 字符码点读取、Seq 元素读取）。
+
+
+<!-- 文件: 04_IO\02-write.md -->
+
+
+---
+
+
+# 02 - write（写入内存建筑）
+
+> 用途：将一个值按索引写入内存建筑（Memory Cell、Memory Bank）或其他可写对象中。
+
+## 导出格式
+
+```
+write result to cell1 at 0
+```
+
+等价的文本指令格式：
+
+```
+write <value> <target> <address>
+```
+
+- 积木编辑器中显示为 `write result to cell1 at 0`
+- 文本格式中三个参数依次为：要写入的值、目标建筑、地址索引
+
+## 参数说明
+
+| 参数位置 | 参数名 | 说明 | 默认值 |
+|---------|--------|------|--------|
+| 1 | value | 要写入的值（变量或常量） | result |
+| 2 | target | 目标建筑（通过 `@link` 名称或变量引用） | cell1 |
+| 3 | address | 写入的地址索引（从 0 开始） | 0 |
+
+## 功能说明
+
+`write` 指令将指定值写入目标对象的内存中指定索引位置。
+
+核心流程如下：
+
+1. 获取目标对象，检查它是否实现了 `LWritable`（可写）接口。
+2. 如果实现了该接口，先调用 `writable()` 方法进行权限校验：
+   - 校验逻辑与 `readable()` 完全一致（建筑有效 + 队伍权限）。
+3. 校验通过后调用 `write(position, value)` 完成写入。
+
+### 不同目标对象的写入行为
+
+**内存建筑（Memory Cell / Memory Bank）**：
+- 地址参数作为**数字索引**使用，写入 `memory[]` 数组。
+- 地址越界（小于 0 或大于等于容量）时，直接忽略，不执行写入。
+- 写入时通过 `value.num()` 将值转换为 `double` 类型存储，因此**只能存储数字**，无法存储对象引用。
+- Memory Cell 容量为 64，Memory Bank 容量为 512。
+
+**处理器自身（LogicBuild，通过 `@this` 或链接的处理器引用）**：
+- 仅当地址参数为**字符串**时才执行写入：调用 `executor.optionalVar(varName)` 按变量名查找处理器内部变量。
+  - 若找到对应变量且非常量：将值直接赋给该变量（`at.set(value)`），**可以存储对象引用**（如单位、建筑等）。
+  - 若未找到对应变量或为常量：不做任何操作。
+- 当地址参数为**数字**时：**不做任何操作**（与 `read` 不同，`write` 没有数字索引的处理分支）。
+- **这是处理器间通信的核心机制**：通过字符串作为变量名键，可以直接修改处理器内部变量，包括写入对象引用。
+
+**画板（CanvasBuild）**：
+- 用于绘制像素图案，写入方式由画板自身定义。
+
+与 `read` 不同的是，`write` 指令仅对实现了 `LWritable` 接口的对象有效。对于字符串、序列等非 `LWritable` 对象，`write` 不会执行任何操作。
+
+## 源码实现要点
+
+**WriteStatement（语句定义）** — 位于 `LStatements.java`。注册为 `write`，分类为 `LCategory.io`。构建时通过 `builder.var()` 解析三个参数（target、address、input），生成 `WriteI` 指令。注意：语句定义中字段名为 `input`，但传入 `WriteI` 构造器的顺序为 `target, address, value`。
+
+**WriteI（指令执行）** — 位于 `LExecutor.java`。持有 `target`、`position`、`value` 三个 LVar。`run()` 方法中：
+- 将 target 当作对象取出，判断是否为 `LWritable` 实例。
+- 若是，进行 `writable()` 权限检查后调用 `write()`。
+- 若不是，直接返回，不做任何处理。
+
+**LWritable 接口** — 定义了 `writable(LExecutor exec)` 和 `write(LVar position, LVar value)` 两个方法。实现此接口的建筑包括：内存建筑（MemoryBuild）、处理器自身（LogicBuild）、画板（CanvasBuild）。
+
+**MemoryBuild.write()** — 地址越界时直接 `return`，不抛出异常。写入时调用 `value.num()` 取数字值赋给 `memory[address]`。
+
+**LogicBuild.write()** — 处理器自身的写入方法，行为与内存建筑完全不同：
+- 仅处理字符串类型的 `position`：`if(position.isobj && position.objval instanceof String varName)`
+- 调用 `executor.optionalVar(varName)` 按变量名查找处理器内部变量
+- 若变量存在且非常量：`at.set(value)` — 直接赋值，**保留对象类型**，可以写入单位引用、建筑引用等
+- 若变量不存在或为常量：直接返回，不做任何操作
+- **不处理数字索引**：当 `position` 为数字时，`write` 不执行任何操作（与 `read` 不同，`read` 在数字索引时会访问 links 数组）
+
+## 注意事项
+
+- 地址索引从 0 开始，最大有效索引为容量减 1（Cell 为 63，Bank 为 511）。
+- 越界写入会被静默忽略，不会报错，也不会自动扩展数组。
+- 由于内存建筑存储类型为 `double`，写入的值会丢失对象信息。例如写入一个建筑引用后再读取，得到的只是数字而非建筑本身。
+- **处理器自身（`@this`）的写入行为与内存建筑完全不同**：使用字符串作为变量名键可以修改处理器内部变量（包括写入对象引用），使用数字索引则不执行任何操作。这是多核通信中传递单位引用、建筑引用的核心机制。
+- 内存建筑无法被拾起（`canPickup()` 返回 false），以避免大数组同步问题。
+- 特权处理器可以写入任意队伍的建筑内存。
+- 写入操作的权限校验与读取一致：处理器需为特权处理器，或目标建筑与处理器同队伍且建筑非特权类型。
+
+## 网络同步注意事项
+
+- 内存建筑的内存数组通过建筑的 `write()` / `read()` 方法进行网络序列化。存档时完整写入所有 `double` 值，读档时按存储数量恢复。
+- 在多人模式下，内存建筑的写入操作会在服务端和客户端之间同步。但处理器在客户端和服务端各执行一次，可能导致重复写入或短暂的数据不一致。
+- 大型内存建筑（如 Memory Bank 的 512 个 double）的网络同步开销较大，频繁写入可能影响网络性能。
+- 内存建筑的内存数据不参与处理器的变量同步（`vars` 数组），而是作为建筑自身的状态独立同步。
+
+## 源码验证结论
+
+- **LWritable 接口由 3 种建筑实现**：`MemoryBuild`（内存 cell/bank）、`LogicBuild`（处理器自身）、`CanvasBuild`（画板）。因此 write 指令可以向这三种建筑写入数据。
+- 处理器写入自身（LogicBuild）时，写入的是处理器的变量存储区，可以通过 write 修改处理器内部变量。**关键区别**：内存建筑写入时通过 `value.num()` 转为 double，丢失对象信息；而 LogicBuild 写入时通过 `at.set(value)` 直接赋值，保留对象类型，可以存储单位引用、建筑引用等。
+- LogicBuild.write() 仅处理字符串地址参数（变量名），不处理数字索引参数。当传入数字索引时不执行任何操作。
+- 画板（CanvasBlock）的写入用于绘制像素图案。
+- 在极高频率写入场景下，网络同步的具体延迟和一致性表现未做详细测试。
+
+
+<!-- 文件: 04_IO\03-draw.md -->
+
+
+---
+
+
+# 03 - draw（绘制指令）
+
+> 用途：向处理器的图形缓冲区（graphicsBuffer）写入绘制命令，用于在逻辑显示屏（Logic Display）上绘制图形、文本和图片。绘制内容需通过 `drawflush` 指令刷新到显示屏后才会显示。
+
+## 导出格式
+
+draw 指令的导出格式随绘制模式（type）不同而变化。通用格式为：
+
+```
+draw <type> <参数...>
+```
+
+积木编辑器中通过下拉菜单选择绘制模式，不同模式显示不同的参数输入框。
+
+## 参数说明
+
+draw 指令内部持有 7 个参数位：`type`（模式，byte 类型）和 `x`、`y`、`p1`、`p2`、`p3`、`p4`（6 个 LVar 参数）。不同模式下各参数含义不同：
+
+| 参数位 | 通用名 | 说明 |
+|--------|--------|------|
+| type | 模式 | 绘制模式（见下表） |
+| x | 参数1 | 通常为 X 坐标或 R 通道 |
+| y | 参数2 | 通常为 Y 坐标或 G 通道 |
+| p1 | 参数3 | 含义随模式变化 |
+| p2 | 参数4 | 含义随模式变化 |
+| p3 | 参数5 | 含义随模式变化 |
+| p4 | 参数6 | 含义随模式变化 |
+
+### 绘制模式总表
+
+| 模式名 | 内部命令常量 | 参数（x y p1 p2 p3 p4） | 说明 |
+|--------|-------------|------------------------|------|
+| clear | commandClear (0) | r g b — — — | 清屏，用指定 RGB 颜色填充整个显示屏 |
+| color | commandColor (1) | r g b a — — | 设置后续绘制的颜色（RGBA，0-255） |
+| col | commandColorPack (2) | packedColor — — — — | 用打包颜色值设置颜色（虚拟命令，自动解包为 color） |
+| stroke | commandStroke (3) | width — — — — | 设置后续线条的宽度 |
+| line | commandLine (4) | x y x2 y2 — — | 绘制一条线段，从 (x,y) 到 (x2,y2) |
+| rect | commandRect (5) | x y width height — — | 绘制填充矩形 |
+| lineRect | commandLineRect (6) | x y width height — — | 绘制线框矩形 |
+| poly | commandPoly (7) | x y sides radius rotation — | 绘制填充正多边形 |
+| linePoly | commandLinePoly (8) | x y sides radius rotation — | 绘制线框正多边形 |
+| triangle | commandTriangle (9) | x y x2 y2 x3 y3 | 绘制填充三角形（三个顶点） |
+| image | commandImage (10) | x y content size rotation — | 绘制内容图标或显示屏截图 |
+| print | commandPrint (11) | x y align — — — | 将 textBuffer 中的文本绘制到显示屏 |
+| translate | commandTranslate (12) | x y — — — — | 平移变换矩阵 |
+| scale | commandScale (13) | x y — — — — | 缩放变换矩阵（步长为 0.05） |
+| rotate | commandRotate (14) | — — degrees — — — | 旋转变换矩阵 |
+| reset | commandResetTransform (15) | — — — — — — | 重置变换矩阵为单位矩阵 |
+
+## 功能说明
+
+### 工作原理
+
+draw 指令不直接在显示屏上绘制，而是将绘制命令写入处理器的 `graphicsBuffer`（图形缓冲区）。缓冲区中的命令需要通过 `drawflush` 指令刷新到逻辑显示屏（Logic Display）后，才会被实际渲染。
+
+图形缓冲区（graphicsBuffer）最大容量为 **256** 条命令（`maxGraphicsBuffer = 256`）。当缓冲区已满时，新的 draw 指令会被忽略。
+
+在无头服务器（headless）上，所有 draw 指令都不会执行，因为服务器端没有图形渲染需求。
+
+### 各模式详细说明
+
+**clear（清屏）**
+用指定的 RGB 颜色清除整个显示屏画面。参数为 r、g、b 三个通道（0-255），Alpha 固定为 1（完全不透明）。执行时会先丢弃所有待处理的批量精灵，再清除画面。
+
+**color（设置颜色）**
+设置后续绘制操作使用的颜色。参数为 r、g、b、a 四个通道（0-255）。此颜色会一直生效直到再次更改。使用 `col` 模式时可以通过颜色选择器自动生成打包颜色值（以 `%` 开头的字符串）。
+
+**stroke（设置线宽）**
+设置后续线条绘制（line、lineRect、linePoly）的线宽。参数为宽度值（x 位）。
+
+**line（线段）**
+从点 (x, y) 到点 (x2, y2) 绘制一条线段，使用当前颜色和线宽。
+
+**rect / lineRect（矩形）**
+以 (x, y) 为左下角，绘制宽度为 width、高度为 height 的矩形。`rect` 为填充模式，`lineRect` 为线框模式。
+
+**poly / linePoly（正多边形）**
+以 (x, y) 为中心，绘制 sides 条边、半径为 radius 的正多边形，旋转角度为 rotation。`poly` 为填充模式，`linePoly` 为线框模式。边数上限为 25（`maxSides = 25`）。
+
+**triangle（三角形）**
+通过三个顶点 (x,y)、(x2,y2)、(x3,y3) 绘制填充三角形。
+
+**image（图片）**
+在 (x, y) 处绘制内容图标。参数 p1 可以是内容引用（如 `@copper`）或其他显示屏建筑。size 为绘制尺寸，rotation 为旋转角度。如果目标是内容图标，会按其原始宽高比缩放；如果目标是另一个显示屏，会绘制该显示屏的画面截图。
+
+**print（文本绘制）**
+将处理器 `textBuffer` 中的文本内容绘制到显示屏上。参数为起始坐标 (x, y) 和对齐方式（align）。此模式会将 textBuffer 中的文本逐字符拆分为多条 `commandPrint` 命令写入图形缓冲区，绘制完成后清空 textBuffer。
+
+对齐方式使用 `@` 前缀的名称，可选值包括：`@center`、`@top`、`@bottom`、`@left`、`@right`、`@topLeft`、`@topRight`、`@bottomLeft`、`@bottomRight`。文本支持换行符 `\n`，遇到换行时 Y 坐标下移一行。
+
+**translate / scale / rotate / reset（变换矩阵）**
+这四种模式操作显示屏的变换矩阵，影响后续所有绘制操作的位置：
+- `translate`：平移 (x, y) 像素。
+- `scale`：缩放，实际缩放倍数为 x * 0.05 和 y * 0.05（`scaleStep = 0.05f`）。例如 x=20 表示缩放 1 倍。
+- `rotate`：旋转 p1 度。
+- `reset`：重置变换矩阵为单位矩阵。
+
+变换矩阵会随显示屏建筑一起保存和加载。
+
+## 源码实现要点
+
+**DrawStatement（语句定义）** — 位于 `LStatements.java`。注册为 `draw`，分类为 `LCategory.io`。持有一个 `GraphicsType type` 枚举和 6 个字符串参数（x、y、p1、p2、p3、p4）。`rebuild()` 方法根据当前模式动态构建不同的参数输入界面。`build()` 方法将 type 的序号转为 byte，连同 6 个参数生成 `DrawI` 指令。
+
+**DrawI（指令执行）** — 位于 `LExecutor.java`。持有 `byte type` 和 6 个 LVar。`run()` 方法分为三个分支：
+1. `commandColorPack` 分支：将打包的 double 值按位解包为 RGBA 四个分量，再作为 `commandColor` 命令写入缓冲区。
+2. `commandPrint` 分支：将 textBuffer 中的文本逐字符展开为多条 `commandPrint` 命令，计算文本对齐偏移量，处理换行，写入完成后清空 textBuffer。
+3. 通用分支：处理其余所有模式。对坐标和参数进行有符号打包（`packSign`，保留符号位和 9 位数值），特殊处理 `commandImage`（将内容 ID 和类型打包）和 `commandScale`（除以 scaleStep）。最终通过 `DisplayCmd.get()` 打包为 long 值加入 graphicsBuffer。
+
+**GraphicsType 枚举** — 位于 `LogicDisplay.java`。定义了 16 种绘制模式，其序号与 `command*` 常量一一对应。其中 `col` 和 `print` 是虚拟命令：`col` 在指令层被解包为 `commandColor`，`print` 在指令层被展开为多条单字符的 `commandPrint` 命令。
+
+**DisplayCmd 结构体** — 使用 `@Struct` 注解自动生成的位打包结构。每个命令为一个 long 值，包含 type（4 位）和 x、y、p1、p2、p3、p4（各 10 位）。坐标和参数通过 `packSign` 进行有符号打包，支持 -511 到 511 的范围。
+
+**LogicDisplayBuild 渲染** — 位于 `LogicDisplay.java`。显示屏在 `draw()` 方法中从命令队列取出命令并执行实际渲染。使用 FrameBuffer 离屏渲染，支持变换矩阵（translate/scale/rotate/reset）。`commandPrint` 通过逻辑字体的字形纹理逐字符绘制。`commandImage` 支持绘制内容图标和其他显示屏的画面截图。
+
+## 注意事项
+
+- 所有 draw 命令只是写入图形缓冲区，必须配合 `drawflush <display>` 指令才能在显示屏上显示。
+- 图形缓冲区上限为 256 条命令。`print` 模式会将文本逐字符展开，长文本可能快速占满缓冲区。
+- 坐标和参数使用 10 位有符号整数打包，有效范围为 -511 到 511。超出范围的值会被截断。
+- 显示屏坐标系的原点 (0, 0) 在左下角，X 轴向右，Y 轴向上。
+- Logic Display 的显示尺寸为 80x80 像素，Large Logic Display 为 176x176 像素。超出显示尺寸的绘制内容会被裁剪。
+- 多边形的边数上限为 25，超过会被限制为 25。
+- `scale` 模式的实际缩放倍数为参数值乘以 0.05。要实现 1 倍缩放（不变），需要传入 20。
+- 颜色参数范围为 0-255，超出部分会被 `pack()` 方法截断为 9 位（0-511，但实际渲染时按 255 归一化）。
+- 无头服务器上 draw 指令完全不执行。
+- `print` 模式绘制完成后会清空 textBuffer，因此需要先用 `print` / `printchar` 指令填充文本，再用 `draw print` 绘制到显示屏。
+
+## 网络同步注意事项
+
+- 图形缓冲区（graphicsBuffer）本身不进行网络同步，它是处理器本地的临时缓冲区。
+- 显示屏的命令队列（`commands`）通过 `drawflush` 刷新后存储在显示屏建筑上。显示屏的命令队列和变换矩阵通过建筑的 `write()` / `read()` 方法进行存档序列化。
+- 在多人模式下，`drawflush` 刷新的命令会在客户端和服务端各自执行。由于图形渲染仅在客户端发生，服务端（headless）上的 draw 指令不产生效果。
+- 显示屏的 FrameBuffer 内容不进行网络同步，每个客户端独立渲染。因此所有客户端看到的画面是一致的（只要处理器逻辑同步）。
+- 变换矩阵（translate/scale/rotate）会随显示屏建筑保存，但不会在客户端之间实时同步，仅在存档加载时恢复。
+
+## 未验证内容
+
+- `image` 模式绘制其他显示屏截图时的具体行为和性能表现未做详细测试。
+- 变换矩阵嵌套使用时的渲染顺序和矩阵叠加效果需要实际验证。
+- `col` 模式（commandColorPack）的打包颜色值格式（`%` 开头的字符串）在不同输入方式下的具体编码规则。
+- `reset` 模式在积木编辑器中是否有对应的 UI 入口（源码 switch 中未见 reset 的 case 处理），可能需要通过文本指令直接使用。
+- 坐标值超出 -511 到 511 范围时的具体截断行为和视觉表现。
+
+
+<!-- 文件: 04_IO\04-print.md -->
+
+
+---
+
+
+# 04 - print（打印文本）
+
+> 用途：将文本或变量的字符串表示追加到处理器的文本缓冲区（textBuffer）。缓冲区内容需通过 `printflush` 指令刷新到消息建筑（Message Block）后才会显示，也可通过 `draw print` 绘制到逻辑显示屏。
+
+## 导出格式
+
+```
+print "frog"
+```
+
+等价的文本指令格式：
+
+```
+print <value>
+```
+
+- 积木编辑器中只有一个文本输入框，直接填写要打印的内容
+- 文本格式中参数为要打印的值，可以是字符串常量（用双引号包裹）或变量名
+
+## 参数说明
+
+| 参数位置 | 参数名 | 说明 | 默认值 |
+|---------|--------|------|--------|
+| 1 | value | 要打印的值，可以是字符串常量或变量 | "frog" |
+
+## 功能说明
+
+`print` 指令将指定值的字符串表示追加到处理器的 `textBuffer`（文本缓冲区）末尾。该指令本身不会在屏幕上显示任何内容，需要配合 `printflush` 刷新到消息建筑，或配合 `draw print` 绘制到逻辑显示屏。
+
+文本缓冲区（textBuffer）最大容量为 **400** 个字符（`maxTextBuffer = 400`）。当缓冲区长度达到上限时，后续的 `print` 指令会被忽略。
+
+### 值到字符串的转换规则
+
+根据值的类型（对象或数字），`print` 指令采用不同的转换方式：
+
+**数字值：**
+- 如果值接近整数（与四舍五入后的差值小于 0.00001），则显示为整数形式（如 `42`）。
+- 否则显示为浮点数形式（如 `3.14`）。
+
+**对象值：**
+- `null` → `"null"`
+- `String`（字符串）→ 字符串本身
+- `MappableContent`（可映射内容，如物品、方块等）→ 内容的 name 属性（如 `copper`）
+- 其他 `Content`（内容）→ `"[content]"`
+- `Building`（建筑）→ 建筑方块的 name 属性
+- `Unit`（单位）→ 单位类型的 name 属性
+- `Enum`（枚举）→ 枚举的 name() 返回值
+- `Team`（队伍）→ 队伍的 name 属性
+- 其他对象 → `"[object]"`
+
+多个 `print` 指令的文本会依次追加到缓冲区中，形成连续的字符串。可以通过 `print "\n"` 来插入换行符。
+
+## 源码实现要点
+
+**PrintStatement（语句定义）** — 位于 `LStatements.java`。注册为 `print`，分类为 `LCategory.io`。持有一个字符串字段 `value`，默认值为 `"\"frog\""`（即带双引号的 frog）。`build()` 方法通过 `builder.var(value)` 解析参数，生成 `PrintI` 指令。
+
+**PrintI（指令执行）** — 位于 `LExecutor.java`。持有一个 LVar `value`。`run()` 方法中：
+- 先检查 textBuffer 长度是否已达上限（400），若是则直接返回。
+- 如果值是对象（`value.isobj`），调用静态方法 `toString()` 转换为字符串，然后截取不超过剩余缓冲区空间的长度追加。
+- 如果值是数字，判断是否接近整数来决定显示整数还是浮点数形式。
+
+**PrintI.toString()** — 静态方法，使用模式匹配（instanceof）将各种对象类型转换为字符串。这是避免垃圾分配的优化设计。
+
+**textBuffer** — 位于 `LExecutor`，类型为 `StringBuilder`，初始为空。`printflush` 刷新后会清空，`draw print` 绘制后也会清空。
+
+## 注意事项
+
+- `print` 指令只是向缓冲区追加文本，不会立即显示。必须配合 `printflush <message>` 刷新到消息建筑才能看到效果。
+- 文本缓冲区上限为 400 个字符。超出部分会被丢弃，不会自动截断或滚动。
+- 打印数字时，接近整数的浮点数会自动显示为整数形式。例如 `3.9999999` 会显示为 `4`。
+- 打印内容引用（如 `@copper`）时，显示的是内容的 name 属性（如 `copper`），而非显示名称。
+- 打印建筑或单位时，显示的是其类型的内部名称，而非友好名称。
+- 多次 `print` 会连续追加文本，中间不会自动添加空格或换行。需要手动添加。
+- 字符串常量需要用双引号包裹，如 `print "hello"`。变量名不需要引号，如 `print myVar`。
+- 可以使用 `\n` 在字符串中插入换行符。
+
+## 网络同步注意事项
+
+- textBuffer 本身不进行网络同步，它是处理器本地的临时缓冲区。
+- `printflush` 刷新时，会将 textBuffer 内容写入消息建筑的 `message` 字段。消息建筑通过 `write()` / `read()` 方法进行存档序列化。
+- 在多人模式下，消息建筑的内容通过建筑同步机制在客户端之间同步。但由于处理器在客户端和服务端各执行一次，`printflush` 的时机可能存在微小差异。
+- 消息建筑的最大文本长度为 400 个字符（`maxTextLength = 400`），最大换行数为 24（`maxNewlines = 24`）。`printflush` 时会截取不超过该长度的内容。
+- 消息建筑的内容同步可能存在短暂延迟，频繁刷新可能导致画面闪烁。
+
+## 未验证内容
+
+- 打印非常大的数字（超出 double 精度范围）时的显示格式未做详细测试。
+- 对象转字符串时，`MappableContent` 的 name 属性与游戏内显示名称的关系需要实际验证。
+- 在 `draw print` 模式下使用 textBuffer 时，与 `printflush` 的交互顺序对文本内容的影响。
+
+
+<!-- 文件: 04_IO\05-printchar.md -->
+
+
+---
+
+
+# 05 - printchar（打印字符）
+
+> 用途：通过 Unicode 码点或内容引用向处理器的文本缓冲区（textBuffer）追加单个字符。适用于打印特殊字符、控制字符或游戏内容图标。缓冲区内容需通过 `printflush` 刷新到消息建筑后才会显示。
+
+## 导出格式
+
+```
+printchar 65
+```
+
+等价的文本指令格式：
+
+```
+printchar <value>
+```
+
+- 积木编辑器中显示为 `char 65`，旁边有一个字符选择按钮（点击可弹出 ASCII 字符 32-126 的选择面板）
+- 文本格式中参数为 Unicode 码点（数字）或内容引用
+
+## 参数说明
+
+| 参数位置 | 参数名 | 说明 | 默认值 |
+|---------|--------|------|--------|
+| 1 | value | Unicode 码点（整数）或内容引用对象 | 65 |
+
+## 功能说明
+
+`printchar` 指令向处理器的 `textBuffer`（文本缓冲区）追加单个字符。与 `print` 不同的是，`printchar` 通过 Unicode 码点来指定要打印的字符，而非直接打印字符串。
+
+文本缓冲区（textBuffer）最大容量为 **400** 个字符（`maxTextBuffer = 400`）。当缓冲区长度达到上限时，`printchar` 指令会被忽略。
+
+### 两种工作模式
+
+**数字模式（通过 Unicode 码点）：**
+当值为数字时，将数字向下取整后作为 Unicode 码点，追加对应的字符到缓冲区。例如：
+- `printchar 65` → 追加字符 `A`
+- `printchar 97` → 追加字符 `a`
+- `printchar 48` → 追加字符 `0`
+- `printchar 10` → 追加换行符 `\n`
+- `printchar 32` → 追加空格
+
+**对象模式（通过内容引用）：**
+当值为对象且为 `UnlockableContent`（可解锁内容，如物品、方块、单位等）时，追加该内容的 emoji 字符到缓冲区。这可以在消息建筑上显示内容图标。如果对象不是 `UnlockableContent`，则不做任何操作。
+
+### 积木编辑器字符选择器
+
+积木编辑器中，`printchar` 旁边有一个铅笔图标按钮，点击后会弹出一个包含 ASCII 字符 32（空格）到 126（`~`）的选择面板。选择某个字符后，输入框会自动填入对应的 Unicode 码点数值。面板按每行 8 个字符排列。
+
+## 源码实现要点
+
+**PrintCharStatement（语句定义）** — 位于 `LStatements.java`。注册为 `printchar`，分类为 `LCategory.io`。持有一个字符串字段 `value`，默认值为 `"65"`（即字符 `A`）。`build()` 方法通过 `builder.var(value)` 解析参数，生成 `PrintCharI` 指令。`build()` 方法中还构建了字符选择面板，遍历 char 值 32 到 126 生成按钮。
+
+**PrintCharI（指令执行）** — 位于 `LExecutor.java`。持有一个 LVar `value`。`run()` 方法中：
+- 先检查 textBuffer 长度是否已达上限（400），若是则直接返回。
+- 如果值是对象（`value.isobj`），检查是否为 `UnlockableContent`，若是则追加其 `emojiChar()` 返回的字符，否则直接返回。
+- 如果值是数字，调用 `Math.floor(value.numval)` 取整后转为 char 追加到缓冲区。
+
+**emojiChar()** — `UnlockableContent` 接口的方法，返回该内容对应的 emoji 字符码点。用于在消息建筑上显示物品/方块的图标。
+
+## 注意事项
+
+- `printchar` 与 `print` 一样，只是向缓冲区追加内容，需要配合 `printflush` 刷新才能显示。
+- 数字值会通过 `Math.floor()` 向下取整，因此 `printchar 65.9` 会打印字符 `A`（码点 65）。
+- 通过内容引用打印 emoji 字符时，需要在消息建筑上才能正确显示图标。在逻辑显示屏上通过 `draw print` 绘制时，emoji 字符的显示效果取决于逻辑字体是否包含对应字形。
+- ASCII 可打印字符的码点范围为 32（空格）到 126（`~`）。码点 10 为换行符，码点 9 为制表符。
+- 可以使用 `printchar` 打印 `print` 指令难以直接输入的字符，如换行符（10）、制表符（9）或其他特殊符号。
+- 积木编辑器的字符选择器仅覆盖 ASCII 32-126 范围。超出此范围的字符需要手动在输入框中输入码点数值。
+- 文本缓冲区上限为 400 个字符，与 `print` 共享同一缓冲区。
+
+## 网络同步注意事项
+
+- textBuffer 本身不进行网络同步，与 `print` 指令共享同一缓冲区。
+- `printflush` 刷新后，内容写入消息建筑的 `message` 字段并参与建筑同步。
+- 内容 emoji 字符在消息建筑上的显示依赖客户端的内容资源，不同客户端应能一致显示。
+- 在多人模式下，`printchar` 的行为与 `print` 一致，缓冲区在客户端和服务端各自独立维护。
+
+## 未验证内容
+
+- Unicode 码点超出基本多文种平面（BMP，0-65535）时的行为未做测试，Java 的 char 类型为 16 位，可能无法正确表示补充字符。
+- 内容 emoji 字符在逻辑显示屏（`draw print`）上的渲染效果未做详细验证，可能不支持图标显示。
+- 在消息建筑上，内容 emoji 字符与普通文本混排时的对齐和显示效果需要实际验证。
+
+
+<!-- 文件: 04_IO\06-format.md -->
+
+
+---
+
+
+# 06 - format（格式化打印）
+
+> 用途：将文本缓冲区（textBuffer）中编号最小的占位符（`{0}` 到 `{9}`）替换为指定值。用于在已打印的模板文本中动态插入变量值。
+
+## 导出格式
+
+```
+format "frog"
+```
+
+等价的文本指令格式：
+
+```
+format <value>
+```
+
+- 积木编辑器中只有一个文本输入框，填写要替换占位符的值
+- 文本格式中参数为要替换的值，可以是字符串常量或变量名
+
+## 参数说明
+
+| 参数位置 | 参数名 | 说明 | 默认值 |
+|---------|--------|------|--------|
+| 1 | value | 用于替换占位符的值，可以是字符串常量或变量 | "frog" |
+
+## 功能说明
+
+`format` 指令在处理器的 `textBuffer`（文本缓冲区）中查找占位符，并将编号最小的占位符替换为指定值。
+
+### 占位符格式
+
+占位符的格式为 `{数字}`，其中数字为 0 到 9。例如 `{0}`、`{1}`、`{2}` 等。
+
+### 替换规则
+
+1. 遍历 textBuffer 中的所有字符，查找 `{数字}` 格式的占位符。
+2. 在所有找到的占位符中，选择编号最小的一个进行替换。
+3. 如果没有找到任何占位符，则不做任何操作。
+4. 替换时，将占位符（3 个字符，如 `{0}`）替换为值的字符串表示。
+
+### 值到字符串的转换规则
+
+与 `print` 指令相同：
+
+- **数字值**：接近整数（差值小于 0.00001）时显示为整数形式，否则显示浮点数形式。
+- **对象值**：使用 `PrintI.toString()` 方法转换（null → `"null"`，String → 本身，MappableContent → name，Building → block.name，Unit → type.name，Enum → name()，Team → name，其他 → `"[object]"`）。
+
+### 使用流程
+
+`format` 指令的典型使用流程为：
+
+1. 使用 `print` 指令打印包含占位符的模板文本，如 `print "HP: {0}/{1}"`。
+2. 使用 `format` 指令替换第一个占位符 `{0}`，如 `format currentHp`。
+3. 再次使用 `format` 指令替换下一个占位符 `{1}`，如 `format maxHp`。
+4. 使用 `printflush` 刷新到消息建筑显示。
+
+每次 `format` 调用只替换一个占位符（编号最小的那个），因此需要多次调用以替换所有占位符。
+
+### 替换后的缓冲区长度保护
+
+替换完成后，如果 textBuffer 长度超过最大值（400），会被截断到 400 个字符。
+
+## 源码实现要点
+
+**FormatStatement（语句定义）** — 位于 `LStatements.java`。注册为 `format`，分类为 `LCategory.io`。持有一个字符串字段 `value`，默认值为 `"\"frog\""`。`build()` 方法通过 `builder.var(value)` 解析参数，生成 `FormatI` 指令。UI 布局与 `print` 指令相同，只有一个文本输入框。
+
+**FormatI（指令执行）** — 位于 `LExecutor.java`。持有一个 LVar `value`。`run()` 方法中：
+- 初始化 `placeholderIndex = -1`（占位符位置）和 `placeholderNumber = 10`（占位符编号，初始设为 10 以确保任何 0-9 的编号都更小）。
+- 遍历 textBuffer 中的每个字符，查找 `{` 后跟数字 0-9 再跟 `}` 的三字符序列。
+- 找到编号最小的占位符后，记录其位置和编号。
+- 如果没找到占位符（`placeholderIndex == -1`），直接返回。
+- 如果值为对象，调用 `PrintI.toString()` 转换后，用 `textBuffer.replace()` 替换占位符。
+- 如果值为数字，按整数/浮点数规则转换后替换。
+- 替换后检查缓冲区长度，超过 400 则截断。
+
+**与 PrintI.toString() 的复用** — `FormatI` 直接调用 `PrintI.toString()` 静态方法进行对象到字符串的转换，确保与 `print` 指令的转换规则一致。
+
+## 注意事项
+
+- `format` 只替换编号最小的占位符，不一次性替换所有占位符。如果有 `{0}` 和 `{1}` 两个占位符，需要调用两次 `format`。
+- 占位符编号为单个数字（0-9），不支持多位数字如 `{10}`。`{10}` 不会被识别为有效占位符（因为格式要求恰好三个字符 `{数字}`）。
+- 如果 textBuffer 中没有占位符，`format` 不做任何操作，也不会报错。
+- `format` 操作的是已有 textBuffer 内容，因此必须先通过 `print` 等指令写入包含占位符的模板文本。
+- 替换可能导致 textBuffer 长度变化。如果替换后的字符串比占位符长，缓冲区可能超过 400 字符上限，此时会被截断。
+- 多次 `format` 替换同一编号的占位符时，第一次替换后该占位符已消失，第二次不会再替换。
+- 占位符的查找是顺序遍历整个 textBuffer，时间复杂度为 O(n)，n 为缓冲区长度。
+
+## 网络同步注意事项
+
+- textBuffer 本身不进行网络同步，与 `print` / `printchar` 共享同一缓冲区。
+- `format` 对 textBuffer 的修改在处理器本地完成，`printflush` 刷新后内容才通过消息建筑同步。
+- 在多人模式下，`format` 的行为在客户端和服务端各自独立执行，只要处理器逻辑同步，结果应一致。
+- 由于 `format` 依赖于 textBuffer 中的占位符文本，如果 `print` 和 `format` 之间的执行顺序在不同客户端间存在差异，可能导致替换结果不一致。但正常情况下处理器指令按顺序执行，不存在此问题。
+
+## 未验证内容
+
+- 当 textBuffer 中存在嵌套或重叠的 `{` 和 `}` 字符时（如 `{{0}}`），占位符识别的具体行为未做详细测试。
+- 占位符编号为 0 但 textBuffer 中同时存在 `{0}` 和 `{00}` 时的匹配优先级未做验证（`{00}` 不符合三字符格式，应不会被识别）。
+- 在 `draw print` 模式下使用 `format` 格式化文本后绘制到显示屏的完整流程未做端到端测试。
+- 替换值为非常长的字符串时，textBuffer 截断对后续 `format` 调用的影响未做详细分析。
+
+
+<!-- 文件: 05_Block Control\01-getlink.md -->
+
+
+---
+
+
+# 01 - getlink（获取链接的建筑）
+
+> **用途**：通过索引从处理器的链接列表中获取建筑引用，存入指定变量。这是处理器访问已链接建筑的最基本方式。
+
+## 导出格式
+
+```
+getlink <output> <index>
+```
+
+## 参数说明
+
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| output | 变量名 | 用于存储获取到的建筑对象 |
+| index | 整数 | 链接列表中的索引（从 0 开始） |
+
+## 功能说明
+
+`getlink` 指令通过索引从处理器维护的链接列表（links 数组）中获取建筑引用。处理器在编辑界面中通过画线链接的建筑会按链接顺序存入此列表，索引从 0 开始。
+
+- 索引超出范围时，output 被设为 `null`。
+- 链接列表的最大容量为 6000 个建筑。
+- 链接的建筑必须满足有效性验证（validLink）：同队伍、在处理器链接范围内、非建造中的建筑。世界处理器（privileged）可链接更广范围的建筑。
+
+获取到的建筑引用可传递给 `sensor`、`control`、`radar` 等指令使用。
+
+## 源码实现要点
+
+### GetLinkI（获取链接指令）
+
+位于 `LExecutor.java`，核心逻辑如下：
+
+- 从 `index` 变量读取整数索引。
+- 判断索引是否在 `exec.links` 数组的有效范围内（`>= 0` 且 `< exec.links.length`）。
+- 有效则将对应建筑存入 output 变量，无效则存入 `null`。
+
+### links 数组
+
+处理器的链接列表 `exec.links` 是一个 `Building[]` 数组，存储了该处理器通过编辑界面链接的所有建筑。链接顺序由玩家在编辑器中画线连接的先后顺序决定。
+
+### validLink（链接有效性验证）
+
+位于 `LogicBlock.LogicBuild` 中，验证条件包括：
+- 目标建筑不为空且有效。
+- 普通处理器：目标必须同队伍、非特权建筑、在链接范围内（默认 10 格）、非建造中的建筑。
+- 世界处理器（privileged）：可链接更大范围的建筑，但受规则限制不能链接默认队伍的建筑（除非允许）。
+
+## 注意事项
+
+1. 索引从 0 开始，第一个链接的建筑索引为 0。
+2. 链接顺序取决于在编辑器中画线连接的先后顺序，而非空间位置。
+3. 如果建筑被摧毁或不再满足链接条件，获取到的引用可能为 `null`，使用前应做检查。
+4. 处理器的链接范围分别为：微型处理器 10 格、逻辑处理器 22 格、超级处理器 42 格、世界处理器全图。
+5. 索引值支持变量，因此可通过循环变量遍历所有链接建筑。
+
+## 网络同步注意事项
+
+- `getlink` 本身只读取本地链接列表，不产生网络同步操作。
+- 但获取到的建筑引用后续如果用于 `control` 等控制指令，则涉及网络同步，请参考相应指令的说明。
+
+## 未验证内容
+
+- 链接列表在建筑被摧毁后是否自动更新（索引是否移位），需实际测试确认。
+- 世界处理器链接范围在不同规则集下是否有变化。
+
+
+<!-- 文件: 05_Block Control\02-control.md -->
+
+
+---
+
+
+# 02 - control（控制建筑）
+
+> **用途**：对已链接的建筑发送控制指令，包括启用/禁用、设置配置（如传送带筛选物品）、设置颜色、炮塔射击坐标、炮塔射击目标等。
+
+## 导出格式
+
+```
+control <type> <building> <p1> <p2> <p3> <p4>
+```
+
+## 参数说明
+
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| type | 控制类型 | 控制子类型，取值为 `enabled`、`config`、`color`、`shoot`、`shootp` |
+| building | 建筑引用 | 目标建筑（通过 getlink 或其他方式获取） |
+| p1 | 参数1 | 含义随 type 不同而变化 |
+| p2 | 参数2 | 含义随 type 不同而变化 |
+| p3 | 参数3 | 含义随 type 不同而变化 |
+| p4 | 参数4 | 含义随 type 不同而变化 |
+
+## 控制子类型说明
+
+### enabled（启用/禁用）
+
+```
+control enabled <building> <p1> 0 0 0
+```
+
+| 参数 | 说明 |
+|------|------|
+| p1 | 1 = 启用，0 = 禁用 |
+
+控制建筑的开关状态。当 p1 为 1 时，建筑被唤醒（noSleep）；当 p1 为 0 时，记录禁用来源为当前处理器。适用于所有可被禁用的建筑，如工厂、炮塔、传送带等。
+
+### config（设置配置）
+
+```
+control config <building> <p1> 0 0 0
+```
+
+| 参数 | 说明 |
+|------|------|
+| p1 | 配置对象（物品、液体等内容对象），如 `@copper`、`@water` |
+
+设置建筑的配置项。典型应用场景：
+- 传送带/分选器的筛选物品
+- 分配器的目标物品
+- 卸料器的目标物品
+- 脉冲节点等建筑的配置
+
+注意：p1 是对象类型参数，需传入内容引用（如 `@copper`），而非数字。该指令会忽略对处理器建筑自身（LogicBuild）的配置，以避免极端卡顿。
+
+### color（设置颜色）
+
+```
+control color <building> <p1> 0 0 0
+```
+
+| 参数 | 说明 |
+|------|------|
+| p1 | 打包的颜色值（double 类型，通过颜色打包函数生成） |
+
+设置建筑的颜色。主要用于照亮器（Light Block），将打包的颜色值解包为 RGBA 设置建筑颜色。
+
+### shoot（射击坐标）
+
+```
+control shoot <building> <p1> <p2> <p3> 0
+```
+
+| 参数 | 说明 |
+|------|------|
+| p1 | 目标 X 坐标（世界坐标，单位为格） |
+| p2 | 目标 Y 坐标（世界坐标，单位为格） |
+| p3 | 是否射击（1 = 射击，0 = 停止射击） |
+
+控制炮塔射击指定坐标。坐标会通过 `World.unconv()` 转换为内部坐标。该指令仅在炮塔未被玩家控制时生效，并设置逻辑控制冷却时间。
+
+### shootp（射击目标）
+
+```
+control shootp <building> <p1> <p2> 0 0
+```
+
+| 参数 | 说明 |
+|------|------|
+| p1 | 目标对象（单位或建筑引用） |
+| p2 | 是否射击（1 = 射击，0 = 停止射击） |
+
+控制炮塔射击指定单位或建筑。p1 是对象类型参数，需传入单位或建筑引用。该指令仅在炮塔未被玩家控制时生效。
+
+## 功能说明
+
+`control` 指令是处理器控制建筑行为的核心指令。它根据控制类型（type）和参数对目标建筑执行不同的控制操作。
+
+源码中通过 `LAccess.controls` 筛选出可用的控制类型，共 5 种：`enabled`、`config`、`color`、`shoot`、`shootp`。
+
+执行流程：
+1. 从 building 变量获取目标建筑对象。
+2. 验证目标建筑是否为有效链接（或处理器为特权处理器）。
+3. 对 `enabled` 类型做特殊处理（noSleep / lastDisabler）。
+4. 根据 type 是否为对象类型（isObj）及 p1 是否为对象，选择调用对象版本或数值版本的 `control` 方法。
+5. 由各建筑子类的 `control` 方法实现具体行为。
+
+## 源码实现要点
+
+### ControlI（控制指令）
+
+位于 `LExecutor.java`，核心逻辑如下：
+
+- 从 target 变量获取建筑对象，检查是否为 Building 实例。
+- 验证链接有效性：普通处理器需 `exec.build.validLink(b)`，特权处理器直接通过。
+- 对 `enabled` 类型：p1 为真时调用 `b.noSleep()` 唤醒建筑，否则设置 `b.lastDisabler = exec.build`。
+- 根据 `type.isObj` 和 `p1.isobj` 判断使用对象版还是数值版的 `control` 方法：
+  - 对象版：`b.control(type, p1.obj(), p2.num(), p3.num(), p4.num())`
+  - 数值版：`b.control(type, p1.num(), p2.num(), p3.num(), p4.num())`
+
+### BuildingComp.control（建筑控制基类）
+
+位于 `BuildingComp.java`，默认实现：
+- 数值版：仅处理 `enabled` 类型，设置 `enabled = !Mathf.zero(p1)`。
+- 对象版：仅处理 `config` 类型，在 `block.logicConfigurable` 为真且目标非 LogicBuild 时调用 `configured(null, p1)`。
+
+### 各子类的 control 重写
+
+- **Turret（炮塔）**：重写 `shoot` 和 `shootp` 的控制逻辑，设置目标位置/目标对象、射击状态和逻辑控制冷却时间。
+- **Door（门）**：重写 `enabled` 控制，切换门的开关状态。
+- **PayloadRouter（载荷路由器）**：重写 `config` 控制，设置旋转方向。
+- **LightBlock（照亮器）**：重写 `color` 控制，设置颜色。
+
+## 注意事项
+
+1. 目标建筑必须是处理器已链接的建筑，否则指令不执行。
+2. `config` 和 `shootp` 的 p1 参数是对象类型，需传入内容引用（如 `@copper`）或建筑/单位引用，而非数字。
+3. `shoot` 的坐标参数是世界坐标（格为单位），会自动转换为内部浮点坐标。
+4. 炮塔被玩家手动控制时，`shoot` 和 `shootp` 指令不生效。
+5. 对 LogicBuild 自身执行 `config` 控制会被忽略，以防止逻辑递归导致的卡顿。
+6. 不同建筑支持的 control 类型不同，对不支持的控制类型会静默忽略。
+
+## 网络同步注意事项
+
+- **多人模式下，control 指令由服务端执行**。客户端处理器的 control 指令会发送到服务端处理。
+- `config` 控制会触发 `configured()` 方法，该方法在服务端执行后通过网络同步配置变化到所有客户端。
+- `enabled` 控制改变建筑启用状态，通过建筑的 `enabled` 字段同步。
+- `shoot` 和 `shootp` 控制的炮塔目标位置和射击状态，由服务端的炮塔逻辑处理并同步。
+- 客户端看到的建筑控制效果可能存在短暂延迟，因为指令需要先发送到服务端再同步回来。
+- 特权处理器（世界处理器）的 control 指令直接在服务端执行，同步延迟更小。
+
+## 未验证内容
+
+- `color` 控制的颜色打包值的具体计算方式（是否与 draw 指令的 colorPack 使用相同格式）。
+- 连续快速发送 `shoot` 指令时，炮塔的响应频率是否有上限。
+- `config` 控制对各类建筑的完整适用范围（哪些建筑支持 logicConfigurable）。
+
+
+<!-- 文件: 05_Block Control\03-radar.md -->
+
+
+---
+
+
+# 03 - radar（建筑雷达搜索）
+
+> **用途**：从指定的雷达建筑（如炮塔等有搜索范围的建筑）搜索符合条件的单位，返回最佳匹配的单位引用。
+
+## 导出格式
+
+```
+radar <target1> <target2> <target3> <sort> <building> <order> <output>
+```
+
+## 参数说明
+
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| target1 | 目标筛选1 | 第一层目标筛选条件 |
+| target2 | 目标筛选2 | 第二层目标筛选条件（AND 关系） |
+| target3 | 目标筛选3 | 第三层目标筛选条件（AND 关系） |
+| sort | 排序方式 | 搜索结果的排序依据 |
+| building | 建筑引用 | 执行搜索的建筑（必须实现 Ranged 接口，如炮塔） |
+| order | 整数 | 排序方向（1 = 正序（最近/最高优先），0/负值 = 反序（最远/最低优先）） |
+| output | 变量名 | 用于存储搜索到的单位引用 |
+
+## 目标筛选条件（RadarTarget）
+
+三个 target 参数取值相同，均为以下枚举值之一，三个条件之间为 AND 关系（同时满足才匹配）：
+
+| 取值 | 说明 |
+|------|------|
+| any | 任意单位（始终匹配） |
+| enemy | 敌方单位（不同队伍且非遗弃队伍） |
+| ally | 友方单位（同队伍） |
+| player | 玩家控制的单位 |
+| attacker | 可攻击的单位（canShoot） |
+| flying | 飞行中的单位 |
+| boss | Boss 单位 |
+| ground | 地面单位（已着陆的） |
+
+## 排序方式（RadarSort）
+
+| 取值 | 说明 |
+|------|------|
+| distance | 按距离排序（距离最近优先） |
+| health | 按当前血量排序 |
+| shield | 按护盾值排序 |
+| armor | 按护甲值排序 |
+| maxHealth | 按最大血量排序 |
+
+## 功能说明
+
+`radar` 指令从指定建筑（通常是炮塔或其他实现 Ranged 接口的建筑）的射程范围内搜索单位。三个目标筛选条件以 AND 关系组合，只有同时满足三个条件的单位才会被纳入候选。
+
+搜索结果按指定的排序方式和方向排列，返回最佳匹配的单位。如果未找到任何匹配单位，output 被设为 `null`。
+
+**缓存机制**：为防止雷达指令频繁执行导致的性能问题，雷达结果会被缓存。建筑类雷达每 40 tick 更新一次结果，在此期间返回上次缓存的目标。当搜索源建筑变化时也会触发重新搜索。
+
+## 源码实现要点
+
+### RadarI（雷达指令）
+
+位于 `LExecutor.java`，核心逻辑如下：
+
+- 从 `radar` 变量获取搜索源建筑（base）。
+- 验证 base 是否为 Ranged 接口实现，且同队伍或特权处理器。
+- 验证 base 是建筑或可被逻辑控制的单位。
+- 获取搜索范围 `r.range()`。
+- **缓存更新**：建筑类搜索源每 40 tick 更新一次，或当搜索源建筑变化时更新。单位类搜索源使用每控制器实例的独立计时器。
+- **搜索逻辑**：
+  - 如果任意 target 包含 `enemy`，遍历所有在场敌方队伍搜索。
+  - 如果不包含 `enemy` 但包含 `ally`，仅搜索己方队伍。
+  - 如果都不包含，搜索所有在场队伍。
+- **匹配与排序**：对范围内每个单位检查三个 target 条件是否全部满足，然后计算排序值 `sort.func * sortDir`，保留最优值。
+- 搜索完成后将结果存入 output 变量。
+
+### find（搜索方法）
+
+- 使用 `Units.nearby(team, x, y, range, consumer)` 遍历范围内的单位。
+- 跳过超出范围、不可被瞄准、与搜索源相同的单位。
+- 三个 target 条件通过 `func.get(team, unit)` 判断，全部为 true 才匹配。
+- 排序值通过 `sort.func.get(pos, unit)` 计算，乘以排序方向（1 或 -1）。
+
+## 注意事项
+
+1. 搜索源建筑必须实现 Ranged 接口（有 `range()` 方法），通常是炮塔。普通建筑没有射程属性，无法作为搜索源。
+2. 三个 target 条件为 AND 关系，全部满足才匹配。使用 `any` 可跳过某一层筛选。
+3. 搜索范围由搜索源建筑的射程决定，而非处理器链接范围。
+4. 雷达结果有 40 tick 的缓存间隔，不会每次执行都重新搜索，这是为了性能优化。
+5. `order` 参数为 1 时取排序最大值（如 distance 最近、health 最高），为 0 或负值时取最小值（如 distance 最远、health 最低）。
+6. distance 排序使用距离的负值（`-pos.dst2(other)`），因此正序（order=1）返回距离最近的单位。
+7. 与 `uradar` 的区别：`radar` 从指定建筑搜索，`uradar` 从处理器绑定的单位搜索。
+
+## 网络同步注意事项
+
+- `radar` 指令在客户端和服务端都会执行，但搜索结果以服务端为准。
+- 雷达搜索到的单位引用在多人模式下可能因同步延迟而略有差异。
+- 缓存机制（40 tick 间隔）在客户端和服务端独立运行，可能导致短暂的结果不一致。
+- 特权处理器（世界处理器）的雷达搜索直接在服务端执行，结果更准确。
+
+## 源码验证结论
+
+- **雷达无法搜索到不可瞄准的单位**。源码 `RadarI.find()` 方法中明确检查 `!u.targetable(team)`，不可瞄准的单位会被跳过。
+- 当搜索源建筑被摧毁后，`lastTarget` 仍保留最后一次搜索结果，但由于建筑已不存在，下一次 `run()` 执行时 `base instanceof Ranged r` 条件不满足，output 会被设为 null。
+
+
+<!-- 文件: 05_Block Control\04-sensor.md -->
+
+
+---
+
+
+# 04 - sensor（传感器）
+
+> **用途**：读取建筑或单位的属性值，包括物品数量、血量、效率、坐标、队伍等各类可感知属性。
+
+## 导出格式
+
+```
+sensor <output> <from> <type>
+```
+
+## 参数说明
+
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| output | 变量名 | 用于存储读取到的属性值 |
+| from | 对象引用 | 被感知的建筑或单位引用 |
+| type | 属性类型 | LAccess 枚举值（如 `@totalItems`、`@health`）或内容引用（如 `@copper`） |
+
+## 常用可读取属性
+
+### 数值类属性（返回数字）
+
+| 属性 | 说明 | 适用对象 |
+|------|------|----------|
+| @totalItems | 物品总数 | 建筑 |
+| @totalLiquids | 液体总量 | 建筑 |
+| @totalPower | 电力状态 | 建筑 |
+| @itemCapacity | 物品容量 | 建筑 |
+| @liquidCapacity | 液体容量 | 建筑 |
+| @powerCapacity | 电力容量 | 建筑 |
+| @powerNetStored | 电力网络存储量 | 建筑 |
+| @powerNetCapacity | 电力网络总容量 | 建筑 |
+| @powerNetIn | 电力网络输入功率 | 建筑 |
+| @powerNetOut | 电力网络输出功率 | 建筑 |
+| @ammo | 弹药量 | 建筑/单位 |
+| @ammoCapacity | 弹药容量 | 建筑/单位 |
+| @health | 当前血量 | 建筑/单位 |
+| @maxHealth | 最大血量 | 建筑/单位 |
+| @heat | 热量 | 建筑/单位 |
+| @shield | 护盾 | 建筑/单位 |
+| @armor | 护甲 | 建筑/单位 |
+| @efficiency | 效率 | 建筑 |
+| @progress | 进度 | 建筑/单位 |
+| @timescale | 时间缩放 | 建筑 |
+| @rotation | 旋转角度 | 建筑/单位 |
+| @x | X 坐标（世界坐标） | 建筑/单位 |
+| @y | Y 坐标（世界坐标） | 建筑/单位 |
+| @range | 射程 | 建筑/单位 |
+| @size | 建筑大小（格） | 建筑/单位 |
+| @team | 队伍 ID | 建筑/单位 |
+| @flag | 标志值 | 建筑/单位 |
+| @dead | 是否已死亡（1/0） | 建筑/单位 |
+| @solid | 是否实体（1/0） | 建筑 |
+| @enabled | 是否启用（1/0） | 建筑 |
+| @controlled | 是否被控制（1/0） | 建筑/单位 |
+| @shooting | 是否正在射击（1/0） | 建筑/单位 |
+| @boosting | 是否加速中（1/0） | 单位 |
+| @flying | 是否飞行中（1/0） | 单位 |
+| @mining | 是否采矿中（1/0） | 单位 |
+| @mineX | 采矿目标 X 坐标 | 单位 |
+| @mineY | 采矿目标 Y 坐标 | 单位 |
+| @building | 是否建造中（1/0） | 单位 |
+| @breaking | 是否拆除中（1/0） | 单位 |
+| @speed | 速度 | 单位 |
+| @id | 唯一 ID | 建筑/单位 |
+| @payloadCount | 载荷数量 | 建筑/单位 |
+| @payloadCapacity | 载荷容量 | 建筑/单位 |
+| @maxUnits | 最大单位数 | 建筑 |
+
+### 对象类属性（返回对象引用）
+
+| 属性 | 说明 | 适用对象 |
+|------|------|----------|
+| @type | 建筑类型/单位类型 | 建筑/单位 |
+| @firstItem | 第一个物品 | 建筑 |
+| @config | 建筑配置 | 建筑 |
+| @payloadType | 载荷类型 | 建筑/单位 |
+| @name | 名称 | 单位/玩家 |
+| @currentAmmoType | 当前弹药类型 | 建筑/单位 |
+
+### 内容类属性（返回指定物品/液体的数量）
+
+当 type 为内容引用（如 `@copper`、`@water`）时，sensor 返回建筑中该物品或液体的存储数量。
+
+| 示例 | 说明 |
+|------|------|
+| `sensor _result _vault @copper` | 读取仓库中铜的数量 |
+| `sensor _result _tank @water` | 读取储罐中水的数量 |
+| `sensor _result _vault @titanium` | 读取仓库中钛的数量 |
+
+## 功能说明
+
+`sensor` 指令从指定的建筑或单位读取属性值。type 参数可以是 LAccess 枚举值（以 `@` 前缀表示，如 `@health`）或内容引用（如 `@copper`）。
+
+读取流程：
+1. 从 from 变量获取目标对象。
+2. 从 type 变量获取感知类型。
+3. 如果目标为 null 且感知类型为 `@dead`，直接返回 1（null 对象视为已死亡）。
+4. 如果目标实现了 Senseable 接口：
+   - 感知类型为 Content（物品/液体/单位类型/方块）：调用 `sense(content)` 返回数值。
+   - 感知类型为 LAccess：先调用 `senseObject(la)`，如果返回 `noSensed` 则调用 `sense(la)` 返回数值，否则返回对象。
+5. 如果目标未实现 Senseable 但感知类型为 `@size` 或 `@bufferSize`，返回字符串长度或序列大小。
+6. 其他情况返回 null。
+
+## 源码实现要点
+
+### SenseI（感知指令）
+
+位于 `LExecutor.java`，核心逻辑如下：
+
+- 从 from 变量获取目标对象，从 type 变量获取感知类型（对象）。
+- 特殊处理：目标为 null 且感知类型为 `@dead` 时返回 1。
+- 目标实现 Senseable 接口时：
+  - Content 类型：调用 `se.sense(co)` 返回数值。
+  - LAccess 类型：调用 `se.senseObject(la)`，返回值为 `noSensed` 时改调 `se.sense(la)` 返回数值，否则返回对象引用。
+- 目标未实现 Senseable 时，对 `@size`/`@bufferSize` 特殊处理（返回 CharSequence 长度或 Seq 大小），其余返回 null。
+
+### BuildingComp.sense（建筑感知）
+
+位于 `BuildingComp.java`，处理的 LAccess 属性包括：
+- 坐标：x, y（通过 `World.conv()` 转换为世界坐标）
+- 状态：color, dead, solid, team, health, maxHealth, efficiency, timescale, range, rotation, enabled, controlled
+- 物品/液体/电力：totalItems, totalLiquids, totalPower, itemCapacity, liquidCapacity, powerCapacity, powerNetIn, powerNetOut, powerNetStored, powerNetCapacity
+- 载荷：payloadCount
+- 其他：size, cameraX, cameraY, cameraWidth, cameraHeight
+
+### BuildingComp.senseObject（建筑对象感知）
+
+处理的 LAccess 属性：type（返回 Block）、firstItem（返回第一个物品）、config（返回配置）、payloadType（返回载荷类型）。
+
+### BuildingComp.sense(Content)（建筑内容感知）
+
+- Item 类型：返回建筑中该物品的数量。
+- Liquid 类型：返回建筑中该液体的数量。
+- UnitType/Block 类型：返回载荷中该单位/方块的数量。
+
+## 注意事项
+
+1. type 参数以 `@` 前缀表示，如 `@health`、`@totalItems`，内容引用也以 `@` 前缀表示，如 `@copper`。
+2. 不同建筑支持的感知属性不同，不支持的属性返回 `null`（数值类）或 `NaN`。
+3. 坐标属性（@x, @y）返回的是世界坐标（格为单位），通过 `World.conv()` 从内部浮点坐标转换而来。
+4. 对象类属性（如 @type, @firstItem）返回的是对象引用，可以进一步用于其他指令。
+5. 感知 null 对象的 `@dead` 属性返回 1，这是特殊设计，可用于检查建筑/单位是否已被摧毁。
+6. 远程建筑和单位也可以被感知（源码注释说明），不受链接范围限制。
+7. sensor 可以读取单位属性，不限于建筑。
+
+## 网络同步注意事项
+
+- `sensor` 指令只读取属性，不产生网络同步操作。
+- 在多人模式下，感知到的建筑/单位属性值反映的是本地的最新同步状态，可能与服务端有短暂差异。
+- 对象类属性（如 @firstItem, @type）返回的对象引用在客户端可能与服务端不同步。
+- 特权处理器感知的属性直接来自服务端数据，准确性更高。
+
+## 未验证内容
+
+- 各类炮塔/工厂特有的感知属性（如 @currentAmmoType 的具体返回值格式）。
+- 单位感知的完整属性列表（UnitComp 中的 sense 实现）。
+- @config 对不同建筑返回的具体值格式（可能因建筑类型而异）。
+- @flag 属性的默认值和设置方式（通过 setProp 设置）。
+
+
+<!-- 文件: 05_Block Control\05-drawflush.md -->
+
+
+---
+
+
+# 05 - drawflush（刷新绘制到显示屏）
+
+> **用途**：将处理器图形缓冲区（graphicsBuffer）中的绘制指令刷新到逻辑显示屏建筑，使绘制内容在显示屏上可见。
+
+## 导出格式
+
+```
+drawflush <building>
+```
+
+## 参数说明
+
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| building | 建筑引用 | 目标显示屏建筑（LogicDisplay 类型） |
+
+## 功能说明
+
+`drawflush` 指令将处理器内部维护的图形缓冲区（graphicsBuffer）中的所有绘制指令一次性提交到指定的逻辑显示屏建筑。
+
+处理器通过 `draw` 系列指令（如 `draw line`、`draw rect`、`draw color` 等）将绘制操作写入图形缓冲区，这些操作不会立即显示在显示屏上。只有执行 `drawflush` 后，缓冲区中的绘制指令才会被提交到显示屏并渲染出来。
+
+执行流程：
+1. 从 building 变量获取目标建筑。
+2. 验证目标建筑是否为 LogicDisplayBuild（逻辑显示屏），且有效且同队伍（或特权处理器）。
+3. 验证通过后，调用显示屏的 `flushCommands()` 方法提交图形缓冲区内容。
+4. 无论验证是否通过，都会清空图形缓冲区（graphicsBuffer）。
+
+**图形缓冲区限制**：图形缓冲区最大容量为 256 条绘制指令（maxGraphicsBuffer = 256）。当缓冲区满时，后续的 draw 指令会被忽略。显示屏自身的显示缓冲区容量为 1024（maxDisplayBuffer = 1024）。
+
+## 源码实现要点
+
+### DrawFlushI（刷新绘制指令）
+
+位于 `LExecutor.java`，核心逻辑如下：
+
+- 从 target 变量获取目标建筑，通过 `building()` 方法获取 Building 实例。
+- 验证目标是否为 `LogicDisplayBuild`，且 `isValid()` 为真，且 `d.team == exec.team`（或 `exec.privileged` 为特权处理器）。
+- 验证通过后调用 `d.flushCommands(exec.graphicsBuffer)` 提交图形缓冲区。
+- 最后无条件执行 `exec.graphicsBuffer.clear()` 清空缓冲区。
+
+### graphicsBuffer（图形缓冲区）
+
+- 类型为 `LongSeq`，存储打包后的绘制指令（每条指令为一个 long 值）。
+- 由 `DrawI` 指令在执行 draw 操作时写入。
+- 最大容量 256 条指令，超过后新的 draw 指令不再写入。
+- 每次 `drawflush` 执行后清空。
+
+### LogicDisplayBuild.flushCommands
+
+接收图形缓冲区中的绘制指令，存入显示屏的显示缓冲区（displayBuffer），由显示屏在渲染时执行。
+
+## 注意事项
+
+1. 目标建筑必须是逻辑显示屏（Logic Display），其他建筑类型会导致指令静默失败。
+2. 显示屏必须与处理器同队伍（特权处理器除外），且必须有效（未被摧毁）。
+3. `drawflush` 会清空图形缓冲区，因此每次刷新后需要重新执行 draw 指令才能绘制新内容。
+4. 如果不执行 `drawflush`，draw 指令的绘制内容不会显示在显示屏上。
+5. 图形缓冲区上限 256 条指令，显示缓冲区上限 1024 条指令。多次 drawflush 可累积超过 256 条指令到显示屏。
+6. 在无头服务器（headless）上，draw 指令本身不会执行（直接返回），但 drawflush 仍会清空缓冲区。
+7. 显示屏的渲染由客户端处理，服务端不需要实际渲染图形。
+
+## 网络同步注意事项
+
+- `drawflush` 产生的绘制指令需要通过网络同步到所有客户端的显示屏。
+- 绘制指令的同步数据量可能较大（最多 256 条指令），在多人模式下可能增加网络负载。
+- 客户端看到的显示屏内容可能存在短暂延迟，因为指令需要先发送到服务端再同步到各客户端。
+- 特权处理器（世界处理器）的 drawflush 直接在服务端执行，但仍需同步绘制指令到客户端。
+- 频繁执行 drawflush（如每 tick 执行）可能导致网络带宽压力，建议适当降低刷新频率。
+
+## 未验证内容
+
+- 多个处理器同时向同一显示屏 drawflush 时的行为（绘制指令是否会混合或覆盖）。
+- 显示缓冲区满（1024 条）后新指令的处理方式（推测为丢弃最旧指令或忽略新指令）。
+- drawflush 在客户端处理器中的执行时序（是否等待服务端确认后再清空缓冲区）。
+
+
+<!-- 文件: 05_Block Control\06-printflush.md -->
+
+
+---
+
+
+# 06 - printflush（刷新打印到消息建筑）
+
+> **用途**：将处理器文本缓冲区（textBuffer）中的内容刷新到消息建筑（Message Block），使文本内容在消息建筑上显示。
+
+## 导出格式
+
+```
+printflush <building>
+```
+
+## 参数说明
+
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| building | 建筑引用 | 目标消息建筑（Message Block 类型） |
+
+## 功能说明
+
+`printflush` 指令将处理器内部维护的文本缓冲区（textBuffer）中的所有文本内容一次性提交到指定的消息建筑。
+
+处理器通过 `print` 指令将文本内容写入文本缓冲区，这些内容不会立即显示在消息建筑上。只有执行 `printflush` 后，缓冲区中的文本才会被提交到消息建筑并显示出来。
+
+执行流程：
+1. 从 building 变量获取目标建筑。
+2. 验证目标建筑是否为 MessageBuild（消息建筑），且有效且同队伍（或特权处理器且目标非特权建筑）。
+3. 验证通过后：
+   - 清空消息建筑的原有内容（`d.message.setLength(0)`）。
+   - 将文本缓冲区内容追加到消息建筑，截断至消息建筑的最大文本长度（maxTextLength）。
+4. 无论验证是否通过，都会清空文本缓冲区（textBuffer）。
+
+**文本缓冲区限制**：文本缓冲区最大容量为 400 个字符（maxTextBuffer = 400）。当缓冲区满时，后续的 print 指令不会写入。
+
+## 源码实现要点
+
+### PrintFlushI（刷新打印指令）
+
+位于 `LExecutor.java`，核心逻辑如下：
+
+- 从 target 变量获取目标建筑，通过 `building()` 方法获取 Building 实例。
+- 验证目标是否为 `MessageBuild`，且 `isValid()` 为真，且满足权限条件：
+  - 特权处理器：直接通过（但目标建筑不能是特权建筑，除非处理器自身为特权）。
+  - 普通处理器：需 `d.team == exec.team` 且 `!d.block.privileged`。
+- 验证通过后：
+  - 清空消息建筑内容：`d.message.setLength(0)`。
+  - 追加文本缓冲区内容：`d.message.append(exec.textBuffer, 0, Math.min(exec.textBuffer.length(), maxTextLength))`。
+- 最后无条件执行 `exec.textBuffer.setLength(0)` 清空文本缓冲区。
+
+### textBuffer（文本缓冲区）
+
+- 类型为 `StringBuilder`，存储待输出的文本内容。
+- 由 `PrintI` 指令在执行 print 操作时写入。
+- 最大容量 400 个字符，超过后新的 print 指令不再写入。
+- 每次 `printflush` 执行后清空。
+- 数字值在写入时会智能转换：接近整数的值显示为整数，否则显示为浮点数。
+
+### MessageBuild
+
+消息建筑的显示内容由 `message` 字段（StringBuilder）维护。printflush 会完全替换消息建筑的原有内容。
+
+## 注意事项
+
+1. 目标建筑必须是消息建筑（Message Block），其他建筑类型会导致指令静默失败。
+2. 消息建筑必须与处理器同队伍（特权处理器除外），且必须有效（未被摧毁）。
+3. `printflush` 会完全替换消息建筑的原有内容，而非追加。
+4. `printflush` 会清空文本缓冲区，因此每次刷新后需要重新执行 print 指令才能输出新内容。
+5. 如果不执行 `printflush`，print 指令的文本内容不会显示在消息建筑上。
+6. 文本缓冲区上限 400 个字符，消息建筑的最大文本长度由 MessageBlock 定义。
+7. print 指令对对象值的字符串转换规则：
+   - null -> "null"
+   - String -> 原文
+   - 内容对象（MappableContent）-> 名称
+   - Building -> 方块名称
+   - Unit -> 单位类型名称
+   - Enum -> 枚举名称
+   - Team -> 队伍名称
+   - 其他对象 -> "[object]"
+
+## 网络同步注意事项
+
+- `printflush` 产生的文本内容需要通过网络同步到所有客户端的消息建筑。
+- 文本同步的数据量通常较小（最多 400 字符），对网络负载影响有限。
+- 客户端看到的消息建筑内容可能存在短暂延迟，因为指令需要先发送到服务端再同步到各客户端。
+- 特权处理器（世界处理器）的 printflush 直接在服务端执行，但仍需同步文本到客户端。
+- 频繁执行 printflush（如每 tick 执行）可能导致频繁的网络同步，建议适当降低刷新频率。
+
+## 源码验证结论
+
+- **MessageBlock 的 maxTextLength = 400**（源码 `MessageBlock.java` 第 29 行：`public int maxTextLength = 400`）。同时 `maxNewlines = 24`，即最多 24 个换行符。超出长度的文本会被截断（config 方法中检查 `text.length() > maxTextLength` 则直接 return）。
+- 多个处理器同时向同一消息建筑 printflush 时，后执行的覆盖先执行的（每次 printflush 调用 `handleString` 方法，该方法先 `message.setLength(0)` 再 `message.append(value)`，即完全替换而非追加）。
+
+
+<!-- 文件: 06_World\01_setrate.md -->
+
+
+---
+
+
+# 01 - setrate（设置处理器执行速度）
+
+## 导出格式
+
+```
+setrate <amount>
+```
+
+## 参数说明
+
+| 参数   | 类型 | 说明                             |
+| ------ | ---- | -------------------------------- |
+| amount | 数值 | 每 tick 执行的指令数（最大 1000） |
+
+## 功能说明
+
+设置世界处理器的执行速度，即修改 `@ipt`（每 tick 指令数）的值。世界处理器默认 `@ipt` 为 8，通过 `setrate` 可以将其提升至最高 1000，从而实现极高的逻辑执行速度。
+
+## 源码实现要点
+
+- 对应指令类：`SetRateI`
+- 执行时直接设置 `executor.ipt = (int)p1.num()`，将处理器的每 tick 指令数修改为指定值
+- 设置后会立即生效，下一帧的指令执行将使用新的 `@ipt` 值
+- 数值会被截断为整数，且不会进行范围校验（超过 1000 的值仍会被设置，但实际执行中由 `maxInstructionScale` 限制累积上限）
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行，普通处理器无法使用
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- `@ipt` 的实际累积上限为 `maxInstructionScale * ipt`（默认 maxInstructionScale=5），即累积的执行点数不会超过 5 倍 ipt
+- 过高的 `@ipt` 值可能导致服务器性能下降，应根据实际需求合理设置
+- 可以通过 `sensor result @ipt` 读取当前的 `@ipt` 值
+
+## 代码示例
+
+```
+## 将世界处理器速度设置为最大值
+setrate 1000
+
+## 读取当前速度
+sensor currentRate @ipt
+print currentRate
+printflush message1
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\02_getblock.md -->
+
+
+---
+
+
+# 02 - getblock（获取方块）
+
+## 导出格式
+
+```
+getblock <result> <x> <y> <layer>
+```
+
+## 参数说明
+
+| 参数   | 类型     | 说明                                         |
+| ------ | -------- | -------------------------------------------- |
+| result | 输出变量 | 输出：获取到的方块/地板/覆盖层内容           |
+| x      | 数值     | tile 坐标 X                                  |
+| y      | 数值     | tile 坐标 Y                                  |
+| layer  | 枚举     | 图层类型：`block`/`floor`/`overlay`          |
+
+## 功能说明
+
+获取指定 tile 坐标处的方块、地板或覆盖层信息。根据 layer 参数的不同，返回不同图层的内容。
+
+## 源码实现要点
+
+- 对应指令类：`GetBlockI`
+- 根据 `TileLayer` 枚举获取不同图层内容：
+  - `block`：获取该坐标处的建筑（Building），输出为建筑引用
+  - `floor`：获取该坐标处的地板（Floor），输出为地板类型
+  - `overlay`：获取该坐标处的覆盖层（Overlay），输出为覆盖层类型
+- 坐标会被截断为整数，对应世界中的 tile 坐标系统
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- layer 参数为 `TileLayer` 枚举值，必须使用有效值（`block`/`floor`/`overlay`），否则会导致灰色积木
+- x、y 参数为 **tile 坐标**（瓦片坐标），不是像素坐标（像素坐标 = tile 坐标 × tilesize=8）
+- 当 layer 为 `block` 时，如果该坐标没有建筑，输出为 null
+
+## 代码示例
+
+```
+## 获取坐标(50, 50)处的建筑
+getblock _building 50 50 block
+
+## 判断是否有建筑
+op notEqual _hasBuild _building 0
+jump ifBuild label_checkDone
+  print "no building here"
+  printflush message1
+label_checkDone:
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\03_setblock.md -->
+
+
+---
+
+
+# 03 - setblock（设置方块）
+
+## 导出格式
+
+```
+setblock <x> <y> <block> <team> <rotation> <layer>
+```
+
+## 参数说明
+
+| 参数     | 类型     | 说明                                            |
+| -------- | -------- | ----------------------------------------------- |
+| x        | 数值     | tile 坐标 X                                     |
+| y        | 数值     | tile 坐标 Y                                     |
+| block    | Content  | 方块类型（如 `@conveyor`、`@dirt` 等）          |
+| team     | Team     | 队伍（如 `derelict`、`sharded` 等）             |
+| rotation | 数值     | 旋转方向（0-3，对应 0°/90°/180°/270°）          |
+| layer    | 枚举     | 图层类型：`block`/`floor`/`overlay`             |
+
+## 功能说明
+
+在指定 tile 坐标处设置方块、地板或覆盖层。根据 layer 参数的不同，修改不同图层的内容。
+
+## 源码实现要点
+
+- 对应指令类：`SetBlockI`
+- 根据 `TileLayer` 枚举执行不同操作：
+  - `block`：设置该坐标处的建筑方块，需要 team 和 rotation 参数。通过 `tile.setBlock()` 方法设置
+  - `floor`：设置该坐标处的地板，通过 `tile.setFloor()` 方法设置。不需要 team 和 rotation
+  - `overlay`：设置该坐标处的覆盖层，通过 `tile.setOverlay()` 方法设置。不需要 team 和 rotation
+- block 参数会被解析为对应的 `Block` 类型内容
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- layer 参数为 `TileLayer` 枚举值，必须使用有效值（`block`/`floor`/`overlay`），否则会导致灰色积木
+- x、y 参数为 **tile 坐标**（瓦片坐标），不是像素坐标
+- 当 layer 为 `block` 时，team 和 rotation 参数必须有效；当 layer 为 `floor`/`overlay` 时，team 和 rotation 参数会被忽略
+- 使用 `block` 图层设置建筑时，会触发建筑放置事件，可能影响游戏逻辑（如触发触发器）
+
+## 代码示例
+
+```
+## 在坐标(50, 50)处放置一个传送带，朝向右（rotation=1），属于 derelict 队伍
+setblock 50 50 @conveyor derelict 1 block
+
+## 将坐标(50, 50)的地板改为 dirt
+setblock 50 50 @dirt derelict 0 floor
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\04_spawn.md -->
+
+
+---
+
+
+# 04 - spawn（生成单位）
+
+## 导出格式
+
+```
+spawn <type> <x> <y> <rotation> <team> <result> <effect>
+```
+
+## 参数说明
+
+| 参数     | 类型     | 说明                                       |
+| -------- | -------- | ------------------------------------------ |
+| type     | Content  | 单位类型（如 `@dagger`、`@mono` 等）       |
+| x        | 数值     | 生成位置 X（像素坐标）                      |
+| y        | 数值     | 生成位置 Y（像素坐标）                      |
+| rotation | 数值     | 生成朝向（角度）                            |
+| team     | Team     | 队伍（如 `sharded`、`crux` 等）            |
+| result   | 输出变量 | 输出：生成的单位引用                        |
+| effect   | 数值     | 是否显示生成效果（1=有效果，0=无效果）     |
+
+## 功能说明
+
+在指定位置生成一个指定类型的单位，并输出该单位的引用。可以选择是否显示生成特效。
+
+## 源码实现要点
+
+- 对应指令类：`SpawnUnitI`
+- 调用 `UnitTypes.create()` 方法创建单位实例
+- 坐标为像素坐标，通过 `(int)p2.num() * tilesize` 等方式转换（具体取决于实现）
+- 生成后设置单位的朝向（`unit.rotation`）、队伍（`unit.team`）
+- 如果 effect 为 true，会播放单位的生成特效
+- 生成的单位会被添加到全局单位列表中
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- type 参数为 content 类型的单位类型，必须使用有效值（如 `@dagger`）
+- result 输出生成的单位引用，可以用于后续的单位控制
+- 大量生成单位可能导致服务器性能下降
+
+## 代码示例
+
+```
+## 在坐标(100, 100)处生成一个 dagger 单位，朝向右，属于 crux 队伍
+spawn @dagger 100 100 0 crux _spawnedUnit 1
+
+## 读取生成单位的血量
+sensor _hp _spawnedUnit @health
+print _hp
+printflush message1
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\05_bullet.md -->
+
+
+---
+
+
+# 05 - bullet（生成子弹）
+
+## 导出格式
+
+```
+bullet <result> <from> <index> <x> <y> <rotation> <team> <owner> <damage> <velocityScl> <lifeScl> <aimX> <aimY>
+```
+
+## 参数说明
+
+| 参数        | 类型     | 说明                                            |
+| ----------- | -------- | ----------------------------------------------- |
+| result      | 输出变量 | 输出：生成的子弹引用                            |
+| from        | 建筑引用 | 子弹来源建筑（用于确定武器类型）                |
+| index       | 数值     | 武器索引（建筑上的第几个武器）                  |
+| x           | 数值     | 生成位置 X（像素坐标）                           |
+| y           | 数值     | 生成位置 Y（像素坐标）                           |
+| rotation    | 数值     | 子弹飞行方向（角度）                            |
+| team        | Team     | 队伍                                            |
+| owner       | 建筑引用 | 子弹所有者（用于伤害归属判定）                  |
+| damage      | 数值     | 伤害缩放（1=原始伤害，0=无伤害）                |
+| velocityScl | 数值     | 速度缩放（1=原始速度）                          |
+| lifeScl     | 数值     | 寿命缩放（1=原始寿命）                          |
+| aimX        | 数值     | 瞄准位置 X（用于子弹追踪等逻辑）                |
+| aimY        | 数值     | 瞄准位置 Y                                      |
+
+## 功能说明
+
+从指定建筑的指定武器创建一颗子弹，可以自定义子弹的位置、方向、队伍、伤害、速度、寿命等参数。
+
+## 源码实现要点
+
+- 对应指令类：`SpawnBulletI`
+- 从 `from` 建筑的武器列表中，按 `index` 索引取出对应的 `Weapon` 类型
+- 调用武器的子弹创建方法，根据各项缩放参数生成子弹
+- 子弹的 `owner` 和 `team` 可以与 `from` 不同，提供了灵活的子弹归属控制
+- damage、velocityScl、lifeScl 均为缩放系数，1 表示使用武器原始值
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- `from` 参数必须为有效的建筑引用，且该建筑必须有武器（如炮塔）
+- `index` 参数对应建筑武器数组的索引，如果超出范围可能导致异常
+- `owner` 参数用于伤害归属判定，如果为 null 则伤害归属于 `from` 建筑
+
+## 代码示例
+
+```
+## 从炮塔 turret1 的第一个武器发射子弹，朝向 90 度
+bullet _bullet turret1 0 400 400 90 sharded turret1 1 1 1 0 0
+
+## 读取子弹的伤害值
+sensor _dmg _bullet @damage
+print _dmg
+printflush message1
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\06_status.md -->
+
+
+---
+
+
+# 06 - status（应用/清除状态效果）
+
+## 导出格式
+
+```
+status <apply|clear> <effect> <unit> <duration>
+```
+
+## 参数说明
+
+| 参数     | 类型     | 说明                                        |
+| -------- | -------- | ------------------------------------------- |
+| apply/clear | 枚举 | 操作模式：`apply` 施加状态，`clear` 清除状态 |
+| effect   | Content  | 状态效果类型（如 `@burning`、`@wet` 等）    |
+| unit     | 单位引用 | 目标单位                                    |
+| duration | 数值     | 持续时间（秒），apply 模式下有效             |
+
+## 功能说明
+
+对指定单位施加或清除状态效果。施加状态时，状态效果会持续指定的时间；清除状态时，立即移除该状态效果。
+
+## 源码实现要点
+
+- 对应指令类：`ApplyEffectI`
+- `apply` 模式：调用 `unit.apply(effect, duration * 60)` 方法施加状态效果（duration 乘以 60 是将秒转换为 tick，因为游戏每秒 60 tick）
+- `clear` 模式：调用 `unit.unapply(effect)` 方法清除指定状态效果
+- effect 参数会被解析为 `StatusEffect` 类型
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- effect 参数为状态效果类型，必须使用有效值（如 `@burning`、`@wet`、`@frozen` 等）
+- `clear` 模式下 duration 参数无效，但导出时仍需写出
+- 状态效果可以叠加，多次 apply 同一状态会刷新持续时间
+
+## 代码示例
+
+```
+## 对单位 myUnit 施加燃烧状态，持续 5 秒
+status apply @burning myUnit 5
+
+## 清除单位的燃烧状态
+status clear @burning myUnit 0
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\07_weathersense.md -->
+
+
+---
+
+
+# 07 - weathersense（检测天气）
+
+## 导出格式
+
+```
+weathersense <weather> <result>
+```
+
+## 参数说明
+
+| 参数    | 类型     | 说明                                   |
+| ------- | -------- | -------------------------------------- |
+| weather | Content  | 天气类型（如 `@rain`、`@snow` 等）     |
+| result  | 输出变量 | 输出：1=该天气正在生效，0=未生效       |
+
+## 功能说明
+
+检测指定的天气是否正在世界中生效。
+
+## 源码实现要点
+
+- 对应指令类：`SenseWeatherI`
+- 遍历当前活跃的天气列表（`state.rules.weather`），检查指定天气是否在其中
+- 如果天气正在活跃状态，输出 1；否则输出 0
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- weather 参数为天气类型，必须使用有效值（如 `@rain`、`@snow`、`@sandstorm` 等）
+- 天气需要通过 `weatherset` 指令或游戏规则设置后才能被检测到
+
+## 代码示例
+
+```
+## 检测是否正在下雨
+weathersense @rain _isRaining
+
+## 根据天气状态显示消息
+op equal _raining _isRaining 1
+jump notRaining label_skipRain
+  print "It's raining!"
+  printflush message1
+  jump label_done label_end
+label_skipRain:
+  print "No rain."
+  printflush message1
+label_end:
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\08_weatherset.md -->
+
+
+---
+
+
+# 08 - weatherset（设置天气）
+
+## 导出格式
+
+```
+weatherset <weather> <state>
+```
+
+## 参数说明
+
+| 参数    | 类型    | 说明                                    |
+| ------- | ------- | --------------------------------------- |
+| weather | Content | 天气类型（如 `@rain`、`@snow` 等）      |
+| state   | 数值    | 天气状态：1=开启（true），0=关闭（false） |
+
+## 功能说明
+
+开启或关闭指定的天气效果。当 state 为 true 时，该天气会在世界中开始生效；当 state 为 false 时，停止该天气。
+
+## 源码实现要点
+
+- 对应指令类：`SetWeatherI`
+- 当 state 为 true 时，将该天气添加到活跃天气列表中，天气会按照其配置的强度和持续时间开始生效
+- 当 state 为 false 时，从活跃天气列表中移除该天气，天气效果逐渐消退
+- 天气的具体效果（视觉表现、游戏机制影响）由天气类型本身的配置决定
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- weather 参数为天气类型，必须使用有效值（如 `@rain`、`@snow`、`@sandstorm` 等）
+- 开启天气后，可以使用 `weathersense` 指令检测天气是否正在生效
+- 天气关闭不是瞬间消失，而是逐渐消退
+
+## 代码示例
+
+```
+## 开启下雨天气
+weatherset @rain 1
+
+## 等待 10 秒后关闭
+wait 10
+weatherset @rain 0
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\09_spawnwave.md -->
+
+
+---
+
+
+# 09 - spawnwave（生成波次）
+
+## 导出格式
+
+```
+spawnwave <natural> <x> <y>
+```
+
+## 参数说明
+
+| 参数    | 类型 | 说明                                                   |
+| ------- | ---- | ------------------------------------------------------ |
+| natural | 数值 | 是否自然生成：1=true（x/y 无效），0=false（使用 x/y） |
+| x       | 数值 | 生成位置 X（natural=0 时有效）                          |
+| y       | 数值 | 生成位置 Y（natural=0 时有效）                          |
+
+## 功能说明
+
+触发一波敌人攻击。当 natural 为 true 时，按照游戏默认的波次生成规则生成敌人（x/y 参数无效）；当 natural 为 false 时，在指定的 x/y 位置生成敌人。
+
+## 源码实现要点
+
+- 对应指令类：`SpawnWaveI`
+- 当 natural 为 true 时，调用波次生成逻辑，按照当前波次的敌人配置在默认出生点生成敌人
+- 当 natural 为 false 时，在指定坐标处生成当前波次的敌人
+- 生成的敌人类型和数量取决于当前波次的配置（`state.rules.spawns`）
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- natural 参数为 1 时，x/y 参数会被忽略，敌人在默认出生点生成
+- 生成的敌人属于敌方队伍（通常为 crux）
+- 此指令触发的是当前波次的敌人，不会修改波次编号
+
+## 代码示例
+
+```
+## 自然生成一波敌人
+spawnwave 1 0 0
+
+## 在指定位置(200, 200)生成一波敌人
+spawnwave 0 200 200
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\10_setrule.md -->
+
+
+---
+
+
+# 10 - setrule（设置游戏规则）
+
+## 导出格式
+
+```
+setrule <rule> <value> <p1> <p2> <p3> <p4>
+```
+
+## 参数说明
+
+| 参数  | 类型     | 说明                                             |
+| ----- | -------- | ------------------------------------------------ |
+| rule  | 枚举     | 规则类型（LogicRule 枚举值，如 `waveSpacing`、`wave`、`buildSpeed` 等） |
+| value | 数值     | 规则值                                           |
+| p1    | 数值     | 附加参数1（部分规则使用）                         |
+| p2    | 数值     | 附加参数2（部分规则使用）                         |
+| p3    | 数值     | 附加参数3（部分规则使用）                         |
+| p4    | 数值     | 附加参数4（部分规则使用）                         |
+
+## 功能说明
+
+修改游戏规则，可以调整波次间隔、波次编号、建造速度、光照、核心数量等多种游戏参数。不同规则类型使用不同的参数。
+
+## 源码实现要点
+
+- 对应指令类：`SetRuleI`
+- 根据 `LogicRule` 枚举类型执行不同的操作：
+  - `waveSpacing`：设置波次间隔（秒），`state.rules.spawner.pauseSpacing = value * 60`（转换为 tick）
+  - `wave`：设置当前波次编号，`state.rules.wave = (int)value`
+  - `buildSpeed`：设置建造速度倍率，`state.rules.buildSpeedMultiplier = value`
+  - `lighting`：设置是否开启光照系统
+  - `ambientLight`：设置环境光颜色
+  - `solarMultiplier`：设置太阳能倍率
+  - 各规则的具体参数数量和含义不同，p1-p4 用于传递附加参数
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- rule 参数为 `LogicRule` 枚举值，必须使用有效值，否则会导致灰色积木
+- 修改游戏规则会立即生效，且影响全局
+- 部分规则修改后不会被持久化保存（取决于游戏存档逻辑）
+
+## 代码示例
+
+```
+## 设置波次间隔为 120 秒
+setrule waveSpacing 120 0 0 0 0
+
+## 设置当前波次为 10
+setrule wave 10 0 0 0 0
+
+## 设置建造速度为 2 倍
+setrule buildSpeed 2 0 0 0 0
+end
+```
+
+## 未验证内容
+
+- LogicRule 枚举的完整列表需要从源码确认
+
+
+<!-- 文件: 06_World\11_message.md -->
+
+
+---
+
+
+# 11 - message（全局消息）
+
+## 导出格式
+
+```
+message <type> <duration> <outSuccess>
+```
+
+## 参数说明
+
+| 参数       | 类型     | 说明                                                   |
+| ---------- | -------- | ------------------------------------------------------ |
+| type       | 枚举     | 消息类型：`announce`（公告）/`toast`（提示）/`notify`（通知） |
+| duration   | 数值     | 持续时间（秒）                                          |
+| outSuccess | 输出变量 | 输出：消息是否成功显示（1=成功，0=失败）               |
+
+## 功能说明
+
+向所有玩家显示全局消息。消息内容需要先用 `print` 指令写入打印缓存，再执行 `message` 指令将缓存内容作为消息显示。不同类型的消息有不同的显示方式。
+
+## 源码实现要点
+
+- 对应指令类：`FlushMessageI`
+- 执行前会读取打印信息缓存（`textBuffer`）作为消息内容
+- 根据 type 参数选择不同的消息显示方式：
+  - `announce`：全屏公告，居中显示，通常用于重要信息
+  - `toast`：小提示，在屏幕底部短暂显示
+  - `notify`：通知消息，在聊天框区域显示
+- duration 参数控制消息显示的持续时间
+- 如果打印缓存为空，outSuccess 输出 0（失败）
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- **消息内容需要先用 `print` 写入缓存，再执行 `message` 指令刷新**，与 `printflush` 刷新到显示屏的逻辑类似
+- type 参数为枚举值，必须使用有效值（`announce`/`toast`/`notify`）
+- 消息显示后会清空打印缓存
+- 频繁发送全局消息可能影响玩家体验
+
+## 代码示例
+
+```
+## 向所有玩家显示公告消息，持续 5 秒
+print "Wave 10 incoming!"
+message announce 5 _success
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\12_cutscene.md -->
+
+
+---
+
+
+# 12 - cutscene（镜头控制）
+
+## 导出格式
+
+```
+cutscene <action> <p1> <p2> <p3> <p4>
+```
+
+## 参数说明
+
+| 参数   | 类型 | 说明                                           |
+| ------ | ---- | ---------------------------------------------- |
+| action | 枚举 | 动作类型：`pan`（平移）/`zoom`（缩放）/`explore`（探索） |
+| p1     | 数值 | pan 模式下为 X 坐标；zoom 模式下为缩放级别      |
+| p2     | 数值 | pan 模式下为 Y 坐标                            |
+| p3     | 数值 | pan 模式下为移动速度                            |
+| p4     | 数值 | 预留参数                                        |
+
+## 功能说明
+
+控制玩家镜头的平移和缩放。`pan` 模式将镜头平滑移动到指定坐标；`zoom` 模式调整镜头缩放级别。
+
+## 源码实现要点
+
+- 对应指令类：`CutsceneI`
+- 根据 action 参数执行不同的镜头操作：
+  - `pan`：将镜头平移到 (p1, p2) 位置，p3 为移动速度。调用玩家镜头控制方法（`camera.pan()`）
+  - `zoom`：设置镜头缩放级别为 p1。调用 `camera.zoom = p1`
+  - `explore`：探索模式
+- 操作目标为当前所有在线玩家的镜头
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- action 参数为枚举值，必须使用有效值（`pan`/`zoom`/`explore`）
+- pan 模式下：p1=X 坐标，p2=Y 坐标，p3=速度
+- zoom 模式下：p1=缩放级别（1=默认缩放，值越大越远）
+- 镜头控制会影响所有在线玩家，可能影响游戏体验
+
+## 代码示例
+
+```
+## 将镜头平移到坐标(500, 500)，速度为 0.1
+cutscene pan 500 500 0.1 0
+
+## 设置镜头缩放级别为 2
+cutscene zoom 2 0 0 0
+end
+```
+
+## 未验证内容
+
+- explore 模式的具体行为和参数含义
+
+
+<!-- 文件: 06_World\13_effect.md -->
+
+
+---
+
+
+# 13 - effect（视觉特效）
+
+## 导出格式
+
+```
+effect <type> <x> <y> <sizerot> <color> <data>
+```
+
+## 参数说明
+
+| 参数   | 类型    | 说明                                              |
+| ------ | ------- | ------------------------------------------------- |
+| type   | Content | 特效类型（如 `@exploShockwave`、`@fire` 等）      |
+| x      | 数值    | 特效位置 X（像素坐标）                             |
+| y      | 数值    | 特效位置 Y（像素坐标）                             |
+| sizerot| 数值    | 特效大小或旋转角度                                 |
+| color  | 数值    | 颜色值（通过 `packcolor` 生成的打包颜色）         |
+| data   | 数值    | 附加数据（部分特效使用）                           |
+
+## 功能说明
+
+在指定位置播放视觉特效。可以通过参数控制特效的大小、旋转、颜色等表现。
+
+## 源码实现要点
+
+- 对应指令类：`EffectI`
+- 通过 `LogicFx` 获取特效定义，type 参数被解析为 `Effect` 类型
+- 调用特效的 `create()` 方法，传入位置、旋转/大小、颜色等参数
+- 颜色参数为打包颜色值，可通过 `packcolor r g b a 0 0` 指令生成
+- 特效为纯视觉效果，不产生实际的游戏机制影响（无伤害、无碰撞等）
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- type 参数为特效类型，必须使用有效值（如 `@exploShockwave`、`@fire` 等）
+- 颜色参数建议先用 `packcolor` 生成打包颜色值再传入
+- 特效为纯视觉表现，不产生任何实际游戏效果（伤害、状态等）
+
+## 代码示例
+
+```
+## 生成爆炸冲击波特效
+packcolor _color 1 0.5 0 1 0 0
+effect @exploShockwave 400 400 1 _color 0
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\14_explosion.md -->
+
+
+---
+
+
+# 14 - explosion（爆炸）
+
+## 导出格式
+
+```
+explosion <team> <x> <y> <radius> <damage> <air> <ground> <pierce> <effect>
+```
+
+## 参数说明
+
+| 参数    | 类型 | 说明                                        |
+| ------- | ---- | ------------------------------------------- |
+| team    | Team | 爆炸归属队伍（决定伤害判定）                |
+| x       | 数值 | 爆炸位置 X（像素坐标）                      |
+| y       | 数值 | 爆炸位置 Y（像素坐标）                      |
+| radius  | 数值 | 爆炸半径（格）                              |
+| damage  | 数值 | 爆炸伤害                                    |
+| air     | 数值 | 是否影响空中单位（1=是，0=否）              |
+| ground  | 数值 | 是否影响地面单位（1=是，0=否）              |
+| pierce  | 数值 | 是否穿透护盾（1=是，0=否）                  |
+| effect  | 数值 | 是否显示爆炸特效（1=是，0=否）              |
+
+## 功能说明
+
+在指定位置创建爆炸，对范围内的单位和建筑造成伤害。可以自定义爆炸的半径、伤害、影响范围和特效。
+
+## 源码实现要点
+
+- 对应指令类：`ExplosionI`
+- 调用 `Damage.dynamicExplosion()` 或类似方法创建爆炸
+- 爆炸会根据 team 参数进行伤害归属判定，不会伤害同队伍的目标（取决于游戏设置）
+- air 和 ground 参数控制爆炸是否影响空中单位和地面单位
+- pierce 参数控制爆炸是否穿透力场护盾
+- effect 参数控制是否播放爆炸视觉效果
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- team 参数为队伍枚举值（如 `sharded`、`crux`、`derelict` 等）
+- 爆炸会对范围内的所有有效目标造成伤害，包括单位和建筑
+- radius 参数的单位为格（tile），不是像素
+
+## 代码示例
+
+```
+## 在坐标(400, 400)处创建爆炸，半径 5 格，伤害 500，影响空中和地面单位
+explosion crux 400 400 5 500 1 1 0 1
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\15_fetch.md -->
+
+
+---
+
+
+# 15 - fetch（获取数量）
+
+## 导出格式
+
+```
+fetch <type> <result> <team> <index> <extra>
+```
+
+## 参数说明
+
+| 参数   | 类型     | 说明                                                         |
+| ------ | -------- | ------------------------------------------------------------ |
+| type   | 枚举     | 查询类型（FetchType 枚举值，见下方可选值）                   |
+| result | 输出变量 | 输出：数量或单位/建筑引用                                    |
+| team   | Team     | 队伍                                                         |
+| index  | 数值     | 索引（获取具体实例时使用，从 0 开始）                        |
+| extra  | 数值     | 额外参数（单位类型 ID 或建筑类型 ID，部分类型使用）           |
+
+## 功能说明
+
+获取指定队伍的单位/建筑数量，或通过索引获取指定类型的单位/建筑实例。
+
+### 查询类型（FetchType）可选值
+
+| 类型         | 说明                                       | extra 参数     |
+| ------------ | ------------------------------------------ | -------------- |
+| unit         | 获取指定索引的单位实例                     | 单位类型 ID    |
+| build        | 获取指定索引的建筑实例                     | 建筑类型 ID    |
+| coreCount    | 获取核心数量                               | 不使用         |
+| unitCount    | 获取指定类型单位数量                       | 单位类型 ID    |
+| buildCount   | 获取指定类型建筑数量                       | 建筑类型 ID    |
+| playerCount  | 获取玩家数量                               | 不使用         |
+
+## 源码实现要点
+
+- 对应指令类：`FetchI`
+- 根据 `FetchType` 枚举执行不同查询：
+  - `unit`：从队伍的单位列表中按索引取出单位实例
+  - `build`：从队伍的建筑列表中按索引取出建筑实例
+  - `coreCount`：统计队伍的核心数量
+  - `unitCount`：统计队伍中指定类型单位的数量
+  - `buildCount`：统计队伍中指定类型建筑的数量
+  - `playerCount`：统计队伍中的玩家数量
+- team 参数决定查询哪个队伍的数据
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- type 参数为 `FetchType` 枚举值，必须使用有效值，否则会导致灰色积木
+- 使用 `unit`/`build` 类型时，需要先用对应的 `Count` 类型获取总数，再用索引逐个获取实例
+- extra 参数为单位类型 ID 或建筑类型 ID，可通过 `lookup` 指令获取
+
+## 代码示例
+
+```
+## 获取 sharded 队伍的核心数量
+fetch coreCount _coreCount sharded 0 0
+
+## 获取 sharded 队伍的第 0 个核心
+fetch build _core sharded 0 @core
+
+## 获取 sharded 队伍的 mono 单位数量
+lookup _monoId @mono 0
+fetch unitCount _monoCount sharded 0 _monoId
+print _monoCount
+printflush message1
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\16_getflag.md -->
+
+
+---
+
+
+# 16 - getflag（获取全局标记）
+
+## 导出格式
+
+```
+getflag <result> <flag>
+```
+
+## 参数说明
+
+| 参数   | 类型     | 说明                                   |
+| ------ | -------- | -------------------------------------- |
+| result | 输出变量 | 输出：标记对应的值                     |
+| flag   | 字符串   | 标记名（键名）                         |
+
+## 功能说明
+
+读取全局标记的值。全局标记是跨处理器共享的键值对，存储在 `state.rules.tag` 中。所有世界处理器都可以读写同一个全局标记，从而实现世界处理器间的通信。
+
+## 源码实现要点
+
+- 对应指令类：`GetFlagI`
+- 通过 `state.rules.tag` 获取全局标记值
+- `state.rules.tag` 是一个 `ObjectMap<String, Object>`，以字符串为键存储任意值
+- 如果标记不存在，输出 null（在 Logic 中表现为 0）
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- flag 参数为字符串类型（标记名），如 `"myFlag"`
+- 全局标记是 **世界处理器间通信的重要方式**，可以用于在不同世界处理器之间传递数据
+- 配合 `setflag` 指令使用，实现跨处理器的状态同步
+
+## 代码示例
+
+```
+## 读取全局标记 "waveCount" 的值
+getflag _waveCount "waveCount"
+
+## 打印波次计数
+print "Wave count: "
+print _waveCount
+printflush message1
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\17_setflag.md -->
+
+
+---
+
+
+# 17 - setflag（设置全局标记）
+
+## 导出格式
+
+```
+setflag <flag> <value>
+```
+
+## 参数说明
+
+| 参数  | 类型   | 说明                             |
+| ----- | ------ | -------------------------------- |
+| flag  | 字符串 | 标记名（键名）                   |
+| value | 数值   | 要设置的值                       |
+
+## 功能说明
+
+设置全局标记的值。全局标记是跨处理器共享的键值对，存储在 `state.rules.tag` 中。所有世界处理器都可以读写同一个全局标记，从而实现世界处理器间的通信。
+
+## 源码实现要点
+
+- 对应指令类：`SetFlagI`
+- 通过 `state.rules.tag.put(flag, value)` 设置全局标记值
+- `state.rules.tag` 是一个 `ObjectMap<String, Object>`，以字符串为键存储任意值
+- 设置后立即生效，其他世界处理器可以通过 `getflag` 读取到最新值
+- 如果 value 为 null 或 0，效果取决于具体实现（可能删除该标记或存储为 0）
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- flag 参数为字符串类型（标记名），如 `"myFlag"`
+- **这是世界处理器间通信的重要方式**，可用于在不同世界处理器之间传递数据、同步状态
+- 配合 `getflag` 指令使用，实现跨处理器的状态同步
+- 设置后立即生效，同一 tick 内其他处理器执行 `getflag` 可读取到新值（取决于处理器执行顺序）
+
+## 代码示例
+
+```
+## 设置全局标记 "waveCount" 为 10
+setflag "waveCount" 10
+
+## 读取并验证
+getflag _count "waveCount"
+print "Wave count set to: "
+print _count
+printflush message1
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\18_setprop.md -->
+
+
+---
+
+
+# 18 - setprop（设置属性）
+
+## 导出格式
+
+```
+setprop <type> <of> <value>
+```
+
+## 参数说明
+
+| 参数  | 类型     | 说明                                                         |
+| ----- | -------- | ------------------------------------------------------------ |
+| type  | Content  | 属性类型：物品（如 `@copper`）、液体（如 `@water`）或 sensor 属性（如 `@enabled`） |
+| of    | 哭建筑引用 | 目标建筑                                                     |
+| value | 数值     | 要设置的值                                                   |
+
+## 功能说明
+
+直接设置建筑的属性，包括物品数量、液体数量、启用状态等。根据 type 参数的不同，设置不同的属性。
+
+## 源码实现要点
+
+- 对应指令类：`SetPropI`
+- 根据 type 参数的类型执行不同操作：
+  - **物品类型**（如 `@copper`）：调用建筑的 `items.set(type, (int)value)` 方法，直接设置建筑中该物品的数量
+  - **液体类型**（如 `@water`）：调用建筑的 `liquids.set(type, value)` 方法，直接设置建筑中该液体的数量
+  - **sensor 属性**（如 `@enabled`）：设置建筑的启用状态等属性
+- of 参数必须为有效的建筑引用
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- type 参数可以是物品（`@copper` 等）、液体（`@water` 等）或 sensor 属性（`@enabled` 等）
+- 此指令直接修改建筑的内部数据，可以绕过正常的物品/液体传输限制
+- 设置的值会立即生效，无需等待游戏更新
+
+## 代码示例
+
+```
+## 直接设置建筑 myBuild 中的铜数量为 100
+setprop @copper myBuild 100
+
+## 直接设置建筑 myBuild 中的水量为 50
+setprop @water myBuild 50
+
+## 启用建筑 myBuild
+setprop @enabled myBuild 1
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\19_playsound.md -->
+
+
+---
+
+
+# 19 - playsound（播放音效）
+
+## 导出格式
+
+```
+playsound <positional> <id> <volume> <pitch> <pan/x> <y> <limit>
+```
+
+## 参数说明
+
+| 参数       | 类型    | 说明                                                 |
+| ---------- | ------- | ---------------------------------------------------- |
+| positional | 数值    | 是否为定位音效（1=定位，0=全局）                      |
+| id         | 数值    | 音效 ID                                              |
+| volume     | 数值    | 音量（0-1，1 为最大）                                |
+| pitch      | 数值    | 音调（1 为原始音调）                                 |
+| pan/x      | 数值    | 全局模式下为声相（-1 左到 1 右）；定位模式下为 X 坐标 |
+| y          | 数值    | 定位模式下的 Y 坐标（全局模式下无效）                 |
+| limit      | 数值    | 是否限制（1=是，0=否）                                |
+
+## 功能说明
+
+播放音效。可以选择全局播放（所有玩家听到相同音量）或定位播放（根据玩家位置衰减音量）。
+
+## 源码实现要点
+
+- 对应指令类：`PlaySoundI`
+- 根据 positional 参数选择播放方式：
+  - 全局模式（positional=0）：调用 `Sounds.play()` 方法，使用 pan 参数控制声相
+  - 定位模式（positional=1）：调用音效的定位播放方法，根据 (x, y) 坐标和玩家位置计算音量衰减
+- id 参数对应游戏内的音效 ID，通过查找对应的声音资源播放
+- volume 和 pitch 参数直接控制播放的音量和音调
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- positional 参数决定播放模式：
+  - 全局模式（0）：pan/x 参数为声相（-1 到 1），y 参数无效
+  - 定位模式（1）：pan/x 和 y 参数为音效的世界坐标
+- id 参数为音效 ID，需要使用有效的音效资源 ID
+- 频繁播放音效可能影响玩家体验
+
+## 代码示例
+
+```
+## 全局播放音效，音量 0.8，音调 1.0，声相居中
+playsound 0 1 0.8 1.0 0 0 0
+
+## 定位播放音效，在坐标(400, 400)处
+playsound 1 1 1.0 1.0 400 400 0
+end
+```
+
+## 未验证内容
+
+- 音效 ID 的完整列表需要从源码确认
+
+
+<!-- 文件: 06_World\20_playmusic.md -->
+
+
+---
+
+
+# 20 - playmusic（播放音乐）
+
+## 导出格式
+
+```
+playmusic <name> <interrupt>
+```
+
+## 参数说明
+
+| 参数      | 类型   | 说明                                         |
+| --------- | ------ | -------------------------------------------- |
+| name      | 字符串 | 音乐名                                       |
+| interrupt | 数值   | 是否打断当前音乐（1=打断，0=等待当前音乐结束） |
+
+## 功能说明
+
+播放指定的背景音乐。可以选择立即打断当前正在播放的音乐，或等待当前音乐播放完毕后再播放。
+
+## 源码实现要点
+
+- 对应指令类：`PlayMusicI`
+- 根据 name 参数查找对应的音乐资源
+- interrupt 参数控制播放行为：
+  - interrupt=1：立即停止当前音乐，开始播放新音乐
+  - interrupt=0：等待当前音乐播放完毕后再播放新音乐
+- 音乐播放控制通过游戏的音乐管理系统实现
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- name 参数为字符串类型的音乐名，需要使用有效的音乐资源名
+- 音乐会影响所有在线玩家
+- 频繁切换音乐可能影响玩家体验
+
+## 代码示例
+
+```
+## 播放名为 "desolate" 的音乐，打断当前音乐
+playmusic "desolate" 1
+end
+```
+
+## 未验证内容
+
+- 音乐名的完整列表需要从源码确认
+
+
+<!-- 文件: 06_World\21_setmarker.md -->
+
+
+---
+
+
+# 21 - setmarker（设置标记）
+
+## 导出格式
+
+```
+setmarker <type> <id> <p1> <p2> <p3>
+```
+
+## 参数说明
+
+| 参数 | 类型   | 说明                                                   |
+| ---- | ------ | ------------------------------------------------------ |
+| type | 枚举   | 控制类型（LMarkerControl 枚举值，如 `pos`/`color`/`text`） |
+| id   | 数值   | 标记 ID（要修改的地图标记的唯一标识）                  |
+| p1   | 数值   | 参数1（具体含义取决于 type）                           |
+| p2   | 数值   | 参数2（具体含义取决于 type）                           |
+| p3   | 数值   | 参数3（具体含义取决于 type）                           |
+
+## 功能说明
+
+修改已存在的地图标记的属性。根据 type 参数的不同，可以修改标记的位置、颜色、文本等属性。地图标记是显示在世界地图上的可视化标记。
+
+## 源码实现要点
+
+- 对应指令类：`SetMarkerI`
+- 根据 `LMarkerControl` 枚举执行不同操作：
+  - `pos`：修改标记位置，p1=X 坐标，p2=Y 坐标
+  - `color`：修改标记颜色，p1=颜色值（packcolor 生成）
+  - `text`：修改标记文本，需要先用 print 写入缓存
+  - 其他类型根据枚举定义执行对应操作
+- id 参数用于定位要修改的标记，标记需要先通过 `makemarker` 创建
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- type 参数为 `LMarkerControl` 枚举值，必须使用有效值，否则会导致灰色积木
+- 修改标记前，需要先通过 `makemarker` 创建该标记
+- 修改文本类型标记时，需要先用 `print` 写入缓存
+
+## 代码示例
+
+```
+## 修改 ID 为 1 的标记位置
+setmarker pos 1 400 400 0
+
+## 修改 ID 为 1 的标记颜色
+packcolor _color 1 0 0 1 0 0
+setmarker color 1 _color 0 0
+end
+```
+
+## 未验证内容
+
+- LMarkerControl 枚举的完整列表需要从源码确认
+
+
+<!-- 文件: 06_World\22_makemarker.md -->
+
+
+---
+
+
+# 22 - makemarker（创建标记）
+
+## 导出格式
+
+```
+makemarker <type> <id> <x> <y> <replace>
+```
+
+## 参数说明
+
+| 参数    | 类型   | 说明                                           |
+| ------- | ------ | ---------------------------------------------- |
+| type    | 枚举   | 标记类型（如 `shape`/`text` 等）               |
+| id      | 数值   | 标记 ID（唯一标识，用于后续 setmarker 修改）   |
+| x       | 数值   | 标记位置 X（像素坐标）                          |
+| y       | 数值   | 标记位置 Y（像素坐标）                          |
+| replace | 数值   | 是否替换已存在的同 ID 标记（1=替换，0=不替换） |
+
+## 功能说明
+
+创建新的地图标记。地图标记是显示在世界地图上的可视化标记，可以用于标记特定位置、绘制图形等。创建后可以通过 `setmarker` 修改其属性。
+
+## 源码实现要点
+
+- 对应指令类：`MakeMarkerI`
+- 根据 type 参数创建不同类型的标记：
+  - `shape`：创建形状标记（如圆形、矩形等）
+  - `text`：创建文本标记
+- id 参数为标记的唯一标识，后续通过 `setmarker` 修改时使用此 ID
+- replace 参数控制当指定 ID 的标记已存在时的行为：
+  - replace=1：删除旧标记，创建新标记
+  - replace=0：如果标记已存在，不执行操作
+- 标记会被添加到全局标记列表中
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- type 参数为标记类型枚举值，必须使用有效值（如 `shape`/`text`）
+- id 参数为标记的唯一标识，建议使用不同的 ID 避免冲突
+- 创建标记后，使用 `setmarker` 修改其颜色、文本等属性
+- 标记会持续存在直到被替换或游戏重置
+
+## 代码示例
+
+```
+## 在坐标(400, 400)处创建一个形状标记，ID 为 1
+makemarker shape 1 400 400 1
+
+## 设置标记颜色为红色
+packcolor _redColor 1 0 0 1 0 0
+setmarker color 1 _redColor 0 0
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\23_localeprint.md -->
+
+
+---
+
+
+# 23 - localeprint（本地化打印）
+
+## 导出格式
+
+```
+localeprint <value>
+```
+
+## 参数说明
+
+| 参数  | 类型   | 说明                             |
+| ----- | ------ | -------------------------------- |
+| value | 字符串 | 本地化键名                       |
+
+## 功能说明
+
+根据本地化键名，将对应的翻译文本写入打印信息缓存。文本内容取决于当前游戏语言设置。
+
+## 源码实现要点
+
+- 对应指令类：`LocalePrintI`
+- 将 value 参数作为本地化键名，通过 `Core.bundle.get()` 方法获取对应语言的翻译文本
+- 获取到的翻译文本被写入打印信息缓存（`textBuffer`），与 `print` 指令的行为一致
+- 如果本地化键名不存在，可能输出键名本身或空字符串
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- value 参数为本地化键名（字符串），如 `"name"` 会显示游戏语言对应的翻译
+- 写入的文本存储在打印信息缓存中，需要配合 `printflush` 或 `message` 指令输出
+- 本地化文本在客户端渲染时根据客户端语言显示（如果通过 message 发送）
+- 可以与 `print` 指令混用，共同构建打印缓存内容
+
+## 代码示例
+
+```
+## 打印本地化文本
+localeprint "name"
+print ": "
+localeprint "description"
+printflush message1
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\24_sync.md -->
+
+
+---
+
+
+# 24 - sync（同步变量）
+
+## 导出格式
+
+```
+sync <variable>
+```
+
+## 参数说明
+
+| 参数     | 类型     | 说明                             |
+| -------- | -------- | -------------------------------- |
+| variable | 变量名   | 要同步的变量名                   |
+
+## 功能说明
+
+将指定变量的值同步到所有客户端。在多人模式下，世界处理器在服务器端执行，变量默认只在服务器端存在。通过 `sync` 指令可以将变量值同步到所有客户端，使客户端逻辑也能读取到该值。
+
+## 源码实现要点
+
+- 对应指令类：`SyncI`
+- 将指定变量的当前值加入同步队列
+- 同步的变量值会被序列化并发送到所有客户端
+- 客户端接收后更新本地对应的变量值
+- 同步是单向的（服务器 -> 客户端），客户端的修改不会同步回服务器
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，**但 sync 指令用于解决客户端同步问题**
+- 用于多人模式下确保变量值在所有客户端一致
+- 同步的变量在客户端可以被读取（通过 sensor 或直接引用）
+- **此指令每 tick 最多同步 120 个变量**，超出限制的变量不会同步
+- 变量值同步有网络延迟，不是即时生效
+- 每次执行 sync 都会发送网络包，频繁同步大量变量可能影响网络性能
+
+## 代码示例
+
+```
+## 设置变量并同步到所有客户端
+set _gameState 1
+sync _gameState
+
+## 客户端可以通过读取该变量来判断游戏状态
+end
+```
+
+## 未验证内容
+
+- 无
+
+
+<!-- 文件: 06_World\25_query.md -->
+
+
+---
+
+
+# 25 - query（区域查询）
+
+## 导出格式
+
+```
+query <shape> <type> <team> <x> <y> <w> <h>
+```
+
+## 参数说明
+
+| 参数  | 类型 | 说明                                                         |
+| ----- | ---- | ------------------------------------------------------------ |
+| shape | 枚举 | 查询形状：`circle`（圆形）/`rect`（矩形）                    |
+| type  | 枚举 | 查询类型：`unit`（单位）/`building`（建筑）                  |
+| team  | Team | 队伍                                                         |
+| x     | 数值 | 中心坐标 X（像素坐标）                                       |
+| y     | 数值 | 中心坐标 Y（像素坐标）                                       |
+| w     | 数值 | circle 模式下为半径；rect 模式下为宽度                       |
+| h     | 数值 | rect 模式下为高度（circle 模式下无效）                       |
+
+## 功能说明
+
+查询指定区域内的单位或建筑数量。支持圆形和矩形两种查询形状。
+
+## 源码实现要点
+
+- 对应指令类：`QueryI`
+- 根据 shape 和 type 参数执行不同的查询：
+  - `circle` + `unit`：查询以 (x, y) 为圆心、w 为半径的圆形区域内的指定队伍单位数量
+  - `rect` + `unit`：查询以 (x, y) 为中心、w 为宽、h 为高的矩形区域内的指定队伍单位数量
+  - `circle` + `building`：查询圆形区域内的指定队伍建筑数量
+  - `rect` + `building`：查询矩形区域内的指定队伍建筑数量
+- 查询结果存储在全局查询结果中，需要通过特定方式读取
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，不存在客户端同步问题
+- shape 参数为枚举值（`circle`/`rect`），必须使用有效值
+- type 参数为枚举值（`unit`/`building`），必须使用有效值
+- 坐标为像素坐标，不是 tile 坐标
+- circle 模式下 h 参数无效但需要写出
+- 查询结果需要通过 `@counter` 或其他方式读取
+
+## 代码示例
+
+```
+## 查询以(400, 400)为圆心、半径 200 的圆形区域内的 sharded 队伍单位数量
+query circle unit sharded 400 400 200 0
+
+## 查询以(400, 400)为中心、宽 200 高 100 的矩形区域内的建筑数量
+query rect building sharded 400 400 200 100
+end
+```
+
+## 未验证内容
+
+- 查询结果的具体读取方式需要从源码确认
+
+
+<!-- 文件: 06_World\26_clientdata.md -->
+
+
+---
+
+
+# 26 - clientdata（客户端数据）
+
+## 导出格式
+
+```
+clientdata <channel> <value> <reliable>
+```
+
+## 参数说明
+
+| 参数     | 类型   | 说明                                       |
+| -------- | ------ | ------------------------------------------ |
+| channel  | 字符串 | 频道名（数据通道标识）                     |
+| value    | 数值   | 要发送的数据值                             |
+| reliable | 数值   | 是否可靠传输（1=可靠，0=不可靠）           |
+
+## 功能说明
+
+在客户端之间发送自定义数据。通过频道名区分不同的数据通道，客户端可以监听指定频道并接收数据。此指令为隐藏指令，在编辑器中不显示。
+
+## 源码实现要点
+
+- 对应指令类：`ClientDataI`
+- 将 value 值通过指定的 channel 频道发送
+- reliable 参数控制传输方式：
+  - reliable=1：可靠传输，保证数据到达，但可能有延迟
+  - reliable=0：不可靠传输，不保证数据到达，但速度更快
+- 数据发送通过游戏的网络系统实现
+- 需要游戏规则 `allowLogicData` 开启才能使用
+
+## 注意事项
+
+- 此指令为 **privileged（特权）** 指令，只能在世界处理器上运行
+- 世界处理器在服务器端执行，但此指令涉及客户端数据传输
+- **此指令在编辑器中隐藏**，需要手动输入
+- 需要游戏规则 `allowLogicData` 开启才能使用，否则指令无效
+- channel 参数为字符串类型的频道名，用于区分不同的数据通道
+- 此指令主要用于高级自定义玩法和客户端间通信
+- reliable=1 适合重要数据传输，reliable=0 适合频繁更新且允许丢失的数据
+
+## 代码示例
+
+```
+## 在频道 "gameData" 上发送值 100，可靠传输
+clientdata "gameData" 100 1
+
+## 在频道 "update" 上发送值 50，不可靠传输
+clientdata "update" 50 0
+end
+```
+
+## 未验证内容
+
+- 客户端接收数据的具体方式需要从源码确认
+
+
+<!-- 文件: 07_实战案例\00_萌新兵控入门.md -->
+
+
+---
+
+
+# 00 - 萌新兵控入门：从零开始写兵控逻辑
+
+> 本文面向**完全零基础**的玩家，手把手教你写出第一个兵控逻辑。
+> 建议配合游戏实际测试，边看边写。
+
+---
+
+## 目录
+
+1. [兵控逻辑是什么](#1-兵控逻辑是什么)
+2. [你需要准备什么](#2-你需要准备什么)
+3. [第一步：ubind —— 绑定单位](#3-第一步ubind--绑定单位)
+4. [第二步：ucontrol —— 让单位动起来](#4-第二步ucontrol--让单位动起来)
+5. [第三步：简单实战 —— 单控一个兵去攻击](#5-第三步简单实战--单控一个兵去攻击)
+6. [第四步：群控 —— 管一群兵](#6-第四步群控--管一群兵)
+7. [第五步：认识 flag 标识](#7-第五步认识-flag-标识)
+8. [常见陷阱（新手必看）](#8-常见陷阱新手必看)
+9. [下一步怎么学](#9-下一步怎么学)
+
+---
+
+## 1. 兵控逻辑是什么
+
+**兵控逻辑**就是用游戏里的逻辑处理器，编写代码来控制单位（兵）的行为。
+
+简单来说就是：
+
+```
+你写代码 → 处理器执行 → 单位听你的命令行动
+```
+
+你可以让单位：
+- 移动到指定位置
+- 攻击某个敌人
+- 自动寻找目标
+- 挖矿、建造、搬运物品
+
+---
+
+## 2. 你需要准备什么
+
+### 硬件准备
+
+| 处理器 | 推荐用途 | 说明 |
+|--------|---------|------|
+| **逻辑处理器**（logic-processor） | 新手入门首选 | 2x2 大小，@ipt=8，链接范围 22 格 |
+| 微型处理器（micro-processor） | 简单任务 | 1x1 大小，@ipt=2，速度慢 |
+| 超级处理器（hyper-processor） | 复杂逻辑 | 3x3 大小，@ipt=25，需要冷却液 |
+
+**新手建议**：先用逻辑处理器（2x2 那个），链接范围够大，速度也够用。
+
+### 链接建筑
+
+处理器需要链接相关建筑才能操作。在游戏中放置处理器后，对着处理器按 `T` 键打开配置界面，点击"链接"按钮，然后点击你想链接的建筑。
+
+**兵控逻辑必须链接的建筑**：
+- **单位工厂 / 重建点**（用来生产单位）
+- 其他辅助建筑（炮塔、内存库等，根据需求）
+
+### 编写代码的方式
+
+有两种方式：
+
+1. **游戏内编辑**：对着处理器按 `T`，在可视化积木编辑器中拖拽积木
+2. **外部编写导入**：用记事本或 VSCode 写代码，复制到游戏中
+
+本教程采用**外部编写**的方式，代码更清晰。
+
+---
+
+## 3. 第一步：ubind —— 绑定单位
+
+### 什么是绑定
+
+在操控一个单位之前，必须先告诉处理器：「我要操控哪个单位」。这个操作就叫**绑定**。
+
+### 基本语法
+
+```
+ubind 单位类型
+```
+
+`ubind` 会把该类型的**一个空闲单位**绑定到 `@unit` 变量上。
+
+### 示例：绑定 Dagger
+
+```
+ubind @dagger
+```
+
+执行这行代码后，`@unit` 就指向了一个 Dagger 单位。
+
+### 绑定规则（重要）
+
+- `ubind` 每次执行都会寻找该类型的**一个空闲单位**
+- 如果有多个同类型单位，`ubind` 每帧会切换绑定到不同的单位上
+- 想持续控制同一个单位，需要配合其他机制（如 flag 标识）
+
+### 看看效果
+
+```mlog
+# 最简单的绑定示例
+ubind @dagger        # 绑定一个 Dagger 单位
+ucontrol idle 0 0 0 0 0    # 让单位待命（什么都不做）
+```
+
+把这段代码导入处理器，如果附近有 Dagger 单位，它会原地待命。
+
+---
+
+## 4. 第二步：ucontrol —— 让单位动起来
+
+`ucontrol` 是控制单位的核心指令，后面跟不同的子指令，单位就会执行不同的动作。
+
+### 常用子指令
+
+| 子指令 | 功能 | 参数格式 |
+|--------|------|---------|
+| `idle` | 待命（什么都不做） | `ucontrol idle 0 0 0 0 0` |
+| `stop` | 停止当前动作 | `ucontrol stop 0 0 0 0 0` |
+| `move` | 移动到指定坐标 | `ucontrol move x y 0 0 0` |
+| `approach` | 靠近到指定距离 | `ucontrol approach x y radius 0 0` |
+| `target` | 攻击指定坐标 | `ucontrol target x y 0 0 0` |
+| `targetp` | 攻击指定单位 | `ucontrol targetp unit 0 0 0 0` |
+| `mine` | 挖矿 | `ucontrol mine x y 0 0 0` |
+| `flag` | 设置单位标识 | `ucontrol flag value 0 0 0 0` |
+| `build` | 建造 | `ucontrol build x y block rotation config` |
+| `pathfind` | 寻路移动 | `ucontrol pathfind x y 0 0 0` |
+
+### 例1：让单位移动到指定位置
+
+```mlog
+ubind @dagger
+ucontrol move 50 60 0 0 0   # 移动到 (50, 60) 位置
+```
+
+**注意**：坐标是 tile 坐标（游戏中的格子坐标），不是像素坐标。
+
+### 例2：让单位靠近但保持距离
+
+```mlog
+ubind @dagger
+ucontrol approach 50 60 8 0 0   # 靠近 (50, 60)，但保持 8 格距离
+```
+
+`approach` 和 `move` 的区别：
+- `move`：直接走到坐标点
+- `approach`：走到坐标点附近，但保持一定距离（适合远程单位风筝）
+
+### 例3：让单位攻击一个位置
+
+```mlog
+ubind @dagger
+ucontrol target 80 40 0 0 0   # 攻击 (80, 40) 位置
+```
+
+---
+
+## 5. 第三步：简单实战 —— 单控一个兵去攻击
+
+### 目标
+
+写一个逻辑：让一个 Dagger 单位自动攻击附近的敌人。
+
+### 完整代码
+
+```mlog
+# 单控兵攻击逻辑
+# 用一个处理器控制一个 Dagger 自动攻击
+
+loop:
+ubind @dagger                # 绑定一个 Dagger
+ucontrol flag 100 0 0 0 0    # 给这个单位打上 flag 标记（标识为 100）
+sensor count @unit @flag     # 读取单位的 flag，确认是否绑定成功
+
+jump loop notEqual count 100 0  # 如果 flag 不是 100，说明绑定失败，重新绑定
+
+# 主循环：寻找敌人并攻击
+uradar attacker enemy any any 0 0 enemy   # 用雷达搜索敌人
+jump loop equal enemy null 0 0            # 没找到敌人，回到开头重新绑定
+
+# 攻击敌人
+ucontrol targetp enemy 0 0 0 0           # 攻击找到的敌人
+jump loop always 0 0 0 0                 # 回到开头继续
+```
+
+### 代码逐行讲解
+
+| 代码 | 作用 |
+|------|------|
+| `loop:` | 标签，标记循环起点 |
+| `ubind @dagger` | 绑定一个 Dagger 单位 |
+| `ucontrol flag 100 0 0 0 0` | 给单位打上 flag=100，标识"这个单位归我管" |
+| `sensor count @unit @flag` | 读取单位的 flag 值，确认是否真的是 100 |
+| `jump loop notEqual count 100 0` | 如果 flag 不是 100，跳回 loop 重新绑定 |
+| `uradar attacker enemy any any 0 0 enemy` | 用雷达搜索最近的敌人，结果存到 `enemy` 变量 |
+| `jump loop equal enemy null 0 0` | 没找到敌人，回到 loop |
+| `ucontrol targetp enemy 0 0 0 0` | 攻击找到的敌人 |
+| `jump loop always 0 0 0 0` | 回到 loop，无限循环 |
+
+### 这就是一个完整的兵控逻辑！
+
+虽然只有 10 行代码，但它已经包含了兵控逻辑的核心要素：
+
+1. **绑定单位** → 2. **确认归属** → 3. **搜索目标** → 4. **执行攻击** → 5. **循环**
+
+---
+
+## 6. 第四步：群控 —— 管一群兵
+
+### 和单控的区别
+
+| 对比项 | 单控 | 群控 |
+|--------|------|------|
+| 控制数量 | 1 个单位 | 多个同类单位 |
+| 是否给 flag | 是（标识归属） | 否（不给 flag） |
+| 绑定策略 | 绑定后打标签 | 无脑绑定，谁空闲控谁 |
+| 优先级 | 高 | 低 |
+
+### 群控代码示例
+
+```mlog
+# 群控攻击逻辑
+# 控制所有空闲的 Dagger 去攻击敌人
+
+loop:
+ubind @dagger                # 绑定一个空闲的 Dagger
+uradar attacker enemy any any 0 0 enemy   # 搜索最近的敌人
+
+jump loop equal enemy null 0 0            # 没找到敌人，回到开头
+
+ucontrol targetp enemy 0 0 0 0           # 让这个单位去攻击
+jump loop always 0 0 0 0                 # 循环，绑定下一个空闲单位
+```
+
+**关键区别**：群控没有给单位设置 flag。
+
+这意味着：
+- 每帧执行 `ubind` 时，会绑定到不同的空闲 Dagger
+- 每个绑到的 Dagger 都会收到攻击命令
+- 如果某个单位被单控逻辑绑定了（有 flag），群控不会抢它
+
+### 群控的典型应用
+
+- **炮灰海**：生产大量低级单位，用群控派去送死
+- **采矿队**：控制一群 Mono 自动采矿
+- **巡逻队**：控制一群单位在地图上巡逻
+
+---
+
+## 7. 第五步：认识 flag 标识
+
+### 为什么需要 flag
+
+处理器每帧执行 `ubind` 时，绑定的单位可能是不同的。如果两个处理器都想控制同一个单位，就会产生**抢单位**的问题。
+
+flag 就是用来解决这个问题的：
+
+```
+flag = 0（或无 flag）→ 这个单位没人管，谁都可以绑定
+flag ≠ 0            → 这个单位有人管了，别人别碰
+```
+
+### flag 的规范用法
+
+在实战中，flag 通常用**处理器位置**来标识，而不是随便写一个数字。
+
+```mlog
+# 用处理器位置生成 flag 标识
+op floor _0 @thisx 0        # 取处理器 X 坐标的整数部分
+op mul _1 _0 1000           # 乘以 1000
+op floor _2 @thisy 0        # 取处理器 Y 坐标的整数部分
+op add unFlag _1 _2         # 加在一起，得到唯一标识
+```
+
+这样做的好处是：看到 flag 值就能知道是哪个处理器在控制这个单位。
+
+### 核心理念
+
+```
+单控/多控 → 绑定后给 flag → 其他人看到 flag 就跳过
+群控       → 绑定后不给 flag → 只控制没有 flag 的"没人要"的单位
+```
+
+---
+
+## 8. 常见陷阱（新手必看）
+
+### 陷阱1：ubind 每帧都会换单位
+
+```mlog
+# ❌ 错误写法：以为绑定一次就不变了
+ubind @dagger
+ucontrol move 50 50 0 0 0
+# 下一帧又绑到另一个 dagger 了，前面的 dagger 停在了半路
+```
+
+**正确做法**：每帧重新绑定 + 持续下指令，或者用 flag 锁定。
+
+### 陷阱2：没有做对象有效性检查
+
+```mlog
+# ❌ 错误写法：没检查就操作
+uradar attacker enemy any any 0 0 enemy
+ucontrol targetp enemy 0 0 0 0   # 如果 enemy 是 null，单位会原地发呆
+```
+
+**正确做法**：操作前先检查。
+
+### 陷阱3：跳转标签下方没有指令
+
+```mlog
+# ❌ 错误写法：标签踩空
+jump skip1 equal found 0 0
+ucontrol move cx cy 0 0 0
+skip1:
+# 跳转到 skip1 后，下面没有指令，程序行为不可靠
+```
+
+**正确做法**：标签下方紧跟一条指令。
+
+```mlog
+# ✅ 正确写法
+jump skip1 equal found 0 0
+ucontrol move cx cy 0 0 0
+skip1:
+end
+```
+
+### 陷阱4：忘记循环
+
+```mlog
+# ❌ 错误写法：只执行一次（没有循环）
+ubind @dagger
+ucontrol move 50 50 0 0 0
+# 执行完就停了，单位只动了一下
+```
+
+**正确做法**：用 `jump` 跳回开头，形成无限循环。
+
+```mlog
+# ✅ 正确写法
+loop:
+ubind @dagger
+ucontrol move 50 50 0 0 0
+jump loop always 0 0 0 0    # 无限循环
+```
+
+### 陷阱5：uradar 有缓存
+
+`uradar` 在 40 tick（约 0.67 秒）内不会重新搜索，会返回上次的结果。如果敌人已经死了，你可能还在对着空位置攻击。
+
+**解决**：每次拿到目标后，用 `sensor` 检查目标是否活着。
+
+---
+
+## 9. 下一步怎么学
+
+你已经掌握了兵控逻辑的基础！接下来可以：
+
+### 推荐学习路径
+
+1. **熟悉每个 ucontrol 指令**
+   - 看 `01_Control Unit/` 目录下的文件，逐个了解每个子指令的功能
+   - 重点关注：`move`、`approach`、`target`、`targetp`、`flag`、`within`
+
+2. **学习单控实战**
+   - 看 `07_实战案例/02_单控逻辑.md`
+   - 学习如何稳定控制一个单位，包括 flag 检测、冲突处理
+
+3. **学习群控实战**
+   - 看 `07_实战案例/03_群控逻辑.md`
+   - 学习批量控制、超视距攻击、残血修复
+
+4. **学习多控实战**
+   - 看 `07_实战案例/04_多控逻辑.md`
+   - 学习同时控制多个独立单位
+
+5. **学习其他实用逻辑**
+   - `05_挖矿逻辑.md` - 自动挖矿
+   - `10_搬运逻辑.md` - 物品搬运
+   - `06_单位数量检测.md` - 统计单位数量
+
+### 几个小练习
+
+试试自己写出来：
+
+1. **巡逻兵**：让一个单位在两点之间来回移动
+2. **守卫**：让单位在基地附近巡逻，发现敌人就攻击
+3. **采矿小队**：控制 3 个 Mono 自动采矿并送回核心
+4. **混合编队**：同时控制近战单位（冲锋）和远程单位（风筝）
+
+---
+
+## 附录：速查表
+
+### 常用指令速查
+
+| 指令 | 格式 | 用途 |
+|------|------|------|
+| `ubind` | `ubind @type` | 绑定单位 |
+| `ucontrol move` | `ucontrol move x y 0 0 0` | 移动到坐标 |
+| `ucontrol approach` | `ucontrol approach x y radius 0 0` | 靠近到指定距离 |
+| `ucontrol target` | `ucontrol target x y 0 0 0` | 攻击坐标 |
+| `ucontrol targetp` | `ucontrol targetp unit 0 0 0 0` | 攻击单位 |
+| `ucontrol flag` | `ucontrol flag value 0 0 0 0` | 设置标识 |
+| `ucontrol within` | `ucontrol within x y radius result 0` | 检测是否在范围内 |
+| `ucontrol idle` | `ucontrol idle 0 0 0 0 0` | 待命 |
+| `ucontrol stop` | `ucontrol stop 0 0 0 0 0` | 停止 |
+| `uradar` | `uradar targetType targetGroup targetFaction order sort result` | 搜索单位 |
+| `sensor` | `sensor result target property` | 读取属性值 |
+| `jump` | `jump label condition a b 0` | 条件跳转 |
+| `set` | `set variable value` | 变量赋值 |
+| `op` | `op operator result a b` | 运算操作 |
+
+### 常用单位类型
+
+| 变量 | 单位 | 类型 | 用途 |
+|------|------|------|------|
+| `@dagger` | Dagger | 地面近战 | 基础战斗单位 |
+| `@mace` | Mace | 地面近战 | 中级战斗单位 |
+| `@flare` | Flare | 飞行 | 基础飞行战斗单位 |
+| `@mono` | Mono | 飞行采矿 | 基础采矿单位 |
+| `@poly` | Poly | 飞行建造 | 基础建造单位 |
+| `@risso` | Risso | 地面远程 | 远程输出单位 |
+| `@alpha` | Alpha | 地面 | 核心初始单位 |
+
+<!-- 文件: 07_实战案例\01_兵控逻辑分类与绑定规范.md -->
+
+
+---
+
+
+# 01 - 兵控逻辑分类与绑定规范
+
+## 概述
+
+目前兵控逻辑一共分为 3 类：**群控**、**多控**、**单控**。为了不让逻辑与逻辑之间争夺单位（抢单位），在逻辑编写的实践中自我进化出了相关的绑定规则。
+
+---
+
+## 逻辑类型与绑定优先级
+
+每个类型的逻辑都有属于自己的绑定规范与绑定优先级：
+
+**单控逻辑 = 多控逻辑 > 群控逻辑**
+
+基于这个绑定优先级衍生出了以下规范。
+
+---
+
+## 单控逻辑绑定规范
+
+单控逻辑在确认要控制的单位之前，应按以下步骤检查：
+
+1. **检查单位的控制方**（绑定单位不等于控制单位。单位只有绑定了之后才能使用指令进行控制，如果一个逻辑只绑定单位不控制单位，那就说明这个逻辑没有控制这个单位）
+   - 如果单位被玩家控制 → 跳过该单位，重新寻找
+2. **检查单位是否被其他逻辑所控制**
+   - 如果没有被其他逻辑控制 → 直接选定该单位
+   - 如果已被其他逻辑控制 → 检查 flag，判断他是不是群控逻辑
+     - 如果 flag 为 0（群控逻辑不给单位 flag）→ 选定该单位
+     - 如果 flag 不为 0 → 跳过该单位
+
+### flag 标识规范
+
+匹配到单位后，第一时间对单位进行 flag 标识。flag 标识的通用规范为：
+
+```
+op floor _0 @thisx 0
+op mul _1 _0 1000
+op floor _2 @thisy 0
+op add unFlag _1 _2
+```
+
+即 `floor(@thisx) * 1000 + floor(@thisy)`。
+
+**为什么是 1000？** 因为大部分地图的长宽都在 1000 以内，根据这个标识可以很轻松地推断出绑定逻辑的位置坐标。
+
+**为什么用 floor？** 为了避免因逻辑尺寸问题导致返回坐标出现小数，使用 `floor` 进行压制。
+
+**扩展用法**：如果需要用 flag 存储额外数据，可以将这个 flag 再次乘以 10 的倍数，从而用 flag 存储相关数据。这样不同的单位就能分别设置或读取不同的属性信息了。
+
+---
+
+## 冲突判断与帧差问题
+
+匹配完单位并标记完 flag 后，并不意味着这个单位可以一直被控制。还需要进行 **flag 冲突** 和 **绑定控制冲突** 判断。
+
+### 问题场景
+
+假设在同一帧内同时放下两个相同的逻辑（或者在短时间内），这两个逻辑同时执行代码，导致双方都认为单位没有被其他逻辑绑定，同时还伴随帧差问题。结果两个逻辑都给单位添加了 flag，并选定该单位为控制单位，然后就出事了。
+
+### 解决方案
+
+最简单的方式：**每次循环都检测单位的 flag 是否为逻辑给的 flag**。如果发生了变化就放弃该单位的控制，并重新寻找单位。这样做有效避免了帧差问题。
+
+---
+
+## 群控逻辑绑定规范
+
+群控逻辑的绑定优先级最低。绑定一个单位后，判断这个单位有没有 flag：
+
+- 有 flag → 跳过（已被单控或多控逻辑绑定）
+- 无 flag → 正常绑定，**无需给单位任何 flag**
+
+群控逻辑主要用于控制批量相同的单位去进行采矿或执行攻击任务。
+
+---
+
+## 多控逻辑绑定规范
+
+多控逻辑与单控逻辑的绑定方法一样，绑定优先级相同。具体实现方式有多种：
+
+1. **flag 方式**：通过给多个单位设置相同的 flag 来标识控制范围
+2. **@counter 伪列表方式**：通过修改 `@counter` 实现跳转，将单位存储到不同变量中
+3. **lookup + 处理器变量方式**：利用 lookup 指令获取内容名称作为变量名键，用 `read`/`write` 配合 `@this` 将单位引用直接存储到处理器自身的变量空间中（而非内存库）
+
+> 详见 `04_多控逻辑.md`
+
+---
+
+## 总结
+
+| 逻辑类型 | 绑定优先级 | 是否给单位 flag | 适用场景 |
+|----------|-----------|----------------|----------|
+| 单控 | 高（=多控） | 是（位置标识） | 精确控制单个单位 |
+| 多控 | 高（=单控） | 是（位置标识） | 同时控制多个指定单位 |
+| 群控 | 低 | 否 | 批量控制同类单位 |
+
+
+<!-- 文件: 07_实战案例\02_单控逻辑.md -->
+
+
+---
+
+
+# 02 - 单控逻辑
+
+## 概述
+单控逻辑是兵控逻辑中最基础的控制方式，用于精确控制单个单位。本节通过一个完整的单控逻辑示例，讲解绑定流程、冲突检测和控制流编写。
+
+## 完整代码示例
+
+以下是完整的单控逻辑代码（注意：原代码使用行号跳转，项目规范推荐使用标签跳转）：
+
+```
+jump 10 equal initial true
+op floor _0 @thisx 0
+op mul _1 _0 1000
+op floor _2 @thisy 0
+op add unFlag _1 _2
+print "▽设置需要绑定的单位"
+ubind @poly
+sensor unType @unit @type
+jump 6 equal unType 0
+set initial true
+sensor unDead @unit @dead
+jump 14 equal unDead 1
+sensor flag @unit @flag
+jump 23 strictEqual unFlag flag
+ubind unType
+sensor controlled @unit @controlled
+jump 14 greaterThan controlled 1
+jump 20 equal controlled 0
+sensor flag @unit @flag
+jump 14 notEqual flag 0
+ucontrol flag unFlag 0 0 0 0
+end
+print "▽控制流编写"
+ucontrol move @thisx @thisy 0 0 0
+```
+
+## 代码分析
+
+### 初始化部分（仅执行一次）
+- 使用 `initial` 变量标记初始化是否完成
+- 计算 flag 标识：`floor(@thisx) * 1000 + floor(@thisy)`
+- `print "▽设置需要绑定的单位"` 作为注释，标记下方是单位设置区域
+
+### 为什么把 ubind 放在初始化之前？
+注意到 `print "▽设置需要绑定的单位"` 之后直接是 `ubind @poly`，这是为了方便玩家修改控制单位。不熟悉逻辑的玩家打开逻辑时可能不知道如何更改单位，所以把 ubind 提到最头部方便修改。ubind 指令上还自带小箭头可以快速修改单位，以防将单位名称输入错误。
+
+### @type 空值检测
+```
+sensor unType @unit @type
+jump 6 equal unType 0
+```
+放下逻辑时场上可能还没有单位，为了不让 @type 检测到空值导致异常，加入了跳转判断。如果 unType 为 0（null），跳回 ubind 重新绑定。
+
+### 循环检查流程
+执行完初始化后，每次循环检查两项：
+1. **单位是否死亡**：`sensor unDead @unit @dead` → 如果死亡则触发重新绑定
+2. **flag 是否变化**：`sensor flag @unit @flag` → 如果 flag 与逻辑给的不一致，说明绑定过程中发生了冲突，也触发重新绑定
+
+如果两项检查都通过，则自动执行控制语句（`ucontrol move`）。
+
+### 单位选定流程
+如果检查失败，重新执行选定单位流程：
+1. `controlled > 1` → 说明单位在编队或被玩家控制，直接重新寻找
+2. `controlled === 0` → 没有任何逻辑控制，直接绑定
+3. `controlled === 1` → 被其他逻辑控制了，检查 flag 是否为 0（判断是不是群控逻辑）。如果 flag 为 0 则选定该单位
+
+### end 指令的分界线作用
+选择完单位后直接使用 `end` 指令回到头部，而不是向下继续运行控制流。这样做有两个好处：
+1. **视觉分界**：看到 end 就知道上面是单位选择流程与初始化，下面是控制流
+2. **避免 print 执行**：虽然逻辑不涉及信息板打印，但不执行 print 是个好习惯
+
+### jump 直接指向控制语句
+注意 `jump 23 strictEqual unFlag flag` 直接指向了 `ucontrol move` 语句，这样既优化了运行效率（跳过不必要的检查），又不耽误使用 print 当注释。
+
+## 缺点
+这个逻辑唯一的缺点：如果控制的单位在中途被玩家控制就失效了。不过如果有玩家主动控制了被单控逻辑绑定的单位，那也是极少见的情况。
+
+## 要点总结
+- 初始化只执行一次，用 `initial` 变量控制
+- 每次循环检查单位死亡和 flag 冲突
+- controlled 值判断：>1 为编队/玩家控制，=1 为其他逻辑控制，=0 为自由单位
+- end 可作为视觉分界线，区分不同功能区域
+- print 注释放在不可达位置避免执行
+
+
+<!-- 文件: 07_实战案例\03_群控逻辑.md -->
+
+
+---
+
+
+# 03 - 群控逻辑
+
+## 概述
+群控逻辑的绑定优先级最低，无需给单位 flag。主要用于控制批量相同的单位进行采矿或攻击任务。本节通过堡垒（Fortress）单位的三个实战案例，讲解群控逻辑的编写思路、常见问题和重构优化。
+
+## 群控逻辑绑定规范
+群控逻辑的绑定优先级最低。绑定一个单位后，判断这个单位有没有 flag：
+- 有 flag → 直接跳过（已被单控或多控逻辑绑定）
+- 无 flag → 正常绑定，**无需给单位任何 flag**
+
+群控逻辑主要用于控制批量相同的单位去进行采矿或执行攻击任务。
+
+---
+
+## 案例一：堡垒攻击逻辑
+
+### 代码
+
+> 注意：此代码使用行号跳转，作为学习参考保留原样。项目规范推荐使用标签跳转。
+
+```
+jump 6 notEqual init 0
+set init 1
+set core_approach 30
+set turret_approach 33.5
+set within_t1 36
+set within_t2 23
+sensor E switch1 @enabled
+print "Fortress attack logic \nBy [brown]Hwes[]"
+printflush message1
+ubind @fortress
+sensor range @unit @range
+jump 16 equal E 1
+sensor controller @unit @controller
+jump 6 notEqual controller @this
+ucontrol unbind jx jy 0 0 0
+end
+sensor flag @unit @flag
+jump 6 notEqual flag 0
+sensor ux @unit @x
+sensor uy @unit @y
+ulocate building turret true @copper tx ty found turret
+ucontrol within tx ty within t1 within
+jump 36 equal within 0
+ucontrol target tx ty 1 0 0
+end
+ucontrol approach tx ty turret_approach 0 0
+op sub tx1 tx ux
+op sub ty1 ty uy
+op len len tx1 ty1
+op div len_var range len
+op mul tx2 tx1 len_var
+op mul ty2 ty1 len_var
+op add tx3 tx2 ux
+op add ty3 ty2 uy
+ucontrol target tx3 ty3 1 0 0
+end
+ulocate building core true @copper cx cy found core
+op sub cx1 cx ux
+op sub cy1 cy uy
+op len len cx1 cy1
+op div len_var range len
+op mul cx2 cx1 len_var
+op mul cy2 cy1 len_var
+op add cx3 cx2 ux
+op add cy3 cy2 uy
+ucontrol target cx3 cy3 1 0 0
+ucontrol autoPathfind cx cy core_approach 0 0
+```
+
+### 分析
+
+这是一个典型的群控逻辑，专门用于游戏内堡垒单位。
+
+1. **print 作者信息的位置**：`print "Fortress attack logic \nBy [brown]Hwes[]"` 和 `printflush message1` 这两条逻辑用于在信息板中打印作者信息，它们应该被加入初始化里边。但现在它们在初始化外边，说明这个逻辑的作者生怕有小笨蛋修改信息板的信息，导致信息不对，所以每次循环都重新打印一遍作者信息。
+
+2. **开关控制**：逻辑连接了一个开关，开关开启逻辑才运行，开关关闭则停止运行。开关关闭后的逻辑为什么要这么写呢？因为逻辑结束单位控制后，玩家还无法第一时间控制单位，还需要等待指定时间（控制计时器过期），在等待期间内玩家无法通过 RTS 控制单位。所以为了能让单位快速回到玩家的 RTS 控制，逻辑直接在循环过程中检查单位是否被自己的逻辑控制，如果是则直接使用 `ucontrol unbind` 停止控制，快速释放单位。
+
+3. **两段攻击距离与三角函数运算**：每个单位的属性都不一样，比如说攻击距离、生命值，以及炮弹是否能溅射，都需要考虑到。因为控制的单位堡垒的炮弹具有溅射能力，所以设置了两段攻击距离（`within_t1` 与 `within_t2`）。因为攻击距离问题，单位无法直接攻击攻击范围之外的目标，但是炮弹还是有溅射伤害的，实际的攻击范围还会多一些。于是这个逻辑通过三角函数运算实现了这个功能，单位会向着最远处攻击，最大化溅射伤害。
+
+4. **代码注意**：`ucontrol within tx ty within t1 within` 中的 `within t1` 应为 `within_t1`（初始化时定义的变量 `set within_t1 36`），疑似转录时下划线丢失导致变量名被拆分为 `within` 和 `t1` 两个独立变量。正确的写法应为 `ucontrol within tx ty within_t1 within 0`（radius=`within_t1`=36，result=`within`）。
+
+5. **反面教材**：这个逻辑只适合进攻地图，不适合 PVP 或出怪地图。一是没有单位检测，二是逻辑写得太潦草，有很多地方根本没有考虑到，控制的单位很容易死。所以这是个反面教材。
+
+---
+
+## 案例二：通用自动进攻（原始版）
+
+这是一个稍微好一点的逻辑，也是给堡垒使用的，但同样存在问题。
+
+### 代码
+
+> 注意：此代码使用行号跳转，作为学习参考保留原样。其中包含 `jump -1` 等问题指令。
+
+```
+print 通用自动进攻-去开关精简版
+set rtr 0
+set re 0.9
+set dtc 31
+set fmtr 0
+op add aprchdtc dtc 5
+ubind @fortress
+sensor range @unit @range
+op sub range range 1
+sensor hp @unit @health
+sensor maxhp @unit @maxHealth
+op mul rtrhp maxhp rtr
+sensor flag @unit @flag
+jump 16 equal flag 1
+jump 32 greaterThan hp rtrhp
+ucontrol flag 1 0 0 0 0
+getlink Nihil 0
+jump 24 notEqual Nihil null
+ulocate building repair 0 @copper rpx rpy found building
+jump 22 equal found 1
+ucontrol pathfind @thisx @thisy 4 0 0
+jump 27 always x false
+ucontrol pathfind rpx rpy 4 0 0
+jump 27 always x false
+sensor rpx Nihil @x
+sensor rpy Nihil @y
+ucontrol approach rpx rpy 4 0 0
+sensor hp @unit @health
+op mul rehp re maxhp
+jump 31 lessThan hp rehp
+ucontrol flag 0 0 0 0 0
+end
+uradar player ally any distance 0 1 player
+jump 36 notEqual player null
+set fmt 0
+jump -1 always x false
+sensor apx player @x
+sensor apy player @y
+ucontrol within apx apy fmtr fmt 0
+jump 46 notEqual fmt 1
+sensor x player @shootX
+sensor y player @shootY
+sensor shoot player @shooting
+jump 69 equal shoot 1
+jump -1 always x false
+end
+uradar enemy ground any distance 0 1 enm
+jump 71 notEqual enm null
+ucontrol targetp enm 0 0 0 0
+ulocate building turret true @copper x y found building
+ucontrol within x y aprchdtc wth 0
+jump 69 notEqual wth 0
+ulocate building storage true @copper x y found building
+ucontrol within x y 25 wth 0
+jump 69 notEqual wth 0
+ulocate building generator true @copper x y found building
+ucontrol within x y 25 wth 0
+jump 69 notEqual wth 0
+ulocate building core true @copper x y found building
+ucontrol within x y 25 wth 0
+jump 69 notEqual wth 0
+jump 66 equal fmt 0
+sensor x player @shootX
+sensor y player @shootY
+ucontrol target x y 0 0 0
+end
+ulocate building generator true @copper x y found building
+ucontrol pathfind x y dtc 0 0
+end
+ucontrol approach x y dtc 0 0
+jump 76 always sw2 0
+sensor ex enm @x
+sensor ey enm @y
+ucontrol approach ex ey range 0 0
+ucontrol targetp enm 1 0 0 0
+end
+ucontrol within x y range wth 0
+jump 80 equal wth 0
+ucontrol target x y 1 0 0
+end
+ucontrol within x y aprchdtc wth 0
+jump 101 notEqual wth 1
+sensor ux @unit @x
+sensor uy @unit @y
+op sub dx x ux
+set sgn dx
+op sub dy y uy
+op div tan dy dx
+op atan theta tan dx
+op cos cos theta dx
+op sin sin theta dx
+op mul dx range cos
+op mul dy range sin
+jump 97 lessThan sgn 0
+op add sx ux dx
+op add sy uy dy
+jump 99 always x false
+op sub sx ux dx
+op sub sy uy dy
+ucontrol target sx sy 1 0 0
+end
+ucontrol target sx sy 0 0 0
+```
+
+### 分析
+
+这个逻辑要稍微好一点点，因为堡垒的视野范围是 29，武器的攻击范围是 30，因此就多了许多点子。
+
+**残血修复功能**：这个逻辑具备单位残血自动找修复器的功能。如果检测到单位残血，就给单位标记上特殊的 flag（`ucontrol flag 1`），并寻找修复器。有特殊 flag 标记的单位需要血量到达一定程度（`re * maxhp`，即 90% 血量）后才能取消 flag 标记并继续战斗，防止单位还没加满血就跑了。
+
+**卡距算法（超视距攻击）**：这个单位利用了单位雷达的视野特性——单位靠近炮台后，首先炮台在单位的视野范围内，因此单位会首先拉开距离，然后触发超视距攻击。为什么叫超视距攻击呢？因为单位离开炮台了一段距离，单位又看不见炮台了，所以叫超视距攻击。攻击完成后，因为单位的视野里面没有炮台了，所以单位会继续向前移动，又会发现炮台，并再次执行超视距攻击。所以这玩意比较恶心。
+
+**兼容性问题**：这个逻辑是一个群控逻辑，而且与其他任何逻辑都不兼容，因为它通过 flag 判断当前是否需要加血。但是因为很少有人拿这个单位干别的事情，所以它通常用于战斗，故这个逻辑没有兼容其他的逻辑。
+
+**为什么说它写得不好**：
+
+1. **大量变量没有进入初始化语句**：导致逻辑每次循环都会重新执行一遍赋值，常量非常零散，积木多余。
+2. **跳转混乱**：原逻辑几乎很少使用 end 语句，跳转讲究层层分离，这个跳转写得乱七八糟。还有 `jump -1` 这种问题指令。
+3. **变量命名不规范**：变量缩写根本看不出想表达的意思（如 `rtr`、`re`、`fmtr`、`dtc` 等）。
+4. **算法冗余**：超视距算法的三角函数运算过于复杂。
+5. **死代码**：有变量根本没有用上，还有 jump 是断掉的。
+
+---
+
+## 案例三：通用自动进攻（重构版）
+
+### 重构前的问题
+
+原始逻辑存在以下问题：
+1. 大量变量没有进入初始化语句，导致每次循环都重新赋值，常量零散，积木多余
+2. 跳转混乱，几乎不使用 end 语句，跳转讲究层层分离
+3. 变量命名不规范，缩写看不出含义
+4. 算法冗余
+5. 有死代码，jump 是断掉的
+
+### 重构后的代码（基础版）
+
+> 注意：此代码使用行号跳转，作为学习参考保留原样。
+
+```
+jump 12 equal initial true
+print 通用自动进攻-去开关精简版
+set dtc 33
+print 在下方选择单位
+ubind @fortress
+sensor unType @unit @type
+jump 4 equal unType 0
+sensor range @unit @range
+op add aprchdtc range 5
+sensor maxhp @unit @maxHealth
+op mul rehp maxhp 0.9
+set initial true
+ubind unType
+sensor hp @unit @health
+op mul rtrhp maxhp rtr
+sensor flag @unit @flag
+jump 19 equal flag 1
+jump 36 greaterThan hp rtrhp
+ucontrol flag 1 0 0 0 0
+sensor hp @unit @health
+jump 23 lessThan hp rehp
+ucontrol flag 0 0 0 0 0
+end
+getlink repair 0
+jump 29 equal repair null
+sensor rpx repair @x
+sensor rpy repair @y
+ucontrol approach rpx rpy 4 0 0
+end
+ulocate building repair 0 @copper rpx rpy found building
+jump 33 equal found 1
+ucontrol pathfind @thisx @thisy 4 0 0
+end
+ucontrol pathfind rpx rpy 4 0 0
+end
+print 上方修复，下方功能_
+uradar player ally ground distance 0 1 player
+jump 42 equal player null
+sensor x player @shootX
+sensor y player @shootY
+sensor shoot player @shooting
+jump 66 equal shoot 1
+uradar enemy ground any distance 0 1 enemy
+jump 49 equal enemy null
+sensor x enemy @x
+sensor y enemy @y
+ucontrol approach x y range 0 0
+ucontrol targetp enemy 1 0 0 0
+end
+ulocate building turret true @copper x y found enemy
+jump 61 notEqual enemy null
+ulocate building storage true @copper x y found enemy
+jump 61 notEqual enemy null
+ulocate building generator true @copper x y found enemy
+jump 61 notEqual enemy null
+ulocate building core true @copper x y found enemy
+jump 61 notEqual enemy null
+ucontrol targetp @this 0 0 0 0
+ucontrol autoPathfind @this 0 0 0 0
+end
+end
+sensor enemyRange enemy @range
+jump 66 greaterThanEq enemyRange range
+ucontrol approach x y range 0 0
+ucontrol target x y 1 0 0
+end
+ucontrol approach x y dtc 0 0
+ucontrol within x y range wth 0
+jump 71 equal wth 0
+ucontrol target x y 1 0 0
+end
+sensor ux @unit @x
+sensor uy @unit @y
+op sub cx1 x ux
+op sub cy1 y uy
+op len len cx1 cy1
+op div len_var range len
+op mul cx2 cx1 len_var
+op mul cy2 cy1 len_var
+op add cx3 cx2 ux
+op add cy3 cy2 uy
+ucontrol target cx3 cy3 1 0 0
+```
+
+### 重构分析
+
+代码条数缩减了很多，去除了不必要的积木。主要改进点：
+
+1. **常量移入初始化**：相关常量只在初始化时执行一次（`set dtc 33`、`op add aprchdtc range 5`、`op mul rehp maxhp 0.9` 等），不再每次循环重复赋值。
+2. **jump 跳转分层**：jump 跳转是一层一层的，不再混乱。使用 end 语句作为各功能区域的分界线。
+3. **修复功能提取**：将血量恢复判断提取到上方，这样减少了 jump 跳转线的使用数量。逻辑中还有一个判断——当前单位的血量是否达到相关条件，如果达到条件后就将 flag 设为 0，这个功能也被提取到了上方。
+4. **新增功能**：当玩家附身陆地单位并开火时，周围单位会自动跟随玩家开火。
+5. **变量初始化**：`ubind @fortress` 提到初始化区域，并使用 `sensor unType @unit @type` + `jump 4 equal unType 0` 防止空值检测。初始化完成后使用 `ubind unType` 切换为变量绑定。
+
+### 重构后的代码（玩家跟随版）
+
+在基础版的基础上，新增了玩家跟随功能：如果单位检测到了周围有陆地玩家单位，可以让其他周围的单位都自动跟随他。
+
+> 注意：此代码使用行号跳转，作为学习参考保留原样。
+
+```
+jump 12 equal initial true
+print 通用自动进攻-去开关精简版
+set dtc 33
+print 在下方选择单位
+ubind @fortress
+sensor unType @unit @type
+jump 4 equal unType 0
+sensor range @unit @range
+op add aprchdtc range 5
+sensor maxhp @unit @maxHealth
+op mul rehp maxhp 0.9
+set initial true
+ubind unType
+sensor hp @unit @health
+op mul rtrhp maxhp rtr
+sensor flag @unit @flag
+jump 19 equal flag 1
+jump 36 greaterThan hp rtrhp
+ucontrol flag 1 0 0 0 0
+sensor hp @unit @health
+jump 23 lessThan hp rehp
+ucontrol flag 0 0 0 0 0
+end
+getlink repair 0
+jump 29 equal repair null
+sensor rpx repair @x
+sensor rpy repair @y
+ucontrol approach rpx rpy 4 0 0
+end
+ulocate building repair 0 @copper rpx rpy found building
+jump 33 equal found 1
+ucontrol pathfind @thisx @thisy 4 0 0
+end
+ucontrol pathfind rpx rpy 4 0 0
+end
+print 上方修复，下方功能_
+uradar player ally ground distance 0 1 player
+jump 47 equal player null
+sensor x player @shootX
+sensor y player @shootY
+sensor shoot player @shooting
+jump 71 equal shoot 1
+sensor x player @x
+sensor y player @y
+ucontrol approach x y 2 0 0
+ucontrol targetp @this 0 2 0 0
+end
+uradar enemy ground any distance 0 1 enemy
+jump 54 equal enemy null
+sensor x enemy @x
+sensor y enemy @y
+ucontrol approach x y range 0 0
+ucontrol targetp enemy 1 0 0 0
+end
+ulocate building turret true @copper x y found enemy
+jump 66 notEqual enemy null
+ulocate building storage true @copper x y found enemy
+jump 66 notEqual enemy null
+ulocate building generator true @copper x y found enemy
+jump 66 notEqual enemy null
+ulocate building core true @copper x y found enemy
+jump 66 notEqual enemy null
+ucontrol targetp @this 0 0 0 0
+ucontrol autoPathfind @this 0 0 0 0
+end
+end
+sensor enemyRange enemy @range
+jump 71 greaterThanEq enemyRange range
+ucontrol approach x y range 0 0
+ucontrol target x y 1 0 0
+end
+ucontrol approach x y dtc 0 0
+ucontrol within x y range wth 0
+jump 76 equal wth 0
+ucontrol target x y 1 0 0
+end
+sensor ux @unit @x
+sensor uy @unit @y
+op sub cx1 x ux
+op sub cy1 y uy
+op len len cx1 cy1
+op div len_var range len
+op mul cx2 cx1 len_var
+op mul cy2 cy1 len_var
+op add cx3 cx2 ux
+op add cy3 cy2 uy
+ucontrol target cx3 cy3 1 0 0
+```
+
+### 玩家跟随版与基础版的区别
+
+基础版中，检测到玩家后直接读取玩家的 `shootX`/`shootY` 和 `shooting` 状态，如果玩家正在开火则跳转到攻击逻辑。
+
+玩家跟随版新增了以下逻辑：当玩家**没有开火**时，单位不会直接跳过，而是读取玩家的 `@x`/`@y` 坐标，以距离 2 跟随玩家移动（`ucontrol approach x y 2 0 0`），并设置 targetp 为自身且不开火（`ucontrol targetp @this 0 2 0 0`），实现"跟随但不攻击"的效果。
+
+### 停火机制
+
+注意，如果让逻辑控制单位开火，且逻辑不关闭开火的话，单位会一直处于开火状态。因此需要添加停火指令（如 `ucontrol target x y 0 0 0`，第五个参数为 0 表示不开火），在不需要攻击时手动关闭开火状态。
+
+---
+
+## 卡距算法（超视距攻击）
+
+### 算法原理
+
+堡垒（Fortress）的视野范围（@range）为 29，武器攻击范围为 30。视野比攻击范围小 1 格，意味着单位在视野边缘发现敌人时，敌人已在攻击范围内。但单位后退到视野外后，就看不见敌人了——此时需要计算一个"刚好在攻击范围边缘"的坐标，让单位向该坐标开火，实现超视距攻击。
+
+整个循环过程：
+1. `uradar` 发现敌人，单位与敌人的距离 < 视野范围（29）
+2. 单位后退拉开距离，退出视野范围（看不见敌人）
+3. 通过三角函数计算攻击范围边缘的坐标，向该坐标开火
+4. 攻击完毕后单位前进，再次进入视野发现敌人
+5. 重复 2-4，形成"打了就退、退了再进"的循环
+
+### 三角函数运算的逐步数学分析
+
+以重构版代码为例（原始版和玩家跟随版使用相同的数学逻辑）：
+
+```
+sensor ux @unit @x          ## ux = 单位当前 X 坐标
+sensor uy @unit @y          ## uy = 单位当前 Y 坐标
+op sub cx1 x ux             ## cx1 = 敌人X - 单位X（方向向量 X 分量）
+op sub cy1 y uy             ## cy1 = 敌人Y - 单位Y（方向向量 Y 分量）
+op len len cx1 cy1          ## len = sqrt(cx1² + cy1²)（单位到敌人的距离）
+op div len_var range len    ## len_var = range / len（缩放因子）
+op mul cx2 cx1 len_var      ## cx2 = cx1 * (range / len)
+op mul cy2 cy1 len_var      ## cy2 = cy1 * (range / len)
+op add cx3 cx2 ux           ## cx3 = 单位X + cx2（攻击点 X）
+op add cy3 cy2 uy           ## cy3 = 单位Y + cy2（攻击点 Y）
+ucontrol target cx3 cy3 1 0 0   ## 向攻击点开火
+```
+
+**数学本质**：这是一个**向量归一化 + 缩放**操作。
+
+公式为：`攻击点 = 单位位置 + (敌人位置 - 单位位置) × (攻击范围 / 实际距离)`
+
+展开后：`攻击点 = 单位位置 + 方向向量 × (range / |方向向量|)`
+
+其中 `方向向量 / |方向向量|` 就是归一化（得到单位方向向量），再乘以 `range` 就得到了长度恰好为 `range` 的向量。加上单位位置后，攻击点恰好位于以单位为圆心、半径为 `range` 的圆上，且在朝向敌人的方向。
+
+### 具体数值示例
+
+假设单位在 (10, 10)，敌人在 (40, 20)，攻击范围 range = 30：
+
+**Step 1：计算方向向量**
+```
+cx1 = 40 - 10 = 30
+cy1 = 20 - 10 = 10
+```
+
+**Step 2：计算距离**
+```
+len = sqrt(30² + 10²) = sqrt(900 + 100) = sqrt(1000) ≈ 31.62
+```
+
+**Step 3：计算缩放因子**
+```
+len_var = range / len = 30 / 31.62 ≈ 0.949
+```
+
+**Step 4：缩放方向向量**
+```
+cx2 = 30 × 0.949 ≈ 28.46
+cy2 = 10 × 0.949 ≈ 9.49
+```
+
+**Step 5：加上单位位置得到攻击点**
+```
+cx3 = 10 + 28.46 = 38.46
+cy3 = 10 + 9.49 = 19.49
+```
+
+**验证**：攻击点到单位的距离 = `sqrt((38.46-10)² + (19.49-10)²)` = `sqrt(28.46² + 9.49²)` = `sqrt(810 + 90)` ≈ `sqrt(900)` = 30 = range ✓
+
+攻击点恰好位于单位攻击范围的边缘，朝向敌人方向。单位向这个点开火，炮弹会落在敌人附近，利用溅射伤害攻击视野外的敌人。
+
+### 为什么不用 `ucontrol approach` 拉开距离后再 `ucontrol targetp`？
+
+因为 `ucontrol targetp` 需要一个单位引用作为目标，而单位退出视野后 `uradar` 就找不到敌人了，`targetp` 无法使用。通过三角函数计算坐标后使用 `ucontrol target x y`（坐标模式），不依赖单位引用，可以在视野外持续攻击。
+
+### 案例一中的两段攻击距离
+
+案例一代码中定义了两个距离阈值：`within_t1 = 36`（远距离检测）和 `within_t2 = 23`（近距离检测），设计意图是利用堡垒炮弹的溅射伤害实现超视距攻击。但实际代码中 `within_t2` 定义后**从未被使用**，只有 `within_t1`（通过转录错误后的 `within t1` 变量）参与了距离判断。推测原作者计划用 `within_t1` 判断是否进入攻击模式、`within_t2` 判断是否需要继续后退，形成"攻击区间"，但该设计未完整实现。
+
+---
+
+## 要点总结
+
+- 群控逻辑无需给单位 flag，绑定优先级最低，检查 flag 直接跳过
+- 开关关闭后应使用 `ucontrol unbind` 快速释放单位，让玩家能第一时间控制
+- 两段攻击距离的设计原因是炮弹溅射伤害——通过三角函数运算向最远处攻击，最大化溅射伤害
+- 常量应放入初始化语句，避免每次循环重复赋值
+- jump 跳转应层层分离，使用 end 作为功能区域分界线，避免混乱
+- 注意停火机制：控制单位开火后需要手动关闭（第五个参数设为 0）
+- 修复功能应提取到上方，减少 jump 跳转线的使用数量
+- 变量命名应规范，避免难以理解的缩写
+
+
+<!-- 文件: 07_实战案例\04_多控逻辑.md -->
+
+
+---
+
+
+# 04 - 多控逻辑
+
+## 概述
+多控逻辑与单控逻辑的绑定方法相同，绑定优先级也相同。多控逻辑的核心问题是如何让一个逻辑同时控制多个单位。本节介绍四种主流的多控实现方式。
+
+---
+
+## 方式一：flag 绑定法
+
+### 原理
+通过给多个单位设置相同的 flag 值，标识这些单位属于同一个逻辑控制。定期检查场上拥有指定 flag 的单位数量，数量不足时补充绑定，数量过多时取消多余单位的 flag。
+
+### 代码
+```
+jump 13 lessThan @second second
+set unitCN 2
+ubind @poly
+set firstUnit @unit
+set unitN 0
+sensor dead firstUnit @dead
+jump 2 equal dead 1
+sensor flag @unit @flag
+jump 10 notEqual flag 114514
+op add unitN unitN 1
+ubind @poly
+jump 5 notEqual @unit firstUnit
+op add second @second 5
+ubind @poly
+sensor flag @unit @flag
+jump 20 notEqual flag 0
+jump 19 greaterThanEq unitN unitCN
+op add unitN unitN 1
+ucontrol flag 114514 0 0 0 0
+end
+jump 24 notEqual flag 114514
+jump 25 lessThanEq unitN unitCN
+op sub unitN unitN 1
+ucontrol flag 0 0 0 0 0
+end
+ucontrol move @thisx @thisy 0 0 0
+```
+
+### 解说
+这个逻辑使用了定期检查功能，定期检查场上拥有指定标记的单位数量。当单位数量超过预期时，取消多余单位的 flag；当单位数量不足时，给新单位设置 flag。
+
+### 缺点
+1. **固定 flag 容易冲突**：flag 没有按规则生成。正确的生成方式应为 `floor(@thisx)*1000+floor(@thisy)`，而这个逻辑使用了固定 flag（114514），容易发生冲突，不推荐这种做法
+2. **三处 ubind 问题**：逻辑分别在三处使用了 ubind 指令，如果需要更改单位类型则必须同步修改三处，落下一处都不行。应将选择单位功能提到逻辑最开头，并加入初始化语句
+3. **控制速度低下**：这是使用 flag 绑定单位的通病，每次循环需要遍历所有单位检查 flag。这种绑定方法逐渐被淘汰，当然这里展示的已经是优化程度比较高的逻辑了
+
+---
+
+## 方式二：@counter 伪列表法
+
+### 原理
+通过修改 `@counter` 实现跳转，将不同单位存储到不同变量中（un1, un2, un3...），实现伪列表功能。每次循环通过轮转机制控制一个不同的单位。
+
+### 代码
+```
+jump 9 equal initial true
+op floor _0 @thisx 0
+op mul _1 _0 1000
+op floor _2 @thisy 0
+op add unFlag _1 _2
+print "▽设置需要绑定的单位"
+ubind @poly
+sensor unType @unit @type
+jump 6 equal unType 0
+set initial true
+op add ts ts 1
+op mod ts ts 6
+op mul counter ts 2
+op add @counter @counter counter
+ubind un1
+jump 25 always un false
+ubind un2
+jump 25 always un false
+ubind un3
+jump 25 always un false
+ubind un4
+jump 25 always un false
+ubind un5
+jump 25 always un false
+ubind un6
+sensor unDead @unit @dead
+jump 31 equal unDead 1
+sensor flag @unit @flag
+jump 31 notEqual unFlag flag
+ucontrol move @thisx @thisy 0 0 0
+end
+ubind unType
+sensor controlled @unit @controlled
+jump 30 greaterThan controlled 1
+jump 37 equal controlled 0
+sensor flag @unit @flag
+jump 30 notEqual flag 0
+ucontrol flag unFlag 0 0 0 0
+op add @counter @counter counter
+set un1 @unit
+end
+set un2 @unit
+end
+set un3 @unit
+end
+set un4 @unit
+end
+set un5 @unit
+end
+set un6 @unit
+end
+end
+```
+
+### 解说
+
+#### @counter 伪列表的跳转数学
+
+`@counter` 是处理器的指令指针（程序计数器），对其进行加法运算可以直接跳过若干条指令。这个技巧的核心是将循环计数器转换为跳转偏移量，实现 switch-case 风格的分派。
+
+**三行核心代码**：
+```
+op mod ts ts 6         ## ts = ts % 6，将计数器限制在 0-5 循环
+op mul counter ts 2    ## counter = ts × 2，每个 case 占 2 条指令
+op add @counter @counter counter  ## @counter += counter，跳过 counter 条指令
+```
+
+**为什么乘 2？** 因为每个 case 块恰好 2 条指令（`ubind unN` + `jump break`）。ts=0 时不跳过（执行 case 0），ts=1 时跳过 2 条（执行 case 1），ts=2 时跳过 4 条（执行 case 2），以此类推。
+
+**具体跳转过程**（假设 `op add @counter @counter counter` 执行后，下一条指令是 `ubind un1`）：
+
+| ts 值 | counter = ts×2 | 跳过指令数 | 实际执行的第一条指令 |
+|-------|----------------|-----------|-------------------|
+| 0 | 0 | 0 | `ubind un1`（case 0） |
+| 1 | 2 | 2 | `ubind un2`（case 1） |
+| 2 | 4 | 4 | `ubind un3`（case 2） |
+| 3 | 6 | 6 | `ubind un4`（case 3） |
+| 4 | 8 | 8 | `ubind un5`（case 4） |
+| 5 | 10 | 10 | `ubind un6`（case 5） |
+
+每个 case 块的结构：
+```
+ubind un1              ## 绑定第 1 个单位
+jump 25 always un false  ## 跳转到控制区域（break）
+ubind un2              ## 绑定第 2 个单位
+jump 25 always un false  ## 跳转到控制区域（break）
+...
+```
+
+`jump 25 always un false` 中的 `always` 是无条件跳转类型，跳转始终执行，不评估条件。`un false` 是语法要求的占位参数（jump 指令固定需要两个操作数），在 `always` 类型下不会被实际评估。
+
+#### 控制流程
+
+每帧执行时：
+1. `ts` 递增 1 并 mod 6，轮转到下一个单位索引
+2. 计算 counter 偏移量并修改 `@counter`
+3. 跳转到对应的 `ubind unN`，绑定第 N 个单位
+4. 跳转到控制区域（指令 25），检查单位是否死亡、flag 是否匹配
+5. 执行控制指令（如 `ucontrol move`）
+6. `end` 回到开头，下一帧处理下一个单位
+
+#### 单位补充机制
+
+当 `sensor unDead @unit @dead` 检测到单位死亡，或 `sensor flag @unit @flag` 检测到 flag 不匹配时，跳转到单位补充区域（指令 30）。补充区域遍历所有同类单位，找到未被控制（`@controlled == 0`）且无 flag 的单位，设置 flag 并存储到变量中：
+
+```
+ubind unType              ## 绑定单位类型（变量，值为 @poly）
+sensor controlled @unit @controlled
+jump 38 greaterThan controlled 1   ## 被玩家/编队控制 → 跳过
+jump 46 equal controlled 0         ## 完全自由 → 直接绑定
+sensor flag @unit @flag
+jump 38 notEqual flag 0            ## 已被其他逻辑标记 → 跳过
+ucontrol flag unFlag 0 0 0 0       ## 设置 flag 标记
+```
+
+注意：补充单位时不使用 `@counter` 跳转，而是直接设置 flag 后 `end` 回到开头。下一帧 `ts` 会从 0 开始轮转，遇到死亡单位的变量时会再次触发补充。
+
+---
+
+## 方式二优化版
+
+### 原理
+在方式二的基础上，通过 `addUnit` 变量判断是否需要修改单位，缩短逻辑长度。将 set 和 ubind 合并到同一个跳转分支中，减少代码行数。
+
+### 代码
+```
+jump 10 equal initial true
+op floor _0 @thisx 0
+op mul _1 _0 1000
+op floor _2 @thisy 0
+op add unFlag _1 _2
+print "▽设置需要绑定的单位"
+ubind @poly
+sensor unType @unit @type
+jump 6 equal unType 0
+set addUnit true
+set initial true
+op mod ts ts 6
+op mul counter ts 3
+op add counter addUnit counter
+op add @counter @counter counter
+set un1 @unit
+ubind un1
+jump 32 always un false
+set un2 @unit
+ubind un2
+jump 32 always un false
+set un3 @unit
+ubind un3
+jump 32 always un false
+set un4 @unit
+ubind un4
+jump 32 always un false
+set un5 @unit
+ubind un5
+jump 32 always un false
+set un6 @unit
+ubind un6
+sensor unDead @unit @dead
+jump 40 equal unDead 1
+sensor flag @unit @flag
+jump 40 notEqual unFlag flag
+ucontrol move @thisx @thisy 0 0 0
+set addUnit true
+op add ts ts 1
+end
+ubind unType
+sensor controlled @unit @controlled
+jump 38 greaterThan controlled 1
+jump 46 equal controlled 0
+sensor flag @unit @flag
+jump 38 notEqual flag 0
+ucontrol flag unFlag 0 0 0 0
+set addUnit false
+```
+
+### 解说
+
+#### 优化版的核心改进：3 指令 case 块 + 双模式跳转
+
+优化版将 `set unN @unit`（写入新单位）和 `ubind unN`（绑定已有单位）合并到同一个 case 块中，每个 case 占 3 条指令而非 2 条：
+
+```
+set un1 @unit          ## 指令 A：写入新单位引用
+ubind un1              ## 指令 B：绑定已有单位
+jump 32 always un false  ## 指令 C：跳转到控制区域
+```
+
+通过 `addUnit` 变量控制跳到指令 A（写入新单位）还是指令 B（绑定已有单位）：
+
+```
+op mod ts ts 6              ## ts = ts % 6
+op mul counter ts 3         ## counter = ts × 3（每个 case 占 3 条指令）
+op add counter addUnit counter  ## counter = addUnit + counter（true=1 多跳1条→跳过set直达ubind，false=0 不额外跳→执行set）
+op add @counter @counter counter  ## 执行跳转
+```
+
+**具体跳转过程**（假设 `op add @counter @counter counter` 执行后，下一条指令是 `set un1 @unit`）：
+
+| ts 值 | addUnit | counter = ts×3 + addUnit | 跳过指令数 | 执行的第一条指令 | 含义 |
+|-------|---------|-------------------------|-----------|----------------|------|
+| 0 | true(1) | 0+1=1 | 1 | `ubind un1` | 跳过 set，直接绑定已有单位 |
+| 0 | false(0) | 0+0=0 | 0 | `set un1 @unit` | 执行 set，写入新单位到变量 |
+| 1 | true(1) | 3+1=4 | 4 | `ubind un2` | 跳过 set，直接绑定已有单位 |
+| 1 | false(0) | 3+0=3 | 3 | `set un2 @unit` | 执行 set，写入新单位到变量 |
+| 2 | true(1) | 6+1=7 | 7 | `ubind un3` | 跳过 set，直接绑定已有单位 |
+| 2 | false(0) | 6+0=6 | 6 | `set un3 @unit` | 执行 set，写入新单位到变量 |
+
+**关键洞察**：`addUnit = true` 时 counter 多加 1，跳过 `set` 指令直达 `ubind`——此时单位引用已在之前某次 `set` 中写入变量，直接绑定即可。`addUnit = false` 时 counter 不额外偏移，执行 `set unN @unit` 将当前 `@unit`（补充阶段找到的新单位）写入变量，然后自然落入下一行的 `ubind unN` 绑定该单位。
+
+#### addUnit 的状态转换
+
+- **初始状态**：`addUnit = true`（初始化中设置）。此时变量 un1~un6 均为空，首次 `ubind un1` 绑定 null 导致 `@unit` 为空，flag 检查失败，触发补充流程
+- **控制循环正常结束时**：执行 `set addUnit true`（语句 37），下一帧跳过 set 直接 ubind 已有单位——单位已在变量中，无需重复写入
+- **补充单位成功后**：执行 `set addUnit false`（语句 47），下一帧执行 `set unN @unit` 将补充阶段找到的新单位写入变量，然后 ubind 绑定
+
+状态流转：`true`（初始化）→ 首次绑定失败 → 补充找到单位 → `false`（写入变量）→ `true`（正常控制）→ 单位死亡 → 补充找到新单位 → `false`（写入变量）→ `true`（正常控制）→ ...
+
+### 多控与单控的区别
+单控逻辑绑定单位时，如果单位不符合目标，会直接循环重新绑定并验证。多控逻辑不一样：如果绑定的单位不符合预期，会继续执行对其他单位的控制。这是为了防止在寻找单位的时候不控制其他单位导致的问题。
+
+---
+
+## 方式三：SF/// 的 16 进制压缩法
+
+### 原理
+作者用 16 进制思维来压缩存储，实现了代码片段压缩。利用定时检查方式，减少算力消耗。同时利用 `@time` 每帧只刷新一次的特性实现帧检测机制，防止帧差导致的绑定失误。
+
+### 代码
+```
+jump 25 always SF/// SF///
+stop
+print ────────────────────────────────────
+print 完美小逻辑多控v0.5
+print By:SF///
+print 本程序可以保证不与使用相同方式获取新单位的逻辑抢单位！
+print 单位损失了会自动重新抓！
+print 并且尽可能优化了（也许不是最优的）！
+print 如果有bug或更好的思路,请通过发送邮件到
+print saltedfishiii@yeah.net
+print 或qq聊天群组等方式联系作者并反馈！
+print /───────使用说明────────
+print 本程序是一个轮子，实际的控制单位代码需要你自己写
+print uCount控制单位数量，最多13个。需要注意让uCount数值等于需求
+print 的单位数量，否则会影响后续控制单位，
+print 的单位数量，否则会影响后续控制单位，
+print 你问你的代码要写哪里？看看下面这条jump跳转到哪里吧!
+jump 128 always SF/// false
+print /───────更新日志────────
+print /────v0.4─────
+print 修复：搜索单位失败后LIST不清空导致同一单位多次重抓的错误
+print /────v0.5─────
+print 修复：重抓单位时偶尔抢单位的BUG，如果这个问题再出现，请立即反馈！！
+print ───────────────────────────────────
+stop
+set uCount 0
+jump 25 lessThanEq uCount SF///
+jump 25 greaterThan uCount 13
+op shl jMax uCount 1
+ubind @flare
+sensor uType @unit @type
+set I uCount
+set LIST 0
+op shl LIST LIST 4
+op xor LIST LIST I
+op sub I I 1
+jump 33 greaterThan I 0
+ubind uType
+sensor uCtrl @unit @controlled
+jump 37 greaterThan uCtrl 0
+ucontrol within 0 0 0 0 0
+op add tCheck @time 6500
+jump 48 always SF/// false
+jump 92 equal LIST false
+ubind uType
+jump 91 greaterThan @time tCheck
+sensor uCtrl @unit @controlled
+jump 44 notEqual uCtrl false
+ucontrol within 0 0 0 0 0
+set t @time
+jump 50 equal @time t
+set t @time
+jump 52 equal @time t
+sensor uCter @unit @controller
+jump 44 notEqual uCter @this
+op and j LIST 0xF
+op shr LIST LIST 4
+op shl j j 1
+op add @counter @counter j
+jump -1 always SF/// false
+jump -1 always SF/// false
+set u0 @unit
+jump 43 always SF/// false
+set u1 @unit
+jump 43 always SF/// false
+set u2 @unit
+jump 43 always SF/// false
+set u3 @unit
+jump 43 always SF/// false
+set u4 @unit
+jump 43 always SF/// false
+set u5 @unit
+jump 43 always SF/// false
+set u6 @unit
+jump 43 always SF/// false
+set u7 @unit
+jump 43 always SF/// false
+set u8 @unit
+jump 43 always SF/// false
+set u9 @unit
+jump 43 always SF/// false
+set u10 @unit
+jump 43 always SF/// false
+set u11 @unit
+jump 43 always SF/// false
+set u12 @unit
+jump 43 always SF/// false
+jump -1 always SF/// false
+print TODO_更好的重新寻找单位的逻辑
+set rbFail 1
+set rbFail 0
+set LIST 0
+set j 0
+op add @counter @counter j
+ubind u0
+jump 119 always SF/// false
+ubind u1
+jump 119 always SF/// false
+ubind u2
+jump 119 always SF/// false
+ubind u3
+jump 119 always SF/// false
+ubind u4
+jump 119 always SF/// false
+ubind u5
+jump 119 always SF/// false
+ubind u6
+jump 119 always SF/// false
+ubind u7
+jump 119 always SF/// false
+ubind u8
+jump 119 always SF/// false
+ubind u9
+jump 119 always SF/// false
+ubind u10
+jump 119 always SF/// false
+ubind u11
+jump 119 always SF/// false
+ubind u12
+jump 128 equal check false
+sensor dead @unit @dead
+jump 128 equal dead false
+op shr I j 1
+op add I I 1
+op shl LIST LIST 4
+op xor LIST LIST I
+jump 131 always SF/// false
+print 你的代码应该写在下面这行到__j=j+2__那一行之间
+op add x @thisx j
+ucontrol move x @thisy 0 0 0
+ucontrol target @thisx 1000 1 0 0
+op add j j 2
+jump 93 lessThan j jMax
+set check 0
+jump 92 lessThan @time tCheck
+op add tCheck @time 6500
+jump 44 notEqual LIST false
+set check 1
+jump 92 always SF/// false
+jump -1 always SF/// false
+```
+
+### 解说
+
+#### 整体执行流程
+
+该逻辑的执行分为三个阶段，通过 `@time` 定时器和 `LIST` 变量的状态进行切换：
+
+```
+┌─────────────────────────────────────────────────────┐
+│  阶段1：初始绑定                                     │
+│  ubind @flare → 构建 LIST → 逐个绑定单位到 u0~u12  │
+│  ↓（绑定完成，LIST 构建完毕）                        │
+├─────────────────────────────────────────────────────┤
+│  阶段2：控制循环（大部分时间在此运行）                │
+│  ubind u0~u12 → 执行控制指令 → j += 2 → 循环       │
+│  ↓（@time 超过 tCheck 时退出）                      │
+├─────────────────────────────────────────────────────┤
+│  阶段3：单位存活检查                                 │
+│  遍历 u0~u12 → 检测 @dead → 死亡单位索引压入 LIST  │
+│  ↓（LIST 非空 → 回到阶段1 补充单位）                 │
+│  ↓（LIST 为空 → 回到阶段2 继续控制）                 │
+└─────────────────────────────────────────────────────┘
+```
+
+#### 16 进制思维压缩存储
+
+作者使用 `op shl`（左移）、`op shr`（右移）、`op xor`（异或）、`op and`（按位与）等位运算指令，将多个单位的索引信息压缩存储到一个变量 LIST 中。每个单位索引占用 4 个 bit（即一个 16 进制位），通过移位和异或操作将多个索引打包到一个数值中，再通过按位与和右移操作逐个提取，实现了代码片段压缩。
+
+LIST 的构建过程（指令 223-227）：
+```
+set LIST 0
+op shl LIST LIST 4       ## LIST 左移 4 位，腾出低 4 位
+op xor LIST LIST I       ## 将当前单位索引 I（1~13）异或到低 4 位
+op sub I I 1             ## I 递减
+jump 33 greaterThan I 0  ## 循环直到 I=0
+```
+
+最终 LIST 的结构为：`[索引N][索引N-1]...[索引2][索引1]`，每个索引占 4 bit。例如绑定 3 个单位（索引 3、2、1），LIST = `0x321` = `(3<<8) | (2<<4) | 1`。
+
+提取索引时（指令 246-249）：
+```
+op and j LIST 0xF        ## 取 LIST 最低 4 位（当前索引）
+op shr LIST LIST 4       ## LIST 右移 4 位（弹出已取的索引）
+op shl j j 1             ## 索引 × 2（每个 case 占 2 条指令）
+op add @counter @counter j  ## 跳转到对应的 set uN @unit
+```
+
+#### 定时检查减少算力
+
+逻辑使用 `tCheck` 变量（`op add tCheck @time 6500`）设置定时检查点，只有当 `@time` 超过 tCheck 时才执行重新搜索单位的操作，大部分时间只在已绑定的单位上执行控制指令。这样大大减少了算力消耗。
+
+#### @time 帧检测机制
+
+逻辑中有以下关键的帧检测代码：
+```
+set t @time
+jump 50 equal @time t
+set t @time
+jump 52 equal @time t
+```
+`@time` 每帧只刷新一次。控制指令（如 `ucontrol within`）有帧延迟，第一帧执行的指令要到第二帧才能生效。利用 `@time` 这一特性，可以检测当前帧有没有过完：先记录 `@time`，然后检查 `@time` 是否变化，如果没变说明还在同一帧内，继续等待；如果变了说明帧已刷新，可以执行后续指令。
+
+#### 两遍检查的原因
+
+逻辑使用了两遍 `@time` 检测。推测原因是为了防止在短时间内建造多个相同的逻辑时，出现两个相同逻辑运行代码进度不一样，导致单位绑定出现失误。两遍检查增加了逻辑的安全性，降低了抢单位的风险。
+
+#### `jump -1` 屏障指令
+
+代码中多处出现 `jump -1 always SF/// false`，这是一种特殊的屏障指令。`always` 条件永远为真，因此该指令总是跳转到行号 -1。在 Mindustry 的 `runOnce()` 中，当 `counter < 0` 时会被重置为 0，等效于 `end` 指令——程序从头重新执行。
+
+作者使用 `jump -1` 而非 `end` 的原因可能是：代码中已经使用了 `stop` 指令（指令 192、215，设置 `yield = true` 暂停执行一帧），为了视觉上区分"重启程序"和"暂停一帧"两种行为，选择了不同的指令形式。
+
+这些 `jump -1` 指令分布在各功能区域的边界，防止执行流意外"穿透"到下一个区域。例如指令 250-251 位于单位存储块和 TODO 区域之间，确保从存储块退出后不会进入重查找逻辑。
+
+#### TODO 区域与单位重查找机制
+
+代码中的 `print TODO_更好的重新寻找单位的逻辑`（指令 279）是原作者 SF/// 留下的标注，表示该区域的单位重查找逻辑仍有优化空间。这并非占位符，而是原作者对自身代码的自评。紧随其后的代码实现了一个简洁但有效的单位存活检查与补充机制：
+
+**重置阶段**（指令 280-284）：
+```
+set rbFail 1         ## 设置失败标志（立即被下一行清除）
+set rbFail 0         ## 清除失败标志（rbFail 始终为 0，疑似预留接口）
+set LIST 0           ## 清空 LIST，准备重建死亡单位列表
+set j 0              ## 重置循环计数器
+op add @counter @counter j  ## j=0 时无跳转，继续向下执行
+```
+
+**逐个检查已绑定单位**（指令 285-309）：
+```
+ubind u0             ## 尝试绑定第 0 个单位
+jump 119 always SF/// false  ## 跳转到控制区域
+ubind u1
+jump 119 always SF/// false
+...
+ubind u12
+```
+
+这段代码通过 `ubind uN`（uN 是之前存储的单位引用变量）逐个绑定已绑定的单位。每次绑定后立即跳转到控制区域执行控制指令。当所有单位都遍历完后，执行流到达死亡检测区域。
+
+**死亡检测与 LIST 重建**（指令 310-317）：
+```
+jump 128 equal check false    ## check=0 时跳过死亡检测
+sensor dead @unit @dead       ## 读取当前单位的死亡状态
+jump 128 equal dead false     ## 未死亡则跳过
+op shr I j 1                  ## I = j >> 1（还原单位索引）
+op add I I 1                  ## I += 1（1-indexed）
+op shl LIST LIST 4            ## LIST 左移 4 位
+op xor LIST LIST I            ## 将死亡单位的索引压入 LIST
+jump 131 always SF/// false   ## 跳回控制区域
+```
+
+`j` 变量在控制循环中按 2 递增（`op add j j 2`，因为每个单位的 case 占 2 条指令），因此 `j >> 1` 还原出 0-indexed 的单位序号，`+1` 后变为 1-indexed（与初始绑定时一致）。死亡单位的索引被压入 LIST，供下一轮补充绑定使用。
+
+**控制循环**（指令 318-323）：
+```
+op add x @thisx j             ## x = 处理器X + j（让单位排列在处理器旁边）
+ucontrol move x @thisy 0 0 0  ## 移动单位
+ucontrol target @thisx 1000 1 0 0  ## 向远处射击
+op add j j 2                  ## j += 2（下一个单位）
+jump 93 lessThan j jMax       ## 循环直到遍历完所有单位
+```
+
+`jMax = uCount * 2`（每个单位 2 条指令），因此控制循环一轮正好处理所有已绑定的单位。
+
+**定时器与补充触发**（指令 324-329）：
+```
+set check 0                   ## 清除检查标志
+jump 92 lessThan @time tCheck ## 时间未到 → 继续控制循环
+op add tCheck @time 6500      ## 更新下次检查时间（6.5 秒后）
+jump 44 notEqual LIST false   ## LIST 非空（有死亡单位）→ 进入补充绑定
+set check 1                   ## LIST 为空 → 设置检查标志，下一轮执行死亡检测
+jump 92 always SF/// false    ## 回到控制循环
+```
+
+`check` 变量的作用：每次定时器到期时，`check` 被设为 1，使得下一轮控制循环中每个单位都会经过死亡检测。检测完毕后 `check` 被重置为 0。这样死亡检测每 6.5 秒执行一次，而非每帧执行，进一步节省算力。
+
+如果 LIST 非空（有单位死亡），执行流跳转到指令 44（`jump 44 notEqual LIST false` → 指令 44 的 `ubind uType`），进入补充绑定阶段。补充绑定的流程与初始绑定完全相同——从 LIST 中逐个提取索引，找到对应位置的新单位进行绑定。
+
+### 评价
+
+这种逻辑的使用条件极其少见，一个多控逻辑甚至比群控逻辑的优先级还要低，但是这个逻辑也为我们提供了很高的研究价值。其核心设计思路——将单位索引压缩为位图、定时检查存活状态、按需补充单位——在处理大规模单位管理时具有参考意义。
+
+---
+
+## 方式四：lookup + 处理器变量法
+
+### 原理
+利用 `lookup` 指令获取游戏内容对象的名称（字符串），用 `read`/`write` 配合 `@this`（处理器自身）将单位引用直接存储到处理器自身的变量空间中。需要控制时从处理器变量空间读取单位引用。
+
+> **关键修正**：这里使用的是 `@this`（处理器自身），而非内存库建筑。`LogicBuild` 实现了 `LReadable`/`LWritable` 接口，当 `read`/`write` 的目标为 `@this` 且地址参数为字符串时，直接访问处理器的变量空间。处理器变量空间可以存储对象引用（如单位、建筑），而内存库只能存储 double 数字。
+
+### 代码
+```
+jump 10 equal initial true
+op floor thisFlag @thisx 0
+op mul thisFlag thisFlag 1000
+op add thisFlag thisFlag @thisy
+op floor thisFlag thisFlag @thisy
+print "▽设置需要绑定的单位"
+ubind @horizon
+sensor unType @unit @type
+jump 6 equal unType 0
+set initial true
+op add itemid itemid 1
+op mod itemid itemid 5
+lookup item item itemid
+sensor itemName item @name
+read unit @this itemName
+sensor dead unit @dead
+jump 22 equal dead 1
+sensor flag unit @flag
+jump 22 notEqual thisFlag flag
+ubind unit
+ucontrol move @thisx @thisy 0 0 0
+end
+ubind unType
+sensor controlled @unit @controlled
+jump 30 greaterThan controlled 1
+jump 28 equal controlled 0
+sensor flag @unit @flag
+jump 30 notEqual flag 0
+ucontrol flag thisFlag 0 0 0 0
+write @unit @this itemName
+end
+draw triangle copper lead metaglass graphite sand 0
+```
+
+### 解说
+
+#### 核心流程
+1. **lookup 获取元素名称**：`lookup item item itemid` 根据 itemid 获取游戏内容对象（Item 类型），然后 `sensor itemName item @name` 获取该对象的名称字符串（如 "copper"、"lead"、"metaglass" 等）
+2. **read 读取处理器变量中的单位**：`read unit @this itemName` 从处理器自身（`@this`）的变量空间中，读取以物品名称为变量名的值。由于 `LogicBuild.read()` 检测到地址参数为字符串时，会调用 `executor.optionalVar(varName)` 按变量名查找处理器内部变量，因此可以读取到之前存储的单位引用
+3. **write 将单位写入处理器变量**：`write @unit @this itemName` 将当前单位引用写入处理器自身变量空间中对应物品名称的变量。`LogicBuild.write()` 同样按变量名查找并赋值，可以存储对象引用（单位、建筑等），而非仅限 double 数字
+
+#### 处理器变量空间 vs 内存库
+- **处理器变量空间**（通过 `@this` 访问）：可以存储对象引用（如单位、建筑），地址参数为字符串时按变量名查找
+- **内存库建筑**：只能存储 double 数字，地址参数为整数索引
+
+#### draw 指令装变量
+最下方的 `draw triangle copper lead metaglass graphite sand 0` 永远运行不到，它是用来装变量的。draw 指令拥有全游戏中最多变量槽，因此可以用来存储额外的变量。但是推荐使用 `ucontrol within` 代替 draw 来装变量，因为 draw 是绘制指令，某些服务器为了防止玩家用处理器在显示屏上绘制不当内容，会封禁使用了多个绘制指令的逻辑。
+
+### 优点
+想控多少单位就空多少变量槽，非常灵活。通过修改 itemid 的取模范围（`op mod itemid itemid 5`）即可控制绑定的单位数量。
+
+---
+
+## 要点总结
+
+| 方式 | 优点 | 缺点 | 适用场景 |
+|------|------|------|----------|
+| flag 绑定 | 实现简单，可通过直接修改数值绑定大量单位 | 控制速度慢，flag 易冲突，多处 ubind 维护困难 | 少量单位，逐渐被淘汰 |
+| @counter 伪列表 | 绑定速度快，维护成本低 | 有点废人 | 中等数量单位，目前比较流行 |
+| @counter 优化版 | 逻辑更短，addUnit 判断是否修改单位 | 本质同上 | 同上 |
+| SF/// 16 进制压缩 | 防帧差，高安全性，定时检查节省算力 | 极其复杂 | 特殊场景，研究价值高 |
+| lookup + 处理器变量 | 灵活，想控多少控多少，可存储对象引用 | 占用处理器变量空间，draw 可能被服务器封禁 | 大量单位 |
+
+- 多控逻辑与单控逻辑绑定方法相同，优先级相同
+- 多控逻辑如果单位不符合预期，会继续控制其他单位（与单控不同）
+- `@counter` 修改可以实现伪列表和跳转表功能
+- `@this` 的 read/write 可以存储对象引用，内存库只能存储 double
+- draw/packcolor/ucontrol within 都可以用作变量存储槽，推荐使用 ucontrol within
+- `@time` 每帧只刷新一次，可用于帧检测
+
+
+<!-- 文件: 07_实战案例\05_挖矿逻辑.md -->
+
+
+---
+
+
+# 05 - 挖矿逻辑
+
+## 概述
+挖矿逻辑是像素工厂中最实用的逻辑类型之一。本节通过两个不同时期的挖矿逻辑案例，讲解矿物检测、采集、提交的关键技术和优化思路。
+
+---
+
+## 案例一：古老挖矿逻辑
+
+### 代码
+```
+ubind @mono
+sensor fg @unit @flag
+jump 0 notEqual fg 0
+ucontrol boost 1 0 0 0 0
+op sub 探测间隔 @time time
+jump 22 lessThan 探测间隔 5000
+set cgg null
+set sll null
+op add a a 1
+op mod a a @links
+getlink xz1 a
+sensor cg xz1 @config
+jump 19 equal cg null
+ulocate building core 0 @copper x y found h
+sensor sl h cg
+jump 17 equal cgg null
+jump 19 greaterThan sl sll
+set cgg cg
+set sll sl
+jump 8 notEqual a 0
+sensor iy h @itemCapacity
+set time @time
+ulocate ore core true cgg x y found building
+sensor fm @unit @firstItem
+jump 36 equal fm null
+jump 28 notEqual fm cgg
+sensor mx @unit @mineX
+jump 37 equal mx x
+ucontrol mine -1 -1 0 0 0
+sensor max? h fm
+jump 32 notEqual max? iy
+ucontrol itemDrop @air 999 0 0 0
+ulocate building core 0 @copper x y found h
+ucontrol itemDrop h 999 0 0 0
+ucontrol approach x y 3 0 0
+end
+ucontrol mine x y 0 0 0
+ucontrol approach x y 3 0 0
+```
+
+### 解说
+这是一个远古时期的挖矿逻辑，但其中有些设计非常精妙。
+
+#### 定期检测矿物稀缺度
+通过计算时间间距（`op sub 探测间隔 @time time`），每 5000 毫秒才执行一次矿物检测。检测时遍历所有连接的分类器（sorter），读取分类器选中的矿物，再查询核心中每种矿物的数量，找出最少的矿物作为目标挖取。
+
+对于逻辑来说，运算速度是无数逻辑人追求的目标。功能多、控制速度快，多是一件美事。通过时间间距控制检测频率，极大减少算力消耗。
+
+#### 连接分类器检测核心物品
+逻辑通过 `getlink` 遍历所有连接的建筑，用 `sensor cg xz1 @config` 读取分类器选中的矿物类型，再用 `ulocate building core` 定位核心，`sensor sl h cg` 读取核心中该矿物的数量。比较后选出数量最少的矿物作为挖取目标。
+
+#### 缺点
+1. 变量命名不规范，含义不明确（如 `cgg`、`sll`、`xz1`、`cg`、`sl` 等）
+2. 下方控制挖矿的逻辑比较简陋，优化空间很大
+3. 可能存在未知 bug
+
+---
+
+## 案例二：高级挖矿逻辑
+
+### 代码
+```
+ubind @quasar
+ucontrol boost 1 y 5 0 0
+sensor config sorter1 @config
+sensor unitF @unit @firstItem
+sensor unitT @unit @totalItems
+sensor unitC @unit @itemCapacity
+ulocate building core false @copper coreX coreY 0 core
+ulocate ore core true config itemX itemY 0 building
+jump 41 strictEqual unitF config
+jump 41 equal unitF 0
+sensor coreitemNmr core config
+sensor coreC core @itemCapacity
+jump 36 lessThanEq coreC coreitemNmr
+sensor coreid coreid @id
+jump 17 lessThan coreid 100
+jump 36 strictEqual config @sand
+jump 36 strictEqual config @coal
+ucontrol within coreX coreY 7 result 0
+jump 22 equal result false
+ucontrol mine -1145 -14 0 0 0
+ucontrol itemDrop core 114.514 0 0 0
+end
+op mul unitC03 unitC 0.3
+jump 36 greaterThanEq unitC03 unitT
+ucontrol within coreX coreY 27 result 0
+jump 34 equal result false
+ulocate ore core true unitF itemX itemY found building
+op sub minusX itemX coreX
+op sub minusY itemY coreY
+op len within minusX minusY
+jump 41 lessThanEq within 35
+sensor unitX @unit @x
+sensor unitY @unit @y
+ucontrol mine unitX unitY 0 0 0
+ucontrol move coreX coreY 0 0 0
+end
+ucontrol mine -1145 -14 0 0 0
+ucontrol itemDrop @air 114.514 0 0 0
+end
+print △非选择矿物处理
+print ▽正常挖矿一处理
+sensor coreid core @type
+sensor coreid coreid @id
+jump 46 lessThan coreid 100
+jump 91 strictEqual config @sand
+jump 91 strictEqual config @coal
+jump 105 greaterThanEq unitT unitC
+op sub minusX coreX itemX
+op sub minusY coreY itemY
+op len within minusX minusY
+jump 88 greaterThan within 35
+ucontrol within coreX coreY 21 result 0
+jump 88 equal result true
+op mul unitCRatio unitC 0.90
+jump 68 lessThan unitT unitCRatio
+ucontrol within coreX coreY 27 result 0
+jump 68 equal result false
+op angle arc minusX minusY
+op cos x arc minusy
+op mul x x 7.5
+op sin y arc minusy
+op mul y y 7.5
+op add x x itemX
+op add y y itemY
+ucontrol mine itemX itemY 0 0 0
+ucontrol move x y 5 0 0
+end
+print ▽大风车
+sensor unitX @unit @x
+sensor unitY @unit @y
+op sub minusX unitX itemX
+op sub minusY unitY itemY
+op len within minusX minusY
+op sub within within 1.5
+op abs within within 3
+op angle arc minusX minusY
+op mul withinArc within 13
+op add arc arc withinArc
+op mod arc arc 360
+op cos x arc b
+op mul x x within
+op sin y arc b
+op mul y y within
+op add x x itemX
+op add y y itemY
+ucontrol mine itemX itemY 0 0 0
+ucontrol move x y 7 0 0
+end
+ucontrol move itemX itemY 7 0 0
+end
+print ▽煤炭沙子处理
+op add unitT unitT 5
+jump 96 greaterThanEq unitT unitC
+ucontrol move itemX itemY 7 0 0
+ucontrol mine itemX itemY 7 0 0
+end
+ucontrol mine -1145 -14 7 0 0
+ulocate building storage 0 @copper vaultX vaultY 0 vault
+sensor vaultC vault @itemCapacity
+jump 101 lessThanEq vaultC 1000
+ucontrol itemDrop vault 999 0 0 0
+ucontrol move coreX coreY 0 0 0
+end
+end
+print ▽同种矿提交///////
+sensor mining @unit @mining
+jump 109 equal mining false
+end
+print ▽e核提交矿物
+ulocate building storage 0 @copper vaultX vaultY 0 vault
+ucontrol within vaultX vaultY 7 result 0
+jump 117 equal result false
+sensor vaultC vault @itemCapacity
+jump 117 lessThanEq vaultC 1000
+ucontrol itemDrop vault 999 0 0 0
+end
+print ▽复合判断__核心判断
+ucontrol within coreX coreY 27 result 0
+jump 139 equal result false
+sensor coreid core @type
+sensor coreid coreid @id
+jump 124 lessThan coreid 100
+jump 139 strictEqual config @sand
+jump 139 strictEqual config @coal
+ucontrol within coreX coreY 7 result 0
+jump 129 equal result false
+ucontrol itemDrop core 999 0 0 0
+end
+print ▽长距离交矿尝试
+ulocate ore core true config itemX itemY 0 building
+ucontrol within itemX itemY 9 result 0
+jump 135 equal result false
+ucontrol itemDrop @air 1 0 0 0
+ucontrol mine itemX itemY 0 0 0
+end
+sensor unitX @unit @x
+sensor unitY @unit @y
+ucontrol mine unitX unitY type 0 0
+end
+ucontrol move coreX coreY type 0 0
+end
+end
+print 低控速-高挖效/V1.0
+```
+
+### 解说
+这是一个 142 条指令的高级挖矿逻辑，控制流设计非常先进。代码中通过 `print` 标注了各个功能模块的入口（如 `△非选择矿物处理`、`▽大风车`、`▽煤炭沙子处理`、`▽e核提交矿物` 等），便于理解整体结构。
+
+---
+
+## 矿物采集与提交流程
+
+### Ⅰ. 背包矿物检测（目标矿物且非空）
+1. 检测是否爆仓
+   - **是** → 容器相关检测：
+     - 在容器旁边 **且** 容器贴近核心？
+       - **是** → 将矿物提交至容器
+       - **否** → 检测矿物是否可提交
+         - **可提交** → 单位是否靠近核心？
+           - **是** → 将矿物提交至核心
+           - **否** → 矿物数量 > 背包容量 20%？
+             - **是** → 单位是否在核心 27 格内？
+               - **是** → 目标矿物在 7 格范围内？
+                 - **是** → 启动背包未满挖矿程序
+                 - **否** → 挖掘脚下沙
+             - **否** → 移动单位靠近核心
+             - **否** → 丢弃矿物（直接扔）
+         - **不可提交** → 丢弃矿物（直接扔）
+   - **否** → 丢弃矿物（直接扔）
+
+### Ⅱ. 背包容量未满
+1. 搜索目标矿物
+2. 挖取目标矿物
+3. 目标矿物在核心 34 格内 **且** 可提交 **且** 单位不在 20 格范围？
+   - **是** → 检测：
+     - 背包矿物 > 80% **且** 单位在核心 27 格内？
+       - **是** → 调整采集姿态
+       - **否** → 执行优化挖矿路径（"大风车"）
+   - **否** → 常规靠近矿物
+
+### Ⅲ. 背包已满
+1. 单位未进行开采：
+   - 在容器旁边 **且** 容器贴近核心？
+     - **是** → 提交矿物至容器
+     - **否** → 在核心 27 格内 **且** 矿物可提交？
+       - **是** → 7 格内有目标矿物？
+         - **是** → 丢弃 1 个单位矿物
+         - **否** → 挖掘脚下沙 + 提交矿物至核心
+       - **否** → 进入待机状态
+
+---
+
+## 关键技术原理
+
+### "大风车"路径优化
+如果矿物离核心比较近，为了让单位快速将矿物提交至核心，开发了路径优化。当单位背包快要满时，自动向核心靠拢，在靠拢期间并不会终止挖矿，这样单位就能成功提交矿物。
+
+大风车算法的核心思想是：让单位围绕矿物旋转，旋转速度与距离偏差成正比。当单位处于理想距离（1.5 格）时不旋转，偏离越远旋转越快，形成"风车"般的运动轨迹。
+
+**Step 1：计算单位与矿物的距离偏差**
+
+```
+sensor unitX @unit @x
+sensor unitY @unit @y
+op sub minusX unitX itemX       ## X差值 = 单位X - 矿物X
+op sub minusY unitY itemY       ## Y差值 = 单位Y - 矿物Y
+op len within minusX minusY     ## within = sqrt(minusX² + minusY²) 实际距离
+op sub within within 1.5        ## within = 距离 - 1.5（理想挖矿距离）
+op abs within within 3          ## within = abs(距离 - 1.5)（3 被忽略，abs 只取一个参数）
+```
+
+`within` 现在是距离偏差的绝对值。当单位恰好在 1.5 格处时偏差为 0，越近或越远偏差越大。
+
+**Step 2：将偏差转换为旋转角度**
+
+```
+op mul withinArc within 13      ## withinArc = 偏差 × 13（旋转速度系数）
+op add arc arc withinArc        ## arc += withinArc（累加角度）
+op mod arc arc 360              ## arc %= 360（限制在 0-360 度）
+```
+
+`13` 是旋转速度系数：偏差每增加 1 格，角度增加 13 度。`arc` 是持续累加的变量（不重置），因此每帧都在增加，形成持续旋转。偏差越大旋转越快，偏差为 0 时角度不增加（单位停在原地）。
+
+**Step 3：计算旋转后的目标坐标**
+
+```
+op cos x arc b                  ## x = cos(arc)（b 被忽略，cos 是一元运算，始终以度数为输入）
+op mul x x within              ## x = cos(arc) × 偏差
+op sin y arc b                  ## y = sin(arc)（b 同样被忽略）
+op mul y y within              ## y = sin(arc) × 偏差
+op add x x itemX               ## x = cos(arc) × 偏差 + 矿物X
+op add y y itemY               ## y = sin(arc) × 偏差 + 矿物Y
+```
+
+目标位置是以矿物为圆心、偏差为半径的圆上的一个点。因为偏差 = `|距离 - 1.5|`，所以：
+- 单位距离矿物 1.5 格时，半径为 0，目标位置就是矿物位置（不旋转）
+- 单位距离矿物 3 格时，半径为 1.5，目标位置在矿物周围 1.5 格的圆上
+
+**Step 4：同时挖矿和移动**
+
+```
+ucontrol mine itemX itemY 0 0 0    ## 在矿物位置挖矿
+ucontrol move x y 7 0 0            ## 移动到旋转目标位置
+```
+
+`mine` 指令让单位在矿物位置开采，`move` 指令让单位移动到旋转计算出的位置。两者同时执行——单位一边挖矿一边绕矿物旋转，形成"大风车"运动轨迹。
+
+**与"调整采集姿态"的对比**
+
+调整采集姿态（代码中的另一个分支）使用不同的策略：
+```
+op angle arc minusX minusY      ## arc = atan2(minusY, minusX) 方向角
+op cos x arc minusy             ## x = cos(arc)（minusy 被忽略，cos 是一元运算）
+op mul x x 7.5                  ## x = cos(arc) × 7.5
+op sin y arc minusy             ## y = sin(arc)（minusy 同样被忽略）
+op mul y y 7.5                  ## y = sin(arc) × 7.5
+op add x x itemX                ## 保持角度，距离 7.5 格
+op add y y itemY
+```
+
+> **变量名拼写注意**：代码中 `minusY`（大写 Y，在第 122 行定义）在此处被误写为 `minusy`（小写 y），两者是不同的变量。由于 `cos`/`sin` 是一元运算，第二个参数被完全忽略，因此该拼写错误不影响功能。
+
+调整采集姿态将单位固定在距离矿物 7.5 格的位置，角度由单位当前相对矿物的方向决定。与大风车的区别是：调整采集姿态不旋转，只保持固定距离；大风车会持续旋转且旋转速度随距离变化。
+
+### 超远距离交矿的源码原理
+普通挖矿逻辑需要靠近核心比较近的距离才能提交矿物。但玩家可以在非常远的地方直接将背包物品放入核心。
+
+通过观察发现：如果单位靠近核心指定距离，且背包上有物品，这时挖不同的矿物，背包的物品会自动进入核心内，从而实现超远距离交矿。
+
+其源码原理在于 Mindustry 的单位挖矿（`Unit.mine()`）方法：当单位开始挖掘新矿物时，会检查背包中是否有与当前挖掘矿物不同的物品，如果有且单位在核心范围内，则自动将不同类物品提交到核心。这实质上是游戏机制的一个"特性"——挖矿时自动清理背包中的非目标物品到核心。
+
+### e 核优化
+游戏中有两个星球，另一个星球是 e 星（Erekir），e 星的核心无法提交沙和煤炭。如果将沙与煤炭矿物直接丢进 e 星核心，矿物会被直接销毁。
+
+为了解决这个问题，逻辑中加入了一系列控制流程：检测核心 ID 判断是否为 e 星核心（`jump 46 lessThan coreid 100`），如果是 e 星核心且目标矿物是沙或煤炭，则改为提交至旁边的容器（vault）而非核心。
+
+---
+
+## 评价
+随着游戏更新，RTS 可以直接控制单位进行挖矿，又因这个逻辑的执行效率太低，所以没有走上舞台。但其控制流设计仍然非常先进，值得学习。
+
+---
+
+## 要点总结
+- 定期检测可以极大减少算力消耗（通过 `@time` 计算时间间距）
+- 超远距离交矿：单位靠近核心时挖不同矿物可自动提交背包物品
+- "大风车"：背包快满时利用三角函数计算螺旋路径，向核心靠拢同时继续挖矿
+- e 核优化：e 星核心不能提交沙和煤炭，需要检测核心类型并改交至容器
+- 矿物提交流程需要考虑爆仓、容器、核心距离、核心类型等多种情况
+- 代码中使用 `print` 在不可达位置标注功能模块入口，便于阅读
+
+
+<!-- 文件: 07_实战案例\06_单位数量检测.md -->
+
+
+---
+
+
+# 06 - 单位数量检测
+
+## 概述
+单位数量检测是 Logic 中的常见需求。利用 ubind 的绑定特性，通过循环判断当前单位数量。本节介绍三种检测方式，从简单到复杂。
+
+---
+
+## 方式一：基础计数
+
+### 代码
+```
+sensor dead chushi @dead
+jump 6 strictEqual dead 0
+set 数 0
+ubind @fortress
+set chushi @unit
+end
+op add 数 数 1
+ubind @fortress
+jump 0 notEqual @unit chushi
+set 当前单位数量 数
+set 数 0
+```
+
+### 解说
+利用 ubind 的绑定特性，通过循环判断当前单位数量。
+
+#### 工作原理
+1. 首先检测起始单位（`chushi`）是否死亡（`sensor dead chushi @dead`）
+2. 如果起始单位已死亡，重置计数器并重新绑定一个起始单位
+3. 如果起始单位存活，开始遍历：每次循环计数 +1，然后 ubind 绑定下一个同类单位
+4. 当绑定的单位回到起始单位时（`@unit == chushi`），说明已经遍历完所有同类单位
+5. 将计数结果存入 `当前单位数量`，然后重置计数器
+
+#### 死亡判断的重要性
+ubind 遍历同类单位是循环的：绑定到最后一个后会回到第一个。如果起始单位在遍历过程中死亡，ubind 将永远不会再次绑定到它，导致无限循环。因此需要检测起始单位是否死亡（`@dead` 为 1 表示已死亡），如果死亡则重新选择起始单位。
+
+#### 关于行号跳转
+此代码使用行号跳转（如 `jump 6`、`jump 0`）。按照项目规范，编写 Logic 时应统一使用跳转标签（label）而非行号跳转，因为插入或删除指令后行号会偏移。此处为历史代码原始收录，保留原样以供学习。
+
+---
+
+## 方式二：带信息板打印
+
+### 代码
+```
+set unitN 0
+ubind @flare
+set firstUnit @unit
+sensor dead firstUnit @dead
+jump 0 equal dead 1
+op add unitN unitN 1
+ubind @flare
+jump 3 notEqual @unit firstUnit
+print ""
+print unitN
+printflush message1
+```
+
+### 解说
+与方式一原理相同，增加了信息板打印功能。
+
+#### 工作流程
+1. `set unitN 0`：初始化计数器
+2. `ubind @flare`：绑定一个星辉单位
+3. `set firstUnit @unit`：记录起始单位
+4. `sensor dead firstUnit @dead`：检测起始单位是否死亡
+5. 如果死亡（`dead == 1`），跳回开头重新选择起始单位
+6. 计数 +1，绑定下一个同类单位
+7. 当回到起始单位时，遍历结束
+8. `print ""`：打印空行（清除信息板之前的内容）
+9. `print unitN`：打印数量
+10. `printflush message1`：刷新到信息板（`message1` 为信息板建筑的链接名）
+
+#### printflush 的作用
+`printflush` 将打印缓存中的内容一次性输出到指定信息板建筑。每次循环结束后刷新，信息板上会实时显示当前单位数量。
+
+---
+
+## 方式三：lookup 遍历全部单位类型
+
+### 代码
+```
+lookup unit unitType idUnit
+op add idUnit idUnit 1
+jump 5 lessThan idUnit @unitCount
+set idUnit 0
+printflush message1
+set unitN 0
+ubind unitType
+set firstUnit @unit
+sensor dead firstUnit @dead
+jump 5 equal dead 1
+op add unitN unitN 1
+ubind unitType
+jump 8 notEqual @unit firstUnit
+printchar unitType
+print unitN
+```
+
+### 解说
+借助 lookup 指令，可以遍历所有单位类型，得到一个能打印在场全部单位数量的逻辑。注意：只能检查友方单位（受 `ubind` 限制，而非 `lookup` 限制）。
+
+#### 工作流程
+1. `lookup unit unitType idUnit`：根据 ID 获取单位类型（content 类型变量）
+2. `op add idUnit idUnit 1`：ID 递增
+3. `jump 5 lessThan idUnit @unitCount`：如果 ID < 单位类型总数，继续遍历下一种单位类型
+4. 当遍历完所有类型后，重置 `idUnit` 为 0，刷新信息板
+5. 对每种单位类型执行与方式二相同的计数逻辑
+6. `printchar unitType`：打印单位类型图标（`printchar` 接收 content 类型变量，打印对应的图标字符）
+7. `print unitN`：打印该类型的数量
+
+#### lookup 指令说明
+- `lookup unit unitType idUnit`：根据索引 ID 获取单位内容对象，存入 `unitType`
+- `@unitCount`：环境变量，表示所有单位类型总数（含敌方），即 `content.units().size`
+- ID 从 0 开始递增，到 `@unitCount - 1` 结束
+- 获取到的 `unitType` 是 content 类型变量，可以直接用于 `ubind`（如 `ubind unitType`）
+- `lookup` 同样可用于查找建筑（`lookup block`）和物品（`lookup item`）
+
+#### printchar 指令说明
+- `printchar` 接收一个 content 类型变量（如单位类型、物品类型），打印对应的图标字符到打印缓存
+- 与 `print` 不同，`print` 打印的是文本或数值，而 `printchar` 打印的是游戏内图标的 Unicode 字符
+- 在信息板上配合 `print` 使用，可以显示"图标 + 数量"的格式
+
+#### 只能检查友方单位
+`@unitCount` 统计所有单位类型（含敌方），`lookup unit` 遍历的也是所有单位类型。但实际只能检测友方单位，原因是 `ubind` 指令只能绑定友方单位——当 `lookup unit` 返回敌方单位类型时，`ubind unitType` 无法绑定到对应单位，计数为 0。
+
+---
+
+## 要点总结
+- ubind 遍历同类单位是循环的，绑定到最后一个后会回到第一个
+- 起始单位可能在中途死亡，必须加入死亡判断（`@dead`），否则会无限循环
+- `@unitCount` 环境变量表示所有单位类型总数（含敌方）
+- `lookup unit` + `ubind unitType` 可以遍历所有单位类型逐一计数，但 `ubind` 只能绑定友方单位
+- `printchar` 打印 content 类型变量对应的图标字符，`print` 打印数值
+- `printflush` 将打印缓存刷新到指定信息板建筑
+- 计数完成后记得重置计数器
+- 历史代码使用行号跳转，实际编写时应使用跳转标签（label）
+
+
+<!-- 文件: 07_实战案例\07_多核优化控制.md -->
+
+
+---
+
+
+# 07 - 多核优化控制
+
+## 概述
+
+单个逻辑处理器的运算能力终究有限。玩家会通过放置更多处理器来增强逻辑对单位的控制能力。但普通的逻辑堆叠核心后会重复绑定单位，导致叠了核和没叠一样——同一帧内放置多个相同逻辑，每次执行绑定指令时绑定的都是同一个单位。
+
+多核优化逻辑一般分为**一个分配核**和**多个控制核**。
+
+---
+
+## 架构说明
+
+```
+[分配核] ────链接────> [控制核1]
+         ────链接────> [控制核2]
+         ────链接────> [控制核3]
+         ...
+```
+
+- **分配核**：负责绑定所有同类单位，均匀分配给各控制核
+- **控制核**：从自身变量空间读取分配给自己的单位，执行控制逻辑
+
+---
+
+## 分配核心代码
+
+```
+ubind @flare
+sensor dead firstUnit @dead
+jump 5 equal dead 0
+set firstUnit @unit
+jump 13 always x false
+jump 14 notEqual @unit firstUnit
+op add endI unitI @links
+op mod processorI unitI @links
+getlink processor processorI
+op idiv blockTI unitI @links
+write blockTI processor "unitIEnd"
+op add unitI unitI 1
+jump 7 lessThan unitI endI
+set unitI 0
+op mod processorI unitI @links
+getlink processor processorI
+op idiv blockTI unitI @links
+lookup block blockT blockTI
+sensor blockTN blockT @name
+write @unit processor blockTN
+op add unitI unitI 1
+```
+
+### 分析
+
+1. **单位遍历**：`ubind @flare` 遍历所有同类单位，用 `firstUnit` 标记起始单位，当再次遍历到 `firstUnit` 时说明一轮遍历完成
+2. **分配数量计算**：`op idiv blockTI unitI @links` 计算每个控制核负责的单位数量，通过 `write blockTI processor "unitIEnd"` 写入控制核的 "unitIEnd" 变量
+3. **单位写入**：通过 `getlink` 获取控制核引用，用 `lookup block` 获取建筑类型名称作为变量名键，`write @unit processor blockTN` 将单位写入控制核的变量空间
+
+### 通信机制
+
+- 分配核通过 `getlink` 获取已连接的控制核引用
+- 使用 `write` 将单位引用和分配数量写入控制核的变量空间（`write @unit processor blockTN` — `processor` 是链接的控制核建筑，`blockTN` 是建筑类型名称字符串作为变量名键，由于 `LogicBuild` 实现了 `LWritable`，会按变量名直接写入控制核的变量空间）
+- 控制核通过 `read` 从自身变量空间读取分配给自己的单位（`read unit @this unitRTN` — `@this` 指向处理器自身，`unitRTN` 是建筑类型名称字符串作为变量名键）
+- 变量名使用建筑类型名称（`sensor blockTN blockT @name`），避免变量名冲突
+
+---
+
+## 控制核心代码
+
+控制核心代码末尾需要附带变量表（见下方"变量表"章节），用于 `lookup block` 指令的建筑类型名查找。
+
+```
+set unitI 0
+jump 1 lessThanEq unitIEnd 0
+lookup block unitRT unitI
+sensor unitRTN unitRT @name
+read unit @this unitRTN
+sensor dead unit @dead
+jump 11 equal dead 1
+ubind unit
+op mul xx unitI 3
+op add x @thisx xx
+ucontrol move x @thisy 0 0 0
+op add unitI unitI 1
+jump 2 lessThan unitI unitIEnd
+end
+```
+
+### 分析
+
+1. **读取单位**：`lookup block unitRT unitI` 获取建筑类型，`sensor unitRTN unitRT @name` 获取名称，`read unit @this unitRTN` 从自身变量空间读取单位引用
+2. **死亡检测**：`sensor dead unit @dead` 如果单位死亡则跳过
+3. **绑定并控制**：`ubind unit` 绑定单位，然后执行控制逻辑
+4. **队形排列**：`op mul xx unitI 3` 和 `op add x @thisx xx` 让每个单位在 X 轴上间隔 3 格排列
+
+---
+
+## 变量表
+
+> **重要说明**：以下 `draw triangle` 指令并非真正的绘制指令，且位于 `end` 之后永远不会被执行。它们被用作**编译期变量声明**——LParser 在解析阶段会为每个参数调用 `var()` 方法，在处理器的 `varMap` 中创建对应的变量对象（初始值为 0）。`draw triangle` 拥有 6 个参数位，每行可声明 6 个建筑类型名变量。运行时 `read unit @this itemName` 通过 `optionalVar()` 查找这些预声明的变量，读取其中存储的单位引用。使用时需要将以下变量表完整复制到分配核和控制核代码的末尾。
+
+```
+draw triangle graphite-press multi-press silicon-smelter silicon-crucible kiln plastanium-compressor
+draw triangle phase-weaver cryofluid-mixer pyratite-mixer blast-mixer melter separator
+draw triangle disassembler spore-press pulverizer coal-centrifuge incinerator copper-wall
+draw triangle copper-wall-large titanium-wall titanium-wall-large plastanium-wall plastanium-wall-large thorium-wall
+draw triangle thorium-wall-large phase-wall phase-wall-large surge-wall surge-wall-large door
+draw triangle door-large scrap-wall scrap-wall-large scrap-wall-huge scrap-wall-gigantic mender
+draw triangle mend-projector overdrive-projector overdrive-dome force-projector shock-mine conveyor
+draw triangle titanium-conveyor plastanium-conveyor armored-conveyor junction bridge-conveyor phase-conveyor
+draw triangle sorter inverted-sorter router distributor overflow-gate underflow-gate
+draw triangle mass-driver duct duct-router duct-bridge mechanical-pump rotary-pump
+draw triangle conduit pulse-conduit plated-conduit liquid-router liquid-tank liquid-junction
+draw triangle bridge-conduit phase-conduit power-node power-node-large surge-tower diode
+draw triangle battery battery-large combustion-generator thermal-generator steam-generator differential-generator
+draw triangle rtg-generator solar-panel solar-panel-large thorium-reactor impact-reactor mechanical-drill
+draw triangle pneumatic-drill laser-drill blast-drill water-extractor cultivator oil-extractor
+draw triangle core-shard core-foundation core-nucleus vault container unloader
+draw triangle duo scatter scorch hail wave lancer
+draw triangle arc parallax swarmer salvo segment tsunami
+draw triangle fuse ripple cyclone foreshadow spectre meltdown
+draw triangle command-center ground-factory air-factory naval-factory additive-reconstructor multiplicative-reconstructor
+draw triangle exponential-reconstructor tetrative-reconstructor repair-point repair-turret payload-conveyor payload-router
+draw triangle power-source power-void item-source item-void liquid-source liquid-void
+draw triangle payload-void payload-source illuminator launch-pad interplanetary-accelerator message
+draw triangle switch micro-processor logic-processor hyper-processor memory-cell memory-bank
+draw triangle logic-display large-logic-display liquid-container deconstructor constructor thruster
+draw triangle large-constructor payload-loader payload-unloader silicon-arc-furnace cliff-crusher plasma-bore
+draw triangle reinforced-liquid-junction breach core-bastion turbine-condenser beam-node beam-tower
+draw triangle build-tower impact-drill carbide-crucible surge-conveyor duct-unloader surge-router
+draw triangle reinforced-conduit reinforced-liquid-router reinforced-liquid-container reinforced-liquid-tank reinforced-bridge-conduit core-citadel
+draw triangle core-acropolis heat-reactor impulse-pump reinforced-pump electrolyzer oxidation-chamber
+draw triangle surge-smelter surge-crucible overflow-duct large-plasma-bore cyanogen-synthesizer slag-centrifuge
+draw triangle electric-heater slag-incinerator phase-synthesizer sublimate reinforced-container reinforced-vault
+draw triangle atmospheric-concentrator unit-cargo-loader unit-cargo-unload-point chemical-combustion-chamber pyrolysis-generator regen-projector
+draw triangle titan small-deconstructor vent-condenser phase-heater heat-redirector tungsten-wall
+draw triangle tungsten-wall-large tank-assembler beryllium-wall beryllium-wall-large eruption-drill ship-assembler
+draw triangle mech-assembler shield-projector beam-link world-processor reinforced-payload-conveyor reinforced-payload-router
+draw triangle disperse large-shield-projector payload-mass-driver world-cell carbide-wall carbide-wall-large
+draw triangle tank-fabricator mech-fabricator ship-fabricator reinforced-surge-wall radar blast-door
+draw triangle canvas armored-duct unit-repair-tower diffuse prime-refabricator basic-assembler-module
+draw triangle reinforced-surge-wall-large tank-refabricator mech-refabricator ship-refabricator slag-heater afflict
+draw triangle shielded-wall lustre scathe smite underflow-duct malign
+draw triangle shockwave-tower heat-source flux-reactor neoplasia-reactor heat-router large-payload-mass-driver
+draw triangle reinforced-message world-message world-switch small-heat-redirector large-cliff-crusher advanced-launch-pad
+draw triangle landing-pad 0 0 0 0 unitIEnd
+```
+
+### 变量表说明
+
+- 最后一行 `draw triangle landing-pad 0 0 0 0 unitIEnd` 中，`landing-pad` 对应 `lookup` 查找的最后一个建筑类型，`unitIEnd` 是存储在变量表中的变量名
+- 变量表收录了游戏中所有建筑类型的名称，按 `lookup block` 的索引顺序排列
+- **版本更新注意事项**：游戏版本更新可能新增建筑类型，此时变量表需要同步更新，否则 `lookup block` 查找新增建筑时会索引越界或找不到对应名称。在自定义单位点阵（08）的逻辑中使用了 `print` 标注变量表版本号（如"变量表版本-152.2"），便于追踪版本兼容性
+
+---
+
+## 解说
+
+分配核通过获取已连接的控制核数量，均匀分配每个控制核控制的单位。具体做法是：将单位按顺序遍历，通过 `lookup block` 获取建筑类型名称作为变量名键，使用 `write` 将单位引用写入对应控制核的变量空间。每个控制核负责固定数量的单位，互不重复，从而解决了多个相同逻辑重复绑定同一单位的问题。
+
+---
+
+## 要点总结
+
+- 多核优化解决多个相同逻辑重复绑定同一单位的问题
+- 分配核负责绑定和分配，控制核负责读取和控制
+- 使用 `getlink` + `write`/`read` 实现处理器间通信（通过处理器自身变量空间，非内存库）
+- 使用建筑类型名称作为变量名键避免冲突
+- `draw triangle` 指令用作大量变量名存储槽，并非真正的绘制指令
+- 每个控制核负责固定数量的单位，均匀分配
+
+
+<!-- 文件: 07_实战案例\08_自定义单位点阵.md -->
+
+
+---
+
+
+# 08 - 自定义单位点阵
+
+## 概述
+
+自定义单位点阵可以控制单位摆出相应的阵型，并支持旋转操作。这是一个高阶应用，配备了多核优化架构。主要涉及 4 个核心：**分配核**、**主控核**、**热操作核**、**点阵生成核心**。其中点阵生成核心专门用于生成阵型数据，不与前三个核心为一个整体。
+
+---
+
+## 架构说明
+
+```
+[分配核] ────链接────> [主控核1] ────链接────> [内存库]（存储阵型坐标）
+         ────链接────> [主控核2]                    [电弧]（射击方向参考）
+         ────链接────> [主控核3]
+         ...
+
+[热操作核] ────链接────> [分配核]（写入角度修改）
+
+[点阵生成核]（独立运行，通过墙体生成阵型字符串）
+```
+
+- **分配核**：负责绑定单位并分配给各主控核，同时处理阵型数据的旋转计算
+- **主控核**：从分配核读取单位，从内存库读取阵型坐标，控制单位移动到目标位置
+- **热操作核**：通过检测电弧（Arc）的射击方向，实时修改阵型角度
+- **点阵生成核**：通过连接的墙体方块生成阵型数据字符串
+
+---
+
+## 分配核心代码
+
+```
+jump 18 equal initial true
+print "▽阵列代码(通过外部逻辑修改可支持热操作)"
+set array "$*%*&*'*(*)***+*,*(.(-(,(+()'(''&&&%%$$###)()'*&*%+$,#-#1.1-0,0+/*.)0*0)0(0'0&0%0$0#2,3,4,5,6,1)2)3)5)6)7)8)4.4-4+4*8-8,7+6*4)4(3'3&2&1%3%3$4#5#6#7#8#8$7'6&5&4%"
+print "▽旋转角度(通过外部逻辑修改可支持热操作)"
+set angle 0
+print "▽阵列间距(通过外部逻辑修改可支持热操作)"
+set spacing 1.8
+print "▽XY偏移值,(角度修改时偏移刷新,热操作不灵敏)"
+set offsetX 12
+set offsetY 3
+ubind @horizon
+sensor unitType @unit @type
+jump 10 equal unitType 0
+op floor thisFlag @thisx 0
+op mul thisFlag thisFlag 1000
+op add thisFlag thisFlag @thisy
+op floor thisFlag thisFlag @thisy
+set initial true
+jump 26 strictEqual array array1
+set array1 array
+set unitBindNum -1
+op add unitBindNum unitBindNum 1
+op mul idReadNull unitBindNum 2
+read notNull array idReadNull
+jump 21 notEqual notNull null
+set angle1 1145141919810
+jump 53 strictEqual angle1 angle
+jump 53 equal bank1 0
+set angle1 angle
+op mod angle angle 360
+sensor arraySize array @size
+op sub arraySize arraySize 1
+op angle offsetX1 offsetX 35
+op add offsetY1 offsetY 35
+op add offsetX1 offsetX 35
+set forReadxy -2
+op add forReadxy forReadxy 2
+read readX array forReadxy
+op sub readX readX offsetX1
+op add forReadxy1 forReadxy 1
+read readY array forReadxy1
+op sub readY readY offsetY1
+op angle originalAngle readX readY
+op add newAngle originalAngle angle
+op len lenReadXY readX readY
+op cos cos newAngle 2
+op sin sin newAngle 2
+op mul lenReadXY lenReadXY spacing
+op mul newY sin lenReadXY
+op mul newX cos lenReadXY
+write newX bank1 forReadxy
+write newY bank1 forReadxy1
+jump 36 greaterThan arraySize forReadxy1
+jump 86 greaterThan second @second
+op add second @second 5
+set prAvailableNum 0
+set idBlock 0
+set unitNum 101
+getlink pr idBlock
+op add idBlock idBlock 1
+set thisMarking 0
+read thisMarking pr "thisMarking"
+jump 67 notEqual thisMarking "CustomDotMatrix-byNOSBHG2g"
+write @this pr "centralPr"
+write arc1 pr "arc"
+write bank1 pr "bank"
+op add prAvailableNum prAvailableNum 1
+jump 58 lessThan idBlock @links
+set idBlock 0
+set prNum 0
+set origin 0
+set endPoint1 0
+getlink pr idBlock
+op add idBlock idBlock 1
+set thisMarking 0
+read thisMarking pr "thisMarking"
+jump 85 notEqual thisMarking "CustomDotMatrix-byNOSBHG2g"
+op add prNum prNum 1
+op sub unitNum1 unitBindNum prNum
+op idiv endPoint unitNum1 prAvailableNum
+op add endPoint endPoint 1
+op add endPoint1 endPoint1 endPoint
+write endPoint1 pr "endPoint"
+write origin pr "origin"
+set origin endPoint1
+jump 72 lessThan idBlock @links
+op add itemid itemid 1
+op mod itemid itemid unitBindNum
+lookup block item itemid
+sensor itemName item @name
+read unit @this itemName
+sensor dead unit @dead
+jump 96 equal dead 1
+sensor flag unit @flag
+jump 96 notEqual flag thisFlag
+end
+ubind unitType
+sensor controlled @unit @controlled
+jump 102 equal controlled 0
+sensor flag @unit @flag
+jump 102 equal flag 0
+end
+ucontrol flag thisFlag 0 0 0 0
+write @unit @this itemName
+end
+```
+
+### packcolor 变量表
+
+> **重要说明**：以下 `packcolor` 指令并非真正的颜色打包指令。在这些逻辑中，`packcolor` 被用作**变量名存储槽**。与 `draw triangle` 类似，`packcolor` 拥有多个参数位（5 个内容参数），可以存储建筑类型名称字符串，供 `lookup block` 指令查找使用。使用时需要将以下变量表完整复制到分配核代码末尾（`end` 指令之后）。
+
+```
+packcolor graphite-press multi-press silicon-smelter silicon-crucible kiln
+packcolor plastanium-compressor phase-weaver cryofluid-mixer pyratite-mixer blast-mixer
+packcolor melter separator disassembler spore-press pulverizer
+packcolor coal-centrifuge incinerator copper-wall copper-wall-large titanium-wall
+packcolor titanium-wall-large plastanium-wall plastanium-wall-large thorium-wall thorium-wall-large
+packcolor phase-wall phase-wall-large surge-wall surge-wall-large door
+packcolor door-large scrap-wall scrap-wall-large scrap-wall-huge scrap-wall-gigantic
+packcolor mender mend-projector overdrive-projector overdrive-dome force-projector
+packcolor shock-mine conveyor titanium-conveyor plastanium-conveyor armored-conveyor
+packcolor junction bridge-conveyor phase-conveyor sorter inverted-sorter
+packcolor router distributor overflow-gate underflow-gate mass-driver
+packcolor duct duct-router duct-bridge mechanical-pump rotary-pump
+packcolor conduit pulse-conduit plated-conduit liquid-router liquid-tank
+packcolor liquid-junction bridge-conduit phase-conduit power-node power-node-large
+packcolor surge-tower diode battery battery-large combustion-generator
+packcolor thermal-generator steam-generator differential-generator rtg-generator solar-panel
+packcolor solar-panel-large thorium-reactor impact-reactor mechanical-drill pneumatic-drill
+packcolor laser-drill blast-drill water-extractor cultivator oil-extractor
+packcolor core-shard core-foundation core-nucleus vault container
+packcolor unloader duo scatter scorch hail
+packcolor wave lancer arc parallax swarmer
+packcolor salvo segment tsunami fuse ripple
+packcolor cyclone foreshadow spectre meltdown command-center
+packcolor ground-factory air-factory naval-factory additive-reconstructor multiplicative-reconstructor
+packcolor exponential-reconstructor tetrative-reconstructor repair-point repair-turret payload-conveyor
+packcolor payload-router power-source power-void item-source item-void
+packcolor liquid-source liquid-void payload-void payload-source illuminator
+packcolor launch-pad interplanetary-accelerator message switch micro-processor
+packcolor logic-processor hyper-processor memory-cell memory-bank logic-display
+packcolor large-logic-display liquid-container deconstructor constructor thruster
+packcolor large-constructor payload-loader payload-unloader silicon-arc-furnace cliff-crusher
+packcolor plasma-bore reinforced-liquid-junction breach core-bastion turbine-condenser
+packcolor beam-node beam-tower build-tower impact-drill carbide-crucible
+packcolor surge-conveyor duct-unloader surge-router reinforced-conduit reinforced-liquid-router
+packcolor reinforced-liquid-container reinforced-liquid-tank reinforced-bridge-conduit core-citadel core-acropolis
+packcolor heat-reactor impulse-pump reinforced-pump electrolyzer oxidation-chamber
+packcolor surge-smelter surge-crucible overflow-duct large-plasma-bore cyanogen-synthesizer
+packcolor slag-centrifuge electric-heater slag-incinerator phase-synthesizer sublimate
+packcolor reinforced-container reinforced-vault atmospheric-concentrator unit-cargo-loader unit-cargo-unload-point
+packcolor chemical-combustion-chamber pyrolysis-generator regen-projector titan small-deconstructor
+packcolor vent-condenser phase-heater heat-redirector tungsten-wall tungsten-wall-large
+packcolor tank-assembler beryllium-wall beryllium-wall-large eruption-drill ship-assembler
+packcolor mech-assembler shield-projector beam-link world-processor reinforced-payload-conveyor
+packcolor reinforced-payload-router disperse large-shield-projector payload-mass-driver world-cell
+packcolor carbide-wall carbide-wall-large tank-fabricator mech-fabricator ship-fabricator
+packcolor reinforced-surge-wall radar blast-door canvas armored-duct
+packcolor unit-repair-tower diffuse prime-refabricator basic-assembler-module reinforced-surge-wall-large
+packcolor tank-refabricator mech-refabricator ship-refabricator slag-heater afflict
+packcolor shielded-wall lustre scathe smite underflow-duct
+packcolor malign shockwave-tower heat-source flux-reactor neoplasia-reactor
+packcolor heat-router large-payload-mass-driver reinforced-message world-message world-switch
+packcolor small-heat-redirector large-cliff-crusher advanced-launch-pad landing-pad tile-logic-display
+packcolor null null null null null
+noop
+end
+```
+
+```
+print "变量表版本-152.2"
+print "版本更新可能导致变量表出现异常"
+```
+
+### 分析
+
+1. **初始化配置**：通过 `print` 标注和 `set` 指令配置阵列代码、旋转角度、阵列间距、XY偏移值，这些参数可通过外部逻辑（热操作核）修改
+2. **单位绑定与标识**：`ubind @horizon` 绑定单位，通过 `op floor thisFlag @thisx 0` 等指令生成处理器位置的唯一标识 `thisFlag`，用于标记单位归属
+3. **阵型数据解析**：`set array` 存储阵型字符串，通过递增索引 `read notNull array idReadNull` 逐字符读取，统计单位数量 `unitBindNum`
+4. **阵型旋转计算**：
+   - 读取阵型中的原始坐标 (readX, readY)
+   - 减去偏移量，得到相对中心的坐标
+   - 计算原始角度（`op angle originalAngle readX readY`）
+   - 加上旋转角度（`op add newAngle originalAngle angle`）
+   - 计算原始距离（`op len lenReadXY readX readY`）
+   - 乘以间距系数（`op mul lenReadXY lenReadXY spacing`）
+   - 用三角函数计算旋转后的新坐标，写入内存库（`write newX/newY bank1 ...`）
+5. **主控核识别与分配**：通过 `read thisMarking pr "thisMarking"` 读取主控核标识，筛选出主控核后将自身引用、电弧引用、内存库引用写入主控核变量空间
+6. **单位区间分配**：计算每个主控核负责的单位区间 [origin, endPoint)，写入主控核变量
+7. **单位标记**：通过 `ucontrol flag thisFlag` 给单位打标记，写入自身变量空间
+
+### 阵型数据格式
+
+阵型数据使用字符串编码，格式为连续的坐标对：
+
+```
+set array "$*%*&*'*(*)***+*,*(.(-(,(+()'(''&&&%%$$###)()'*&*%+$,#-#1.1-0,0+/*.)0*0)0(0'0&0%0$0#2,3,4,5,6,1)2)3)5)6)7)8)4.4-4+4*8-8,7+6*4)4(3'3&2&1%3%3$4#5#6#7#8#8$7'6&5&4%"
+```
+
+字符串中的每个字符代表一个坐标值。通过 `read` 指令读取字符串（`read` 对 CharSequence 类型对象会返回指定索引处字符的 Unicode 码点），逐字符解析出坐标对。读取时使用递增的数字索引，而非 null 分隔符。
+
+### 分配核与主控核通信
+
+分配核通过以下方式与主控核通信（使用 `write` 向链接的主控核处理器写入变量，地址参数为字符串字面量，直接访问主控核的变量空间）：
+
+1. `write @this pr "centralPr"` — 将分配核自身引用写入主控核的 "centralPr" 变量
+2. `write arc1 pr "arc"` — 将电弧引用写入主控核的 "arc" 变量
+3. `write bank1 pr "bank"` — 将内存库引用写入主控核的 "bank" 变量
+4. `write endPoint1 pr "endPoint"` — 写入单位分配区间到主控核的 "endPoint" 变量
+5. `write origin pr "origin"` — 写入起始索引到主控核的 "origin" 变量
+
+主控核通过这些引用读取数据：
+- 从 `centralPr` 变量获取分配核引用，再通过 `read unit centralPr itemName` 从分配核的变量空间读取单位引用
+- 从 `bank` 变量获取内存库引用，读取阵型坐标（此处使用内存库的数字索引读取）
+- 从 `arc` 变量获取电弧引用，读取射击方向
+
+---
+
+## 控制核心代码
+
+```
+jump 5 equal initial true
+set endPoint origin
+set centralPr centralPr
+set thisMarking "CustomDotMatrix-byNOSBHG2g"
+set initial true
+op add idUnit idUnit 1
+select idUnit lessThan idUnit endPoint idUnit origin
+lookup block item idUnit
+sensor itemName item @name
+read unit centralPr itemName
+ubind unit
+sensor shootX arc @shootX
+sensor shootY arc @shootY
+op mul idUnit1 idUnit 2
+read offsetX bank idUnit1
+op add idUnit2 idUnit1 1
+read offsetY bank idUnit2
+op add moveX offsetX shootX
+op add moveY offsetY shootY
+ucontrol move moveX moveY 0 0 0
+```
+
+### 分析
+
+1. **初始化**：`set thisMarking "CustomDotMatrix-byNOSBHG2g"` 设置主控核标识，分配核通过读取此标识识别主控核
+2. **select 指令**：`select idUnit lessThan idUnit endPoint idUnit origin` — 判断 idUnit 是否在 [origin, endPoint) 范围内，是则返回 idUnit，否则返回 origin（循环遍历区间内的单位）
+3. **读取单位**：通过 `lookup block item idUnit` 获取建筑类型名称，再从分配核变量空间读取单位引用
+4. **读取阵型坐标**：从内存库中读取阵型偏移坐标（`read offsetX bank idUnit1`）
+5. **计算目标位置**：阵型坐标 + 电弧射击方向 = 目标位置
+6. **控制移动**：`ucontrol move moveX moveY 0 0 0`
+
+---
+
+## 热操作核心代码
+
+```
+format ▽自定义热操作：快速修改阵型角度
+sensor shooting arc1 @shooting
+jump 1 equal shooting 0
+sensor shootX arc1 @shootX
+sensor shootY arc1 @shootY
+wait 0.2
+sensor shootX1 arc1 @shootX
+sensor shootY1 arc1 @shootY
+op sub differenceX shootX1 shootX
+op sub differenceY shootY1 shootY
+op angle angle differenceX differenceY
+sensor shooting arc1 @shooting
+write angle processor1 "angle"
+jump 6 equal shooting 1
+write angle processor1 "angle"
+```
+
+### 分析
+
+1. 检测电弧是否正在射击（`sensor shooting arc1 @shooting`）
+2. 记录射击方向起点（shootX, shootY）
+3. 等待 0.2 秒（`wait 0.2`）
+4. 记录射击方向终点（shootX1, shootY1）
+5. 计算方向差值，得出旋转角度（`op angle angle differenceX differenceY`）
+6. 将角度写入分配核（`write angle processor1 "angle"`）
+7. 电弧停止射击后再次写入，确保最终角度正确
+
+### 热操作的意义
+
+热操作允许玩家通过射击方向实时修改阵型角度，无需停止逻辑重新配置。这种设计在实战中非常有用，可以根据战场情况快速调整阵型朝向。
+
+---
+
+## 阵生成核心代码
+
+```
+set 墙体 @copper-wall
+sensor swj switch1 @enabled
+jump 1 equal swj 0
+set minY 999
+set minX 999
+set maxX 0
+set maxY 0
+set id 0
+getlink block id
+sensor type block @type
+jump 17 notEqual type 墙体
+sensor x block @x
+sensor y block @y
+op min minX x minX
+op min minY y minY
+op max maxX x maxX
+op max maxY y maxY
+op add id id 1
+jump 8 lessThan id @links
+set id 0
+printchar 34
+getlink block id
+sensor type block @type
+jump 32 notEqual type 墙体
+sensor x block @x
+sensor y block @y
+op sub x x minX
+op sub y y minY
+op add utf x 35
+printchar utf
+op add utf y 35
+printchar utf
+op add id id 1
+jump 21 lessThan id @links
+printchar 34
+printflush message1
+control enabled switch1 0 0 0 0
+op sub differenceX maxX minX
+op sub differenceY maxY minY
+print "字体点阵生成端\n\n生成使用墙体:"
+print 墙体
+printchar 墙体
+print "\n字体 长: {0} 高: {0}  \n中心点偏移量  x : {0}  y : {0}"
+format differenceX
+format differenceY
+op idiv offsetX differenceX 2
+op idiv offsetY differenceY 2
+format offsetX
+format offsetY
+printflush message2
+```
+
+### 分析
+
+1. **扫描墙体**：遍历所有连接的建筑，筛选出指定墙体类型（`jump 17 notEqual type 墙体`）
+2. **计算边界**：找到所有墙体的最小/最大 X/Y 坐标（`op min`/`op max`）
+3. **生成坐标对**：每个墙体的坐标减去最小值（归零），加上 35（转换为可打印字符），通过 `printchar` 输出
+4. **输出到信息板**：`printchar 34` 输出双引号包裹字符串，`printflush message1` 刷新到信息板
+5. **关闭开关**：`control enabled switch1 0 0 0 0` 生成完成后关闭开关，防止重复执行
+6. **输出尺寸信息**：计算字体长高和中心点偏移量（`op idiv offsetX differenceX 2`），输出到信息板 message2
+7. **结果**：信息板上生成一个包含阵型坐标的字符串，可直接复制到分配核的 `set array` 语句中
+
+### 字符编码
+
+坐标值加上 35 是为了转换为可打印的 ASCII 字符（35 = '#'），避免控制字符。读取时减去偏移量即可还原坐标。
+
+---
+
+## 运行原理分析
+
+### 一、阵型字符串的编码与解析
+
+阵型数据存储在一个字符串中：
+```
+set array "$*%*&*'*(*)***+*,*(.(-(,(+()..."
+```
+
+字符串中每个字符代表一个坐标值（X 或 Y），两个字符组成一个坐标对。字符的 Unicode 码点减去 35（`#` 的码点）即为实际坐标值。例如：
+- `$` = U+0024 = 36，坐标值 = 36 - 35 = 1
+- `*` = U+002A = 42，坐标值 = 42 - 35 = 7
+- `+` = U+002B = 43，坐标值 = 43 - 35 = 8
+
+选择 35 作为偏移量是因为 ASCII 码 35 是 `#`，之前的字符（如 `!`、`"`、`$` 等）都是可打印字符，避免了控制字符。坐标值 0 对应 `#`，坐标值 1 对应 `$`，以此类推。
+
+解析时使用 `read` 指令读取字符串（`read` 对 CharSequence 类型对象按索引返回字符的码点值），通过递增的数字索引逐字符读取：
+```
+read readX array forReadxy      ## 读取 X 字符码点
+op sub readX readX offsetX1     ## 减去偏移量得到相对坐标
+read readY array forReadxy1     ## 读取 Y 字符码点
+op sub readY readY offsetY1     ## 减去偏移量得到相对坐标
+```
+
+### 二、旋转算法的数学原理
+
+旋转计算是分配核的核心功能。当角度发生变化时，分配核会遍历所有阵型坐标，对每个坐标执行二维旋转变换：
+
+**Step 1：计算原始极坐标**
+
+```
+op sub readX readX offsetX1     ## 减去中心偏移，得到相对中心的坐标
+op sub readY readY offsetY1
+op angle originalAngle readX readY  ## 计算原始角度 θ = atan2(readY, readX)
+op len lenReadXY readX readY    ## 计算原始距离 r = sqrt(readX² + readY²)
+```
+
+这一步将笛卡尔坐标 (readX, readY) 转换为极坐标 (r, θ)。
+
+**Step 2：计算旋转后的新角度**
+
+```
+op add newAngle originalAngle angle  ## newAngle = θ + α（α 为旋转角度）
+```
+
+**Step 3：用三角函数计算旋转后的新坐标**
+
+```
+op cos cos newAngle 2          ## cos = cos(newAngle)（参数 2 被忽略，cos 是一元运算，始终以度数为输入）
+op sin sin newAngle 2          ## sin = sin(newAngle)（参数 2 同样被忽略）
+op mul lenReadXY lenReadXY spacing  ## 距离乘以间距系数
+op mul newY sin lenReadXY      ## newY = r * sin(newAngle)
+op mul newX cos lenReadXY      ## newX = r * cos(newAngle)
+```
+
+`op cos`/`op sin` 是一元运算，第二个参数 `2` 被完全忽略。这两个运算始终以度数为输入（源码中通过 `Mathf.doubleDegRad` 将度数转换为弧度再计算）。最终公式为：
+
+```
+newX = r * spacing * cos(θ + α)
+newY = r * spacing * sin(θ + α)
+```
+
+这正是标准的二维旋转公式。`spacing` 参数允许玩家调整阵型的紧凑程度（默认 1.8），不改变阵型形状，只改变大小。
+
+**Step 4：写入内存库供主控核读取**
+
+```
+write newX bank1 forReadxy     ## 写入旋转后的 X 坐标
+write newY bank1 forReadxy1    ## 写入旋转后的 Y 坐标
+```
+
+### 三、单位区间分配算法
+
+分配核需要将所有单位均匀分配给各个主控核。算法分为两轮遍历：
+
+**第一轮：统计主控核数量并计算区间**
+
+```
+getlink pr idBlock
+read thisMarking pr "thisMarking"
+jump 67 notEqual thisMarking "CustomDotMatrix-byNOSBHG2g"  ## 非主控核则跳过
+write @this pr "centralPr"    ## 将分配核引用写入主控核
+write arc1 pr "arc"           ## 写入电弧引用
+write bank1 pr "bank"         ## 写入内存库引用
+op add prAvailableNum prAvailableNum 1  ## 主控核计数 +1
+```
+
+第一轮遍历完成后，`prAvailableNum` 记录了主控核总数。
+
+**第二轮：计算每个主控核的单位区间**
+
+```
+op sub unitNum1 unitBindNum prNum    ## 剩余单位数 = 总单位数 - 已分配数
+op idiv endPoint unitNum1 prAvailableNum  ## 当前主控核分到的单位数
+op add endPoint endPoint 1           ## +1（因为区间是左闭右开）
+op add endPoint1 endPoint1 endPoint  ## 累加结束位置
+write endPoint1 pr "endPoint"        ## 写入区间结束位置
+write origin pr "origin"             ## 写入区间起始位置
+set origin endPoint1                 ## 下一个主控核的起始 = 当前的结束
+```
+
+公式为：每个主控核负责 `floor(剩余单位数 / 剩余主控核数)` 个单位。例如 10 个单位分给 3 个主控核：第 1 个分到 `floor(10/3)=3` 个，第 2 个分到 `floor(7/2)=3` 个，第 3 个分到 `floor(4/1)=4` 个。
+
+主控核通过 `select` 指令在区间内循环：
+```
+select idUnit lessThan idUnit endPoint idUnit origin
+```
+`select` 的语义：如果 `idUnit < endPoint` 为真，返回 `idUnit`；否则返回 `origin`。这实现了一个模运算——当 `idUnit` 到达 `endPoint` 时自动回到 `origin`，形成循环。
+
+### 四、packcolor 变量表机制
+
+分配核末尾的 `packcolor` 指令并非颜色打包指令，而是被用作**变量名存储槽**。这一机制的原理：
+
+`packcolor` 指令有 5 个参数位（r、g、b、a、result），每个参数位是一个变量名。关键在于：这些 `packcolor` 指令位于 `end` 之后，**永远不会被执行**。它们的存在纯粹是为了让 LParser 在解析阶段创建这些变量名。
+
+当 LParser 解析 `packcolor graphite-press multi-press silicon-smelter silicon-crucible kiln` 时，会调用 `var("graphite-press")`、`var("multi-press")` 等方法，在处理器的 `varMap` 中创建对应的 `Var` 对象（初始值为 0）。这样运行时 `read unit @this itemName`（其中 `itemName = "graphite-press"`）调用 `optionalVar("graphite-press")` 时能找到该变量并返回其值，而非返回 null/NaN。
+
+```
+packcolor graphite-press multi-press silicon-smelter silicon-crucible kiln
+```
+
+这行代码在解析阶段创建 5 个变量：`graphite-press`、`multi-press`、`silicon-smelter`、`silicon-crucible`、`kiln`，值均为 0。运行时，分配核通过 `write @unit @this itemName` 将单位引用写入这些变量，主控核通过 `read unit centralPr itemName` 从分配核变量空间读取。
+
+运行时，分配核通过 `lookup block item itemid` 根据 ID 获取建筑类型对象，再用 `sensor itemName item @name` 获取其名称字符串，最后 `read unit @this itemName` 从自身变量空间中读取以该名称为键的变量值（即之前通过 packcolor 存储的单位引用）。
+
+**为什么选择 packcolor 而非 draw triangle？**
+
+08 文件使用 `packcolor`，07 文件使用 `draw triangle`。两者的区别：
+- `packcolor`：5 个参数位，每行可存储 5 个建筑类型名
+- `draw triangle`：6 个参数位（x、y、x2、y2、color、type），每行可存储 6 个建筑类型名
+- `packcolor` 是 IO 类指令，`draw triangle` 也是 IO 类指令，两者都可能被服务器封禁
+
+选择 `packcolor` 而非 `draw triangle` 的原因可能是作者偏好或代码风格选择，两者在功能上等价——都是利用位于 `end` 之后的指令在解析阶段创建变量。`packcolor` 每行可存储 5 个建筑类型名，`draw triangle` 每行可存储 6 个。
+
+### 五、阵生成核的字符编码
+
+阵生成核通过扫描连接的墙体方块生成阵型字符串：
+
+```
+op sub x x minX               ## 坐标归零（相对于最小坐标）
+op sub y y minY
+op add utf x 35               ## 加 35 转换为可打印 ASCII 字符
+printchar utf                 ## 输出 X 字符
+op add utf y 35
+printchar utf                 ## 输出 Y 字符
+```
+
+坐标加上 35 后，使用 `printchar` 输出对应的 Unicode 字符。例如坐标 (0, 0) 输出 `##`，坐标 (1, 7) 输出 `$*`。最终所有墙体的坐标对被拼接成一个字符串，用双引号包裹后输出到信息板：
+
+```
+printchar 34                  ## 输出双引号（ASCII 34 = "）
+...
+printchar 34                  ## 输出双引号
+printflush message1           ## 刷新到信息板
+```
+
+玩家可以直接从信息板复制这个字符串，粘贴到分配核的 `set array "..."` 语句中。
+
+---
+
+## 解说
+
+主控核通过连接控制核心、内存库和电弧（arc），从分配核读取单位引用，从内存库读取阵型坐标，以电弧射击方向作为阵型偏移基准，控制单位移动到目标位置。
+
+热操作逻辑只与分配核心连接，通过检测电弧射击方向的变化计算旋转角度，写入分配核的 "angle" 变量，实现阵型的实时旋转。热操作核通过 `wait 0.2` 制造时间差，记录两次射击方向坐标，用 `op angle` 计算方向变化角度。电弧停止射击后再次写入角度，确保最终角度是最后一次有效射击的方向。
+
+分配核通过将自己的引用传给各个主控核，主控核读取相应区间的分配核变量空间中存储的单位变量，以此实现单位分配。分配核将单位引用以建筑类型名称为键存储在自身变量空间中（通过 `write @unit @this itemName`），主控核通过 `read unit centralPr itemName` 从分配核变量空间读取。
+
+阵生成核通过连接防御方块（墙体）生成矩阵，并将生成的矩阵存储进信息板里，供玩家复制使用。
+
+---
+
+## 要点总结
+
+- 自定义点阵通过阵型字符串 + 旋转算法实现单位编队
+- 多核架构：分配核（绑定+旋转计算）、主控核（移动控制）、热操作核（实时角度修改）、生成核（阵型生成）
+- 使用 `write`/`read` 实现处理器间通信（通过处理器自身变量空间，字符串作为变量名键），通过 `thisMarking` 标识核类型
+- 阵型坐标数据使用内存库存储（数字索引读写），处理器间引用传递使用处理器变量空间（字符串键读写）
+- `select` 指令用于判断索引是否在区间内
+- 热操作通过检测射击方向变化实现实时阵型旋转
+- 点阵生成核通过扫描墙体位置自动生成阵型字符串
+- `packcolor` 指令用作变量名存储槽，并非真正的颜色打包指令
+- 变量表版本号为 152.2，游戏版本更新可能导致变量表出现异常
+
+
+<!-- 文件: 07_实战案例\09_均衡挖矿系统.md -->
+
+
+---
+
+
+# 09 - 均衡挖矿系统
+
+## 概述
+
+这是一组高价值的学习逻辑。系统通过开关选择要挖取矿物的单位，通过分类器选择要挖取的矿物，计算每个矿物的衰减趋势，实现单位的均衡挖矿，并且配有单位分配功能。
+
+这个蓝图包含 4 个不同的逻辑：
+
+1. **设置核**：连接多个开关与多个分类器，与分配核心链接，用于选择要控制的单位和需要挖取的矿物，并且涉及核心算法
+2. **打印核**：处理信息板的打印，打印数据和作者信息，链接设置核与分配核
+3. **分配核**：和多个主控核心配合，是我们主要学习的地方
+4. **主控核**：执行实际的挖矿控制逻辑
+
+---
+
+## 设置核完整代码
+
+```
+set 保底 0
+sensor mono switch1 @enabled
+write mono processor1 "monoEn"
+jump 5 equal mono lastMono
+write 1 processor1 "switchChanged"
+sensor poly switch2 @enabled
+write poly processor1 "polyEn"
+jump 9 equal poly lastPoly
+write 1 processor1 "switchChanged"
+sensor mega switch3 @enabled
+write mega processor1 "megaEn"
+jump 13 equal mega lastMega
+write 1 processor1 "switchChanged"
+sensor pulsar switch4 @enabled
+write pulsar processor1 "pulsarEn"
+jump 17 equal pulsar lastPulsar
+write 1 processor1 "switchChanged"
+sensor quasar switch5 @enabled
+write quasar processor1 "quasarEn"
+jump 21 equal quasar lastQuasar
+write 1 processor1 "switchChanged"
+read stop1 processor1 "stop1"
+jump 1 equal stop1 0
+set lastMono mono
+set lastPoly poly
+set lastMega mega
+set lastPulsar pulsar
+set lastQuasar quasar
+write -1 processor1 "stop1"
+jump 33 equal mono 0
+read 一二三 processor1 "firstMono"
+sensor dead 一二三 @dead
+jump 49 equal dead 0
+jump 37 equal poly 0
+read 一二三 processor1 "firstPoly"
+sensor dead 一二三 @dead
+jump 49 equal dead 0
+jump 41 equal mega 0
+read 一二三 processor1 "firstMega"
+sensor dead 一二三 @dead
+jump 49 equal dead 0
+jump 45 equal pulsar 0
+read 一二三 processor1 "firstPulsar"
+sensor dead 一二三 @dead
+jump 49 equal dead 0
+jump 1 equal quasar 0
+read 一二三 processor1 "firstQuasar"
+sensor dead 一二三 @dead
+jump 1 notEqual dead 0
+ubind 一二三
+ulocate building core 0 @copper outx outy found 核心
+sensor 核心上限 核心 @itemCapacity
+op sub 核心上限_sub 核心上限 200
+write 核心上限 processor1 "coreItCap"
+ulocate ore core 0 @copper outx outy 铜矿 hx
+ulocate ore core 0 @lead outx outy 铅矿 hx
+ulocate ore core 0 @titanium outx outy 钛矿 hx
+ulocate ore core 0 @sand outx outy 沙矿 hx
+ulocate ore core 0 @coal outx outy 煤矿 hx
+ulocate ore core 0 @scrap outx outy 废矿 hx
+ulocate ore core 0 @beryllium outx outy 铍矿 hx
+set i 0
+set 分类器打表 0
+getlink sorter i
+sensor 矿 sorter @config
+jump 72 equal 矿 nulll
+sensor 矿id 矿 @id
+op shr 检查 0b10000000101110011 矿id
+op mod 检查 检查 2
+jump 72 notEqual 检查 1
+op shl c 1 矿id
+op add 分类器打表 分类器打表 c
+op add i i 1
+jump 63 lessThan i @links
+op shr 铜表 分类器打表 0
+op shr 铅表 分类器打表 1
+op shr 钛表 分类器打表 6
+op shr 沙表 分类器打表 4
+op shr 煤表 分类器打表 5
+op shr 废表 分类器打表 8
+op shr 铍表 分类器打表 16
+jump 109 equal 初始化 1
+op add 保底 保底 0
+sensor 铜0 核心 @copper
+sensor 铅0 核心 @lead
+sensor 钛0 核心 @titanium
+sensor 沙0 核心 @sand
+sensor 煤0 核心 @coal
+sensor 废0 核心 @scrap
+sensor 铍0 核心 @beryllium
+set T3铜系数 0.2
+set T2铜系数 0.2
+set T1铜系数 0.2
+set T3铅系数 0.2
+set T2铅系数 0.2
+set T1铅系数 0.2
+set T3钛系数 0.2
+set T3沙系数 0.2
+set T2沙系数 0.2
+set T1沙系数 0.2
+set T3煤系数 0.2
+set T2煤系数 0.2
+set T3废系数 0.2
+set T2废系数 0.2
+set T1废系数 0.2
+set T3铍系数 0.2
+set 基础权重 0.08
+set 加速权重 0.8
+set 初始化 1
+set T3min 999999999999999
+set T2min 999999999999999
+set T1min 999999999999999
+op mul 预期上限 核心上限 基础权重
+set T3总分母 0
+set T2总分母 0
+set T1总分母 0
+op and 挖铜 铜矿 铜表
+op and 挖铅 铅矿 铅表
+op and 挖钛 钛矿 钛表
+op and 挖沙 沙矿 沙表
+op and 挖煤 煤矿 煤表
+op and 挖废 废矿 废表
+op and 挖铍 铍矿 铍表
+sensor 铜 核心 @copper
+sensor 铅 核心 @lead
+sensor 钛 核心 @titanium
+sensor 沙 核心 @sand
+sensor 煤 核心 @coal
+sensor 废 核心 @scrap
+sensor 铍 核心 @beryllium
+sensor coreItemCap 核心 @itemCapacity
+op div 敏感度钝化 核心上限 2.56
+op mul 敏感度钝化 敏感度钝化 基础权重
+jump 135 lessThan 敏感度钝化 750
+set 敏感度钝化 750
+op sub dt @time t0
+op abs dt dt t0
+jump 139 greaterThan dt 6500
+end
+jump 165 equal 挖铜 0
+op add 铜 1 铜
+op sub a铜 铜 铜0
+op mul a铜 a铜 加速权重
+op mul 预期铜 铜 基础权重
+op add 预期铜 预期铜 a铜
+jump 147 greaterThanEq 预期铜 1
+set 预期铜 1
+jump 149 lessThanEq 预期铜 预期上限
+set 预期铜 预期上限
+op add 预期铜 预期铜 敏感度钝化
+op min T3min T3min 铜
+op min T2min T2min 铜
+op min T1min T1min 铜
+jump 155 notEqual T3min 铜
+set T3写入e 9999900
+jump 157 notEqual T2min 铜
+set T2写入e 9999900
+jump 159 notEqual T1min 铜
+set T1写入e 9999900
+op div 铜分子 1 预期铜
+op pow 铜分子 铜分子 2
+op add T3总分母 T3总分母 铜分子
+op add T2总分母 T2总分母 铜分子
+op add T1总分母 T1总分母 铜分子
+set 铜0 铜
+jump 191 equal 挖铅 0
+op add 铅 1 铅
+op sub a铅 铅 铅0
+op mul a铅 a铅 加速权重
+op mul 预期铅 铅 基础权重
+op add 预期铅 预期铅 a铅
+jump 173 greaterThanEq 预期铅 1
+set 预期铅 1
+jump 175 lessThanEq 预期铅 预期上限
+set 预期铅 预期上限
+op add 预期铅 预期铅 敏感度钝化
+op min T3min T3min 铅
+op min T2min T2min 铅
+op min T1min T1min 铅
+jump 181 notEqual T3min 铅
+set T3写入e 9999901
+jump 183 notEqual T2min 铅
+set T2写入e 9999901
+jump 185 notEqual T1min 铅
+set T1写入e 9999901
+op div 铅分子 1 预期铅
+op pow 铅分子 铅分子 2
+op add T3总分母 T3总分母 铅分子
+op add T2总分母 T2总分母 铅分子
+op add T1总分母 T1总分母 铅分子
+set 铅0 铅
+jump 209 equal 挖钛 0
+op add 钛 1 钛
+op sub a钛 钛 钛0
+op mul a钛 a钛 加速权重
+op mul 预期钛 钛 基础权重
+op add 预期钛 预期钛 a钛
+jump 199 greaterThanEq 预期钛 1
+set 预期钛 1
+jump 201 lessThanEq 预期钛 预期上限
+set 预期钛 预期上限
+op add 预期钛 预期钛 敏感度钝化
+op min T3min T3min 钛
+jump 205 notEqual T3min 钛
+set T3写入e 9999906
+op div 钛分子 1 预期钛
+op pow 钛分子 钛分子 2
+op add T3总分母 T3总分母 钛分子
+set 钛0 钛
+jump 214 greaterThanEq T3min 保底
+set T3沙系数 0.01
+set T3煤系数 0.01
+set T3废系数 0.01
+set T3铍系数 0.01
+jump 218 greaterThanEq T2min 保底
+set T2沙系数 0.01
+set T2煤系数 0.01
+set T2废系数 0.01
+jump 221 greaterThanEq T1min 保底
+set T1沙系数 0.01
+set T1废系数 0.01
+jump 247 equal 挖沙 0
+op add 沙 1 沙
+op sub a沙 沙 沙0
+op mul a沙 a沙 加速权重
+op mul 预期沙 沙 基础权重
+op add 预期沙 预期沙 a沙
+jump 229 greaterThanEq 预期沙 1
+set 预期沙 1
+jump 231 lessThanEq 预期沙 预期上限
+set 预期沙 预期上限
+op add 预期沙 预期沙 敏感度钝化
+op min T3min T3min 沙
+op min T2min T2min 沙
+op min T1min T1min 沙
+jump 237 notEqual T3min 沙
+set T3写入e 9999904
+jump 239 notEqual T2min 沙
+set T2写入e 9999904
+jump 241 notEqual T1min 沙
+set T1写入e 9999904
+op div 沙分子 1 预期沙
+op pow 沙分子 沙分子 2
+op add T3总分母 T3总分母 沙分子
+op add T2总分母 T2总分母 沙分子
+op add T1总分母 T1总分母 沙分子
+set 沙0 沙
+jump 269 equal 挖煤 0
+op add 煤 1 煤
+op sub a煤 煤 煤0
+op mul a煤 a煤 加速权重
+op mul 预期煤 煤 基础权重
+op add 预期煤 预期煤 a煤
+jump 255 greaterThanEq 预期煤 1
+set 预期煤 1
+jump 257 lessThanEq 预期煤 预期上限
+set 预期煤 预期上限
+op add 预期煤 预期煤 敏感度钝化
+op min T3min T3min 煤
+op min T2min T2min 煤
+jump 262 notEqual T3min 煤
+set T3写入e 9999905
+jump 264 notEqual T2min 煤
+set T2写入e 9999905
+op div 煤分子 1 预期煤
+op pow 煤分子 煤分子 2
+op add T3总分母 T3总分母 煤分子
+op add T2总分母 T2总分母 煤分子
+set 煤0 煤
+jump 295 equal 挖废 0
+op add 废 1 废
+op sub a废 废 废0
+op mul a废 a废 加速权重
+op mul 预期废 废 基础权重
+op add 预期废 预期废 a废
+jump 277 greaterThanEq 预期废 1
+set 预期废 1
+jump 279 lessThanEq 预期废 预期上限
+set 预期废 预期上限
+op add 预期废 预期废 敏感度钝化
+op min T3min T3min 废
+op min T2min T2min 废
+op min T1min T1min 废
+jump 285 notEqual T3min 废
+set T3写入e 9999908
+jump 287 notEqual T2min 废
+set T2写入e 9999908
+jump 289 notEqual T1min 废
+set T1写入e 9999908
+op div 废分子 1 预期废
+op pow 废分子 废分子 2
+op add T3总分母 T3总分母 废分子
+op add T2总分母 T2总分母 废分子
+op add T1总分母 T1总分母 废分子
+set 废0 废
+jump 313 equal 挖铍 0
+op add 铍 1 铍
+op sub a铍 铍 铍0
+op mul a铍 a铍 加速权重
+op mul 预期铍 铍 基础权重
+op add 预期铍 预期铍 a铍
+jump 303 greaterThanEq 预期铍 1
+set 预期铍 1
+jump 305 lessThanEq 预期铍 预期上限
+set 预期铍 预期上限
+op add 预期铍 预期铍 敏感度钝化
+op min T3min T3min 铍
+jump 309 notEqual T3min 铍
+set T3写入e 9999916
+op div 铍分子 1 预期铍
+op pow 铍分子 铍分子 2
+op add T3总分母 T3总分母 铍分子
+set 铍0 铍
+set 取出比例 0.5
+op sub 剩余比例 1 取出比例
+set T3分配系数分母 0
+set T2分配系数分母 0
+set T1分配系数分母 0
+set 系数T3总分母 0
+set 系数T2总分母 0
+set 系数T1总分母 0
+jump 340 equal 挖铜 0
+jump 324 greaterThan T3铜系数 0.01
+set T3铜系数 0.01
+op div T3铜分配系数 铜分子 T3总分母
+op mul T3铜分配系数 T3铜分配系数 T3铜系数
+op add T3分配系数分母 T3分配系数分母 T3铜分配系数
+op add 系数T3总分母 系数T3总分母 T3铜系数
+jump 330 greaterThan T2铜系数 0.01
+set T2铜系数 0.01
+op div T2铜分配系数 铜分子 T2总分母
+op mul T2铜分配系数 T2铜分配系数 T2铜系数
+op add T2分配系数分母 T2分配系数分母 T2铜分配系数
+op add 系数T2总分母 系数T2总分母 T2铜系数
+jump 336 greaterThan T1铜系数 0.01
+set T1铜系数 0.01
+op div T1铜分配系数 铜分子 T1总分母
+op mul T1铜分配系数 T1铜分配系数 T1铜系数
+op add T1分配系数分母 T1分配系数分母 T1铜分配系数
+op add 系数T1总分母 系数T1总分母 T1铜系数
+jump 359 equal 挖铅 0
+jump 343 greaterThan T3铅系数 0.01
+set T3铅系数 0.01
+op div T3铅分配系数 铅分子 T3总分母
+op mul T3铅分配系数 T3铅分配系数 T3铅系数
+op add T3分配系数分母 T3分配系数分母 T3铅分配系数
+op add 系数T3总分母 系数T3总分母 T3铅系数
+jump 349 greaterThan T2铅系数 0.01
+set T2铅系数 0.01
+op div T2铅分配系数 铅分子 T2总分母
+op mul T2铅分配系数 T2铅分配系数 T2铅系数
+op add T2分配系数分母 T2分配系数分母 T2铅分配系数
+op add 系数T2总分母 系数T2总分母 T2铅系数
+jump 355 greaterThan T1铅系数 0.01
+set T1铅系数 0.01
+op div T1铅分配系数 铅分子 T1总分母
+op mul T1铅分配系数 T1铅分配系数 T1铅系数
+op add T1分配系数分母 T1分配系数分母 T1铅分配系数
+op add 系数T1总分母 系数T1总分母 T1铅系数
+jump 366 equal 挖钛 0
+jump 362 greaterThan T3钛系数 0.01
+set T3钛系数 0.01
+op div T3钛分配系数 钛分子 T3总分母
+op mul T3钛分配系数 T3钛分配系数 T3钛系数
+op add T3分配系数分母 T3分配系数分母 T3钛分配系数
+op add 系数T3总分母 系数T3总分母 T3钛系数
+jump 385 equal 挖沙 0
+jump 369 greaterThan T3沙系数 0.01
+set T3沙系数 0.01
+op div T3沙分配系数 沙分子 T3总分母
+op mul T3沙分配系数 T3沙分配系数 T3沙系数
+op add T3分配系数分母 T3分配系数分母 T3沙分配系数
+op add 系数T3总分母 系数T3总分母 T3沙系数
+jump 375 greaterThan T2沙系数 0.01
+set T2沙系数 0.01
+op div T2沙分配系数 沙分子 T2总分母
+op mul T2沙分配系数 T2沙分配系数 T2沙系数
+op add T2分配系数分母 T2分配系数分母 T2沙分配系数
+op add 系数T2总分母 系数T2总分母 T2沙系数
+jump 381 greaterThan T1沙系数 0.01
+set T1沙系数 0.01
+op div T1沙分配系数 沙分子 T1总分母
+op mul T1沙分配系数 T1沙分配系数 T1沙系数
+op add T1分配系数分母 T1分配系数分母 T1沙分配系数
+op add 系数T1总分母 系数T1总分母 T1沙系数
+jump 398 equal 挖煤 0
+jump 388 greaterThan T3煤系数 0.01
+set T3煤系数 0.01
+op div T3煤分配系数 煤分子 T3总分母
+op mul T3煤分配系数 T3煤分配系数 T3煤系数
+op add T3分配系数分母 T3分配系数分母 T3煤分配系数
+op add 系数T3总分母 系数T3总分母 T3煤系数
+jump 394 greaterThan T2煤系数 0.01
+set T2煤系数 0.01
+op div T2煤分配系数 煤分子 T2总分母
+op mul T2煤分配系数 T2煤分配系数 T2煤系数
+op add T2分配系数分母 T2分配系数分母 T2煤分配系数
+op add 系数T2总分母 系数T2总分母 T2煤系数
+jump 417 equal 挖废 0
+jump 401 greaterThan T3废系数 0.01
+set T3废系数 0.01
+op div T3废分配系数 废分子 T3总分母
+op mul T3废分配系数 T3废分配系数 T3废系数
+op add T3分配系数分母 T3分配系数分母 T3废分配系数
+op add 系数T3总分母 系数T3总分母 T3废系数
+jump 407 greaterThan T2废系数 0.01
+set T2废系数 0.01
+op div T2废分配系数 废分子 T2总分母
+op mul T2废分配系数 T2废分配系数 T2废系数
+op add T2分配系数分母 T2分配系数分母 T2废分配系数
+op add 系数T2总分母 系数T2总分母 T2废系数
+jump 413 greaterThan T1废系数 0.01
+set T1废系数 0.01
+op div T1废分配系数 废分子 T1总分母
+op mul T1废分配系数 T1废分配系数 T1废系数
+op add T1分配系数分母 T1分配系数分母 T1废分配系数
+op add 系数T1总分母 系数T1总分母 T1废系数
+jump 424 equal 挖铍 0
+jump 420 greaterThan T3铍系数 0.01
+set T3铍系数 0.01
+op div T3铍分配系数 铍分子 T3总分母
+op mul T3铍分配系数 T3铍分配系数 T3铍系数
+op add T3分配系数分母 T3分配系数分母 T3铍分配系数
+op add 系数T3总分母 系数T3总分母 T3铍系数
+op div T3分配系数分母 取出比例 T3分配系数分母
+op div T2分配系数分母 取出比例 T2分配系数分母
+op div T1分配系数分母 取出比例 T1分配系数分母
+jump 440 equal 挖铜 0
+op mul T3铜系数0 T3铜分配系数 T3分配系数分母
+op mul T3铜系数 T3铜系数 剩余比例
+op add T3铜系数 T3铜系数 T3铜系数0
+op div T3铜系数 T3铜系数 系数T3总分母
+op mul T2铜系数0 T2铜分配系数 T2分配系数分母
+op mul T2铜系数 T2铜系数 剩余比例
+op add T2铜系数 T2铜系数 T2铜系数0
+op div T2铜系数 T2铜系数 系数T2总分母
+op mul T1铜系数0 T1铜分配系数 T1分配系数分母
+op mul T1铜系数 T1铜系数 剩余比例
+op add T1铜系数 T1铜系数 T1铜系数0
+op div T1铜系数 T1铜系数 系数T1总分母
+jump 453 equal 挖铅 0
+op mul T3铅系数0 T3铅分配系数 T3分配系数分母
+op mul T3铅系数 T3铅系数 剩余比例
+op add T3铅系数 T3铅系数 T3铅系数0
+op div T3铅系数 T3铅系数 系数T3总分母
+op mul T2铅系数0 T2铅分配系数 T2分配系数分母
+op mul T2铅系数 T2铅系数 剩余比例
+op add T2铅系数 T2铅系数 T2铅系数0
+op div T2铅系数 T2铅系数 系数T2总分母
+op mul T1铅系数0 T1铅分配系数 T1分配系数分母
+op mul T1铅系数 T1铅系数 剩余比例
+op add T1铅系数 T1铅系数 T1铅系数0
+op div T1铅系数 T1铅系数 系数T1总分母
+jump 458 equal 挖钛 0
+op mul T3钛系数0 T3钛分配系数 T3分配系数分母
+op mul T3钛系数 T3钛系数 剩余比例
+op add T3钛系数 T3钛系数 T3钛系数0
+op div T3钛系数 T3钛系数 系数T3总分母
+jump 471 equal 挖沙 0
+op mul T3沙系数0 T3沙分配系数 T3分配系数分母
+op mul T3沙系数 T3沙系数 剩余比例
+op add T3沙系数 T3沙系数 T3沙系数0
+op div T3沙系数 T3沙系数 系数T3总分母
+op mul T2沙系数0 T2沙分配系数 T2分配系数分母
+op mul T2沙系数 T2沙系数 剩余比例
+op add T2沙系数 T2沙系数 T2沙系数0
+op div T2沙系数 T2沙系数 系数T2总分母
+op mul T1沙系数0 T1沙分配系数 T1分配系数分母
+op mul T1沙系数 T1沙系数 剩余比例
+op add T1沙系数 T1沙系数 T1沙系数0
+op div T1沙系数 T1沙系数 系数T1总分母
+jump 480 equal 挖煤 0
+op mul T3煤系数0 T3煤分配系数 T3分配系数分母
+op mul T3煤系数 T3煤系数 剩余比例
+op add T3煤系数 T3煤系数 T3煤系数0
+op div T3煤系数 T3煤系数 系数T3总分母
+op mul T2煤系数0 T2煤分配系数 T2分配系数分母
+op mul T2煤系数 T2煤系数 剩余比例
+op add T2煤系数 T2煤系数 T2煤系数0
+op div T2煤系数 T2煤系数 系数T2总分母
+jump 493 equal 挖废 0
+op mul T3废系数0 T3废分配系数 T3分配系数分母
+op mul T3废系数 T3废系数 剩余比例
+op add T3废系数 T3废系数 T3废系数0
+op div T3废系数 T3废系数 系数T3总分母
+op mul T2废系数0 T2废分配系数 T2分配系数分母
+op mul T2废系数 T2废系数 剩余比例
+op add T2废系数 T2废系数 T2废系数0
+op div T2废系数 T2废系数 系数T2总分母
+op mul T1废系数0 T1废分配系数 T1分配系数分母
+op mul T1废系数 T1废系数 剩余比例
+op add T1废系数 T1废系数 T1废系数0
+op div T1废系数 T1废系数 系数T1总分母
+jump 498 equal 挖铍 0
+op mul T3铍系数0 T3铍分配系数 T3分配系数分母
+op mul T3铍系数 T3铍系数 剩余比例
+op add T3铍系数 T3铍系数 T3铍系数0
+op div T3铍系数 T3铍系数 系数T3总分母
+jump 528 equal mega 0
+read 可抓单位数 processor1 "mega"
+op mul 铜分配数 T3铜系数 可抓单位数
+op mul 铜分配数 铜分配数 挖铜
+op floor 铜分配数 铜分配数 可抓单位数
+write 铜分配数 processor1 "mega铜"
+op mul 铅分配数 T3铅系数 可抓单位数
+op mul 铅分配数 铅分配数 挖铅
+op floor 铅分配数 铅分配数 可抓单位数
+write 铅分配数 processor1 "mega铅"
+op mul 钛分配数 T3钛系数 可抓单位数
+op mul 钛分配数 钛分配数 挖钛
+op floor 钛分配数 钛分配数 可抓单位数
+write 钛分配数 processor1 "mega钛"
+op mul 沙分配数 T3沙系数 可抓单位数
+op mul 沙分配数 沙分配数 挖沙
+op floor 沙分配数 沙分配数 可抓单位数
+write 沙分配数 processor1 "mega沙"
+op mul 煤分配数 T3煤系数 可抓单位数
+op mul 煤分配数 煤分配数 挖煤
+op floor 煤分配数 煤分配数 可抓单位数
+write 煤分配数 processor1 "mega煤"
+op mul 废分配数 T3废系数 可抓单位数
+op mul 废分配数 废分配数 挖废
+op floor 废分配数 废分配数 可抓单位数
+write 废分配数 processor1 "mega废"
+op mul 铍分配数 T3铍系数 可抓单位数
+op mul 铍分配数 铍分配数 挖铍
+op floor 铍分配数 铍分配数 可抓单位数
+write 铍分配数 processor1 "mega铍"
+jump 558 equal quasar 0
+read 可抓单位数 processor1 "quasar"
+op mul 铜分配数 T3铜系数 可抓单位数
+op mul 铜分配数 铜分配数 挖铜
+op floor 铜分配数 铜分配数 可抓单位数
+write 铜分配数 processor1 "quasar铜"
+op mul 铅分配数 T3铅系数 可抓单位数
+op mul 铅分配数 铅分配数 挖铅
+op floor 铅分配数 铅分配数 可抓单位数
+write 铅分配数 processor1 "quasar铅"
+op mul 钛分配数 T3钛系数 可抓单位数
+op mul 钛分配数 钛分配数 挖钛
+op floor 钛分配数 钛分配数 可抓单位数
+write 钛分配数 processor1 "quasar钛"
+op mul 沙分配数 T3沙系数 可抓单位数
+op mul 沙分配数 沙分配数 挖沙
+op floor 沙分配数 沙分配数 可抓单位数
+write 沙分配数 processor1 "quasar沙"
+op mul 煤分配数 T3煤系数 可抓单位数
+op mul 煤分配数 煤分配数 挖煤
+op floor 煤分配数 煤分配数 可抓单位数
+write 煤分配数 processor1 "quasar煤"
+op mul 废分配数 T3废系数 可抓单位数
+op mul 废分配数 废分配数 挖废
+op floor 废分配数 废分配数 可抓单位数
+write 废分配数 processor1 "quasar废"
+op mul 铍分配数 T3铍系数 可抓单位数
+op mul 铍分配数 铍分配数 挖铍
+op floor 铍分配数 铍分配数 可抓单位数
+write 铍分配数 processor1 "quasar铍"
+jump 580 equal poly 0
+read 可抓单位数 processor1 "poly"
+op mul 铜分配数 T2铜系数 可抓单位数
+op mul 铜分配数 铜分配数 挖铜
+op floor 铜分配数 铜分配数 可抓单位数
+write 铜分配数 processor1 "poly铜"
+op mul 铅分配数 T2铅系数 可抓单位数
+op mul 铅分配数 铅分配数 挖铅
+op floor 铅分配数 铅分配数 可抓单位数
+write 铅分配数 processor1 "poly铅"
+op mul 沙分配数 T2沙系数 可抓单位数
+op mul 沙分配数 沙分配数 挖沙
+op floor 沙分配数 沙分配数 可抓单位数
+write 沙分配数 processor1 "poly沙"
+op mul 煤分配数 T2煤系数 可抓单位数
+op mul 煤分配数 煤分配数 挖煤
+op floor 煤分配数 煤分配数 可抓单位数
+write 煤分配数 processor1 "poly煤"
+op mul 废分配数 T2废系数 可抓单位数
+op mul 废分配数 废分配数 挖废
+op floor 废分配数 废分配数 可抓单位数
+write 废分配数 processor1 "poly废"
+jump 602 equal pulsar 0
+read 可抓单位数 processor1 "pulsar"
+op mul 铜分配数 T2铜系数 可抓单位数
+op mul 铜分配数 铜分配数 挖铜
+op floor 铜分配数 铜分配数 可抓单位数
+write 铜分配数 processor1 "pulsar铜"
+op mul 铅分配数 T2铅系数 可抓单位数
+op mul 铅分配数 铅分配数 挖铅
+op floor 铅分配数 铅分配数 可抓单位数
+write 铅分配数 processor1 "pulsar铅"
+op mul 沙分配数 T2沙系数 可抓单位数
+op mul 沙分配数 沙分配数 挖沙
+op floor 沙分配数 沙分配数 可抓单位数
+write 沙分配数 processor1 "pulsar沙"
+op mul 煤分配数 T2煤系数 可抓单位数
+op mul 煤分配数 煤分配数 挖煤
+op floor 煤分配数 煤分配数 可抓单位数
+write 煤分配数 processor1 "pulsar煤"
+op mul 废分配数 T2废系数 可抓单位数
+op mul 废分配数 废分配数 挖废
+op floor 废分配数 废分配数 可抓单位数
+write 废分配数 processor1 "pulsar废"
+jump 620 equal mono 0
+read 可抓单位数 processor1 "mono"
+op mul 铜分配数 T1铜系数 可抓单位数
+op mul 铜分配数 铜分配数 挖铜
+op floor 铜分配数 铜分配数 可抓单位数
+write 铜分配数 processor1 "mono铜"
+op mul 铅分配数 T1铅系数 可抓单位数
+op mul 铅分配数 铅分配数 挖铅
+op floor 铅分配数 铅分配数 可抓单位数
+write 铅分配数 processor1 "mono铅"
+op mul 沙分配数 T1沙系数 可抓单位数
+op mul 沙分配数 沙分配数 挖沙
+op floor 沙分配数 沙分配数 可抓单位数
+write 沙分配数 processor1 "mono沙"
+op mul 废分配数 T1废系数 可抓单位数
+op mul 废分配数 废分配数 挖废
+op floor 废分配数 废分配数 可抓单位数
+write 废分配数 processor1 "mono废"
+set t0 @time
+write 1 processor1 "!stop2"
+end
+```
+
+---
+
+## 信息打印核完整代码
+
+```
+set title ""
+print "{0}{0}[sky]单位挖矿逻辑{0}{0}[white]\nby [scarlet]a[][lime]a[][blue]a[] & [cyan]123[][gray]xFG[]\nv0.4测试中\nE核挖煤沙适配\n\n[accent]单位均摊处理，充分利用算力\n分配挖矿，同时挖多种矿物[]\n\n开关选单位，分类器选物品\n若分配逻辑刷新速度过慢可换超核\n每挖矿逻辑上限260单位\n\n[accent]拓展逻辑[]\n复制下方中核，用上方中核链接新造的逻辑块\n或\n建造新的逻辑块，复制粘贴下方中核的代码到新造的逻辑，用上方中核链接"
+set i 0
+op add ri i offset
+op mod ri ri 6
+read char title ri
+jump 10 equal char 59406
+jump 12 equal char 59501
+format "[orange]"
+jump 14 always x false
+format "[#8982edff]"
+jump 14 always x false
+format "[acid]"
+jump 14 always x false
+op add i i 1
+jump 3 lessThan i 4
+op add offset offset 1
+op mod offset offset 6
+printflush message1
+print "{0}\n\n{0}\n\n{0}\n\n{0}\n\n{0}\n总{0}\n           开关对应\n           实际控制数量\n\n挖矿逻辑数量：{0}\n平均控制数量：{0}\n模式：{0}\n      {0}\n"
+read monoEn processor1 "mono"
+jump 25 equal monoEn 0
+read monoNum processor2 "mono"
+format monoNum
+jump 27 always x false
+format "[scarlet][]"
+set monoNum 0
+read polyEn processor1 "poly"
+jump 32 equal polyEn 0
+read polyNum processor2 "poly"
+format polyNum
+jump 34 always x false
+format "[scarlet][]"
+set polyNum 0
+read megaEn processor1 "mega"
+jump 39 equal megaEn 0
+read megaNum processor2 "mega"
+format megaNum
+jump 41 always x false
+format "[scarlet][]"
+set megaNum 0
+read pulsarEn processor1 "pulsar"
+jump 46 equal pulsarEn 0
+read pulsarNum processor2 "pulsar"
+format pulsarNum
+jump 48 always x false
+format "[scarlet][]"
+set pulsarNum 0
+read quasarEn processor1 "quasar"
+jump 53 equal quasarEn 0
+read quasarNum processor2 "quasar"
+format quasarNum
+jump 55 always x false
+format "[scarlet][]"
+set quasarNum 0
+op add totalUnitN monoNum polyNum
+op add totalUnitN totalUnitN megaNum
+op add totalUnitN totalUnitN pulsarNum
+op add totalUnitN totalUnitN quasarNum
+format totalUnitN
+read links processor2 "links"
+format links
+op div average totalUnitN links
+op idiv average average 0.01
+op mul average average 0.01
+format average
+read forceMode processor2 "forceMode"
+jump 70 notEqual forceMode 0
+format "自动"
+jump 71 always x false
+format "强制"
+read eCore processor2 "eCore"
+jump 75 notEqual eCore 0
+format "不兼容E核煤沙"
+jump 76 always x false
+format "兼容E核煤沙"
+read refreshTime processor2 "refreshTime"
+jump 80 notEqual refreshTime null
+print "分配逻辑未刷新过\n\n"
+jump 84 always x false
+print "分配逻辑刷新在{0}s前\n\n"
+op sub diffTime @second refreshTime
+op floor diffTime diffTime refreshTime
+format diffTime
+print "{2}\n{0}{1} / {2}%\n{0}{1} / {2}%\n{0}{1} / {2}%\n{0}{1} / {2}%\n{0}{1} / {2}%\n{0}{1} / {2}%\n{0}{1} / {2}%"
+read 铜矿 processor1 "铜矿"
+jump 89 notEqual 铜矿 0
+format "[scarlet][]"
+jump 90 always x false
+format ""
+read 铅矿 processor1 "铅矿"
+jump 94 notEqual 铅矿 0
+format "[scarlet][]"
+jump 95 always x false
+format ""
+read 钛矿 processor1 "钛矿"
+jump 99 notEqual 钛矿 0
+format "[scarlet][]"
+jump 100 always x false
+format ""
+read 沙矿 processor1 "沙矿"
+jump 104 notEqual 沙矿 0
+format "[scarlet][]"
+jump 105 always x false
+format ""
+read 煤矿 processor1 "煤矿"
+jump 109 notEqual 煤矿 0
+format "[scarlet][]"
+jump 110 always x false
+format ""
+read 废矿 processor1 "废矿"
+jump 114 notEqual 废矿 0
+format "[scarlet][]"
+jump 115 always x false
+format ""
+read 铍矿 processor1 "铍矿"
+jump 119 notEqual 废矿 0
+format "[scarlet][]"
+jump 120 always x false
+format ""
+read 铜 processor1 "铜"
+format 铜
+read 铅 processor1 "铅"
+format 铅
+read 钛 processor1 "钛"
+format 钛
+read 沙 processor1 "沙"
+format 沙
+read 煤 processor1 "煤"
+format 煤
+read 废 processor1 "废"
+format 废
+read 铍 processor1 "铍"
+format 铍
+read coreItemCap processor1 "coreItemCap"
+format coreItemCap
+op div coreItemCap coreItemCap 1000
+op idiv 铜ratio 铜 coreItemCap
+op div 铜ratio 铜ratio 10
+format 铜ratio
+op idiv 铅ratio 铅 coreItemCap
+op div 铅ratio 铅ratio 10
+format 铅ratio
+op idiv 钛ratio 钛 coreItemCap
+op div 钛ratio 钛ratio 10
+format 钛ratio
+op idiv 沙ratio 沙 coreItemCap
+op div 沙ratio 沙ratio 10
+format 沙ratio
+op idiv 煤ratio 煤 coreItemCap
+op div 煤ratio 煤ratio 10
+format 煤ratio
+op idiv 废ratio 废 coreItemCap
+op div 废ratio 废ratio 10
+format 废ratio
+op idiv 铍ratio 铍 coreItemCap
+op div 铍ratio 铍ratio 10
+format 铍ratio
+read hasVoidProcessor processor2 "hasVoidProcessor"
+jump 174 equal hasVoidProcessor 0
+read voidProcessor processor2 "voidProcessor"
+jump 169 notEqual voidProcessor null
+print "\n\n[scarlet]错误[]\n({0},{0})处的分配逻辑未链接挖矿逻辑"
+sensor processor2X processor2 @x
+sensor processor2Y processor2 @y
+format processor2X
+format processor2Y
+printflush message2
+end
+sensor voidProcessorX voidProcessor @x
+sensor voidProcessorY voidProcessor @y
+print "\n\n[scarlet]错误[]\n({0},{0})处的挖矿逻辑为无效挖矿逻辑"
+format voidProcessorX
+format voidProcessorY
+read hasMissingStorage processor2 "hasMissingStorage"
+jump 186 equal hasMissingStorage 0
+read missingStorageCore processor2 "missingStorage"
+sensor missingStorageCoreX missingStorageCore @x
+sensor missingStorageCoreY missingStorageCore @y
+print "\n\n[scarlet]错误[]\n无法找到({0},{0})处核心的贴核容器/仓库"
+set errorRecord "\n\n[scarlet]上个错误[]({0}s)\n无法找到({0},{0})处核心的贴核容器/仓库"
+op add errorTimeRecord @second 10
+format missingStorageCoreX
+format missingStorageCoreY
+printflush message2
+end
+jump 194 strictEqual errorRecord null
+jump 194 lessThan errorTimeRecord @second
+print errorRecord
+op sub diffTime errorTimeRecord @second
+op floor diffTime diffTime @second
+format diffTime
+format missingStorageCoreX
+format missingStorageCoreY
+printflush message2
+```
+
+---
+
+## 分配核完整代码
+
+```
+print "▼0 -> 自动判断 是否兼容e核煤沙/1 -> 强制不兼容/2 -> 强制兼容▼"
+set forceMode 2
+set stop1 1
+jump 3 equal stop1 1
+jump 9 equal monoEn 0
+set countUT @mono
+set firstUnitV "firstMono"
+op add _countReturn @counter 1
+jump 30 always x false
+jump 14 equal polyEn 0
+set countUT @poly
+set firstUnitV "firstPoly"
+op add _countReturn @counter 1
+jump 30 always x false
+jump 19 equal megaEn 0
+set countUT @mega
+set firstUnitV "firstMega"
+op add _countReturn @counter 1
+jump 30 always x false
+jump 24 equal pulsarEn 0
+set countUT @pulsar
+set firstUnitV "firstPulsar"
+op add _countReturn @counter 1
+jump 30 always x false
+jump 52 equal quasarEn 0
+set countUT @quasar
+set firstUnitV "firstQuasar"
+op add _countReturn @counter 1
+jump 30 always x false
+jump 52 always x false
+set firstUnit null
+ubind countUT
+sensor dead firstUnit @dead
+jump 38 equal dead 0
+set countUN 0
+jump 47 strictEqual @unit null
+set firstUnit @unit
+jump 39 always x false
+jump 47 equal @unit firstUnit
+sensor ctd @unit @controlled
+jump 44 equal ctd 0
+jump 31 notEqual ctd 1
+sensor flag @unit @flag
+jump 31 notEqual flag 0
+ucontrol flag %FFFFFFFF 0 0 0 0
+op add countUN countUN 1
+jump 31 always firstUnit @unit
+sensor countUTN countUT @name
+write countUN @this countUTN
+write firstUnit @this firstUnitV
+set @counter _countReturn
+end
+jump 4 equal !stop2 0
+set links @links
+jump 57 notEqual eCore 1
+set loopEnd 64
+jump 58 always x false
+set loopEnd 0
+set hasVoidProcessor_private 0
+set hasMissingStorage_private 0
+set processorI 0
+getlink processor processorI
+write loopEnd processor "loopEnd"
+jump 65 equal switchOffUnit 0
+write 52 processor "@counter"
+jump 72 equal hasVoidProcessor_private 1
+set check null
+read check processor "readerI"
+jump 70 strictEqual check null
+jump 72 always check null
+set voidProcessor processor
+set hasVoidProcessor_private 1
+jump 80 equal eCore 0
+jump 80 equal hasMissingStorage_private 1
+read hasMissingStorage_private? processor "hasMissingStorage"
+read missingStorage processor "missingStorage"
+sensor missingStorageCoreType missingStorage @type
+sensor missingStorageCoreTypeId missingStorageCoreType @id
+jump 80 lessThanEq missingStorageCoreTypeId 92
+set hasMissingStorage_private hasMissingStorage_private?
+op add processorI processorI 1
+jump 61 lessThan processorI @links
+set hasVoidProcessor hasVoidProcessor_private
+set hasMissingStorage hasMissingStorage_private
+set switchOffUnit 0
+set writerI 0
+jump 142 equal monoEn 0
+set unitNum 0
+set firstMono null
+jump 94 equal mono铜 0
+set item @copper
+set bindNum mono铜
+op add _return @counter 1
+jump 113 always x false
+jump 99 equal mono铅 0
+set item @lead
+set bindNum mono铅
+op add _return @counter 1
+jump 113 always x false
+jump 104 equal mono沙 0
+set item @sand
+set bindNum mono沙
+op add _return @counter 1
+jump 113 always x false
+jump 109 equal mono废 0
+set item @scrap
+set bindNum mono废
+op add _return @counter 1
+jump 113 always x false
+set bindNum 999999
+op add _return @counter 1
+jump 115 always x false
+jump 141 always x false
+sensor itemId item @id
+op mul flagSet itemId 1
+op add writerEnd writerI bindNum
+ubind @mono
+sensor dead firstMono @dead
+jump 123 equal dead 0
+set unitNum 0
+jump 141 strictEqual @unit null
+set firstMono @unit
+jump 124 always x false
+jump 141 equal @unit firstMono
+sensor ctd @unit @controlled
+jump 128 equal ctd 1
+jump 130 equal ctd 0
+jump 116 always ctd 0
+sensor flag @unit @flag
+jump 116 notEqual flag 0
+op mod processorI writerI @links
+getlink processor processorI
+op idiv _ writerI @links
+lookup block _ _
+sensor _ _ @name
+write @unit processor _
+ucontrol flag flagSet 0 0 0 0
+op add unitNum unitNum 1
+op add writerI writerI 1
+jump 116 lessThan writerI writerEnd
+set @counter _return
+set mono unitNum
+jump 203 equal polyEn 0
+set unitNum 0
+set firstPoly null
+jump 150 equal poly铜 0
+set item @copper
+set bindNum poly铜
+op add _return @counter 1
+jump 174 always x false
+jump 155 equal poly铅 0
+set item @lead
+set bindNum poly铅
+op add _return @counter 1
+jump 174 always x false
+jump 160 equal poly沙 0
+set item @sand
+set bindNum poly沙
+op add _return @counter 1
+jump 174 always x false
+jump 165 equal poly煤 0
+set item @coal
+set bindNum poly煤
+op add _return @counter 1
+jump 174 always x false
+jump 170 equal poly废 0
+set item @scrap
+set bindNum poly废
+op add _return @counter 1
+jump 174 always x false
+set bindNum 999999
+op add _return @counter 1
+jump 176 always x false
+jump 202 always x false
+sensor itemId item @id
+op mul flagSet itemId 1
+op add writerEnd writerI bindNum
+ubind @poly
+sensor dead firstPoly @dead
+jump 184 equal dead 0
+set unitNum 0
+jump 202 strictEqual @unit null
+set firstPoly @unit
+jump 185 always x false
+jump 202 equal @unit firstPoly
+sensor ctd @unit @controlled
+jump 189 equal ctd 1
+jump 191 equal ctd 0
+jump 177 always ctd 0
+sensor flag @unit @flag
+jump 177 notEqual flag 0
+op mod processorI writerI @links
+getlink processor processorI
+op idiv _ writerI @links
+lookup block _ _
+sensor _ _ @name
+write @unit processor _
+ucontrol flag flagSet 0 0 0 0
+op add unitNum unitNum 1
+op add writerI writerI 1
+jump 177 lessThan writerI writerEnd
+set @counter _return
+set poly unitNum
+jump 274 equal megaEn 0
+set unitNum 0
+set firstMega null
+jump 211 equal mega铜 0
+set item @copper
+set bindNum mega铜
+op add _return @counter 1
+jump 245 always x false
+jump 216 equal mega铅 0
+set item @lead
+set bindNum mega铅
+op add _return @counter 1
+jump 245 always x false
+jump 221 equal mega钛 0
+set item @titanium
+set bindNum mega钛
+op add _return @counter 1
+jump 245 always x false
+jump 226 equal mega沙 0
+set item @sand
+set bindNum mega沙
+op add _return @counter 1
+jump 245 always x false
+jump 231 equal mega煤 0
+set item @coal
+set bindNum mega煤
+op add _return @counter 1
+jump 245 always x false
+jump 236 equal mega废 0
+set item @scrap
+set bindNum mega废
+op add _return @counter 1
+jump 245 always x false
+jump 241 equal mega铍 0
+set item @beryllium
+set bindNum mega铍
+op add _return @counter 1
+jump 245 always x false
+set bindNum 999999
+op add _return @counter 1
+jump 247 always x false
+jump 273 always x false
+sensor itemId item @id
+op mul flagSet itemId 1
+op add writerEnd writerI bindNum
+ubind @mega
+sensor dead firstMega @dead
+jump 255 equal dead 0
+set unitNum 0
+jump 273 strictEqual @unit null
+set firstMega @unit
+jump 256 always x false
+jump 273 equal @unit firstMega
+sensor ctd @unit @controlled
+jump 260 equal ctd 1
+jump 262 equal ctd 0
+jump 248 always flag 0
+sensor flag @unit @flag
+jump 248 notEqual flag 0
+op mod processorI writerI @links
+getlink processor processorI
+op idiv _ writerI @links
+lookup block _ _
+sensor _ _ @name
+write @unit processor _
+ucontrol flag flagSet 0 0 0 0
+op add unitNum unitNum 1
+op add writerI writerI 1
+jump 248 lessThan writerI writerEnd
+set @counter _return
+set mega unitNum
+jump 336 equal pulsarEn 0
+set unitNum 0
+set firstPulsar null
+jump 282 equal pulsar铜 0
+set item @copper
+set bindNum pulsar铜
+op add _return @counter 1
+jump 306 always x false
+jump 287 equal pulsar铅 0
+set item @lead
+set bindNum pulsar铅
+op add _return @counter 1
+jump 306 always x false
+jump 292 equal pulsar沙 0
+set item @sand
+set bindNum pulsar沙
+op add _return @counter 1
+jump 306 always x false
+jump 297 equal pulsar煤 0
+set item @coal
+set bindNum pulsar煤
+op add _return @counter 1
+jump 306 always x false
+jump 302 equal pulsar废 0
+set item @scrap
+set bindNum pulsar废
+op add _return @counter 1
+jump 306 always x false
+set bindNum 999999
+op add _return @counter 1
+jump 308 always x false
+jump 335 always x false
+sensor itemId item @id
+op mul flagSet itemId 1
+op add writerEnd writerI bindNum
+ubind @pulsar
+sensor dead firstPulsar @dead
+jump 316 equal dead 0
+set unitNum 0
+jump 335 strictEqual @unit null
+set firstPulsar @unit
+jump 317 always x false
+jump 335 equal @unit firstPulsar
+sensor ctd @unit @controlled
+jump 321 equal ctd 1
+jump 323 equal ctd 0
+jump 309 always ctd 0
+sensor flag @unit @flag
+jump 309 notEqual flag 0
+op mod processorI writerI @links
+getlink processor processorI
+op idiv _ writerI @links
+lookup block _ _
+sensor _ _ @name
+write @unit processor _
+ucontrol flag flagSet 0 0 0 0
+ucontrol boost 1 0 0 0 0
+op add unitNum unitNum 1
+op add writerI writerI 1
+jump 309 lessThan writerI writerEnd
+set @counter _return
+set pulsar unitNum
+jump 408 equal quasarEn 0
+set unitNum 0
+set firstQuasar null
+jump 344 equal quasar铜 0
+set item @copper
+set bindNum quasar铜
+op add _return @counter 1
+jump 378 always x false
+jump 349 equal quasar铅 0
+set item @lead
+set bindNum quasar铅
+op add _return @counter 1
+jump 378 always x false
+jump 354 equal quasar钛 0
+set item @titanium
+set bindNum quasar钛
+op add _return @counter 1
+jump 378 always x false
+jump 359 equal quasar沙 0
+set item @sand
+set bindNum quasar沙
+op add _return @counter 1
+jump 378 always x false
+jump 364 equal quasar煤 0
+set item @coal
+set bindNum quasar煤
+op add _return @counter 1
+jump 378 always x false
+jump 369 equal quasar废 0
+set item @scrap
+set bindNum quasar废
+op add _return @counter 1
+jump 378 always x false
+jump 374 equal quasar铍 0
+set item @beryllium
+set bindNum quasar铍
+op add _return @counter 1
+jump 378 always x false
+set bindNum 999999
+op add _return @counter 1
+jump 380 always x false
+jump 407 always x false
+sensor itemId item @id
+op mul flagSet itemId 1
+op add writerEnd writerI bindNum
+ubind @quasar
+sensor dead firstQuasar @dead
+jump 388 equal dead 0
+set unitNum 0
+jump 407 strictEqual @unit null
+set firstQuasar @unit
+jump 389 always x false
+jump 407 equal @unit firstQuasar
+sensor ctd @unit @controlled
+jump 393 equal ctd 1
+jump 395 equal ctd 0
+jump 381 always ctd 0
+sensor flag @unit @flag
+jump 381 notEqual flag 0
+op mod processorI writerI @links
+getlink processor processorI
+op idiv _ writerI @links
+lookup block _ _
+sensor _ _ @name
+write @unit processor _
+ucontrol flag flagSet 0 0 0 0
+ucontrol boost 1 0 0 0 0
+op add unitNum unitNum 1
+op add writerI writerI 1
+jump 381 lessThan writerI writerEnd
+set @counter _return
+set quasar unitNum
+jump 411 equal forceMode 0
+op sub eCore forceMode 1
+jump 458 always x false
+op add sandOrCoal mono沙 poly沙
+op add sandOrCoal sandOrCoal mega沙
+op add sandOrCoal sandOrCoal pulsar沙
+op add sandOrCoal sandOrCoal quasar沙
+op add sandOrCoal sandOrCoal poly煤
+op add sandOrCoal sandOrCoal mega煤
+op add sandOrCoal sandOrCoal pulsar煤
+op add sandOrCoal sandOrCoal quasar煤
+jump 422 greaterThan sandOrCoal 0
+set eCore 0
+jump 458 always sandOrCoal 0
+jump 427 equal monoEn 0
+ubind firstMono
+ulocate building core 0 @copper coreX coreY 0 core
+sensor coreT core @type
+sensor maxCoreTId coreT @id
+jump 433 equal polyEn 0
+ubind firstPoly
+ulocate building core 0 @copper coreX coreY 0 core
+sensor coreT core @type
+sensor coreTId coreT @id
+op max maxCoreTId maxCoreTId coreTId
+jump 439 equal megaEn 0
+ubind firstMega
+ulocate building core 0 @copper coreX coreY 0 core
+sensor coreT core @type
+sensor coreTId coreT @id
+op max maxCoreTId maxCoreTId coreTId
+jump 445 equal pulsarEn 0
+ubind firstPulsar
+ulocate building core 0 @copper coreX coreY 0 core
+sensor coreT core @type
+sensor coreTId coreT @id
+op max maxCoreTId maxCoreTId coreTId
+jump 451 equal quasarEn 0
+ubind firstQuasar
+ulocate building core 0 @copper coreX coreY 0 core
+sensor coreT core @type
+sensor coreTId coreT @id
+op max maxCoreTId maxCoreTId coreTId
+op greaterThan eCore? maxCoreTId 92
+jump 456 notEqual eCore? 0
+jump 456 notEqual eCore 1
+op add eCoreTimes eCoreTimes 1
+jump 458 lessThan eCoreTimes 5
+set eCoreTimes 0
+set eCore eCore?
+op add writerEnd writerI @links
+op mod processorI writerI @links
+getlink processor processorI
+op idiv _ writerI @links
+write _ processor "readerEnd"
+op add writerI writerI 1
+jump 459 lessThan writerI writerEnd
+set refreshTime @second
+jump 53 always writerI writerEnd
+end
+draw triangle mono poly mega pulsar quasar 0
+```
+
+### draw triangle 变量表说明
+
+上述分配核代码末尾的 `draw triangle mono poly mega pulsar quasar 0` 指令并非用于绘制三角形，而是利用 `draw triangle` 指令的参数来存储变量名。这些变量名（mono、poly、mega、pulsar、quasar）在逻辑中作为字符串常量使用，通过 `draw triangle` 指令保存到处理器中，后续可通过 `read` 读取。这是 Mindustry Logic 中一种特殊的变量名存储技巧。
+
+---
+
+## 主控核完整代码
+
+```
+set readerI 0
+jump 49 lessThanEq readerEnd 0
+lookup block readerT readerI
+sensor readerN readerT @name
+read unit @this readerN
+sensor flag unit @flag
+jump 20 notEqual flag 0
+ubind unit
+sensor mining @unit @mining
+jump 23 notEqual mining 1
+sensor uItN @unit @totalItems
+jump 20 greaterThan uItN 5
+op div itemId flag 1
+lookup item item itemId
+sensor uIt @unit @firstItem
+jump 20 equal uIt item
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol mine oreX oreY 0 0 0
+ucontrol move oreX oreY 0 0 0
+ucontrol itemDrop @air 9999 0 0 0
+op add readerI readerI 1
+jump 2 lessThan readerI readerEnd
+set @counter loopEnd
+sensor uItN @unit @totalItems
+jump 33 notEqual uItN 0
+op div itemId flag 1
+lookup item item itemId
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol move oreX oreY 0 0 0
+ucontrol mine oreX oreY 0 0 0
+op add readerI readerI 1
+jump 2 lessThan readerI readerEnd
+set @counter loopEnd
+jump 38 equal uItN 1
+ulocate building core 0 @copper coreX coreY coreFound core
+ucontrol within coreX coreY 7 withinCore7 0
+jump 44 notEqual withinCore7 1
+ucontrol itemDrop core 9999 0 0 0
+ucontrol itemDrop @air 9999 0 0 0
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol move oreX oreY 0 0 0
+op add readerI readerI 1
+jump 2 lessThan readerI readerEnd
+set @counter loopEnd
+ucontrol approach coreX coreY 5 0 0
+op add readerI readerI 1
+jump 2 lessThan readerI readerEnd
+set @counter loopEnd
+set readerI 0
+lookup block readerT readerI
+sensor readerN readerT @name
+read check @this readerN
+jump 54 notEqual check null
+set @counter loopEnd
+sensor flag check @flag
+jump 58 notEqual flag 0
+ubind check
+ucontrol unbind 0 0 0 0 0
+write null @this readerN
+op add readerI readerI 1
+jump 49 lessThan readerI @blockCount
+set @counter loopEnd
+end
+```
+
+---
+
+## 兼容 e 核版本完整代码
+
+```
+print "兼容e核沙煤:"
+set readerI 0
+jump 49 lessThanEq readerEnd 0
+lookup block readerT readerI
+sensor readerN readerT @name
+read unit @this readerN
+sensor flag unit @flag
+jump 110 notEqual flag 0
+ubind unit
+sensor mining @unit @mining
+jump 124 notEqual mining 1
+ulocate building core 0 @copper coreX coreY coreFound core
+ucontrol within coreX coreY 27 withinCore27 0
+jump 91 equal withinCore27 1
+sensor uItN @unit @totalItems
+jump 87 greaterThan uItN 5
+op div itemId flag 1
+lookup item item itemId
+sensor uIt @unit @firstItem
+jump 87 equal uIt item
+ulocate ore core true item oreX oreY oreFound building
+ucontrol mine oreX oreY 0 0 0
+ucontrol move oreX oreY 0 0 0
+ucontrol itemDrop @air 9999 0 0 0
+op add readerI readerI 1
+jump 66 lessThan readerI readerEnd
+set @counter loopEnd
+print "withinCore27: <core>"
+sensor uItCap @unit @itemCapacity
+op mul uItNThr uItCap 0.85
+sensor uItN @unit @totalItems
+jump 110 lessThan uItN uItNThr
+ulocate building storage 0 @copper storage?X storage?Y storageFound storage?
+sensor storage?ItCap storage? @itemCapacity
+sensor coreItCap core @itemCapacity
+jump 103 equal storage?ItCap coreItCap
+sensor hasMissingStorage storage @dead
+jump 106 equal hasMissingStorage 0
+set missingStorage core
+jump 165 always storageDead 1
+set storage storage?
+set storageX storage?X
+set storageY storage?Y
+ucontrol within storageX storageY 7 withinStorage7 0
+jump 113 equal withinStorage7 1
+ucontrol approach storageX storageY 5 0 0
+ucontrol mine -1 -1 0 0 0
+op add readerI readerI 1
+jump 66 lessThan readerI readerEnd
+set @counter loopEnd
+ucontrol itemDrop storage 9999 0 0 0
+ucontrol itemDrop @air 9999 0 0 0
+op div itemId flag 1
+lookup item item itemId
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol move oreX oreY 0 0 0
+ucontrol mine oreX oreY 0 0 0
+op add readerI readerI 1
+jump 66 lessThan readerI readerEnd
+set @counter loopEnd
+print "上->mining == 1;  下->mining == 0"
+sensor uItN @unit @totalItems
+jump 134 notEqual uItN 0
+op div itemId flag 1
+lookup item item itemId
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol move oreX oreY 0 0 0
+ucontrol mine oreX oreY 0 0 0
+op add readerI readerI 1
+jump 66 lessThan readerI readerEnd
+set @counter loopEnd
+jump 168 equal uItN 1
+ulocate building storage 0 @copper storage?X storage?Y storageFound storage?
+ulocate building core 0 @copper coreX coreY coreFound core
+sensor storage?ItCap storage? @itemCapacity
+sensor coreItCap core @itemCapacity
+jump 144 equal storage?ItCap coreItCap
+sensor hasMissingStorage storage @dead
+jump 147 equal hasMissingStorage 0
+set missingStorage core
+jump 165 always storageDead 1
+set storage storage?
+set storageX storage?X
+set storageY storage?Y
+ucontrol within storageX storageY 7 withinStorage7 0
+jump 154 equal withinStorage7 1
+ucontrol approach storageX storageY 5 0 0
+ucontrol mine -1 -1 5 0 0
+op add readerI readerI 1
+jump 66 lessThan readerI readerEnd
+set @counter loopEnd
+ucontrol itemDrop storage 9999 0 0 0
+ucontrol itemDrop @air 9999 0 0 0
+op div itemId flag 1
+lookup item item itemId
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol move oreX oreY 0 0 0
+ucontrol mine oreX oreY 0 0 0
+op add readerI readerI 1
+jump 66 lessThan readerI readerEnd
+set @counter loopEnd
+ulocate building core 0 @copper coreX coreY coreFound core
+ucontrol within coreX coreY 7 withinCore7 0
+jump 176 notEqual withinCore7 1
+ucontrol itemDrop core 9999 0 0 0
+ucontrol itemDrop @air 9999 0 0 0
+op div itemId flag 1
+lookup item item itemId
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol move oreX oreY 0 0 0
+op add readerI readerI 1
+jump 66 lessThan readerI readerEnd
+set @counter loopEnd
+ucontrol approach coreX coreY 5 0 0
+op add readerI readerI 1
+jump 66 lessThan readerI readerEnd
+set @counter loopEnd
+end
+```
+
+### draw triangle 变量表
+
+以下 `draw triangle` 指令用于存储所有建筑的变量名（即建筑名称字符串），这些变量名在逻辑中通过 `lookup block` + `sensor @name` 获取后，用于 `read` 读取处理器中存储的单位引用。`draw triangle` 在这里不是用于绘图，而是作为变量名数据的载体。
+
+```
+draw triangle graphite-press multi-press silicon-smelter silicon-crucible kiln plastanium-compressor
+draw triangle phase-weaver cryofluid-mixer pyratite-mixer blast-mixer melter separator
+draw triangle disassembler spore-press pulverizer coal-centrifuge incinerator copper-wall
+draw triangle copper-wall-large titanium-wall titanium-wall-large plastanium-wall plastanium-wall-large thorium-wall
+draw triangle thorium-wall-large phase-wall phase-wall-large surge-wall surge-wall-large door
+draw triangle door-large scrap-wall scrap-wall-large scrap-wall-huge scrap-wall-gigantic mender
+draw triangle mend-projector overdrive-projector overdrive-dome force-projector shock-mine conveyor
+draw triangle titanium-conveyor plastanium-conveyor armored-conveyor junction bridge-conveyor phase-conveyor
+draw triangle sorter inverted-sorter router distributor overflow-gate underflow-gate
+draw triangle mass-driver duct duct-router duct-bridge mechanical-pump rotary-pump
+draw triangle conduit pulse-conduit plated-conduit liquid-router liquid-tank liquid-junction
+draw triangle bridge-conduit phase-conduit power-node power-node-large surge-tower diode
+draw triangle battery battery-large combustion-generator thermal-generator steam-generator differential-generator
+draw triangle rtg-generator solar-panel solar-panel-large thorium-reactor impact-reactor mechanical-drill
+draw triangle pneumatic-drill laser-drill blast-drill water-extractor cultivator oil-extractor
+draw triangle core-shard core-foundation core-nucleus vault container unloader
+draw triangle duo scatter scorch hail wave lancer
+draw triangle arc parallax swarmer salvo segment tsunami
+draw triangle fuse ripple cyclone foreshadow spectre meltdown
+draw triangle command-center ground-factory air-factory naval-factory additive-reconstructor multiplicative-reconstructor
+draw triangle exponential-reconstructor tetrative-reconstructor repair-point repair-turret payload-conveyor payload-router
+draw triangle power-source power-void item-source item-void liquid-source liquid-void
+draw triangle payload-void payload-source illuminator launch-pad interplanetary-accelerator message
+draw triangle switch micro-processor logic-processor hyper-processor memory-cell memory-bank
+draw triangle logic-display large-logic-display liquid-container deconstructor constructor thruster
+draw triangle large-constructor payload-loader payload-unloader silicon-arc-furnace cliff-crusher plasma-bore
+draw triangle reinforced-liquid-junction breach core-bastion turbine-condenser beam-node beam-tower
+draw triangle build-tower impact-drill carbide-crucible surge-conveyor duct-unloader surge-router
+draw triangle reinforced-conduit reinforced-liquid-router reinforced-liquid-container reinforced-liquid-tank reinforced-bridge-conduit core-citadel
+draw triangle core-acropolis heat-reactor impulse-pump reinforced-pump electrolyzer oxidation-chamber
+draw triangle surge-smelter surge-crucible overflow-duct large-plasma-bore cyanogen-synthesizer slag-centrifuge
+draw triangle electric-heater slag-incinerator phase-synthesizer sublimate reinforced-container reinforced-vault
+draw triangle atmospheric-concentrator unit-cargo-loader unit-cargo-unload-point chemical-combustion-chamber pyrolysis-generator regen-projector
+draw triangle titan small-deconstructor vent-condenser phase-heater heat-redirector tungsten-wall
+draw triangle tungsten-wall-large tank-assembler beryllium-wall beryllium-wall-large eruption-drill ship-assembler
+draw triangle mech-assembler shield-projector beam-link world-processor reinforced-payload-conveyor reinforced-payload-router
+draw triangle disperse large-shield-projector payload-mass-driver world-cell carbide-wall carbide-wall-large
+draw triangle tank-fabricator mech-fabricator ship-fabricator reinforced-surge-wall radar blast-door
+draw triangle canvas armored-duct unit-repair-tower diffuse prime-refabricator basic-assembler-module
+draw triangle reinforced-surge-wall-large tank-refabricator mech-refabricator ship-refabricator slag-heater afflict
+draw triangle shielded-wall lustre scathe smite underflow-duct malign
+draw triangle shockwave-tower heat-source flux-reactor neoplasia-reactor heat-router large-payload-mass-driver
+draw triangle reinforced-message world-message world-switch small-heat-redirector large-cliff-crusher advanced-launch-pad
+draw triangle landing-pad 0 0 0 0 0
+```
+
+---
+
+## 运行原理分析
+
+### 一、系统总览与处理器间通信架构
+
+整个系统由四个核心处理器协作运行，通过 `processor1`（内存建筑）作为共享数据总线进行通信。数据流向如下：
+
+```
+开关/分类器 → 设置核 → processor1(内存) → 分配核 → 各主控核
+                  ↑                              ↓
+                  └── stop1 自旋等待 ←──────────┘
+打印核 ← processor1 + processor2(分配核自身)
+```
+
+**设置核写入 processor1 的变量清单**：
+
+| 变量名 | 含义 | 写入方 |
+|--------|------|--------|
+| `monoEn`/`polyEn`/`megaEn`/`pulsarEn`/`quasarEn` | 各单位类型的开关状态（0/1） | 设置核 |
+| `switchChanged` | 开关是否变化（1=变化） | 设置核 |
+| `stop1` | 设置核自旋锁标志（0=等待，-1=释放） | 分配核写0，设置核写-1 |
+| `!stop2` | 分配核启动标志（1=启动） | 设置核 |
+| `coreItCap` | 核心物品容量 | 设置核 |
+| `铜矿`/`铅矿`/`钛矿`/`沙矿`/`煤矿`/`废矿`/`铍矿` | 矿物是否存在（0/1） | 设置核 |
+| `铜`/`铅`/`钛`/`沙`/`煤`/`废`/`铍` | 核心内各矿物当前数量 | 设置核 |
+| `mega铜`/`mega铅`/... | 各单位类型各矿物的分配数量 | 设置核 |
+| `firstMono`/`firstPoly`/... | 各单位类型的首单位引用 | 分配核写入，设置核读取 |
+
+**分配核写入各主控核的变量清单**：
+
+| 变量名 | 含义 |
+|--------|------|
+| `loopEnd` | 主控核循环跳转目标（0=普通模式，64=E核模式） |
+| `readerEnd` | 该主控核管理的单位数量 |
+| 各建筑名（如 `conveyor`、`sorter` 等） | 存储单位引用，以建筑名称字符串作为变量键 |
+
+通信时序：分配核将 `stop1` 置为 0 后，设置核进入自旋等待；设置核完成算法计算后，将 `stop1` 置为 -1 并设置 `!stop2`，释放分配核执行。这构成了一个生产者-消费者的握手协议。
+
+---
+
+### 二、设置核运行原理
+
+#### 2.1 开关检测与自旋等待机制
+
+设置核的首要任务是读取 5 个开关的状态并检测变化。对每个开关，执行以下逻辑（以 mono 为例）：
+
+```
+sensor mono switch1 @enabled     ## 读取开关状态
+write mono processor1 "monoEn"   ## 写入内存供其他核读取
+jump 5 equal mono lastMono       ## 若状态未变，跳过写入 switchChanged
+write 1 processor1 "switchChanged"  ## 状态变化时标记
+```
+
+五个开关检测完毕后，进入自旋等待：
+
+```
+read stop1 processor1 "stop1"    ## 读取停止标志
+jump 1 equal stop1 0             ## 若 stop1==0，跳回开关检测
+```
+
+当 `stop1 == 0` 时，设置核反复读取开关状态并写入 processor1，但不执行后续算法。这个自旋循环确保设置核持续更新开关状态，直到分配核将 `stop1` 设为非 0 值。
+
+退出自旋后，设置核保存当前开关状态为 `lastXxx`（用于下次变化检测），然后将 `stop1` 写为 -1（重置标志，防止下一轮误触发）。
+
+#### 2.2 首单位绑定与核心容量探测
+
+退出自旋后，设置核需要找到一个存活的单位来 `ubind`，以便通过该单位 `ulocate` 定位核心。查找逻辑按 mono → poly → mega → pulsar → quasar 的优先级顺序，依次检查各已启用单位类型的 `firstXxx` 首单位引用是否死亡：
+
+```
+jump 33 equal mono 0             ## mono 未启用则跳过
+read 一二三 processor1 "firstMono" ## 读取首单位引用
+sensor dead 一二三 @dead           ## 检查是否死亡
+jump 49 equal dead 0              ## 未死亡则跳转到 ubind
+```
+
+若所有已启用类型的首单位均已死亡（或不存在），则跳回指令 1（重新进入自旋等待）。找到存活单位后执行：
+
+```
+ubind 一二三
+ulocate building core 0 @copper outx outy found 核心
+sensor 核心上限 核心 @itemCapacity
+write 核心上限 processor1 "coreItCap"
+```
+
+这里通过绑定一个有效单位来执行 `ulocate building core`，因为 `ulocate` 需要绑定单位才能工作（会触发 `checkLogicAI`）。核心容量写入 processor1 供打印核显示。
+
+随后执行 7 条 `ulocate ore` 探测地图上各矿物是否存在：
+
+```
+ulocate ore core 0 @copper outx outy 铜矿 hx
+```
+
+`found` 输出（铜矿）为 1 表示存在该矿物矿脉，为 0 表示不存在。`hx`（建筑输出）被反复覆盖，不实际使用。
+
+#### 2.3 分类器打表的位运算原理
+
+分类器打表是系统中最精巧的位运算设计。其目标是：扫描所有链接的分类器（sorter），检查每个分类器配置的矿物是否属于可挖掘的 7 种矿物，然后用一个位掩码记录所有被选中的矿物。
+
+**第一步：矿物有效性检测**
+
+使用一个预编码的位掩码常量 `0b10000000101110011` 来判断矿物是否属于可挖掘集合。该掩码的各比特位对应矿物的 `@id`：
+
+| 比特位 | 矿物 | @id |
+|--------|------|-----|
+| bit 0 | copper（铜） | 0 |
+| bit 1 | lead（铅） | 1 |
+| bit 4 | sand（沙） | 4 |
+| bit 5 | coal（煤炭） | 5 |
+| bit 6 | titanium（钛） | 6 |
+| bit 8 | scrap（废料） | 8 |
+| bit 16 | beryllium（铍） | 16 |
+
+检测算法：
+
+```
+sensor 矿 sorter @config              ## 读取分类器配置的物品
+jump 72 equal 矿 nulll                 ## 未配置物品则跳过
+sensor 矿id 矿 @id                     ## 获取物品 ID
+op shr 检查 0b10000000101110011 矿id   ## 将掩码右移 矿id 位
+op mod 检查 检查 2                      ## 取最低位（mod 2）
+jump 72 notEqual 检查 1                 ## 若该位不为 1，跳过（非可挖掘矿物）
+```
+
+核心原理：`shr(mask, id)` 将掩码右移 `id` 位，使目标比特移到最低位；`mod 2` 提取最低位。若结果为 1，说明该矿物在掩码中对应位已设置，是可挖掘矿物。
+
+**第二步：构建选中矿物位图**
+
+```
+op shl c 1 矿id                        ## c = 1 << 矿id
+op add 分类器打表 分类器打表 c           ## 累加到位图
+```
+
+遍历所有链接的分类器后，`分类器打表` 是一个位掩码，其中每个置位代表一种被选中的可挖掘矿物。
+
+**第三步：提取单矿物标志**
+
+```
+op shr 铜表 分类器打表 0    ## 铜表 = 分类器打表 >> 0
+op shr 铅表 分类器打表 1    ## 铅表 = 分类器打表 >> 1
+op shr 钛表 分类器打表 6    ## 钛表 = 分类器打表 >> 6
+...
+```
+
+随后通过 `op and 挖铜 铜矿 铜表` 将矿物存在标志（0/1）与分类器选中标志（右移后的值）做按位与。由于 `铜矿` 只能是 0 或 1，按位与的结果非零当且仅当：矿物存在 AND 分类器选中了该矿物。这等效于提取分类器打表中对应比特位的值。
+
+#### 2.4 帧率控制机制（6.5 秒周期）
+
+设置核的权重算法不需要每帧执行，因此使用时间差控制执行频率：
+
+```
+op sub dt @time t0          ## dt = 当前时间 - 上次记录时间
+op abs dt dt t0             ## dt = abs(dt)（防止 @time 回绕）
+jump 139 greaterThan dt 6500  ## 若 dt > 6500ms，执行算法
+end                          ## 否则结束，下一帧重新检查
+```
+
+算法执行完毕后在末尾保存时间戳：
+
+```
+set t0 @time                 ## 记录本次执行时间
+```
+
+`@time` 是游戏全局时间（毫秒），`end` 指令将程序计数器重置为 0，下一帧从头开始执行。由于开关检测和自旋等待在时间检查之前，开关状态每帧都会更新，但权重算法大约每 6.5 秒才执行一次。`op abs` 用于防止 `@time` 在极端情况下回绕导致负值。
+
+#### 2.5 权重算法——预期值计算
+
+权重算法的核心目标是为每种矿物计算一个"预期值"（预期存量），该值越低表示该矿物越短缺，需要分配更多单位去挖。
+
+以铜为例（每种矿物逻辑相同）：
+
+```
+op add 铜 1 铜                    ## 铜 += 1（帧计数器，每周期 +1）
+op sub a铜 铜 铜0                  ## a铜 = 铜 - 铜0（与上次的变化量）
+op mul a铜 a铜 加速权重             ## a铜 *= 0.8（加速权重）
+op mul 预期铜 铜 基础权重           ## 预期铜 = 铜 * 0.08（基础预期）
+op add 预期铜 预期铜 a铜            ## 预期铜 += a铜（加入趋势项）
+```
+
+这里 `铜` 是一个递增的帧计数器（每次执行权重算法时 +1），而不是核心内的实际铜数量。`铜0` 是上一次执行时的计数值。`a铜` 是两周期之间的变化量，乘以加速权重 0.8 后作为趋势预测项加入预期值。
+
+预期值的含义：`预期 = 帧数 * 0.08 + 变化量 * 0.8`。如果某矿物的计数器增长缓慢（核心内矿物储备增长慢），预期值就低，表示该矿物短缺。
+
+随后进行钳制：
+
+```
+jump 147 greaterThanEq 预期铜 1    ## 下限：不低于 1
+set 预期铜 1
+jump 149 lessThanEq 预期铜 预期上限  ## 上限：不超过 预期上限
+set 预期铜 预期上限
+op add 预期铜 预期铜 敏感度钝化       ## 加入钝化常数
+```
+
+`预期上限 = 核心容量 * 0.08`，是预期值的最大可能值。`敏感度钝化` 是一个正则化项，防止预期值过小导致逆平方爆炸：
+
+```
+op div 敏感度钝化 核心上限 2.56      ## 核心容量 / 2.56
+op mul 敏感度钝化 敏感度钝化 基础权重  ## * 0.08 = 核心容量 * 0.03125
+jump 135 lessThan 敏感度钝化 750     ## 上限钳制为 750
+set 敏感度钝化 750
+```
+
+`敏感度钝化 = min(核心容量 * 0.03125, 750)`。对于 3000 容量的核心，钝化值约 93.75；对于 30000 容量的核心，钝化值被钳制为 750。这个值加到所有预期值上，确保即使某矿物完全短缺，其预期值也不会接近 0，从而避免逆平方分子趋向无穷大。
+
+#### 2.6 权重算法——逆平方分子
+
+分子计算是均衡挖矿的核心数学设计：
+
+```
+op div 铜分子 1 预期铜     ## 铜分子 = 1 / 预期铜
+op pow 铜分子 铜分子 2     ## 铜分子 = (1/预期铜)^2
+op add T3总分母 T3总分母 铜分子  ## 累加到总分母
+```
+
+分子 = `(1/预期值)^2`，这是一个逆平方关系。预期值越低（矿物越短缺），分子越大，在总分母中的占比越高，最终获得的单位分配权重越大。平方运算放大了短缺矿物与充足矿物之间的差距，使系统对短缺更敏感。
+
+例如：若铜的预期值为 10，铅的预期值为 100，则铜分子 = 0.01，铅分子 = 0.0001，铜的权重是铅的 100 倍。这种非线性关系确保严重短缺的矿物能迅速获得大量单位。
+
+#### 2.7 权重算法——三级分层（T3/T2/T1）
+
+系统将单位按能力分为三个层级，每个层级独立维护一套系数：
+
+| 层级 | 单位 | 可挖矿物 |
+|------|------|----------|
+| T3 | mega（巨像）、quasar（耀星） | 铜、铅、钛、沙、煤炭、废料、铍（全部 7 种） |
+| T2 | poly（幻型）、pulsar（恒星） | 铜、铅、沙、煤炭、废料（5 种，无钛和铍） |
+| T1 | mono（独影） | 铜、铅、沙、废料（4 种，无钛、煤炭、铍） |
+
+分层的原因是不同单位能挖掘的矿物种类不同（mono 无法挖煤炭和钛，poly 无法挖钛和铍等），因此需要为每个层级独立计算权重分配。
+
+**最短缺矿物追踪**：
+
+对每个层级，系统追踪该层级所有可挖矿物中计数器最小的那个（即最短缺的矿物）：
+
+```
+op min T3min T3min 铜      ## T3min = min(T3min, 铜)
+jump 155 notEqual T3min 铜  ## 若铜不是当前最小，跳过
+set T3写入e 9999900         ## 记录最短缺矿物的 ID（9999900 + itemID）
+```
+
+`T3写入e`、`T2写入e`、`T1写入e` 存储了各层级最短缺矿物的标识（编码格式为 `9999900 + 物品ID`，如 9999900=铜、9999901=铅、9999904=沙、9999905=煤、9999906=钛、9999908=废料、9999916=铍）。
+
+**保底机制**：
+
+在钛矿处理之后（T3min 已确定），有一个保底检查：
+
+```
+jump 214 greaterThanEq T3min 保底   ## 若 T3min >= 保底，跳过
+set T3沙系数 0.01                    ## 将非优先矿物系数降至极低
+set T3煤系数 0.01
+set T3废系数 0.01
+set T3铍系数 0.01
+```
+
+`保底` 变量默认为 0，当 `T3min >= 0` 时条件恒成立，因此该机制在默认配置下不触发。这是一个可配置的保底阈值：若用户将 `保底` 设为某个正数，当最短缺矿物的计数器低于该阈值时，非优先矿物（沙、煤炭、废料、铍）的系数会被强制设为 0.01（近乎为零），使单位集中力量挖掘最短缺的基础矿物。
+
+#### 2.8 权重算法——系数平滑更新
+
+系数平滑更新是防止分配比例在周期间剧烈波动的关键机制。算法分为两个阶段。
+
+**阶段一：计算分配系数**
+
+对每种矿物和每个层级：
+
+```
+op div T3铜分配系数 铜分子 T3总分母       ## 分配系数 = 分子 / 总分母
+op mul T3铜分配系数 T3铜分配系数 T3铜系数  ## 乘以当前系数
+op add T3分配系数分母 T3分配系数分母 T3铜分配系数  ## 累加
+op add 系数T3总分母 系数T3总分母 T3铜系数  ## 累加原始系数
+```
+
+分配系数 = `(分子 / 总分母) * 当前系数`，反映的是"在当前系数加权下，该矿物应占的比例"。`分配系数分母` 是所有矿物分配系数之和，`系数总分母` 是所有矿物当前系数之和。
+
+另外有系数下限保护：
+
+```
+jump 324 greaterThan T3铜系数 0.01   ## 若系数 > 0.01，跳过
+set T3铜系数 0.01                     ## 系数下限 0.01
+```
+
+防止任何矿物的系数降至 0 后无法恢复。
+
+所有矿物累加完毕后，对分配系数分母取逆：
+
+```
+op div T3分配系数分母 取出比例 T3分配系数分母  ## = 0.5 / sum(分配系数)
+```
+
+**阶段二：平滑更新系数**
+
+对每种矿物和每个层级：
+
+```
+op mul T3铜系数0 T3铜分配系数 T3分配系数分母  ## 新贡献 = 分配系数 * (0.5 / sum)
+op mul T3铜系数 T3铜系数 剩余比例              ## 旧系数 *= 0.5
+op add T3铜系数 T3铜系数 T3铜系数0              ## 新系数 = 旧*0.5 + 新贡献
+op div T3铜系数 T3铜系数 系数T3总分母            ## 归一化
+```
+
+最终公式：`新系数 = (旧系数 * 0.5 + 分配系数 * 0.5 / sum(分配系数)) / sum(所有系数)`
+
+`取出比例 = 0.5` 和 `剩余比例 = 0.5` 构成了 50/50 的指数移动平均：每周期保留 50% 的旧值，注入 50% 的新计算值。这确保系数变化平滑，不会因为单个周期的数据波动而导致单位分配大幅跳变。最后的归一化（除以 `系数总分母`）确保所有系数之和约为 1。
+
+#### 2.9 单位分配数计算
+
+权重算法完成后，设置核根据各层级的系数计算每种单位类型应分配给各矿物的数量：
+
+```
+read 可抓单位数 processor1 "mega"     ## 读取该类型可用单位总数
+op mul 铜分配数 T3铜系数 可抓单位数    ## 系数 * 单位总数
+op mul 铜分配数 铜分配数 挖铜          ## 乘以是否挖铜（0或1）
+op floor 铜分配数 铜分配数 可抓单位数  ## 向下取整
+write 铜分配数 processor1 "mega铜"    ## 写入内存
+```
+
+`op floor` 是一元运算，第二个参数 `可抓单位数` 被忽略，仅执行 `Math.floor(铜分配数)` 向下取整，不存在钳制行为。分配数写入 processor1 后，分配核读取这些值来决定每种单位类型挖每种矿物的具体数量。
+
+不同层级的矿物集合不同：
+- mega/quasar（T3）：7 种矿物全部分配
+- poly/pulsar（T2）：铜、铅、沙、煤炭、废料（5 种）
+- mono（T1）：铜、铅、沙、废料（4 种）
+
+这反映了不同单位的挖掘能力差异。
+
+计算完毕后：
+
+```
+set t0 @time                      ## 记录时间戳（帧率控制）
+write 1 processor1 "!stop2"       ## 释放分配核
+end                               ## 重启
+```
+
+---
+
+### 三、信息打印核运行原理
+
+打印核是一个纯展示处理器，从 processor1 和 processor2（分配核自身）读取数据并格式化输出到信息板（message1）。
+
+**标题动画**：通过 `read char title ri` 逐字符读取标题字符串，使用 `op add offset offset 1` 和 `op mod offset offset 6` 循环偏移，配合 `format` 插入颜色代码（`[orange]`、`[#8982edff]`、`[acid]`），实现彩虹流动效果。每帧只处理 4 个字符（`jump 3 lessThan i 4`），通过 `offset` 的递增产生动画。
+
+**数据展示**：使用 `format` 指令将变量值填入 `print` 模板中的 `{0}` 占位符。展示内容包括：
+- 各单位类型的开关状态与实际控制数量（从 processor1 读 `monoEn` 等判断开关，从 processor2 读 `mono` 等获取实际数量）
+- 开关关闭时显示 `[scarlet][]`（红色空括号）
+- 总单位数和平均数（`op div average totalUnitN links`，配合 `op idiv`/`op mul` 实现保留两位小数）
+- 矿物存在状态和核心内数量
+- 矿物储量百分比（`op idiv 铜ratio 铜 coreItemCap` 后 `op div 铜ratio 铜ratio 10`）
+- 分配核刷新时间（`op sub diffTime @second refreshTime`）
+- 错误信息（未链接挖矿逻辑、缺少贴核容器等）
+
+错误信息使用 `printflush message2` 输出到第二块信息板，且设置了 10 秒的错误记录保留机制（`op add errorTimeRecord @second 10`），超时后清除。
+
+---
+
+### 四、分配核运行原理
+
+分配核是系统的调度中心，负责单位计数、单位分发和 E 核检测。
+
+#### 4.1 单位计数与子程序调用
+
+分配核首先使用 `@counter` 环境变量实现了子程序调用机制：
+
+```
+op add _countReturn @counter 1    ## 保存返回地址（当前指令 + 1）
+jump 30 always x false             ## 跳转到计数子程序
+```
+
+子程序末尾：
+
+```
+set @counter _countReturn          ## 恢复指令指针，实现"返回"
+end
+```
+
+`@counter` 是处理器的指令计数器（程序计数器），通过保存和恢复它实现了类似函数调用的控制流。这个技巧在分配核中被反复使用。
+
+计数子程序的逻辑：对每种已启用的单位类型，遍历该类型的所有单位：
+
+```
+ubind countUT                       ## 绑定单位类型
+sensor dead firstUnit @dead          ## 检查首单位是否死亡
+jump 38 equal dead 0                 ## 未死亡则继续计数
+set countUN 0                        ## 首单位死亡，计数归零
+jump 47 strictEqual @unit null       ## 跳到写入
+set firstUnit @unit                  ## 记录新的首单位
+...
+sensor ctd @unit @controlled         ## 读取控制状态
+jump 44 equal ctd 0                  ## 0=未被控制，可分配
+jump 31 notEqual ctd 1               ## 非1（非逻辑控制）则跳过
+sensor flag @unit @flag              ## 读取 flag
+jump 31 notEqual flag 0              ## flag!=0（已标记）则跳过
+ucontrol flag %FFFFFFFF 0 0 0 0      ## 标记为"已计数"（flag=-1）
+op add countUN countUN 1             ## 计数+1
+jump 31 always firstUnit @unit       ## 继续遍历
+```
+
+计数条件：单位的 `@controlled` 为 0（未被任何处理器控制）或为 1（被逻辑控制）且 `@flag` 为 0（未被标记）。计数时用 `ucontrol flag %FFFFFFFF` 将 flag 设为 -1（全比特置 1），防止重复计数。
+
+计数结果和首单位引用写入 processor1：
+
+```
+write countUN @this countUTN         ## 写入单位数量（如 "mono"）
+write firstUnit @this firstUnitV     ## 写入首单位引用（如 "firstMono"）
+```
+
+#### 4.2 链接验证与处理器探测
+
+计数完成后，分配核验证所有链接的处理器是否为有效的主控核：
+
+```
+set processorI 0
+getlink processor processorI
+write loopEnd processor "loopEnd"     ## 写入模式（0或64）
+jump 65 equal switchOffUnit 0         ## 若需要关闭单位，写入跳转指令
+write 52 processor "@counter"         ## 强制主控核跳转到清理指令
+```
+
+检测无效处理器（void processor）的方法是检查该处理器是否有 `readerI` 变量：
+
+```
+set check null
+read check processor "readerI"        ## 读取 readerI
+jump 70 strictEqual check null        ## 若为 null，说明这不是主控核
+jump 72 always check null             ## 否则继续
+set voidProcessor processor           ## 记录无效处理器
+set hasVoidProcessor_private 1
+```
+
+对于 E 核模式，还会检查主控核是否报告了缺少贴核容器的问题（`hasMissingStorage`）。
+
+`switchOffUnit` 机制：当开关变化时，分配核将 `switchOffUnit` 设为非 0，然后向所有链接的主控核写入 `@counter = 52`，强制它们跳转到清理代码段（unbind 所有单位并清除变量），为重新分配做准备。
+
+#### 4.3 单位分发与轮询分配
+
+单位分发是分配核最核心的功能。对每种已启用的单位类型，按矿物顺序依次分配：
+
+```
+set item @copper           ## 当前矿物
+set bindNum mono铜          ## 该矿物的分配数量
+op add _return @counter 1  ## 保存返回地址
+jump 113 always x false     ## 跳转到分发子程序
+```
+
+分发子程序的核心逻辑：
+
+```
+sensor itemId item @id              ## 获取矿物 ID
+op mul flagSet itemId 1             ## flagSet = itemId
+op add writerEnd writerI bindNum    ## 计算结束位置
+ubind @mono                         ## 绑定单位类型
+...
+op mod processorI writerI @links    ## 轮询：processorI = writerI % 链接数
+getlink processor processorI        ## 获取目标主控核
+op idiv _ writerI @links            ## _ = writerI / 链接数（槽位索引）
+lookup block _ _                    ## 查找该索引对应的建筑类型
+sensor _ _ @name                    ## 获取建筑名称字符串
+write @unit processor _             ## 用建筑名作为变量键，写入单位引用
+ucontrol flag flagSet 0 0 0 0       ## 设置单位的 flag 为矿物 ID
+op add unitNum unitNum 1
+op add writerI writerI 1
+jump 116 lessThan writerI writerEnd ## 循环直到分配完
+set @counter _return                ## 返回
+```
+
+**轮询分配机制**：`writerI` 是一个全局递增计数器，跨矿物、跨处理器连续编号。`processorI = writerI % @links` 决定单位分配到哪个主控核，`writerI / @links` 决定存储在该主控核的哪个变量槽位。这实现了类似轮询（round-robin）的均匀分配。
+
+**建筑名作为变量键**：Mindustry Logic 没有数组结构，这里巧妙地利用 `lookup block` + `sensor @name` 获取建筑名称字符串（如 `"conveyor"`、`"sorter"` 等），然后用这些字符串作为 `write`/`read` 的变量名，等效于在主控核中创建了一个以建筑名索引的"单位数组"。建筑名称列表通过 `draw triangle` 指令预存在处理器中。
+
+**flag 标记机制**：`ucontrol flag flagSet 0 0 0 0` 将单位的 `@flag` 设为矿物 ID。主控核通过 `sensor flag unit @flag` 读取此值，用 `op div itemId flag 1` 还原矿物 ID，再通过 `lookup item item itemId` 获取矿物对象。这样每个单位都知道自己应该挖什么矿。
+
+**飞行单位特殊处理**：对 pulsar 和 quasar（飞行单位），在设置 flag 后额外执行 `ucontrol boost 1 0 0 0 0` 开启飞行模式。
+
+#### 4.4 E 核自动检测
+
+系统支持三种 E 核模式：自动检测（forceMode=0）、强制不兼容（forceMode=1）、强制兼容（forceMode=2）。
+
+自动检测模式下：
+
+```
+op add sandOrCoal mono沙 poly沙       ## 统计所有沙/煤的分配数
+op add sandOrCoal sandOrCoal mega沙
+...
+jump 422 greaterThan sandOrCoal 0     ## 若有沙/煤分配，需要检测 E 核
+set eCore 0                            ## 无沙/煤分配，无需 E 核模式
+```
+
+如果有沙/煤炭分配需求，检测核心类型：
+
+```
+ubind firstMono
+ulocate building core 0 @copper coreX coreY 0 core
+sensor coreT core @type
+sensor maxCoreTId coreT @id            ## 获取核心类型 ID
+...
+op greaterThan eCore? maxCoreTId 92    ## ID > 92 则为 E 核
+```
+
+通过比较核心类型 ID 是否大于 92 来判断是否为 Erekir 阵营的核心（core-bastion 及以上）。Erekir 核心的物品接收机制与 Serpulo 不同，需要特殊的存储建筑中转。
+
+**5 次确认机制**防止检测结果抖动：
+
+```
+op add eCoreTimes eCoreTimes 1
+jump 458 lessThan eCoreTimes 5         ## 连续 5 次检测结果一致才切换
+set eCoreTimes 0
+set eCore eCore?                        ## 确认后更新 E 核模式
+```
+
+只有连续 5 个周期检测到相同结果，才会实际切换 E 核模式。这防止了核心类型在边界情况下频繁切换导致的不稳定。
+
+#### 4.5 readerEnd 写入
+
+分发完成后，分配核为每个主控核写入 `readerEnd`，告知其管理的单位数量：
+
+```
+op add writerEnd writerI @links        ## 结束位置 = 当前 + 链接数
+op mod processorI writerI @links       ## 目标处理器
+getlink processor processorI
+op idiv _ writerI @links               ## 槽位数 = writerI / 链接数
+write _ processor "readerEnd"          ## 写入
+op add writerI writerI 1
+jump 459 lessThan writerI writerEnd    ## 为每个处理器写入
+```
+
+由于轮询分配的特性，`writerI / @links` 的值在循环中递增，恰好等于每个处理器实际接收的单位数量。例如总 10 个单位分给 3 个处理器：处理器 0 得到 4 个（readerEnd=4），处理器 1 和 2 各得到 3 个（readerEnd=3）。
+
+同时设置 `refreshTime = @second` 供打印核显示刷新时间，然后跳回计数阶段开始新一轮循环。
+
+#### 4.6 draw triangle 变量表
+
+分配核和 E 核版本末尾的 `draw triangle` 指令并非用于绘图，而是利用 `draw triangle` 指令的参数来存储建筑名称字符串。Mindustry 的 `draw` 指令会将参数值存储在处理器的绘图缓存中，这些值可以被 `read` 指令读取。
+
+`draw triangle graphite-press multi-press silicon-smelter ...` 中的每个参数都是一个建筑类型名称字符串。在运行时，通过 `lookup block _ index` 获取对应索引的建筑类型，再用 `sensor _ _ @name` 获取名称字符串，作为 `write`/`read` 的变量键。这种技巧等效于在处理器中嵌入了一个字符串常量数组，弥补了 Mindustry Logic 缺少数组和字符串处理的限制。
+
+---
+
+### 五、主控核运行原理——挖矿状态机
+
+主控核是一个多状态的状态机，通过 `readerI` 遍历所有分配给它的单位，对每个单位执行挖矿控制。状态机的核心循环从指令 0 开始：
+
+```
+set readerI 0
+jump 49 lessThanEq readerEnd 0    ## 若无单位，跳转到清理
+```
+
+#### 状态 1：单位读取与绑定
+
+```
+lookup block readerT readerI       ## 获取建筑类型
+sensor readerN readerT @name       ## 获取建筑名（变量键）
+read unit @this readerN            ## 从自身读取单位引用
+sensor flag unit @flag             ## 读取 flag（矿物 ID）
+jump 20 notEqual flag 0            ## flag 非 0 说明已分配矿物
+ubind unit                         ## 绑定单位
+```
+
+若 `flag` 为 0，说明该单位未被分配矿物（可能刚被写入或上一轮清理后未重新分配），跳过不处理。若 `flag` 非 0，绑定该单位并进入挖矿逻辑。
+
+#### 状态 2：挖矿中（mining == 1）
+
+```
+sensor mining @unit @mining        ## 检查是否正在挖矿
+jump 23 notEqual mining 1          ## 非挖矿状态则跳转
+sensor uItN @unit @totalItems      ## 读取携带物品数
+jump 20 greaterThan uItN 5         ## 物品数>5，可能挖错了，继续处理
+op div itemId flag 1               ## 从 flag 还原矿物 ID
+lookup item item itemId            ## 获取矿物对象
+sensor uIt @unit @firstItem        ## 读取单位携带的第一种物品
+jump 20 equal uIt item             ## 携带的物品正确，继续挖
+ulocate ore core true item oreX oreY oreFound 0  ## 定位矿物矿脉
+ucontrol mine oreX oreY 0 0 0      ## 挖矿
+ucontrol move oreX oreY 0 0 0      ## 移动到矿脉
+ucontrol itemDrop @air 9999 0 0 0  ## 丢弃错误物品
+```
+
+当单位正在挖矿且携带物品超过 5 个时，检查携带的物品是否与分配的矿物一致。不一致则丢弃物品并重新定位矿脉。`ulocate ore core true item` 中的 `true` 表示只查找敌方/中立区域的矿脉（避免挖友方建筑内的矿物）。
+
+#### 状态 3：空载找矿（uItN == 0）
+
+```
+sensor uItN @unit @totalItems
+jump 33 notEqual uItN 0            ## 有物品则跳到卸货逻辑
+op div itemId flag 1
+lookup item item itemId
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol move oreX oreY 0 0 0      ## 移动到矿脉
+ucontrol mine oreX oreY 0 0 0      ## 开始挖矿
+```
+
+单位空载时，根据 flag 指定的矿物类型定位矿脉并移动过去挖矿。
+
+#### 状态 4：卸货（uItN != 0）
+
+```
+ulocate building core 0 @copper coreX coreY coreFound core
+ucontrol within coreX coreY 7 withinCore7 0   ## 检查是否在核心 7 格范围内
+jump 44 notEqual withinCore7 1                 ## 不在范围内，跳到接近核心
+ucontrol itemDrop core 9999 0 0 0              ## 在范围内，卸货到核心
+ucontrol itemDrop @air 9999 0 0 0              ## 清空携带标记
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol move oreX oreY 0 0 0                  ## 返回矿脉
+```
+
+若不在核心范围内：
+
+```
+ucontrol approach coreX coreY 5 0 0            ## 接近核心（速度 5）
+```
+
+`ucontrol within` 检查单位是否在指定坐标的指定半径内，返回 1 或 0。`ucontrol approach` 使单位以指定速度接近目标坐标。
+
+#### 状态 5：清理（指令 49 之后）
+
+当 `readerEnd <= 0`（无单位分配）时，跳转到清理逻辑：
+
+```
+set readerI 0
+lookup block readerT readerI
+sensor readerN readerT @name
+read check @this readerN            ## 读取变量
+jump 54 notEqual check null         ## 非 null 则继续检查
+set @counter loopEnd                ## 全部为 null，跳转
+sensor flag check @flag
+jump 58 notEqual flag 0             ## flag 非 0 说明单位仍在工作
+ubind check
+ucontrol unbind 0 0 0 0 0           ## 解绑单位
+write null @this readerN            ## 清除变量
+op add readerI readerI 1
+jump 49 lessThan readerI @blockCount  ## 遍历所有建筑名
+```
+
+清理逻辑遍历所有可能的变量槽位，对引用的单位检查 flag。若 flag 为 0（单位未被分配矿物），执行 `ucontrol unbind` 解除逻辑控制并清除变量引用。这是开关关闭后的单位释放机制。
+
+#### 循环跳转控制
+
+每个状态处理完一个单位后：
+
+```
+op add readerI readerI 1
+jump 2 lessThan readerI readerEnd   ## 继续下一个单位
+set @counter loopEnd                ## 全部处理完，跳转到 loopEnd
+```
+
+`loopEnd` 由分配核设置：普通模式为 0（跳回开头重新循环），E 核模式为 64（跳转到 E 核兼容代码段）。这使得同一个主控核可以根据 E 核检测结果切换执行不同的代码段。
+
+---
+
+### 六、E 核兼容版本关键区别
+
+E 核（Erekir 阵营核心）与普通核的关键区别在于物品接收机制：Erekir 核心不能像 Serpulo 核心那样直接接收单位投放的物品，需要通过贴核的容器/仓库（vault/container）作为中转。
+
+E 核兼容版本（从指令 64 开始）的关键区别：
+
+**1. 更大的核心检测范围**：
+
+```
+ucontrol within coreX coreY 27 withinCore27 0   ## 27 格范围（普通版为 7 格）
+```
+
+Erekir 核心的物品接收范围更大，因此检测半径从 7 格扩展到 27 格。
+
+**2. 存储建筑中转**：
+
+当单位在核心范围内但无法直接 deposit 时，查找贴核的存储建筑：
+
+```
+ulocate building storage 0 @copper storage?X storage?Y storageFound storage?
+sensor storage?ItCap storage? @itemCapacity
+sensor coreItCap core @itemCapacity
+jump 103 equal storage?ItCap coreItCap    ## 容量相同说明是核心不是仓库，继续找
+sensor hasMissingStorage storage @dead
+jump 106 equal hasMissingStorage 0         ## 存储建筑存活，使用它
+set missingStorage core                     ## 记录缺失存储的核心
+jump 165 always storageDead 1              ## 存储建筑死亡，报错
+set storage storage?
+set storageX storage?X
+set storageY storage?Y
+```
+
+通过比较 `itemCapacity` 来区分核心和存储建筑（核心和仓库的容量不同）。如果找不到存活的存储建筑，记录错误供打印核显示。
+
+**3. 85% 容量阈值**：
+
+```
+sensor uItCap @unit @itemCapacity
+op mul uItNThr uItCap 0.85
+sensor uItN @unit @totalItems
+jump 110 lessThan uItN uItNThr    ## 携带量 < 85% 容量，继续挖
+```
+
+E 核版本中，单位需要装到 85% 满才去卸货，而不是像普通版那样检测 `uItN != 0` 就卸货。这减少了频繁往返核心的次数，提高效率。
+
+**4. 双路径卸货逻辑**：
+
+E 核版本根据 `mining` 状态分两条路径处理：
+- `mining == 1`（正在挖矿）：先检查是否在核心 27 格范围内，若在则找存储建筑卸货
+- `mining == 0`（未在挖矿）：检查携带物品，若有则找存储建筑卸货，若无则找矿脉挖矿
+
+两条路径都有存储建筑查找和 `ucontrol within storageX storageY 7` 的接近检查，以及 `ucontrol approach storageX storageY 5` 的接近动作。
+
+**5. 卸货后的重置**：
+
+```
+ucontrol itemDrop storage 9999 0 0 0   ## 卸货到存储建筑
+ucontrol itemDrop @air 9999 0 0 0      ## 清空标记
+op div itemId flag 1
+lookup item item itemId
+ulocate ore core true item oreX oreY oreFound 0
+ucontrol move oreX oreY 0 0 0          ## 返回矿脉
+ucontrol mine oreX oreY 0 0 0          ## 继续挖矿
+```
+
+卸货后立即定位矿脉并返回挖掘，与普通版逻辑一致，但目标从核心改为存储建筑。
+
+---
+
+### 七、帧差与同步分析
+
+**处理器间执行顺序**：四个核心在同一 tick 内按处理器放置顺序依次执行。设置核的 `stop1` 自旋等待机制确保了设置核与分配核不会同时操作共享数据，构成了软件层面的互斥锁。
+
+**ulocate 缓存**：设置核使用 7 条 `ulocate ore` 指令探测不同矿物，由于每条指令的参数不同（矿物类型不同），40 tick 缓存不会互相干扰。但由于权重算法每 6.5 秒才执行一次，远超 40 tick 缓存周期，因此缓存不会影响结果。
+
+**ucontrol flag 无缓存**：分配核设置 flag（`ucontrol flag flagSet`）后，主控核通过 `sensor flag unit @flag` 读取，这是直接字段读写，无缓存延迟。但若分配核和主控核在同一 tick 内操作同一单位，执行顺序决定了最终读取的值。
+
+**write/read 建筑操作**：分配核通过 `write @unit processor _` 将单位引用写入主控核的内存建筑，主控核通过 `read unit @this readerN` 读取。由于 `write`/`read` 操作的是内存建筑（memory cell/bank），在多人模式下存在网络同步问题。但单位分配逻辑由服务器逻辑直接操作（`ubind`/`ucontrol` 均为服务器端执行），因此实际同步风险较低。
+
+**@counter 直接操作**：分配核使用 `write 52 processor "@counter"` 直接修改主控核的指令计数器，这在多人模式下需要确保 `write` 操作在网络同步后生效。由于分配核和主控核的执行有 `stop1` 握手协议保证时序，实际不会出现竞态条件。
+
+
+<!-- 文件: 07_实战案例\10_搬运逻辑.md -->
+
+
+---
+
+
+# 10 - 搬运逻辑
+
+## 概述
+
+这是一个比较久远的逻辑，通过控制单位向逻辑连接的建筑中自动放置物品，使用了远古的打表手段。比现在的技术手段来说效率低下，但还是有很高的研究价值。
+
+---
+
+## 远古搬运逻辑完整代码
+
+通过控制单位向建筑放置物品，使用 `jump` 对比建筑种类确定物品需求。逻辑中包含完整的建筑需求查表逻辑，通过遍历连接的建筑，根据建筑类型（兵厂、工厂、超速、修复等）查表确定所需物品及数量，然后控制单位从核心取物品并搬运到目标建筑。
+
+```
+print "小撒的搬运豆2.2.2"
+print "单位数量可选范围[1-9]"
+set 单位数量 1
+set 物品数量下限 100
+set 单位造价倍率 1
+set 建筑造价倍率 1
+ubind 首选单位
+print "首选单位会替换单位种类1"
+set 单位种类1 @flare
+set 单位种类2 @mono
+set 单位种类3 @poly
+set 单位种类4 @mega
+set 大超速特化 1
+set 搬运布特化 1
+print "2023 01 30"
+print "始于2020寒假"
+print "呜，三年了欸"
+print "现支持所有兵厂+布热+立场+超速"
+print "连接分类器/装卸器指定物品且不解绑"
+print "2.1版本优化了查表速率，现在可以控更多兵啦（来自枕头的方法"
+print "2.1版本修复了某些情况下不会运玻璃的bug"
+print "2.1.3 版本文辞优化了构筑器体验"
+print "2.1.4 版本文辞添加了建筑造价倍率和单位造价倍率"
+print "2.1.5 恢复支持超速，添加自动选单位"
+sensor 首选单位type @unit @type
+jump 27 equal 首选单位type null
+set 单位种类1 首选单位type
+set 切换单位种类时间间隔 5000
+set 常数时间 99999999999999
+set 切换单位标记位 0
+op add 切换单位种类time @time 常数时间
+op mul 指针跳转 单位种类指针 2
+op add @counter @counter 指针跳转
+set 单位type 单位种类1
+jump 40 always x false
+set 单位type 单位种类2
+jump 40 always x false
+set 单位type 单位种类3
+jump 40 always x false
+set 单位type 单位种类4
+op add 单位种类指针 单位种类指针 1
+op mod 单位种类指针 单位种类指针 4
+ubind 单位type
+sensor type @unit @type
+jump 29 equal type null
+jump 189 notEqual 初始化完成标记位 null
+set 初始化完成标记位 1
+ulocate building core 0 @copper corex corey found core
+op mul flag @thisx 1000
+op add flag @thisy flag
+op mul flag 100 flag
+op add flag1 1 flag
+op add flag2 2 flag
+op add flag3 3 flag
+op add flag4 4 flag
+op add flag5 5 flag
+op add flag6 6 flag
+op add flag7 7 flag
+op add flag8 8 flag
+op add flag9 9 flag
+set 单位循环 -1
+set 建筑循环 -1
+set 铜 @copper
+set 铅 @lead
+set 玻璃 @metaglass
+set 石墨 @graphite
+set 沙 @sand
+set 煤 @coal
+set 钛 @titanium
+set 钍 @thorium
+set 硅 @silicon
+set 塑钢 @plastanium
+set 布 @phase-fabric
+set 合金 @surge-alloy
+set 铍 @beryllium
+set 钨 @tungsten
+set 氧化铍 @oxide
+set 碳化钨 @carbide
+jump 115 greaterThan 过期时间 @time
+sensor 单位标记 xs1 @flag
+jump 83 notEqual 单位标记 flag1
+ubind xs1
+ucontrol flag 0 0 0 0 0
+sensor 单位标记 xs2 @flag
+jump 87 notEqual 单位标记 flag2
+ubind xs2
+ucontrol flag 0 0 0 0 0
+sensor 单位标记 xs3 @flag
+jump 91 notEqual 单位标记 flag3
+ubind xs3
+ucontrol flag 0 0 0 0 0
+sensor 单位标记 xs4 @flag
+jump 95 notEqual 单位标记 flag4
+ubind xs4
+ucontrol flag 0 0 0 0 0
+sensor 单位标记 xs5 @flag
+jump 99 notEqual 单位标记 flag5
+ubind xs5
+ucontrol flag 0 0 0 0 0
+sensor 单位标记 xs6 @flag
+jump 103 notEqual 单位标记 flag6
+ubind xs6
+ucontrol flag 0 0 0 0 0
+sensor 单位标记 xs7 @flag
+jump 107 notEqual 单位标记 flag7
+ubind xs7
+ucontrol flag 0 0 0 0 0
+sensor 单位标记 xs8 @flag
+jump 111 notEqual 单位标记 flag8
+ubind xs8
+ucontrol flag 0 0 0 0 0
+sensor 单位标记 xs9 @flag
+jump 115 notEqual 单位标记 flag9
+ubind xs9
+ucontrol flag 0 0 0 0 0
+op add 单位循环 单位循环 1
+op mod 单位循环 单位循环 单位数量
+op mul 单位循环跳转 单位循环 6
+op add @counter @counter 单位循环跳转
+ubind xs1
+set xsflag flag1
+set 建筑 建筑1
+set 建筑容量 建筑容量1
+set 建筑需求种类 建筑需求种类1
+jump 172 always x false
+ubind xs2
+set xsflag flag2
+set 建筑 建筑2
+set 建筑容量 建筑容量2
+set 建筑需求种类 建筑需求种类2
+jump 172 always x false
+ubind xs3
+set xsflag flag3
+set 建筑 建筑3
+set 建筑容量 建筑容量3
+set 建筑需求种类 建筑需求种类3
+jump 172 always x false
+ubind xs4
+set xsflag flag4
+set 建筑 建筑4
+set 建筑容量 建筑容量4
+set 建筑需求种类 建筑需求种类4
+jump 172 always x false
+ubind xs5
+set xsflag flag5
+set 建筑 建筑5
+set 建筑容量 建筑容量5
+set 建筑需求种类 建筑需求种类5
+jump 172 always x false
+ubind xs6
+set xsflag flag6
+set 建筑 建筑6
+set 建筑容量 建筑容量6
+set 建筑需求种类 建筑需求种类6
+jump 172 always x false
+ubind xs7
+set xsflag flag7
+set 建筑 建筑7
+set 建筑容量 建筑容量7
+set 建筑需求种类 建筑需求种类7
+jump 172 always x false
+ubind xs8
+set xsflag flag8
+set 建筑 建筑8
+set 建筑容量 建筑容量8
+set 建筑需求种类 建筑需求种类8
+jump 172 always x false
+ubind xs9
+set xsflag flag9
+set 建筑 建筑9
+set 建筑容量 建筑容量9
+set 建筑需求种类 建筑需求种类9
+jump 240 equal 建筑需求种类 0
+sensor 建筑状态 建筑 @dead
+jump 240 equal 建筑状态 1
+sensor 建筑已有物品 建筑 建筑需求种类
+op sub 建筑需求数量 建筑容量 建筑已有物品
+jump 240 lessThanEq 建筑需求数量 0
+jump 181 notEqual 建筑需求种类 @phase-fabric
+jump 181 equal 搬运布特化 0
+op sub 建筑需求数量 建筑容量 0
+op add 过期时间 @time 5000
+sensor 单位状态 @unit @dead
+jump 189 equal 单位状态 1
+sensor 单位标记 @unit @flag
+jump 221 equal 单位标记 xsflag
+jump 220 equal 单位标记 0
+sensor 单位状态 @unit @controlled
+jump 220 equal 单位状态 0
+ubind type
+jump 29 lessThan 切换单位种类time @time
+jump 194 equal 切换单位标记位 1
+op add 切换单位种类time @time 切换单位种类时间间隔
+set 切换单位标记位 1
+sensor 单位标记 @unit @flag
+jump 199 equal 单位标记 xsflag
+jump 199 equal 单位标记 0
+sensor 单位状态 @unit @controlled
+jump 78 notEqual 单位状态 0
+op mul 单位获取跳转 单位循环 2
+op add 切换单位种类time @time 常数时间
+set 切换单位标记位 0
+op add @counter @counter 单位获取跳转
+set xs1 @unit
+jump 220 always x false
+set xs2 @unit
+jump 220 always x false
+set xs3 @unit
+jump 220 always x false
+set xs4 @unit
+jump 220 always x false
+set xs5 @unit
+jump 220 always x false
+set xs6 @unit
+jump 220 always x false
+set xs7 @unit
+jump 220 always x false
+set xs8 @unit
+jump 220 always x false
+set xs9 @unit
+ucontrol flag xsflag 0 0 0 0
+sensor 单位背包数量 @unit 建筑需求种类
+jump 231 greaterThan 单位背包数量 0
+ulocate building core 0 @copper corex corey found core
+ucontrol boost 1 0 0 0 0
+ucontrol move corex corey 0 0 0
+ucontrol itemDrop core 9999 0 0 0
+ucontrol itemTake core 建筑需求种类 建筑需求数量 0 0
+sensor 单位背包数量 @unit 建筑需求种类
+jump 231 greaterThan 单位背包数量 0
+jump 78 equal 执行结束 0
+sensor x 建筑 @x
+ucontrol boost 1 0 0 0 0
+sensor y 建筑 @y
+ucontrol move x y 0 0 0
+ucontrol itemDrop 建筑 9999 0 0 0
+sensor 单位背包数量 @unit 建筑需求种类
+jump 223 lessThanEq 单位背包数量 0
+jump 78 equal 执行结束 0
+print "获取需求"
+op add 建筑循环 建筑循环 1
+op mod 建筑循环 建筑循环 @links
+getlink 建筑 建筑循环
+sensor 建筑容量 建筑 @itemCapacity
+jump 517 lessThan 建筑容量 10
+sensor 建筑需求种类 unloader1 @config
+jump 479 notEqual 建筑需求种类 0
+sensor 建筑需求种类 sorter1 @config
+jump 479 notEqual 建筑需求种类 0
+print "查表"
+sensor 兵种 建筑 @config
+jump 310 equal 兵种 null
+jump 260 notEqual 兵种 @dagger
+set 物品种类数目 2
+set 物品1 铅
+op mul 数量1 40 单位造价倍率
+set 物品2 硅
+op mul 数量2 60 单位造价倍率
+jump 453 equal 查表完成 null
+print "新星"
+jump 270 notEqual 兵种 @nova
+set 物品种类数目 3
+set 物品1 铅
+op mul 数量1 40 单位造价倍率
+set 物品2 硅
+op mul 数量2 60 单位造价倍率
+set 物品3 钛
+op mul 数量3 40 单位造价倍率
+jump 453 equal 查表完成 null
+print "苦力怕"
+jump 278 notEqual 兵种 @crawler
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 60 单位造价倍率
+set 物品2 煤
+op mul 数量2 20 单位造价倍率
+jump 453 equal 查表完成 null
+print "星辉"
+jump 284 notEqual 兵种 @flare
+set 物品种类数目 1
+set 物品1 硅
+op mul 数量1 60 单位造价倍率
+jump 453 equal 查表完成 null
+print "矿机"
+jump 292 notEqual 兵种 @mono
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 60 单位造价倍率
+set 物品2 铅
+op mul 数量2 30 单位造价倍率
+jump 453 equal 查表完成 null
+print "梭鱼"
+jump 300 notEqual 兵种 @risso
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 40 单位造价倍率
+set 物品2 玻璃
+op mul 数量2 70 单位造价倍率
+jump 453 equal 查表完成 null
+print "潜螺"
+jump 310 notEqual 兵种 @retusa
+set 物品种类数目 3
+set 物品1 硅
+op mul 数量1 40 单位造价倍率
+set 物品2 玻璃
+op mul 数量2 70 单位造价倍率
+set 物品3 钛
+op mul 数量3 40 单位造价倍率
+jump 453 equal 查表完成 null
+jump 517 equal 查无此人 null
+sensor 建筑大小 建筑 @size
+sensor 建筑种类 建筑 @type
+jump 412 greaterThan 建筑大小 3
+print "T2"
+jump 322 notEqual 建筑种类 @additive-reconstructor
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 80 单位造价倍率
+set 物品2 石墨
+op mul 数量2 80 单位造价倍率
+jump 453 equal 查表完成 null
+print "坦克-T1"
+jump 330 notEqual 建筑种类 @tank-fabricator
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 100 单位造价倍率
+set 物品2 铍
+op mul 数量2 80 单位造价倍率
+jump 453 equal 查表完成 null
+print "飞船-T1"
+jump 338 notEqual 建筑种类 @ship-fabricator
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 140 单位造价倍率
+set 物品2 石墨
+op mul 数量2 100 单位造价倍率
+jump 453 equal 查表完成 null
+print "机甲-T1"
+jump 346 notEqual 建筑种类 @mech-fabricator
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 140 单位造价倍率
+set 物品2 铍
+op mul 数量2 100 单位造价倍率
+jump 453 equal 查表完成 null
+print "坦克-T2"
+jump 354 notEqual 建筑种类 @tank-refabricator
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 80 单位造价倍率
+set 物品2 钨
+op mul 数量2 60 单位造价倍率
+jump 453 equal 查表完成 null
+print "机甲-T2"
+jump 362 notEqual 建筑种类 @mech-refabricator
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 100 单位造价倍率
+set 物品2 钨
+op mul 数量2 80 单位造价倍率
+jump 453 equal 查表完成 null
+print "飞船-T2"
+jump 373 notEqual 建筑种类 @ship-refabricator
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 120 单位造价倍率
+set 物品2 钨
+op mul 数量2 80 单位造价倍率
+jump 453 equal 查表完成 null
+print "小超速"
+print "布热"
+print "力墙"
+print "修复"
+jump 377 equal 建筑种类 @mend-projector
+jump 377 equal 建筑种类 @force-projector
+jump 377 equal 建筑种类 @phase-heater
+jump 382 notEqual 建筑种类 @overdrive-projector
+set 物品种类数目 1
+set 物品1 布
+set 数量1 10
+jump 453 equal 查表完成 null
+print "大超速"
+jump 391 notEqual 建筑种类 @overdrive-dome
+jump 518 equal 大超速特化 1
+set 物品种类数目 2
+set 物品1 布
+set 数量1 10
+set 物品2 硅
+set 数量2 10
+jump 453 equal 查表完成 null
+print "构筑器"
+jump 410 notEqual 建筑种类 @constructor
+sensor 构筑器设置 建筑 @config
+jump 398 notEqual 构筑器设置 @beryllium-wall-large
+set 物品种类数目 1
+set 物品1 铍
+op mul 数量1 48 建筑造价倍率
+jump 453 equal 查表完成 null
+jump 403 notEqual 构筑器设置 @tungsten-wall-large
+set 物品种类数目 1
+set 物品1 钨
+op mul 数量1 48 建筑造价倍率
+jump 453 equal 查表完成 null
+jump 410 notEqual 构筑器设置 @carbide-wall-large
+set 物品种类数目 2
+set 物品1 钍
+op mul 数量1 48 建筑造价倍率
+set 物品2 碳化钨
+op mul 数量2 48 建筑造价倍率
+jump 453 equal 查表完成 null
+jump 517 equal 查无此人 null
+print "T3"
+jump 422 notEqual 建筑种类 @multiplicative-reconstructor
+set 物品种类数目 3
+set 物品1 硅
+op mul 数量1 260 单位造价倍率
+set 物品2 钛
+op mul 数量2 160 单位造价倍率
+set 物品3 玻璃
+op mul 数量3 80 单位造价倍率
+jump 453 equal 查表完成 null
+print "s星重构厂"
+jump 430 notEqual 建筑种类 @prime-refabricator
+set 物品种类数目 2
+set 物品1 硅
+op mul 数量1 200 单位造价倍率
+set 物品2 钍
+op mul 数量2 160 单位造价倍率
+jump 453 equal 查表完成 null
+print "T4"
+jump 440 notEqual 建筑种类 @exponential-reconstructor
+set 物品种类数目 3
+set 物品1 硅
+op mul 数量1 1700 单位造价倍率
+set 物品2 钛
+op mul 数量2 1500 单位造价倍率
+set 物品3 塑钢
+op mul 数量3 1300 单位造价倍率
+jump 453 equal 查表完成 null
+print "T5"
+jump 451 notEqual 建筑种类 @tetrative-reconstructor
+set 物品种类数目 4
+set 物品1 硅
+op mul 数量1 2000 单位造价倍率
+set 物品2 合金
+op mul 数量2 1000 单位造价倍率
+set 物品3 塑钢
+op mul 数量3 1200 单位造价倍率
+set 物品4 布
+op mul 数量4 700 单位造价倍率
+jump 453 equal 查表完成 null
+jump 517 equal 查无此人 null
+print "选择物品"
+op rand 物品循环 物品种类数目 b
+op idiv 物品循环 物品循环 1
+set 物品循环计数 0
+op add 物品循环 物品循环 1
+op mod 物品循环 物品循环 物品种类数目
+op add 物品循环计数 物品循环计数 1
+jump 517 greaterThan 物品循环计数 物品种类数目
+op mul 物品循环跳转 物品循环 3
+op add @counter @counter 物品循环跳转
+set 建筑容量 数量1
+set 建筑需求种类 物品1
+jump 473 always 选取完成 13
+set 建筑容量 数量2
+set 建筑需求种类 物品2
+jump 473 always 选取完成 13
+set 建筑容量 数量3
+set 建筑需求种类 物品3
+jump 473 always 选取完成 13
+set 建筑容量 数量4
+set 建筑需求种类 物品4
+jump 456 lessThanEq 建筑容量 0
+sensor 核心物品数量 core 建筑需求种类
+jump 456 lessThanEq 核心物品数量 物品数量下限
+sensor 建筑已有物品 建筑 建筑需求种类
+jump 456 greaterThanEq 建筑已有物品 建筑容量
+print "选择物品"
+op mul 建筑需求跳转 单位循环 4
+op add @counter @counter 建筑需求跳转
+set 建筑1 建筑
+set 建筑需求种类1 建筑需求种类
+set 建筑容量1 建筑容量
+jump 516 always 获取需求成功 0
+set 建筑2 建筑
+set 建筑需求种类2 建筑需求种类
+set 建筑容量2 建筑容量
+jump 516 always 获取需求成功 0
+set 建筑3 建筑
+set 建筑需求种类3 建筑需求种类
+set 建筑容量3 建筑容量
+jump 516 always 获取需求成功 0
+set 建筑4 建筑
+set 建筑需求种类4 建筑需求种类
+set 建筑容量4 建筑容量
+jump 516 always 获取需求成功 0
+set 建筑5 建筑
+set 建筑需求种类5 建筑需求种类
+set 建筑容量5 建筑容量
+jump 516 always 获取需求成功 0
+set 建筑6 建筑
+set 建筑需求种类6 建筑需求种类
+set 建筑容量6 建筑容量
+jump 516 always 获取需求成功 0
+set 建筑7 建筑
+set 建筑需求种类7 建筑需求种类
+set 建筑容量7 建筑容量
+jump 516 always 获取需求成功 0
+set 建筑8 建筑
+set 建筑需求种类8 建筑需求种类
+set 建筑容量8 建筑容量
+jump 516 always 获取需求成功 0
+set 建筑9 建筑
+set 建筑需求种类9 建筑需求种类
+set 建筑容量9 建筑容量
+jump 181 equal 获取需求成功 0
+jump 78 equal 获取需求失败 0
+set 大超速 建筑
+sensor 大超速硅 大超速 @silicon
+sensor 大超速布 大超速 @phase-fabric
+set 建筑需求种类 @silicon
+op sub 建筑需求数量 10 大超速硅
+jump 526 lessThanEq 大超速硅 大超速布
+set 建筑需求种类 @phase-fabric
+op sub 建筑需求数量 10 大超速布
+jump 181 equal 获取需求成功 0
+```
+
+### 远古搬运逻辑解说
+
+- 通过控制单位向逻辑连接的建筑中自动放置物品
+- 使用了远古的打表手段：通过 `jump` 对比建筑种类（`@dagger`、`@nova`、`@crawler` 等）逐一确定物品需求
+- 支持所有兵厂（T1-T5）、相织制热机（phase-heater，代码中简称"布热"）、力墙投影（force-projector，代码中简称"力墙"）、修理投影（mend-projector，代码中简称"修复"）、超速投影（overdrive-projector）等建筑的物品需求识别
+- 通过 `ucontrol flag` 为每个单位分配唯一标记，实现多单位并行搬运
+- 效率低下（大量 `jump` 跳转查表），但有很高的研究价值
+
+> **代码中的单位翻译错误**：原代码 `print` 标注存在两处单位名称与官方中文翻译不符的情况：
+> - 第 283 行 `print "苦力怕"` 对应 `@crawler`，官方中文名为"爬虫"（"苦力怕"为 Minecraft 翻译，非像素工厂）
+> - 第 297 行 `print "矿机"` 对应 `@mono`，官方中文名为"独影"（"矿机"为描述性俗称）
+> 
+> 其余单位标注正确：`@nova`="新星"、`@flare`="星辉"、`@risso`="梭鱼"、`@retusa`="潜螺"
+
+> **代码中的物品变量名翻译错误**：原代码中两处物品变量名与官方中文翻译不符：
+> - 第 90 行 `set 氧化铍 @oxide`，变量名"氧化铍"应为"氧化物"（`@oxide` 官方中文名为"氧化物"，"氧化铍"是另一种化学物质）
+> - 第 91 行 `set 碳化钨 @carbide`，变量名"碳化钨"应为"碳化物"（`@carbide` 官方中文名为"碳化物"，"碳化钨"是另一种化学物质）
+
+---
+
+## 新版建筑需求识别逻辑完整代码
+
+现在的打表手段是将建筑相关的数据直接存在变量名字这个变量里边，然后通过 `lookup` + `read` 进行读取。以下是一个获取建筑需求的逻辑，一表示无，丁表示有。
+
+```
+set bdi 1
+getlink bd bdi
+sensor type bd @type
+sensor id type @id
+read copper "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read lead "一一一一丁一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read metaglass "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read graphite "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read sand "一一丁丁丁一丁一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一丁" id
+read coal "丁丁丁丁一一一一丁" id
+read titanium "一一一一一丁一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read thorium "一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read scrap "一一一一一一一一一一丁一丁一丁" id
+read silicon "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁丁丁丁丁丁一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁丁一一一一一一一丁一一丁丁丁" id
+read plastanium "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁" id
+read phase-fabric "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁丁丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read surge-alloy "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read spore-pod "一一一一一一一一一丁一一一丁" id
+read blast-compound "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read pyratite "一一一一一一一一一丁" id
+read beryllium "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁" id
+read tungsten "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁丁" id
+printchar type
+set i 0
+lookup item item i
+sensor name item @name
+set need 0
+read need @this name
+jump 30 notEqual need 19969
+printchar item
+op add i i 1
+jump 24 lessThan i @itemCount
+wait 0.5
+op add bdi bdi 1
+print "\n"
+jump 1 lessThan bdi @links
+printflush message1
+```
+
+### 新版打表手段解说
+
+- 将建筑需求表以字符串形式存储在变量名中，用"一"表示无需求，用"丁"表示有需求
+- 每种物品对应一个超长的字符串，字符串中每个字符对应一个建筑 ID
+- 通过 `read 物品名 "字符串" 建筑ID` 读取指定建筑对该物品的需求状态
+- 读取结果为 `19969`（"丁"的 Unicode 编码）表示该建筑需要此物品，否则表示不需要
+- 相比远古打表手段，避免了大量 `jump` 跳转，效率大幅提升
+- 通过 `lookup item` 遍历所有物品，`sensor @name` 获取物品名称，再 `read` 查表
+
+---
+
+## 运行原理分析
+
+### 一、远古搬运逻辑运行原理
+
+#### 1. 整体架构与执行流程
+
+远古搬运逻辑是一个约 520 条指令的大型单处理器程序，全程使用行号跳转（`jump N`）进行流程控制。程序启动时执行一系列 `print` 输出版本信息，随后进入主循环。整体执行流程为：
+
+**初始化**（指令 0-60）→ **主循环**（指令 78）→ **单位轮转**（指令 115）→ **需求检查/建筑扫描**（指令 172 或 239）→ **取货搬运**（指令 220）
+
+主循环的核心判断在指令 78：`jump 115 greaterThan 过期时间 @time`。若任务未过期（`过期时间 > @time`），跳转至单位轮转继续搬运；若已过期，执行单位标记清理后重新开始扫描。
+
+#### 2. 多单位 flag 管理机制
+
+**flag 生成**（指令 61-73）：
+
+flag 的生成基于处理器自身的坐标位置，确保不同处理器生成不冲突的 flag 值：
+
+```
+op mul flag @thisx 1000     ## 将 X 坐标左移 3 位
+op add flag @thisy flag      ## 叠加 Y 坐标（Y < 1000，不与 X 冲突）
+op mul flag 100 flag         ## 再左移 2 位，为单位编号留出空间
+op add flag1 1 flag           ## flag1 = base + 1
+op add flag2 2 flag           ## flag2 = base + 2
+...                           ## 至 flag9 = base + 9
+```
+
+最终编码格式为：`flagN = (@thisx * 1000 + @thisy) * 100 + N`
+
+这一设计确保：
+- **不同处理器**的 flag 基数不同（因为 `@thisx`、`@thisy` 各异），避免多处理器争抢同一单位
+- **同一处理器**的 9 个 flag 仅差 1-9（末两位），互不冲突
+- `* 100` 保证单位编号占据末两位，不会与坐标编码重叠
+
+**flag 的写入与读取**：
+
+- **写入**：通过 `ucontrol flag xsflag 0 0 0 0` 将 flag 值直接赋给 `unit.flag` 字段，立即生效，无缓存机制
+- **读取**：通过 `sensor 单位标记 @unit @flag` 读取单位的 flag 值，同样无缓存
+
+**flag 清理**（指令 79-114）：
+
+当任务过期时，代码逐个检查 xs1-xs9 的 flag 是否匹配预期值。匹配的单元执行 `ubind xsN` + `ucontrol flag 0 0 0 0`，将 flag 清零以释放单位；不匹配的跳过（说明单位已丢失或被其他处理器接管）。9 个单位的检查形成一条链式 jump：
+
+```
+sensor 单位标记 xs1 @flag
+jump 83 notEqual 单位标记 flag1    ## 不匹配 → 跳到 xs2 检查
+ubind xs1                           ## 匹配 → 绑定并清除 flag
+ucontrol flag 0 0 0 0
+sensor 单位标记 xs2 @flag           ## 指令 83：检查 xs2
+jump 87 notEqual 单位标记 flag2
+...
+```
+
+**单位分配**（指令 182-219）：
+
+为新建筑分配搬运单位时，代码执行以下判断链：
+1. 当前单位是否死亡 → 若死亡，跳转切换单位种类（指令 189：`ubind type`）
+2. 当前单位的 flag 是否匹配 `xsflag` → 若匹配，跳转到单位获取（指令 199）
+3. 当前单位的 flag 是否为 0（未分配）→ 若是，跳转到 flag 赋值（指令 220）
+4. 当前单位是否被其他控制器占用（`@controlled`）→ 若是，跳回主循环
+
+若单位可用，通过 `@counter` 运算跳转到 `set xsN @unit` 存储单位引用，再执行 `ucontrol flag xsflag 0 0 0 0` 打上标记。
+
+#### 3. @counter 轮转机制实现多单位循环控制
+
+远古搬运逻辑大量使用 `@counter` 加法运算实现 switch-case 模式。`@counter` 是处理器的指令指针（instruction pointer），对其进行加法运算可跳过若干条指令直接到达目标 case。代码中至少有 5 处使用了这一技巧：
+
+**单位种类选择**（指令 31-39）：
+
+```
+op mul 指针跳转 单位种类指针 2     ## 每个 case 占 2 条指令
+op add @counter @counter 指针跳转  ## 跳过 指针跳转 条指令
+set 单位type 单位种类1             ## case 0（指针=0，不跳过）
+jump 40 always x false             ## break
+set 单位type 单位种类2             ## case 1（指针=1，跳过 2 条）
+jump 40 always x false             ## break
+set 单位type 单位种类3             ## case 2（指针=2，跳过 4 条）
+jump 40 always x false             ## break
+set 单位type 单位种类4             ## case 3（指针=3，跳过 6 条）
+```
+
+`单位种类指针` 通过 `op mod` 在 0-3 之间循环，每次执行递增 1，实现单位种类的轮换查找。当某种单位找不到时（`sensor type @unit @type` 返回 null），跳回指令 29 重试下一种。
+
+**单位循环选择**（指令 115-118）：
+
+```
+op add 单位循环 单位循环 1
+op mod 单位循环 单位循环 单位数量
+op mul 单位循环跳转 单位循环 6      ## 每个 case 占 6 条指令
+op add @counter @counter 单位循环跳转
+```
+
+每个单位的处理块占 6 条指令（`ubind xsN` + `set xsflag flagN` + `set 建筑 建筑N` + `set 建筑容量 建筑容量N` + `set 建筑需求种类 建筑需求种类N` + `jump`），乘数为 6。`单位循环` 在 0 到 `单位数量-1` 之间循环，实现多单位轮流控制。
+
+**物品选择**（指令 460-461，乘数 3）、**需求存储**（指令 479-480，乘数 4）、**单位获取**（指令 213-216，乘数 2）也使用了相同的模式，区别仅在于每个 case 的指令数不同。
+
+#### 4. 建筑需求查表的 jump 对比流程
+
+建筑需求查表是远古搬运逻辑中最为冗长的部分（指令 249-465），通过链式 `jump notEqual` 逐一对比建筑种类或配置来确定物品需求。
+
+**查表入口**（指令 245-251）：
+
+首先检查建筑是否为分类器或装卸器（通过读取已链接的 `unloader1`、`sorter1` 的 `@config`），若是则直接使用其配置作为需求物品，跳过整个查表流程：
+
+```
+sensor 建筑需求种类 unloader1 @config
+jump 479 notEqual 建筑需求种类 0    ## 装卸器有配置 → 直接进入物品选择
+sensor 建筑需求种类 sorter1 @config
+jump 479 notEqual 建筑需求种类 0    ## 分类器有配置 → 直接进入物品选择
+```
+
+若不是，则读取建筑的 `@config`（对于兵厂，config 是生产的单位种类）：
+
+```
+sensor 兵种 建筑 @config
+jump 310 equal 兵种 null            ## config 为 null → 不是兵厂，跳到建筑类型查表
+```
+
+**兵厂查表**（指令 252-322）：
+
+采用链式 `jump notEqual` 结构，每个表项的格式为：`jump` 对比 → 若匹配则设置物品需求并跳出 → 若不匹配则进入下一个表项。以 dagger 为例：
+
+```
+jump 260 notEqual 兵种 @dagger      ## 不是 @dagger → 跳到下一个对比
+set 物品种类数目 2                   ## 是 @dagger → 设置需求
+set 物品1 铅
+op mul 数量1 40 单位造价倍率
+set 物品2 硅
+op mul 数量2 60 单位造价倍率
+jump 453 equal 查表完成 null         ## 跳到物品选择
+```
+
+兵厂查表覆盖了 T1 单位（dagger、nova、crawler、flare、mono、risso、retusa）和各阶重构厂。每个表项需要 6-8 条指令，且新增表项需要插入在正确位置并调整所有后续行号。
+
+**建筑类型查表**（指令 310-465）：
+
+对于非兵厂建筑，通过 `@size` 和 `@type` 进行分类查表。先按 `@size` 分流（size <= 3 和 size > 3），再按 `@type` 逐一对比。覆盖了制造厂（tank-fabricator 等）、重构厂（tank-refabricator 等）、超速投影、修复投影、力墙、布热、构筑器等。
+
+**构筑器特殊处理**（指令 404-423）：
+
+构筑器的 `@config` 存储的是要建造的墙类型，因此需要二次查表：
+
+```
+sensor 构筑器设置 建筑 @config
+jump 398 notEqual 构筑器设置 @beryllium-wall-large
+set 物品种类数目 1
+set 物品1 铍
+op mul 数量1 48 建筑造价倍率
+```
+
+**大超速特化**（指令 514-540）：
+
+大超速（overdrive-dome）有独立的特化逻辑：当 `大超速特化` 为 1 时，跳过正常查表，直接比较建筑已有的硅和布数量，选择较少的一种进行补充，确保两种材料均衡供应。
+
+#### 5. 取货-搬运-卸货完整流程
+
+当建筑有需求时（`建筑需求种类 != 0`），执行搬运流程（指令 172-238）：
+
+**Step 1 - 需求验证**（指令 172-180）：
+
+依次检查：建筑需求是否存在 → 建筑是否已毁（`@dead`）→ 需求量是否大于 0。布（phase-fabric）有特殊处理：当 `搬运布特化` 开启时，需求量覆盖为满容量（`op sub 建筑需求数量 建筑容量 0`）。
+
+**Step 2 - 设置过期时间**（指令 181）：
+
+```
+op add 过期时间 @time 5000    ## 5 秒内不重新扫描建筑
+```
+
+确保搬运过程中处理器不会中断去扫描其他建筑。
+
+**Step 3 - 单位分配**（指令 182-219）：
+
+检查当前单位是否可用（未死亡、flag 匹配或未分配、未被其他控制器占用），分配成功后执行 `ucontrol flag xsflag 0 0 0 0`。
+
+**Step 4 - 取货**（指令 221-229）：
+
+```
+sensor 单位背包数量 @unit 建筑需求种类
+jump 231 greaterThan 单位背包数量 0    ## 已携带 → 直接卸货
+
+ulocate building core 0 @copper corex corey found core
+ucontrol boost 1 0 0 0 0              ## 开启加速
+ucontrol move corex corey 0 0 0        ## 移动到核心
+ucontrol itemDrop core 9999 0 0 0      ## 清空背包（防止混入其他物品）
+ucontrol itemTake core 建筑需求种类 建筑需求数量 0 0  ## 取出目标物品
+```
+
+注意取货前先 `itemDrop core 9999` 清空背包，防止单位携带的其他物品被错误地放入目标建筑。
+
+**Step 5 - 卸货**（指令 231-237）：
+
+```
+sensor x 建筑 @x
+ucontrol boost 1 0 0 0 0
+sensor y 建筑 @y
+ucontrol move x y 0 0 0                ## 移动到目标建筑
+ucontrol itemDrop 建筑 9999 0 0 0       ## 卸下所有物品
+sensor 单位背包数量 @unit 建筑需求种类
+jump 223 lessThanEq 单位背包数量 0      ## 卸货成功 → 回去取更多
+```
+
+卸货后若背包为空，跳回取货（指令 223），形成取货-卸货循环；若仍有物品（建筑满了），跳回主循环。
+
+#### 6. 建筑遍历与需求识别机制
+
+建筑扫描（指令 239-530）在当前单位无需求时遍历链接建筑：
+
+```
+op add 建筑循环 建筑循环 1
+op mod 建筑循环 建筑循环 @links        ## 循环计数器在 0 ~ @links-1 之间
+getlink 建筑 建筑循环                   ## 获取链接建筑
+sensor 建筑容量 建筑 @itemCapacity
+jump 517 lessThan 建筑容量 10          ## 容量 < 10 → 跳过
+```
+
+**关键特征：每个处理器周期只检查一个建筑。** `建筑循环` 每周期递增 1，通过 `mod @links` 循环。若当前建筑无需求（容量不足、类型未识别、核心物品不够等），代码跳转到指令 517（`jump 78 equal 获取需求失败 0`），回到主循环，下一周期再检查下一个建筑。N 个建筑需要 N 个周期才能扫描一轮。
+
+**物品选择**（指令 453-477）：
+
+当一个建筑需要多种物品时，代码通过随机选择 + 回退机制确定搬运哪种：
+
+```
+op rand 物品循环 物品种类数目 b        ## 随机选择一个物品索引
+```
+
+选定物品后还需验证：核心物品数量是否超过下限（`物品数量下限`，默认 100）、建筑已有物品是否已满。若当前物品不满足条件，尝试下一个（通过 `物品循环计数` 控制最多尝试 `物品种类数目` 次）。
+
+#### 7. 效率低下的根本原因
+
+**（1）jump 查表的时间复杂度为 O(N)**
+
+建筑需求查表通过链式 `jump notEqual` 实现，最坏情况下需要逐一对比所有约 30 个表项。每条 `jump` 消耗 1 个指令配额，最坏情况下查一个建筑需要 30+ 条指令。
+
+**（2）每周期只扫描一个建筑**
+
+N 个建筑需要 N 个处理器周期才能扫描一轮。在逻辑处理器（@ipt=8）上，每个周期约 1/60 秒，扫描 20 个建筑约需 0.33 秒。大量周期被浪费在无需求的建筑上。
+
+**（3）大量 print 指令消耗指令配额**
+
+初始化时约 15 条 `print` 指令用于输出版本信息，每次程序重启时都会执行，消耗约 15 个指令配额。
+
+**（4）行号跳转导致维护困难**
+
+全程使用行号跳转（如 `jump 27`、`jump 115`、`jump 517`），插入或删除任何指令都会导致所有后续行号偏移。
+
+**（5）硬编码的建筑类型表**
+
+查表逻辑中的建筑类型和物品需求全部硬编码，游戏更新新增建筑时需要手动添加分支，无法自动适应。
+
+**（6）9 个单位的处理块占用大量指令**
+
+为支持 9 个单位并行搬运，代码中包含 9 个单位的处理块（54 条指令）、9 个单位的存储块（18 条指令）、9 个单位的需求存储块（36 条指令），总计约 108 条指令仅用于单位管理。
+
+---
+
+### 二、新版打表手段运行原理
+
+#### 1. 字符串编码原理
+
+新版打表手段的核心思想是：将每种物品的建筑需求表编码为一个超长字符串，字符串中每个字符对应一个建筑类型 ID，字符的值表示"有需求"或"无需求"。
+
+**编码方案**：
+- **"一"（U+4E00，码点 19968）**：表示该建筑**不需要**此物品
+- **"丁"（U+4E01，码点 19969）**：表示该建筑**需要**此物品
+
+**选择"一"和"丁"的原因**：
+
+1. **均为 BMP 字符**：两个字符都位于 Unicode 基本多文种平面（BMP，U+0000 ~ U+FFFF），在 Java 的 UTF-16 编码中仅占 1 个 char（16 位）。`read` 指令通过 `charAt()` 读取时能正确返回完整的码点值。若使用 BMP 以外的字符（如某些 emoji），会被编码为代理对（surrogate pair），占用 2 个 char，`charAt()` 只返回半个字符。
+
+2. **码点相邻**：19968 和 19969 相差 1，判断时只需与 19969 比较即可，逻辑简洁。
+
+3. **视觉区分度高**："一"是一条横线，视觉上代表"空"或"无"；"丁"形似标记符号，视觉上代表"有"或"选中"。在代码中阅读长字符串时容易区分。
+
+4. **输入方便**：两个字符都是常用汉字，在中文输入法下容易打出。
+
+**字符串结构**：
+
+每种物品对应一个字符串，长度等于游戏中建筑类型的数量。字符串第 N 位字符表示 content ID 为 N 的建筑是否需要该物品。例如铜的字符串中，第 200 位左右为"丁"，表示 content ID ≈ 200 的建筑需要铜。
+
+#### 2. read 指令读取字符串字符的 CharSequence 机制
+
+`read` 指令不仅可以读取内存建筑，还可以读取字符串中的字符。这是通过 `CharSequence` 接口实现的。
+
+**源码机制**：
+
+在 `ReadI.run()` 中，当目标对象不是 `LReadable` 接口的实现时，会按以下顺序尝试：
+1. 判断目标是否为 `CharSequence` 实例（Java 的 `String` 实现了此接口）
+2. 若是，调用 `seq.charAt(index)` 读取指定位置的字符
+3. 将字符的 UTF-16 码元值（char 值）作为整数写入输出变量
+4. 若索引越界，输出变量设为 `NaN`
+
+在代码中的体现：
+
+```
+read copper "一一一一...丁...一一..." id
+```
+
+- `target` = 字符串字面量（String 对象，实现了 CharSequence）
+- `index` = `id`（建筑类型的 content ID，通过 `sensor id type @id` 获取）
+- 执行 `string.charAt(id)` → 返回 "一"(19968) 或 "丁"(19969)
+- 结果存入变量 `copper`
+
+**关键点**：`read` 读取的是 UTF-16 码元（code unit），而非 Unicode 码点（code point）。对于 BMP 字符，两者一致；对于辅助平面字符（U+10000 及以上），一个码点对应两个码元，`charAt()` 只返回其中一个码元，会导致错误。因此必须使用 BMP 字符进行编码。
+
+#### 3. @this 动态变量查找机制
+
+新版代码中最精妙的设计是利用 `read need @this name` 实现动态变量查找。这依赖于 `LogicBuild` 实现了 `LReadable` 接口的特殊 `read()` 方法。
+
+**源码机制**：
+
+`LogicBuild.read()` 的行为与内存建筑完全不同：
+- 当 `position`（地址参数）为**字符串**时：调用 `executor.optionalVar(varName)` 按变量名查找处理器内部变量。找到则将其值复制到输出变量；未找到则调用 `optionalLink(varName)` 查找同名链接建筑。
+- 当 `position` 为**数字**时：将其作为索引访问处理器的 `links` 数组，返回对应位置的链接建筑。
+
+在代码中的两步操作：
+
+**第一步——为每种物品读取需求值，存入以物品名命名的变量**：
+
+```
+read copper "一一一...丁..." id       ## 变量 copper = 19968 或 19969
+read lead "一一一...丁..." id         ## 变量 lead = 19968 或 19969
+read metaglass "一一一...丁..." id    ## 变量 metaglass = 19968 或 19969
+...                                   ## 共 18 种物品
+```
+
+**第二步——遍历所有物品，动态查找变量**：
+
+```
+lookup item item i                    ## 获取第 i 个物品对象
+sensor name item @name               ## 获取物品名称字符串（如 "copper"）
+set need 0
+read need @this name                 ## @this 是处理器自身
+                                      ## name 是字符串 "copper"
+                                      ## → executor.optionalVar("copper")
+                                      ## → 找到变量 copper，复制其值到 need
+jump 30 notEqual need 19969          ## need != 19969 → 不需要，跳过
+printchar item                       ## 需要 → 打印物品图标
+```
+
+**精妙之处**：`sensor name item @name` 返回的物品名称（如 `"copper"`、`"lead"`、`"phase-fabric"`）恰好与第一步中 `read` 指令的输出变量名完全一致。这创建了一个天然的映射关系——无需任何手动映射表，`read need @this name` 直接通过物品名称查找对应的变量值。这是一种利用 Mindustry 变量系统实现的"反射"（reflection）机制。
+
+**注意**：物品名称中的连字符（如 `phase-fabric`、`surge-alloy`）在 Mindustry 变量名中是合法的（因为 `@phase-fabric` 是有效的内容引用），因此变量名与物品名称的对应关系不会被破坏。
+
+#### 4. Unicode 码点判断原理
+
+```
+jump 30 notEqual need 19969
+```
+
+`19969` 是 "丁"（U+4E01）的 Unicode 码点值。计算方式：
+
+```
+U+4E01 = 4×16³ + 14×16² + 0×16 + 1 = 16384 + 3584 + 0 + 1 = 19969
+```
+
+判断逻辑：
+- `need == 19969` → 字符为 "丁" → 建筑需要此物品 → 不跳转，执行 `printchar item` 输出物品图标
+- `need != 19969` → 字符为 "一"（19968） → 建筑不需要 → 跳过
+
+代码选择判断"需要"（等于 19969）而非"不需要"（等于 19968），因为只需要在需要时执行输出操作，不需要时跳过，更符合控制流的常见模式。
+
+#### 5. lookup item 遍历所有物品的机制
+
+```
+set i 0
+lookup item item i
+sensor name item @name
+set need 0
+read need @this name
+jump 30 notEqual need 19969
+printchar item
+op add i i 1
+jump 24 lessThan i @itemCount
+```
+
+**遍历机制**：
+
+1. `lookup item item i` — 通过逻辑 ID 查找物品对象。`lookup` 是连接"数字"与"游戏内容对象"的桥梁，返回第 `i` 个物品的 content 对象引用。结果通过 `setobj()` 写入，是对象类型。
+2. `@itemCount` — 环境变量，表示游戏中物品的总数。作为遍历上限，确保遍历所有物品（包括模组添加的物品）。
+3. `sensor name item @name` — 获取物品的内部名称字符串（如 `"copper"`、`"phase-fabric"` 等）。
+4. `read need @this name` — 通过 `@this` 动态查找以物品名称命名的变量。
+5. `printchar item` — `printchar` 在对象模式下，若参数为 `UnlockableContent`（物品、方块、单位等），会追加该内容的 emoji 字符到文本缓冲区，在消息建筑上显示为物品图标。
+
+**逻辑 ID 与 content ID 的区别**：
+
+需求字符串的索引用的是 **content ID**（通过 `sensor id type @id` 获取的 `content.id`），而 `lookup` 遍历用的是**逻辑 ID**（由 `logicids.dat` 定义，从 0 连续编号）。两者不一定相同。但这不影响代码正确性：字符串通过 content ID 索引确定需求，`lookup` 通过逻辑 ID 遍历物品再通过 `@name` 获取变量名，两条路径互不干扰。
+
+#### 6. 相比远古手段的效率提升
+
+**时间复杂度对比**：
+
+| 操作 | 远古手段 | 新版手段 |
+|------|---------|---------|
+| 建筑需求查表 | O(N)，N≈30，链式 jump 逐一对比 | O(1)，read 直接索引字符串 |
+| 物品遍历 | 无（物品硬编码在表项中） | O(M)，M = @itemCount，线性遍历 |
+| 适应新建筑 | 需手动添加 jump 分支 | 只需更新字符串中对应位置的字符 |
+| 适应模组 | 不支持 | 自动支持（字符串长度随建筑数扩展） |
+
+**指令数量对比**：
+
+远古手段的查表部分约 200 条指令（指令 249-465），而新版手段的完整查表+遍历仅约 37 条指令（指令 0-36），指令数量减少约 80%。
+
+**执行速度对比**：
+
+以逻辑处理器（@ipt=8）为例：远古手段最坏情况下查一个建筑需要 30+ 条 jump 指令（约 4 个 tick）；新版手段 `read` 直接索引，1 条指令即可完成。
+
+**维护性对比**：
+
+远古手段每新增一种建筑，需要在正确位置插入 jump 分支并调整所有后续行号。新版手段只需在字符串的对应位置将"一"改为"丁"即可，不影响任何其他代码。
+
+---
+
+### 三、两种打表手段的对比分析
+
+| 维度 | 远古 jump 查表 | 新版字符串打表 |
+|------|--------------|--------------|
+| **数据存储** | 指令本身（jump 分支 + set 赋值） | 字符串字面量（变量名中） |
+| **查询方式** | 链式 jump notEqual 逐一对比 | read 按索引直接读取字符 |
+| **时间复杂度** | O(N)，N 为表项数 | O(1)，直接索引 |
+| **数据密度** | 每个表项约 6-8 条指令 | 每个表项 1 个字符 |
+| **可维护性** | 极差（行号跳转 + 插入困难） | 好（修改字符串中的字符即可） |
+| **可扩展性** | 无（硬编码，不支持模组） | 强（字符串长度随建筑数自动适应） |
+| **物品需求详情** | 可存储具体数量（如铅 40、硅 60） | 仅存储有无需求（布尔值） |
+| **多物品支持** | 一次查表确定所有需求物品 | 需遍历所有物品逐一判断 |
+| **数量信息** | 支持（`数量1`、`数量2` 等变量） | 不支持（仅 "一"/"丁" 二值） |
+| **造价倍率** | 支持（`单位造价倍率`、`建筑造价倍率`） | 不支持（需额外逻辑） |
+
+**核心差异**：远古手段用"指令"存储数据（代码即数据），新版手段用"字符串"存储数据（数据与代码分离）。这是从"命令式"到"声明式"的范式转变。
+
+**远古手段的优势**：可以存储详细的需求信息（物品种类、数量、造价倍率），而新版手段仅存储布尔值。如果需要物品数量信息，新版手段需要额外的数据源（如第二个字符串表或内存建筑）。
+
+**新版手段的优势**：查询效率极高、维护简单、自动适应游戏更新和模组。
+
+---
+
+### 四、关键设计技巧总结
+
+#### 1. flag 编码：基于坐标的多处理器隔离
+
+```
+flagN = (@thisx * 1000 + @thisy) * 100 + N
+```
+
+利用处理器坐标作为 flag 基数，确保不同处理器的 flag 不冲突。`* 1000` 分离 X/Y 坐标，`* 100` 分离坐标与单位编号。这是一个简单但有效的命名空间隔离方案，使多个处理器可以独立管理各自的单位群而互不干扰。
+
+#### 2. @counter 运算：用加法实现 switch-case
+
+```
+op mul 跳转量 指针 case大小
+op add @counter @counter 跳转量
+```
+
+通过对指令指针 `@counter` 进行加法运算，跳过若干条指令到达目标 case。这是 Mindustry Logic 中实现 switch-case 的经典模式，但需要手动维护 case 大小和跳转量的一致性，且插入或删除 case 后需要调整所有乘数。
+
+#### 3. 字符串作为查询表：数据与代码分离
+
+将建筑需求表编码为字符串，通过 `read` 的 CharSequence 机制按索引查询。这种"数据驱动"的方式将查询复杂度从 O(N) 降至 O(1)，同时实现了数据与代码的分离，大幅提升可维护性。
+
+#### 4. @this 动态变量查找：利用变量名作为键
+
+```
+read need @this name    ## name = "copper" → 查找变量 copper 的值
+```
+
+利用 `LogicBuild.read()` 的字符串地址特性，将物品名称作为变量名键，实现动态变量查找。这创建了一种"反射"机制，使代码能够根据运行时获取的物品名称自动查找对应的需求数据，无需手动维护映射表。
+
+#### 5. 物品名称与变量名的天然对应
+
+`sensor name item @name` 返回的物品名称（如 `"copper"`）与 `read copper "..."` 创建的变量名 `copper` 天然一致。这一设计消除了手动映射的需求，使动态查找机制能够自动工作。这是整个新版方案中最巧妙的设计——利用了 Mindustry 内容命名系统与变量命名系统的隐式一致性。
+
+#### 6. printchar 的对象模式：内容图标输出
+
+```
+printchar type    ## type 是 Block 对象 → 输出建筑图标
+printchar item    ## item 是 Item 对象 → 输出物品图标
+```
+
+`printchar` 在对象模式下会追加 `UnlockableContent` 的 `emojiChar()` 返回的字符，在消息建筑上显示为图标。这使得输出结果直观可读，无需文字描述即可识别建筑和物品类型。
+
+#### 7. 单位种类轮换：适应多场景
+
+远古逻辑中，单位种类指针在 0-3 之间循环（flare、mono、poly、mega），每 5000 tick 切换一次。这确保当某一种单位耗尽时，处理器会自动尝试其他种类，提高系统的鲁棒性。切换时间通过 `切换单位种类time` 变量控制，初始设为 `@time + 常数时间`（极大值），确保首次启动时不会立即切换。
+
+#### 8. 过期时间机制：平衡搬运连续性与需求刷新
+
+```
+op add 过期时间 @time 5000    ## 5 秒内专注当前任务
+```
+
+设置 5 秒的过期时间，在过期前处理器专注当前单位的搬运任务（不扫描新建筑），过期后重新扫描建筑需求并重新分配单位。这避免了频繁切换任务导致的效率低下，同时确保需求变化时能及时响应。
+
+
+<!-- 文件: 07_实战案例\11_建筑物品选择逻辑.md -->
+
+
+---
+
+
+# 11 - 建筑物品选择逻辑
+
+## 概述
+
+本文件包含两组逻辑：升级版需求识别逻辑和配置代码逻辑。升级版需求识别逻辑在搬运逻辑的新版打表手段基础上进一步升级，增加了建筑配置识别、炮塔弹药识别等功能。配置代码逻辑通过控制卸载器选择最低数量的物品，适用于工厂物资运输与核心物品装填。
+
+---
+
+## 升级版需求识别逻辑完整代码
+
+我们可以对搬运逻辑中的新版打表手段进行升级，升级后可以得到以下逻辑。
+
+```
+jump 95 equal init 1
+print "▼单位类型"
+set unitT @flare
+printflush ▲请回▲
+op mul flag @thisy @mapw
+op add flag flag @thisx
+op add dagger @counter 1
+jump 10 always x false
+set lead 19969
+jump 95 always x false
+op add crawler @counter 1
+jump 14 always x false
+set coal 19969
+jump 95 always x false
+op add nova @counter 1
+jump 19 always x false
+set lead 19969
+set titanium 19969
+jump 95 always x false
+op add mono @counter 1
+jump 23 always x false
+set lead 19969
+jump 95 always x false
+op add risso @counter 1
+jump 27 always x false
+set metaglass 19969
+jump 95 always x false
+op add retusa @counter 1
+jump 31 always x false
+set titanium 19969
+jump 95 always x false
+op add tungsten-wall-large @counter 1
+jump 35 always x false
+set tungsten 19969
+jump 95 always x false
+op add beryllium-wall-large @counter 2
+op add beam-node @counter 1
+jump 40 always x false
+set beryllium 19969
+jump 95 always x false
+op add carbide-wall-large @counter 1
+jump 45 always x false
+set thorium 19969
+set carbide 19969
+jump 95 always x false
+op add reinforced-surge-wall-large @counter 1
+jump 50 always x false
+set surge-alloy 19969
+set tungsten 19969
+jump 95 always x false
+op add reinforced-liquid-container @counter 1
+jump 55 always x false
+set beryllium 19969
+set tungsten 19969
+jump 95 always x false
+op add reinforced-container @counter 1
+jump 60 always x false
+set graphite 19969
+set tungsten 19969
+jump 95 always x false
+set init 1
+print "[acid]建筑物品选择逻辑-需求识别逻辑[] |v1 |by [scarlet]a[][lime]a[][blue]a[]\n链接所选建筑，自动识别需求\n除大型构筑器外全支持，选择炮塔当前弹药\n电弧选中主逻辑\n"
+control enabled arc1 0 0 0 0
+set bdi 2
+set list 0
+jump 69 lessThan bdi @links
+print "0"
+printflush message1
+jump 61 always x false
+getlink bd bdi
+sensor type bd @type
+sensor id type @id
+read copper "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read lead "一一一一丁一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read metaglass "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read graphite "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read sand "一一丁丁丁一丁一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一丁" id
+read coal "丁丁丁丁一一一一丁" id
+read titanium "一一一一一丁一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read thorium "一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read scrap "一一一一一一一一一一丁一丁一丁" id
+read silicon "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁丁丁丁丁丁一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁丁一一一一一一一丁一一丁丁丁" id
+read plastanium "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁" id
+read phase-fabric "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁丁丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read surge-alloy "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read spore-pod "一一一一一一一一一丁一一一丁" id
+read blast-compound "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read pyratite "一一一丁一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁" id
+read beryllium "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁" id
+read tungsten "一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一一丁丁丁" id
+read oxide "" id
+read carbide "" id
+sensor config bd @config
+sensor configName config @name
+read @counter @this configName
+sensor ammoT bd @currentAmmoType
+sensor ammoTN ammoT @name
+write 19969 @this ammoTN
+printchar type
+printchar config
+set i 0
+lookup item item i
+sensor name item @name
+set need 0
+read need @this name
+jump 109 notEqual need 19969
+printchar item
+op shl mask 1 i
+op or list list mask
+op add i i 1
+jump 101 lessThan i @itemCount
+print "\n"
+op add bdi bdi 1
+jump 69 lessThan bdi @links
+op shl list? list 3
+print "{0}."
+format list?
+printflush message1
+op shl list list 1
+sensor dead mainLogic @dead
+jump 127 notEqual dead 0
+jump 147 strictEqual arc1 null
+sensor shootX arc1 @shootX
+jump 128 notEqual shootX mainLogicX
+sensor shootY arc1 @shootY
+jump 128 notEqual shootY mainLogicY
+jump 147 always dead 0
+jump 130 strictEqual arc1 null
+sensor mainLogicX arc1 @shootX
+sensor mainLogicY arc1 @shootY
+ubind unitT
+sensor ctd @unit @controlled
+jump 136 equal ctd 0
+sensor flagCheck @unit @flag
+jump 136 equal flagCheck 0
+jump 130 notEqual flagCheck flag
+ucontrol flag flag 0 0 0 0
+ucontrol move mainLogicX mainLogicY 0 0 0
+ucontrol getBlock mainLogicX mainLogicY checkT mainLogic 0
+jump 143 notEqual checkT null
+sensor uDead @unit @dead
+jump 130 equal uDead 1
+jump 131 always uDead 0
+sensor ctr @unit @controller
+jump 148 notEqual ctr @this
+ucontrol unbind 0 0 0 0 0
+jump 148 always x false
+jump 61 equal list lastList
+write list mainLogic "itemList"
+read counter mainLogic "intro"
+write counter mainLogic "@counter"
+set lastList list
+jump 61 always x false
+```
+
+### 运行原理分析
+
+#### 一、flag 生成机制
+
+代码使用 `op mul flag @thisy @mapw` + `op add flag flag @thisx`，公式为 `flag = @thisy * @mapw + @thisx`。这是标准的二维坐标一维化公式，将处理器的 (x, y) 坐标映射为唯一整数。因为 x 始终小于地图宽度 @mapw，不同坐标必定产生不同的 flag 值，零碰撞。
+
+传统公式 `floor(@thisx)*1000+floor(@thisy)` 使用固定乘数 1000，隐含假设地图宽度不超过 1000 格。一旦地图更宽就会出现碰撞（如 x=1000,y=0 和 x=0,y=1 产生相同 flag）。使用 @mapw 作为乘数则没有这个限制，对任意地图大小都能保证唯一性。此外，@thisx 和 @thisy 是处理器的瓦片坐标，本身就是整数，不需要 floor 取整。
+
+#### 二、@counter 跳转表初始化
+
+初始化阶段（指令 6-73）的核心模式为：`op add 建筑名 @counter N` → `jump X always` → `set 物品 19969` → `jump 95 always`。每条 `op add 建筑名 @counter N` 将当前指令指针位置加上偏移 N，存入以建筑名命名的变量中。紧随其后的 `jump X always` 跳过下方的 `set 物品` 代码（初始化时不需要执行），继续处理下一个建筑。
+
+运行时，当某种建筑被识别后，通过 `read @counter @this configName`（configName 是建筑配置名称字符串）从处理器自身变量空间读取之前存储的指令地址，写入 @counter 实现动态跳转到对应的 `set 物品 19969` 代码。这是一种 O(1) 的动态分派机制——将建筑配置名称作为变量名键，利用 Mindustry 的变量系统实现直接寻址，完全避免了传统 jump 链式查表的 O(N) 开销。
+
+offset 为 2 的情况（如 `op add beryllium-wall-large @counter 2`）是因为 beryllium-wall-large 和 beam-node 共用同一段物品设置代码。两条 `op add` 指令计算出相同的地址，指向共享的 `set beryllium 19969`，实现了需求相同建筑间的代码复用。
+
+#### 三、建筑配置识别
+
+三行代码实现了从建筑到需求设置的完整分派流程：
+
+1. `sensor config bd @config`：读取建筑的 @config 属性。对于兵厂，这是正在生产的单位类型（如 @dagger）；对于构筑器，这是要建造的墙类型（如 @beryllium-wall-large）
+2. `sensor configName config @name`：获取 config 对象的名称字符串（如 "dagger"、"beryllium-wall-large"）
+3. `read @counter @this configName`：从处理器自身变量空间中，读取以该名称为键的变量值（初始化阶段存储的指令地址），写入 @counter 实现跳转
+
+这一步发生在字符串打表读取之后，确保通过配置识别的建筑（如兵厂选择的不同单位）也能正确设置需求物品，补全了打表无法覆盖的建筑配置变体。
+
+#### 四、炮塔弹药识别
+
+`sensor ammoT bd @currentAmmoType` 读取炮塔当前使用的弹药类型（Item 对象引用），`sensor ammoTN ammoT @name` 获取弹药名称字符串（如 "copper"），`write 19969 @this ammoTN` 将哨兵值 19969（"丁"的 Unicode 码点 U+4E01）写入处理器自身变量空间中以弹药名称为键的变量。
+
+这一步确保炮塔的当前弹药类型被加入需求列表，即使该弹药类型不在字符串打表中、也不在配置处理器中。后续遍历物品时，`read need @this name` 会读取到 19969，将弹药标记为"需要"。
+
+#### 五、物品位图打包
+
+代码遍历所有物品类型（0 到 @itemCount-1），将需求状态打包为位图整数：
+
+- `lookup item item i`：根据索引获取物品内容对象
+- `sensor name item @name`：获取物品名称字符串
+- `read need @this name`：从处理器变量空间读取该物品的需求值（19968="一"=不需要，19969="丁"=需要）
+- 若值为 19969：`op shl mask 1 i` 创建第 i 位为 1 的掩码，`op or list list mask` 将掩码按位或到 list 中
+
+最终 `list` 是一个位图，第 i 位为 1 表示第 i 个物品被至少一个链接建筑需要。这种编码极为紧凑——一个整数就能表示所有物品的需求状态。传输前执行 `op shl list list 1` 左移 1 位，腾出最低位供配置代码逻辑的 reversed 标志使用（详见配置代码逻辑的 configCode 位打包机制）。
+
+#### 六、电弧主逻辑选择
+
+代码使用一个电弧（Arc）炮塔 arc1 作为玩家选择主逻辑的"瞄准器"。初始化时 `control enabled arc1 0 0 0 0` 禁用 arc1 使其不会自动攻击，玩家手动瞄准来指定目标处理器。
+
+运行时检测 arc1 的 @shootX/@shootY（炮塔瞄准坐标），首次检测时记录为 mainLogicX/mainLogicY。如果瞄准坐标发生变化，说明玩家重新选择了目标，更新记录。`ucontrol getBlock mainLogicX mainLogicY checkT mainLogic 0` 让绑定单位检查目标坐标处的方块，将建筑引用存入 mainLogic 变量——这一步将坐标转换为建筑引用，后续的 `write` 指令需要建筑引用才能向目标处理器写入数据。
+
+#### 七、单位控制与物品列表传输
+
+传输机制分三步，利用了处理器间变量空间写入：
+
+1. `write list mainLogic "itemList"`：将物品位图写入主逻辑处理器的 "itemList" 变量。LogicBuild 的 write 机制在地址为字符串时按变量名写入处理器内部变量
+2. `read counter mainLogic "intro"`：从主逻辑变量空间读取 "intro" 变量。这个值是主逻辑初始化时预先存储的指令地址，代表其物品处理代码的入口点
+3. `write counter mainLogic "@counter"`：将入口地址写入主逻辑的 @counter 变量，强制主逻辑在下一次执行时跳转到物品处理代码
+
+这是一种精妙的处理器间通信协议：数据通过命名变量传输，控制信号通过 @counter 写入触发。主逻辑被被动激活，无需轮询检查是否有新数据。前面的 `jump 61 equal list lastList` 确保仅当物品列表发生变化时才执行传输，避免重复写入。
+
+#### 八、氧化物和碳化物的空字符串处理
+
+`read oxide "" id` 和 `read carbide "" id` 使用空字符串作为读取目标。当 read 的目标为空字符串时，任何索引都会越界返回 NaN，而 NaN 不等于 19969，所以这两种物品永远不会被字符串打表标记为"需要"。
+
+原因是这两种物品仅在特定建筑配置中才需要（如碳化物通过 carbide-wall-large 的配置处理器标记），而不在通用建筑类型需求表中。使用空字符串而非全"一"字符串是一种空间优化——当某物品无类型表需求时，无需编码全零表，大幅减少代码体积。
+
+---
+
+## 配置代码逻辑完整代码
+
+有这个逻辑不够，还需要配合其他逻辑使用。以下配置代码逻辑通过控制卸载器等选择最低数量的物品，适用于工厂物资运输与核心物品装填。
+
+```
+print "配置代码，请在=右边粘贴(复制时没有末尾的点可能不完全)"
+set configCode 0
+print "▼阈值[0,1](选最少->大于则关/选最多->小于则关)"
+set threshold 0.3
+print "▼远程容器模式(0->关闭/1->远程核心/2->指定坐标)"
+set remote 0
+print "▼2->远程容器坐标"
+set remoteX 166
+set remoteY 39
+print "▼2->用于获取建筑的一次性单位"
+set remoteUnit @flare
+printflush 请回
+op shr itemList configCode 3
+op shl itemList itemList 1
+op and running configCode 0b100
+op shr running running 2
+op and controlAllBuT configCode 0b10
+op shr controlAllBuT controlAllBuT 1
+op and reversed configCode 0b1
+op log log2 2 b
+op mul flag @thisy @mapw
+op add flag flag @thisx
+set intro @counter
+print "[acid]建筑物品选择逻辑[] |v4 |by [scarlet]a[][lime]a[][blue]a[]\n用于等的自动控制\n逻辑里面有更多配置\n"
+jump 27 notEqual remote 0
+print "模式：链接容器\n"
+jump 37 always x false
+jump 30 notEqual remote 1
+print "模式：远程核心\n"
+jump 37 always x false
+jump 35 notEqual remote 2
+print "模式：远程容器({0},{0})\n"
+format remoteX
+format remoteY
+jump 37 always x false
+print "模式：[scarlet]错误[]\n"
+end
+sensor _ sorter1 @type
+jump 42 equal _ @sorter
+print "[scarlet][] 未找到"
+printflush message1
+set @counter intro
+sensor _ sorter2 @type
+jump 47 equal _ @inverted-sorter
+print "[scarlet][] 未找到"
+printflush message1
+set @counter intro
+op and jstep itemList 0b111110
+op add @counter @counter jstep
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+jump 112 always 0 0
+print "\ns星一般物品 |物品清单\n|[grey][]\n"
+op shr _ itemList 5
+op and jstep _ 0b111110
+op add @counter @counter jstep
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+jump 178 always 0 0
+print "|[grey][]\n"
+op shr _ itemList 10
+op and jstep _ 0b111110
+op add @counter @counter jstep
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+jump 244 always 0 0
+print "|[grey][]\n"
+op shr _ itemList 15
+op and jstep _ 0b111110
+op add @counter @counter jstep
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+jump 310 always 0 0
+print "|[grey][]\n"
+op shr _ itemList 20
+op and jstep _ 0b111110
+op add @counter @counter jstep
+print "清空|[grey][]\n\n刷新\n"
+jump 320 always 0 0
+print "清空|[grey][]\n\n刷新\n"
+jump 320 always 0 0
+print "清空|[grey][]\n\n刷新\n"
+jump 320 always 0 0
+print "清空|\n\n刷新\n"
+jump 323 notEqual running 0
+print "[scarlet]已暂停[]/[grey]运行中[]\n"
+jump 324 always x false
+print "[grey]已暂停[]/[acid]运行中[]\n"
+jump 327 notEqual controlAllBuT 0
+print "仅控制/[grey]控制各种建筑[]\n"
+jump 328 always x false
+print "[grey]仅控制[]/控制各种建筑\n"
+jump 331 notEqual reversed 0
+print "选最少物品/[grey]选最多物品[]\n\n\n选择/取消所选物品\n\n"
+jump 332 always x false
+print "[grey]选最少物品[]/选最多物品\n\n\n选择/取消所选物品\n\n"
+op shl configCodeItemList itemList 2
+op shl configCodeRunning running 2
+op shl configCodeControlAllBuT controlAllBuT 1
+op add configCodeOut configCodeItemList configCodeRunning
+op add configCodeOut configCodeOut configCodeControlAllBuT
+op add configCodeOut configCodeOut reversed
+print configCodeOut
+print "."
+printflush message1
+jump 421 equal running 1
+sensor config1 sorter1 @config
+jump 412 strictEqual config1 null
+sensor id1 config1 @id
+op add @counter @counter id1
+jump 369 always x false
+jump 410 always x false
+jump 410 always x false
+jump 383 always x false
+jump 376 always x false
+jump 410 always x false
+jump 410 always x false
+jump 410 always x false
+jump 390 always x false
+jump 403 always x false
+jump 400 always x false
+jump 410 always x false
+jump 393 always x false
+jump 406 always x false
+jump 410 always x false
+jump 396 always x false
+jump 383 always x false
+jump 390 always x false
+jump 393 always x false
+jump 410 always x false
+jump 410 always x false
+jump 410 always x false
+print "s星一般物品"
+op and _ itemList 0b11110110011110
+jump 373 notEqual _ 0b11110110011110
+op sub itemList itemList 0b11110110011110
+jump 410 always x false
+op or itemList itemList 0b11110110011110
+jump 410 always x false
+print ""
+op and _ itemList 0b11100001001100000
+jump 380 notEqual _ 0b11100001001100000
+op sub itemList itemList 0b11100001001100000
+jump 410 always x false
+op or itemList itemList 0b11100001001100000
+jump 410 always x false
+print ""
+op and _ itemList 0b111100000000000000000
+jump 387 notEqual _ 0b111100000000000000000
+op sub itemList itemList 0b111100000000000000000
+jump 410 always x false
+op or itemList itemList 0b111100000000000000000
+jump 410 always x false
+print ""
+op xor itemList itemList 0b1000000000000000000000
+jump 410 always x false
+print ""
+op xor itemList itemList 0b10000000000000000000000
+jump 410 always x false
+print "清除"
+op shr itemList itemList 23
+op shl itemList itemList 23
+jump 410 always x false
+print "running"
+op notEqual running running 1
+jump 410 always x false
+print "controlAllBuT"
+op notEqual controlAllBuT controlAllBuT 1
+jump 410 always x false
+print "reversed"
+op notEqual reversed reversed 1
+jump 410 always x false
+print "运行"
+jump 410 always x false
+control config sorter1 null 0 0 0
+set @counter intro
+sensor config2 sorter2 @config
+jump 342 strictEqual config2 null
+sensor id2 config2 @id
+op shl mask 1 id2
+op shl mask mask 1
+op xor itemList itemList mask
+control config sorter2 null 0 0 0
+set @counter intro
+end
+jump 511 notEqual remote 0
+jump 468 equal controlAllBuT 1
+set maxItemC 0
+set i 3
+getlink building i
+sensor type building @type
+jump 432 equal type @item-source
+sensor itemC building @itemCapacity
+jump 434 lessThanEq itemC maxItemC
+set maxItemC itemC
+set maxItemCBu building
+control config building targetItem 0 0 0
+control enabled building enabled 0 0 0
+op add i i 1
+jump 425 lessThan i @links
+op mul maxItemC.th maxItemC threshold
+set targetItem null
+jump 463 lessThanEq itemList 0
+jump 441 notEqual reversed 1
+set maxItemC 0
+op shr itemList? itemList 1
+op log logItemList? itemList? log2
+op idiv ii logItemList? log2
+op shl _ 1 ii
+op sub itemList? itemList? _
+jump 449 notEqual ii 20
+set item @fissile-matter
+jump 453 always x false
+jump 452 notEqual ii 21
+set item @dormant-cyst
+jump 453 always x false
+lookup item item ii
+sensor itemNum maxItemCBu item
+jump 457 notEqual reversed 0
+jump 460 greaterThan itemNum maxItemC
+jump 458 always itemNum maxItemC
+jump 460 lessThan itemNum maxItemC
+set targetItem item
+set maxItemC itemNum
+jump 442 greaterThan itemList? 0
+op lessThan enabled maxItemC maxItemC.th
+op notEqual enabled enabled reversed
+sensor config1 sorter1 @config
+jump 344 notEqual config1 null
+sensor config2 sorter2 @config
+jump 414 notEqual config2 null
+jump 423 always x false
+set maxItemC 0
+set i 3
+getlink building i
+sensor itemC building @itemCapacity
+jump 475 lessThanEq itemC maxItemC
+set maxItemC itemC
+set maxItemCBu building
+control config building targetItem 0 0 0
+control enabled building enabled 0 0 0
+op add i i 1
+jump 470 lessThan i @links
+op mul maxItemC.th maxItemC threshold
+set targetItem null
+jump 506 lessThanEq itemList 0
+jump 484 notEqual reversed 1
+set maxItemC 0
+op shr itemList? itemList 1
+op log logItemList? itemList? log2
+op idiv ii logItemList? log2
+op shl _ 1 ii
+op sub itemList? itemList? _
+jump 492 notEqual ii 20
+set item @fissile-matter
+jump 496 always x false
+jump 495 notEqual ii 21
+set item @dormant-cyst
+jump 496 always x false
+lookup item item ii
+sensor itemNum maxItemCBu item
+jump 500 notEqual reversed 0
+jump 503 greaterThan itemNum maxItemC
+jump 501 always itemNum maxItemC
+jump 503 lessThan itemNum maxItemC
+set targetItem item
+set maxItemC itemNum
+jump 485 greaterThan itemList? 0
+op lessThan enabled maxItemC maxItemC.th
+op notEqual enabled enabled reversed
+sensor config1 sorter1 @config
+jump 344 notEqual config1 null
+sensor config2 sorter2 @config
+jump 414 notEqual config2 null
+jump 468 always x false
+jump 583 equal controlAllBuT 1
+sensor remoteDead remoteBd @dead
+jump 542 equal remoteDead 0
+jump 527 equal remote 2
+set unitTId 0
+lookup unit unitT unitTId
+ubind unitT
+jump 524 strictEqual @unit null
+ulocate building core 0 @copper remoteBdX remoteBdY remoteFound remoteBd
+sensor ctr @unit @controller
+jump 523 notEqual ctr @this
+ucontrol unbind 0 0 0 0 0
+jump 512 equal remoteFound 1
+op add unitTId unitTId 1
+jump 516 lessThan unitTId @unitCount
+jump 512 always x false
+ubind remoteUnit
+sensor remoteUDead @unit @dead
+jump 527 equal remoteUDead 1
+sensor ctd @unit @controlled
+jump 535 equal ctd 0
+sensor uFlag @unit @flag
+jump 535 equal uFlag 0
+jump 527 notEqual uFlag flag
+ucontrol flag flag 0 0 0 0
+ucontrol pathfind remoteX remoteY 0 0 0
+ucontrol getBlock remoteX remoteY check remoteBd 0
+jump 528 strictEqual check null
+ucontrol flag 0 0 0 0 0
+ucontrol unbind 0 0 0 0 0
+jump 512 always x false
+sensor maxItemC remoteBd @itemCapacity
+op mul maxItemC.th maxItemC threshold
+set i 3
+getlink building i
+sensor type building @type
+jump 550 notEqual type @item-source
+control config building targetItem 0 0 0
+control enabled building enabled 0 0 0
+op add i i 1
+jump 545 lessThan i @links
+set targetItem null
+jump 578 lessThanEq itemList 0
+jump 556 notEqual reversed 1
+set maxItemC 0
+op shr itemList? itemList 1
+op log logItemList? itemList? log2
+op idiv ii logItemList? log2
+op shl _ 1 ii
+op sub itemList? itemList? _
+jump 564 notEqual ii 20
+set item @fissile-matter
+jump 568 always x false
+jump 567 notEqual ii 21
+set item @dormant-cyst
+jump 568 always x false
+lookup item item ii
+sensor itemNum remoteBd item
+jump 572 notEqual reversed 0
+jump 575 greaterThan itemNum maxItemC
+jump 573 always itemNum maxItemC
+jump 575 lessThan itemNum maxItemC
+set targetItem item
+set maxItemC itemNum
+jump 557 greaterThan itemList? 0
+op lessThan enabled maxItemC maxItemC.th
+op notEqual enabled enabled reversed
+sensor config1 sorter1 @config
+jump 344 notEqual config1 null
+sensor config2 sorter2 @config
+jump 414 notEqual config2 null
+jump 512 always x false
+sensor remoteDead remoteBd @dead
+jump 613 equal remoteDead 0
+jump 598 equal remote 2
+set unitTId 0
+lookup unit unitT unitTId
+ubind unitT
+jump 595 strictEqual @unit null
+ulocate building core 0 @copper remoteBdX remoteBdY remoteFound remoteBd
+sensor ctr @unit @controller
+jump 594 notEqual ctr @this
+ucontrol unbind 0 0 0 0 0
+jump 583 equal remoteFound 1
+op add unitTId unitTId 1
+jump 587 lessThan unitTId @unitCount
+jump 583 always x false
+ubind remoteUnit
+sensor remoteUDead @unit @dead
+jump 598 equal remoteUDead 1
+sensor ctd @unit @controlled
+jump 606 equal ctd 0
+sensor uFlag @unit @flag
+jump 606 equal uFlag 0
+jump 598 notEqual uFlag flag
+ucontrol flag flag 0 0 0 0
+ucontrol pathfind remoteX remoteY 0 0 0
+ucontrol getBlock remoteX remoteY check remoteBd 0
+jump 599 strictEqual check null
+ucontrol flag 0 0 0 0 0
+ucontrol unbind 0 0 0 0 0
+jump 583 always x false
+sensor maxItemC remoteBd @itemCapacity
+op mul maxItemC.th maxItemC threshold
+set i 3
+getlink building i
+control config building targetItem 0 0 0
+control enabled building enabled 0 0 0
+op add i i 1
+jump 616 lessThan i @links
+set targetItem null
+jump 647 lessThanEq itemList 0
+jump 625 notEqual reversed 1
+set maxItemC 0
+op shr itemList? itemList 1
+op log logItemList? itemList? log2
+op idiv ii logItemList? log2
+op shl _ 1 ii
+op sub itemList? itemList? _
+jump 633 notEqual ii 20
+set item @fissile-matter
+jump 637 always x false
+jump 636 notEqual ii 21
+set item @dormant-cyst
+jump 637 always x false
+lookup item item ii
+sensor itemNum remoteBd item
+jump 641 notEqual reversed 0
+jump 644 greaterThan itemNum maxItemC
+jump 642 always itemNum maxItemC
+jump 644 lessThan itemNum maxItemC
+set targetItem item
+set maxItemC itemNum
+jump 626 greaterThan itemList? 0
+op lessThan enabled maxItemC maxItemC.th
+op notEqual enabled enabled reversed
+sensor config1 sorter1 @config
+jump 344 notEqual config1 null
+sensor config2 sorter2 @config
+jump 414 notEqual config2 null
+jump 583 always x false
+```
+
+### 运行原理分析
+
+#### 一、configCode 位打包/解包机制
+
+configCode 是一个复合整数，将四个字段压缩编码：`[itemList bits 3+][running bit2][controlAllBuT bit1][reversed bit0]`。
+
+**解包流程**（第197-203行）：
+- `op shr itemList configCode 3`：右移3位剥离底部三个标志位，得到物品位图
+- `op shl itemList itemList 1`：左移1位在 bit0 位置补零。这个"bit0 恒为0"的不变量有两个作用：一是允许 running 标志在打包时复用 bit2 而不与 itemList 冲突（itemList<<2 后 bit2 必为0），二是使后续 jump 表的偏移量始终为偶数，恰好匹配 print+jump 两指令一块的尺寸
+- `op and running configCode 0b100` + `op shr running running 2`：提取 bit2 并右移到 bit0
+- controlAllBuT（bit1）和 reversed（bit0）同理提取
+
+**打包流程**（第519-524行）：
+- `op shl configCodeItemList itemList 2`：将 itemList（bit0=0）左移2位，使物品位图落在 bit3+
+- `op shl configCodeRunning running 2`：将 running 放入 bit2
+- `op shl configCodeControlAllBuT controlAllBuT 1`：放入 bit1
+- 累加 reversed，还原完整 configCode
+
+由于 itemList 的 bit0 不变量保证 `itemList<<2` 的 bit2 为0，running 可以安全占据该位，实现了位复用。最终 configCode 可以直接打印到信息板供玩家复制粘贴。
+
+#### 二、jump 表 UI 渲染机制
+
+UI 渲染采用"计算跳转 + 分发表"模式，在信息板上呈现可交互的物品选择界面：
+
+- `op and jstep itemList 0b111110`：提取 itemList 的 bits 1-5（5个物品的选择状态），结果为 0/2/4/.../62 中的某个偶数
+- `op add @counter @counter jstep`：以该偶数为偏移量跳转执行流。由于每个 print+jump 块恰好 2 条指令，偏移量刚好跳到对应的打印块
+
+每个打印块显示这5个物品的一种选中/未选中组合（32种组合 = 2^5），通过不同的颜色标签（如 `[acid]` 高亮选中、`[grey]` 灰显未选中）呈现选择状态。每处理完一组5个物品，`op shr _ itemList 5` 将 itemList 右移5位，使下一组物品移到 bits 1-5 位置，重复相同的 `and + add @counter` 机制。这个模式在 shift 0/5/10/15/20 处重复5次，覆盖25个物品槽位。
+
+最后一组还附加特殊按钮：清空（`op shr itemList itemList 23` + `op shl itemList itemList 23` 清除所有选择位）、运行状态切换、controlAllBuT 切换、reversed 切换。整个 UI 每帧重新渲染到 message1。
+
+#### 三、分类器交互机制
+
+玩家通过在分类器中放入物品来选择/取消物品需求，逻辑区分两种分类器：
+
+**sorter1（普通分类器）——组切换**：`sensor config1 sorter1 @config` 读取分类器当前配置的物品，`sensor id1 config1 @id` 获取物品的 content ID，`op add @counter @counter id1` 以 content ID 为偏移跳入跳转表。跳转表的每个条目将不同 ID 的物品映射到对应的组切换处理器。组切换使用 `op and` 检查整组是否已全选，若全选用 `op sub` 清除整组（取消选择），否则用 `op or` 设置整组（选择）。`control config sorter1 null 0 0 0` 清除分类器配置，使玩家可以继续选择下一个物品而不重复触发。
+
+**sorter2（反向分类器）——单物品切换**：`sensor id2 config2 @id` 获取物品 ID，`op shl mask 1 id2` + `op shl mask mask 1` 构造对应位的掩码（额外左移1位补偿 bit0 不变量），`op xor itemList itemList mask` 用异或切换该物品的选中状态——已选则取消，未选则选中。同样清除配置后返回 UI 渲染入口。
+
+#### 四、远程容器模式
+
+三种模式适应不同的建筑布局场景：
+
+**模式0（链接容器）**：直接通过 `getlink` 遍历链接建筑，使用本地链接容器作为物品数量感知目标。最简单直接，但要求目标建筑在处理器链接范围内。
+
+**模式1（远程核心）**：通过 `ulocate building core` 全图搜索核心建筑作为远程容器。不需要单位移动，`ulocate` 自身就能全图定位核心。先清理上次使用的单位（检测 `@controller` 是否为自身，是则 `ucontrol unbind` 释放），然后直接获取核心引用。
+
+**模式2（指定坐标）**：使用一次性单位获取远程建筑引用。完整流程：
+1. `ubind remoteUnit` 绑定配置的一次性单位（如 @flare）
+2. 检查单位存活且未被他人占用（通过 flag 标记识别本处理器单位）
+3. `ucontrol flag flag` 设置标记 → `ucontrol pathfind remoteX remoteY` 命令单位移动到目标坐标
+4. `ucontrol getBlock remoteX remoteY check remoteBd 0` 获取目标坐标处的建筑引用存入 `remoteBd`
+5. 完成后 `ucontrol flag 0` 清除标记 → `ucontrol unbind` 释放单位
+
+flag 机制用于跨 tick 识别本处理器单位。每帧结束时单位会被释放，下一帧需要重新绑定并验证 flag 是否匹配，确保不会误用被其他逻辑控制的单位。
+
+#### 五、阈值物品选择算法
+
+算法从 itemList 位图中逐位提取物品索引，找到数量最少或最多的物品：
+
+1. `op shr itemList? itemList 1`：右移1位消除 bit0 不变量，得到真实物品位图
+2. `op log logItemList? itemList? log2`：计算 `Math.log(itemList?) / Math.log(log2)`，其中 log2 是预先计算的 `Math.log(2) / Math.log(b)`（b 为对数基底变量）。当 b=2 时 log2=1，结果为 log2(itemList?)
+3. `op idiv ii logItemList? log2`：整数除法取整，得到最高位（most significant bit）的位置索引
+4. `op shl _ 1 ii`：根据位位置构造单比特掩码 `1 << ii`
+5. `op sub itemList? itemList? _`：将该位从位图中清除
+
+循环 `jump 442 greaterThan itemList? 0` 在清除一位后检查位图是否仍非零，若非零则继续提取下一个最高位，直到所有选中物品都被遍历。每次迭代中读取该物品在容器中的数量，根据 reversed 模式决定是否更新目标物品。
+
+特殊物品处理：item 20 和 21 分别硬编码为 `@fissile-matter` 和 `@dormant-cyst`，因为这两个物品未注册到 logic ID 映射中（@itemCount=20），`lookup item item 20` 会返回 null，必须通过常量直接引用。
+
+#### 六、reversed 模式
+
+reversed 标志控制选择最少还是最多数量的物品：
+
+**reversed=0（选最少）**：`jump 460 greaterThan itemNum maxItemC`，当物品数量 > 当前最小值时跳过，只保留数量 ≤ 当前最小值的物品。初始 maxItemC=0，只有数量为0（完全耗尽）的物品会被选中，优先补充最缺的物资。
+
+**reversed=1（选最多）**：`jump 460 lessThan itemNum maxItemC`，当物品数量 < 当前最大值时跳过，保留数量 ≥ 当前最大值的物品。最终找到数量最多的物品用于排出。
+
+**阈值使能逻辑**（第648-649行）：
+- `op lessThan enabled maxItemC maxItemC.th`：基础判断——当选中的极值数量 < 阈值时使能（需要补充）
+- `op notEqual enabled enabled reversed`：用 notEqual 实现异或——reversed=0 时不反转（少则开），reversed=1 时反转（多则开）
+
+这完美对应描述"选最少->大于则关/选最多->小于则关"：选最少模式下数量超过阈值则关闭卸载器，选最多模式下数量低于阈值则关闭。
+
+#### 七、controlAllBuT 模式
+
+`jump 468 equal controlAllBuT 1` 是模式分叉点：
+
+**controlAllBuT=0（仅控制）**：建筑遍历循环中包含 `sensor type building @type` + `jump 432 equal type @item-source`，跳过物品源（item-source），只在没有物品源的建筑中寻找最大容量的建筑作为物品数量感知目标。只有卸载器、分类器等被动建筑参与物品数量监测。
+
+**controlAllBuT=1（控制各种建筑）**：循环去掉了 @item-source 类型检查，所有链接建筑（包括物品源）都参与最大容量查找和物品数量感知。这使得逻辑可以控制包括物品源在内的所有建筑类型。
+
+两个分支的差异仅在于类型过滤，后续的物品选择算法、阈值判断、建筑控制（`control config` 设置目标物品 + `control enabled` 控制开关）逻辑完全相同。controlAllBuT=1 跳过的是整个 controlAllBuT=0 分支的代码（约50条指令），直接进入 controlAllBuT=1 分支。
+
+#### 八、整体架构总结
+
+这套配置代码逻辑的核心设计思想是**位图压缩 + 计算跳转分发表**。configCode 将物品选择列表（22位）、运行状态、控制模式、反向模式四个字段压缩到一个整数中，通过位运算实现打包/解包，其中 bit0 不变量巧妙地同时解决了位复用和跳转表对齐两个问题。UI 渲染使用 `@counter += offset` 的计算跳转构建 switch-case 风格的分发表，将5位选择状态映射到32个打印块实现动态高亮显示。物品选择算法使用 `op log` 提取最高位索引遍历位图，配合 `op notEqual` 实现的异或逻辑在 reversed 模式间切换最值查找方向。远程容器模式通过一次性单位的 `pathfind` + `getBlock` 组合获取远程建筑引用。对未注册 logic ID 的特殊物品，代码硬编码位位置和物品引用绕过 `lookup` 限制。
+
+
+<!-- 文件: 07_实战案例\12_变量表完整性检查.md -->
+
+
+---
+
+
+# 12 - 变量表完整性检查
+
+## 概述
+
+在打表的时候很容易出现因失误导致的变量不全问题，这个逻辑可以帮我们发现表断在了哪里。
+
+其原理是：遍历所有建筑 ID，将每个建筑的名称作为变量名写入处理器变量空间，值为对应的 ID。然后再反向遍历，读取每个变量名对应的值，如果读到的值与当前 ID 不一致，说明该变量在写入时就已经断掉了（即打表过程中出现了遗漏或错误）。逻辑会将所有断点位置打印到消息板上。
+
+---
+
+## 变量表检查逻辑完整代码
+
+```
+set id -1
+op add id id 1
+lookup block team id
+sensor name team @name
+write id processor1 name
+jump 1 notEqual team 0
+set max id
+print "停止位置为:"
+set id -1
+op add id id 1
+lookup block team id
+sensor name team @name
+read read processor1 name
+jump 16 strictEqual read id
+print id
+print "，"
+jump 9 lessThan id max
+set id 0
+printflush message1
+```
+
+---
+
+## 代码解说
+
+### 第一阶段：打表写入
+
+```
+set id -1
+op add id id 1
+lookup block team id
+sensor name team @name
+write id processor1 name
+jump 1 notEqual team 0
+```
+
+- `set id -1`：初始化 ID 为 -1，后续从 0 开始遍历
+- `op add id id 1`：ID 递增
+- `lookup block team id`：根据 ID 查找建筑类型，结果存入 `team`
+- `sensor name team @name`：读取建筑类型的名称，存入 `name`
+- `write id processor1 name`：将当前 ID 以建筑名称为变量名写入处理器 `processor1` 的变量空间。这里利用了 LogicBuild 的 write 行为：字符串地址（即建筑名称）会写入处理器的变量空间，值为对应的 ID
+- `jump 1 notEqual team 0`：当 `lookup` 查不到建筑（返回 0/null）时，`team` 不等于 0 的条件失败，跳回第 1 行继续循环。实际上当 `lookup` 返回 null 时 `team` 为 0，循环结束
+
+### 第二阶段：记录最大 ID
+
+```
+set max id
+```
+
+- 循环结束后，`id` 的值就是建筑总数（即最大的有效 ID + 1），将其存入 `max` 作为后续遍历的上限
+
+### 第三阶段：反向验证
+
+```
+print "停止位置为:"
+set id -1
+op add id id 1
+lookup block team id
+sensor name team @name
+read read processor1 name
+jump 16 strictEqual read id
+print id
+print "，"
+jump 9 lessThan id max
+set id 0
+printflush message1
+```
+
+- `print "停止位置为:"`：打印提示信息
+- `set id -1`：重新从 0 开始遍历
+- `lookup block team id` + `sensor name team @name`：再次获取建筑名称
+- `read read processor1 name`：从处理器变量空间中读取以建筑名称为变量名的值
+- `jump 16 strictEqual read id`：如果读到的值与当前 ID 严格相等，说明该变量完整写入，跳到第 16 行（`set id 0`，结束检查）。如果不相等，说明该变量在写入时断掉了，继续执行下面的打印
+- `print id` + `print "，"`：打印断点位置（即出错的 ID）
+- `jump 9 lessThan id max`：如果还没遍历完，跳回第 9 行继续检查下一个
+- `set id 0`：检查结束，重置 id
+- `printflush message1`：将打印缓冲区刷新到消息板 `message1`
+
+### 使用说明
+
+1. 将此逻辑放入一个微型处理器
+2. 处理器需要链接到一个名为 `processor1` 的处理器（即存放变量表的处理器）和一个名为 `message1` 的消息板
+3. 运行后，消息板上会显示"停止位置为:"后跟若干数字，这些数字就是变量表中出现断裂的 ID 位置
+4. 如果没有断裂，消息板上只会显示"停止位置为:"（后面没有数字）
+
+### 关于 `lookup` 指令
+
+`lookup block team id` 是查找指令，根据建筑 ID 查找对应的建筑类型。当 ID 超出有效范围时，返回 null（在条件判断中表现为 0）。这个指令是打表的核心工具之一。
+
+
+<!-- 文件: 07_实战案例\13_无旗多控搬运逻辑.md -->
+
+
+---
+
+
+# 13 - 无旗多控搬运逻辑
+
+> 同时控制多个单位搬运物品，全程不使用 flag，通过 `@controller` 检测归属。
+> 连接一个分类器，分类器选择什么物品，单位就搬运什么物品。
+
+---
+
+## 目录
+
+1. [需求分析](#1-需求分析)
+2. [核心机制](#2-核心机制)
+3. [完整代码](#3-完整代码)
+4. [代码逐段讲解](#4-代码逐段讲解)
+5. [部署说明](#5-部署说明)
+6. [原理分析](#6-原理分析)
+7. [与有旗方案的对比](#7-与有旗方案的对比)
+
+---
+
+## 1. 需求分析
+
+### 你要实现什么
+
+```
+分类器（选择物品）→ 处理器读取配置 → 单位从核心取货 → 搬运到目标建筑
+```
+
+### 约束条件
+
+| 条件 | 说明 |
+|------|------|
+| **多控** | 同时控制多个单位（本例支持 6 个） |
+| **无旗** | 不能给单位设置 flag，改用 `@controller` 检测归属 |
+| **分类器** | 通过读取分类器（sorter）的 `@config` 确定目标物品 |
+| **搬运** | 单位从核心取货，运输到处理器链接的目标建筑 |
+
+### 适用场景
+
+- 工厂物资供应：分类器选择工厂需要的原料，单位自动搬运
+- 炮塔弹药补给：分类器选择炮塔弹药类型，单位持续搬运
+- 核心物品分流：从核心取出特定物品，运输到指定建筑
+
+---
+
+## 2. 核心机制
+
+### 2.1 无旗原理：用 @controller 替代 flag
+
+传统多控逻辑使用 `ucontrol flag` 给单位打标记，标识"这个单位归我管"。本方案不使用 flag，而是利用游戏引擎的**控制器机制**：
+
+```
+处理器执行 ubind + ucontrol 后 → 游戏引擎自动设置 @controller = @this
+```
+
+检测方式：
+
+```mlog
+# 传统方案（用 flag）
+sensor flag @unit @flag
+jump replenish notEqual flag procFlag
+
+# 本方案（用 @controller）
+sensor ctr @unit @controller
+jump replenish notEqual ctr @this
+```
+
+**无需手动设置和清除 flag**，当处理器对单位发出 `ucontrol` 指令时，游戏引擎自动建立控制关系。`@controller` 存储的是控制该单位的处理器建筑引用，如果另一个处理器覆盖了控制，`@controller` 会变化，我们就能检测到。
+
+### 2.2 多控原理：@counter 伪列表
+
+使用 `@counter` 加法运算实现 switch-case 风格的跳转，将 6 个单位的引用分别存储在 `un1`~`un6` 变量中，每帧轮转控制一个不同的单位。
+
+```mlog
+op mod ts ts 6               # ts = 0,1,2,3,4,5 循环
+op mul counter ts 2          # 每个 case 占 2 条指令
+op add @counter @counter counter  # 跳转到对应 case
+```
+
+### 2.3 搬运流程
+
+```
+绑定单位 → 检查存活/归属 → 读取分类器配置
+  ├─ 背包有目标物品 → 移动到目标建筑 → itemDrop 卸货
+  └─ 背包无目标物品 → 移动到核心 → itemTake 取货 → 循环
+```
+
+---
+
+## 3. 完整代码
+
+```mlog
+# 无旗多控搬运逻辑 v1.0
+# 不使用flag，通过@controller检测归属
+# 分类器选择物品，单位搬运到目标建筑
+# 使用标签跳转（项目规范）
+
+# ========== 配置区（可修改） ==========
+set unitType @mono             # 单位类型
+set unitCount 6                # 单位数量（1-6）
+set sorterIdx 0                # 分类器链接索引
+set targetIdx 1                # 目标建筑链接索引
+
+# ========== 初始化（仅执行一次） ==========
+jump mainLoop equal initDone 1
+
+# 查找核心
+ulocate building core true @copper coreX coreY found core
+jump noCore equal found 0    # 没找到核心，陷入死循环
+
+set initDone 1
+initEnd:
+
+# ========== 主循环：@counter伪列表轮转 ==========
+mainLoop:
+# 读取分类器配置，确定目标物品
+getlink sorter sorterIdx
+sensor targetItem sorter @config
+jump itemNull equal targetItem null  # 分类器未配置
+
+# 读取目标建筑
+getlink targetBd targetIdx
+
+# 轮转到下一个单位
+op add ts ts 1
+op mod ts ts unitCount
+op mul counter ts 2
+op add @counter @counter counter
+
+# ----- 6 个 case，每个 2 条指令 -----
+# case 0
+ubind un1
+jump ctrlEntry always 0 0
+
+# case 1
+ubind un2
+jump ctrlEntry always 0 0
+
+# case 2
+ubind un3
+jump ctrlEntry always 0 0
+
+# case 3
+ubind un4
+jump ctrlEntry always 0 0
+
+# case 4
+ubind un5
+jump ctrlEntry always 0 0
+
+# case 5
+ubind un6
+jump ctrlEntry always 0 0
+
+# ========== 控制区：检查 + 执行搬运 ==========
+ctrlEntry:
+# 检查单位是否存活
+sensor unDead @unit @dead
+jump replenish equal unDead 1
+
+# 检查是否仍归我们控制（无旗方式：检测@controller）
+sensor ctr @unit @controller
+jump replenish notEqual ctr @this
+
+# --- 检查背包 ---
+sensor hasItem @unit targetItem
+jump goTake lessThanEq hasItem 0
+
+# --- 有物品 → 卸货 ---
+goDrop:
+sensor tx targetBd @x
+sensor ty targetBd @y
+ucontrol move tx ty 0 0 0
+ucontrol itemDrop targetBd 9999 0 0 0
+end
+
+# --- 无物品 → 取货 ---
+goTake:
+ucontrol move coreX coreY 0 0 0
+ucontrol itemDrop core 9999 0 0 0      # 清空背包（防止混入其他物品）
+ucontrol itemTake core targetItem 9999 0 0 0  # 取目标物品
+end
+
+# ========== 补充区：单位死亡/丢失时补充 ==========
+replenish:
+ubind unitType
+sensor controlled @unit @controlled
+jump replenishFail greaterThan controlled 0  # 已被控制，跳过
+# 找到一个空闲单位，建立控制关系
+# 注意：这里不设置flag，而是通过ucontrol让游戏引擎自动设置@controller
+ucontrol move @thisx @thisy 0 0 0
+# 存储到对应槽位
+op add @counter @counter counter
+set un1 @unit
+end
+set un2 @unit
+end
+set un3 @unit
+end
+set un4 @unit
+end
+set un5 @unit
+end
+set un6 @unit
+end
+replenishFail:
+end
+
+# ========== 异常处理 ==========
+noCore:
+# 找不到核心，陷入死循环等待
+end
+
+itemNull:
+# 分类器未配置，跳过本轮
+end
+```
+
+---
+
+## 4. 代码逐段讲解
+
+### 4.1 配置区
+
+```mlog
+set unitType @mono     # 单位类型，可以改成 @dagger、@flare 等
+set unitCount 6        # 控制几个单位（范围 1-6）
+set sorterIdx 0        # 分类器在链接列表中的索引
+set targetIdx 1        # 目标建筑在链接列表中的索引
+```
+
+**链接配置**：处理器需要链接以下建筑：
+- 链接索引 0：分类器（sorter）
+- 链接索引 1：目标建筑（需要物品的建筑，如工厂、炮塔等）
+- 其他链接：根据需要添加
+
+### 4.2 初始化部分
+
+```mlog
+jump mainLoop equal initDone 1    # 初始化完成则跳过
+```
+
+**首次执行**：初始化只执行一次，通过 `initDone` 变量标记。
+
+**找核心**：`ulocate building core true @copper coreX coreY found core` 在全图范围内搜索核心建筑。如果找不到（`found == 0`），跳转到 `noCore` 死循环 —— 这种情况通常发生在没有核心的地图（如沙盒模式），需要手动设置核心坐标。
+
+**坐标缓存**：`ulocate` 定位核心时，已将其坐标输出到 `coreX`、`coreY` 变量中。后续代码直接使用这些变量，不需要每帧重新读取，节省指令配额。
+
+### 4.3 主循环：@counter 伪列表
+
+```mlog
+op add ts ts 1
+op mod ts ts unitCount
+op mul counter ts 2
+op add @counter @counter counter
+```
+
+**工作原理**：
+
+| `ts` 值 | `counter = ts × 2` | 跳转到的 case | 绑定的单位 |
+|---------|-------------------|---------------|-----------|
+| 0 | 0 | case 0 | `un1` |
+| 1 | 2 | case 1 | `un2` |
+| 2 | 4 | case 2 | `un3` |
+| 3 | 6 | case 3 | `un4` |
+| 4 | 8 | case 4 | `un5` |
+| 5 | 10 | case 5 | `un6` |
+
+**每个 case 的结构**（2 条指令）：
+
+```mlog
+ubind un1              # 指令 1：绑定存储在 un1 中的单位
+jump ctrlEntry always 0 0  # 指令 2：跳转到控制区
+```
+
+`ubind un1` 绑定的是**变量中存储的具体单位引用**，而不是某一类单位。只要 `un1` 中存储的单位引用有效（单位存活且未被解除绑定），每次 `ubind un1` 都会绑定到同一个单位。这保证了多控的稳定性。
+
+### 4.4 控制区
+
+```mlog
+# 检查存活
+sensor unDead @unit @dead
+jump replenish equal unDead 1
+```
+
+**存活检测**：如果单位死亡（`@dead == 1`），跳转到补充区。
+
+```mlog
+# 检查归属（无旗方式）
+sensor ctr @unit @controller
+jump replenish notEqual ctr @this
+```
+
+**归属检测**：这是本方案的核心。`@controller` 存储了当前控制该单位的处理器建筑引用。如果 `@controller != @this`，说明单位已被其他处理器接管，需要重新寻找。
+
+**为什么不用 flag**：`@controller` 是游戏引擎自动维护的，不需要手动设置和清除。当我们通过 `ubind` + `ucontrol` 控制单位时，引擎自动设置 `@controller = @this`。如果另一个处理器也向这个单位发出了 `ucontrol` 指令，`@controller` 会被覆盖，我们就能检测到。
+
+```mlog
+# 检查背包
+sensor hasItem @unit targetItem
+jump goTake lessThanEq hasItem 0
+```
+
+**背包检测**：`sensor hasItem @unit targetItem` 读取单位背包中目标物品的数量。如果 `hasItem <= 0`，说明背包里没有目标物品，需要去核心取货。
+
+**卸货流程**：
+```mlog
+sensor tx targetBd @x
+sensor ty targetBd @y
+ucontrol move tx ty 0 0 0
+ucontrol itemDrop targetBd 9999 0 0 0
+```
+
+读取目标建筑的坐标，命令单位移动到目标建筑，然后 `itemDrop` 卸下所有物品（`9999` 表示全部卸下）。
+
+**取货流程**：
+```mlog
+ucontrol move coreX coreY 0 0 0
+ucontrol itemDrop core 9999 0 0 0
+ucontrol itemTake core targetItem 9999 0 0 0
+```
+
+移动到核心，先清空背包（防止混入其他物品），然后取出目标物品。
+
+**注意**：取货前先 `itemDrop core 9999` 清空背包。这是因为单位可能携带了其他物品（如之前搬运途中捡到的物品），如果不先清空，可能会把错误物品混入目标建筑。
+
+### 4.5 补充区
+
+```mlog
+replenish:
+ubind unitType
+sensor controlled @unit @controlled
+jump replenishFail greaterThan controlled 0
+ucontrol move @thisx @thisy 0 0 0
+op add @counter @counter counter
+set un1 @unit
+end
+```
+
+当单位死亡或丢失时，执行补充流程：
+
+1. **`ubind unitType`**：绑定指定类型的空闲单位
+2. **`sensor controlled @unit @controlled`**：检查单位是否已被控制
+   - `controlled == 0`：完全空闲，可以绑定
+   - `controlled >= 1`：已被其他处理器或玩家控制，跳过
+3. **`ucontrol move @thisx @thisy 0 0 0`**：向单位发出移动指令，让游戏引擎自动设置 `@controller = @this`。这就是**无旗绑定的关键**——不需要 `ucontrol flag`，只需要任意一条 `ucontrol` 指令即可建立控制关系
+4. **`op add @counter @counter counter`**：跳转到对应的槽位，将单位引用存入 `unN`
+
+**补充区的槽位存储**：
+
+| `ts` 值 | `counter = ts × 2` | 跳转到的 `set` |
+|---------|-------------------|----------------|
+| 0 | 0 | `set un1 @unit` |
+| 1 | 2 | `set un2 @unit` |
+| 2 | 4 | `set un3 @unit` |
+| 3 | 6 | `set un4 @unit` |
+| 4 | 8 | `set un5 @unit` |
+| 5 | 10 | `set un6 @unit` |
+
+注意：补充区的 `set unN @unit` + `end` 也是 2 条指令一组，与主循环的 `counter = ts × 2` 计算完全匹配。
+
+### 4.6 异常处理
+
+```mlog
+noCore:
+end
+```
+
+找不到核心时，`end` 回到开头，再次执行 `jump mainLoop equal initDone 1`，由于 `initDone` 已被设为 1，直接跳入主循环。主循环中 `ulocate` 会在 40 tick 的缓存期后重新搜索，直到找到核心。
+
+```mlog
+itemNull:
+end
+```
+
+分类器未配置物品时，`end` 回到开头，每帧检查一次分类器配置，直到玩家配置了物品。
+
+---
+
+## 5. 部署说明
+
+### 5.1 建筑布局
+
+```
+┌─────────────────────────────────┐
+│  处理器（逻辑处理器）             │
+│  ├─ 链接 0：分类器（sorter）     │
+│  ├─ 链接 1：目标建筑（工厂等）    │
+│  └─ 其他链接：根据需要添加       │
+│                                  │
+│  分类器配置物品 → 单位自动搬运    │
+└─────────────────────────────────┘
+```
+
+### 5.2 部署步骤
+
+1. **放置处理器**：放一个逻辑处理器（2x2）
+2. **链接建筑**：
+   - 链接一个**分类器**（sorter）到链接索引 0
+   - 链接**目标建筑**（如单位工厂、炮塔等）到链接索引 1
+   - 确保处理器范围内有**核心**（或手动设置核心坐标）
+3. **配置分类器**：在分类器中放入你想要搬运的物品
+4. **导入代码**：将代码复制到处理器中
+5. **调整配置**：
+   - 修改 `unitType` 为你想要的单位类型（如 `@mono`、`@flare`）
+   - 修改 `unitCount` 控制单位数量（1-6）
+   - 如果分类器或目标建筑的链接索引不同，修改 `sorterIdx` 和 `targetIdx`
+
+### 5.3 常见问题
+
+**Q：单位不动怎么办？**
+- 检查处理器是否链接了分类器和目标建筑
+- 检查分类器是否配置了物品
+- 检查核心附近是否有足够的物品
+- 检查单位类型是否正确，场上是否有该类型的单位
+
+**Q：抢单位怎么办？**
+- 本方案使用 `@controller` 检测，不依赖 flag
+- 如果两个处理器都使用本方案，它们会通过 `@controller` 自动区分：一个单位被一个处理器控制后，`@controller` 被设置，另一个处理器检测到 `@controller != @this` 就会跳过
+
+**Q：单位数量不够怎么办？**
+- 确保有足够多的同类型单位
+- 检查 `unitCount` 是否设置正确
+- 补充区会自动寻找空闲单位
+
+---
+
+## 6. 原理分析
+
+### 6.1 @controller 机制详解
+
+**什么是 @controller**
+
+`@controller` 是单位的一个属性，存储了当前控制该单位的处理器建筑引用。当处理器通过 `ubind` 绑定单位并发出 `ucontrol` 指令时，游戏引擎会自动设置 `@controller = @this`。
+
+**控制关系的建立与维护**
+
+```
+处理器 A: ubind → ucontrol move → @controller = @this (处理器 A)
+处理器 B: ubind @dagger → 检测到 @controller ≠ @this → 跳过
+```
+
+**关键特征**：
+- `@controller` 是**只读属性**，不能通过 `ucontrol flag` 或任何指令手动修改
+- 当处理器对单位发出 `ucontrol` 指令时，`@controller` 自动被设为该处理器
+- 如果另一个处理器也对同一个单位发出了 `ucontrol` 指令，`@controller` 会被覆盖
+- 单位死亡后重新生成，`@controller` 重置为 `null`
+
+**与 flag 的对比**：
+
+| 对比项 | flag 方案 | @controller 方案 |
+|--------|----------|-----------------|
+| 设置方式 | `ucontrol flag value 0 0 0 0` | 游戏引擎自动设置 |
+| 清除方式 | `ucontrol flag 0 0 0 0 0` | 引擎自动管理 |
+| 检测方式 | `sensor flag @unit @flag` | `sensor ctr @unit @controller` |
+| 冲突风险 | 可能被其他逻辑覆盖 flag | 可能被其他逻辑覆盖 controller |
+| 额外指令 | 需要 set + clear 指令 | 无需额外指令 |
+| 可读性 | flag 值可自定义含义 | 建筑引用，含义明确 |
+
+**@controller 的局限性**：
+
+`@controller` 的检测存在一个**帧差窗口**：当处理器 A 在当前帧发出了 `ucontrol` 指令，但处理器 B 在同一帧更早的时间点执行了 `ubind` + `ucontrol` 时，`@controller` 可能已经被覆盖。这会导致两个处理器同时控制同一个单位。
+
+这个帧差问题在 flag 方案中也存在（两个处理器同时设置 flag），称为"冲突判断"问题。在 `01_兵控逻辑分类与绑定规范.md` 中，解决方法是"每次循环都检测单位的 flag 是否为逻辑给的 flag"。对于 `@controller` 方案，同样需要每帧检查 `@controller` 是否仍为 `@this`。
+
+### 6.2 @counter 伪列表的跳转数学
+
+**核心公式**：
+
+```
+counter = ts × 每个case的指令数
+@counter = @counter + counter
+```
+
+**为什么每个 case 是 2 条指令？**
+
+```
+ubind unN            # 指令 1
+jump ctrlEntry always 0 0  # 指令 2
+```
+
+每个 case 恰好 2 条指令：
+- `ts = 0` → `counter = 0` → 不跳转，执行 `ubind un1`
+- `ts = 1` → `counter = 2` → 跳过 `ubind un1` + `jump`，执行 `ubind un2`
+- `ts = 2` → `counter = 4` → 跳过 4 条指令，执行 `ubind un3`
+- 以此类推
+
+**补充区的槽位匹配**：
+
+补充区的 `set unN @unit` + `end` 也是 2 条指令一组，与主循环的 `counter = ts × 2` 完全匹配。这意味着 `counter` 值在补充区也能正确跳转到对应的槽位。
+
+### 6.3 分类器 @config 读取
+
+**sorter 的 @config 属性**：
+
+分类器（sorter）的 `@config` 属性存储了它当前配置的物品类型。当玩家在分类器中放入一个物品时，`@config` 被设为该物品的内容引用（如 `@copper`、`@lead` 等）。
+
+```mlog
+getlink sorter sorterIdx    # 获取分类器建筑引用
+sensor targetItem sorter @config  # 读取配置的物品
+```
+
+**注意事项**：
+- 如果分类器未配置物品，`@config` 为 `null`
+- 代码中 `jump itemNull equal targetItem null 0 0` 处理了这种情况
+- 分类器配置的物品发生变化时，`@config` 立即更新，无需额外操作
+
+### 6.4 搬运流程的完整状态机
+
+每个单位的状态流转：
+
+```
+                    ┌──────────────────────────────┐
+                    │                              │
+                    ▼                              │
+    ┌───────────────────────────────┐              │
+    │  状态1: 绑定 + 检查存活/归属   │              │
+    └───────────┬───────────────────┘              │
+                │                                  │
+                ▼                                  │
+    ┌───────────────────────────────┐              │
+    │  状态2: 检查背包              │              │
+    └───────┬───────────┬───────────┘              │
+            │           │                          │
+        有物品       无物品                        │
+            │           │                          │
+            ▼           ▼                          │
+    ┌───────────┐ ┌───────────┐                   │
+    │ 状态3a:    │ │ 状态3b:   │                   │
+    │ 移动到建筑 │ │ 移动到核心 │                   │
+    │ itemDrop  │ │ itemTake  │                   │
+    └─────┬─────┘ └─────┬─────┘                   │
+          │             │                          │
+          └──────┬──────┘                          │
+                 │                                 │
+                 ▼                                 │
+           回到主循环 ──────────────────────────────┘
+```
+
+**关键设计**：每个搬运指令（`ucontrol move`、`itemDrop`、`itemTake`）后面都跟了 `end`，回到开头重新执行。这是因为 `ucontrol` 指令设置了控制状态（`controlTimer` 刷新），单位需要时间来完成移动和交互。`end` 回到开头后，下一帧会重新绑定当前单位，检查进度，然后继续执行下一步。
+
+### 6.5 指令配额分析
+
+以逻辑处理器（@ipt=8）为例，每帧可以执行 8 条指令。
+
+**主循环的指令消耗**：
+
+| 阶段 | 指令数 | 说明 |
+|------|--------|------|
+| 读取分类器配置 | 2 | `getlink` + `sensor` |
+| 读取目标建筑 | 1 | `getlink` |
+| @counter 轮转 | 4 | `add ts` + `mod` + `mul` + `add @counter` |
+| 跳转 + case 块 | 2 | `ubind` + `jump` |
+| 存活/归属检查 | 2 | `sensor` + `jump` |
+| 背包检查 | 2 | `sensor` + `jump` |
+| 执行搬运 | 2-5 | `move` + `itemDrop`/`itemTake` |
+| 总计 | 约 14-17 | 超过 @ipt=8，分两帧完成 |
+
+**优化建议**：
+- 使用超级处理器（@ipt=25）获得更流畅的控制
+- 减少单位数量（`unitCount` 设为 3-4）降低轮转开销
+- 初始化时通过 `ulocate` 缓存核心坐标（已实现）
+
+---
+
+## 7. 与有旗方案的对比
+
+### 核心差异
+
+| 对比项 | 有旗方案（传统多控） | 无旗方案（本方案） |
+|--------|-------------------|------------------|
+| 归属标识 | `ucontrol flag` 打标记 | `@controller` 自动管理 |
+| 冲突检测 | `sensor flag @unit @flag` | `sensor ctr @unit @controller` |
+| 额外指令 | 设置 flag + 清除 flag | 无额外指令 |
+| 可读性 | flag 值需手动维护 | 清晰直观 |
+| 兼容性 | 与其他 flag 方案可能冲突 | 完全兼容所有方案 |
+| 帧差风险 | 相同（flag 被覆盖） | 相同（controller 被覆盖） |
+
+### 为什么选择无旗方案
+
+1. **更简洁的代码**：不需要手动设置和清除 flag，减少了约 4 条指令
+2. **更低的冲突风险**：`@controller` 由游戏引擎统一管理，不会因为 flag 值冲突导致误判
+3. **更好的兼容性**：不占用 flag，可以与其他使用 flag 的逻辑（如单控逻辑）共存
+4. **更清晰的语义**：`@controller` 直接表达了"谁在控制这个单位"的含义
+
+### 什么情况下应该用有旗方案
+
+1. **需要额外的状态信息**：flag 可以存储自定义信息（如单位编号、任务类型等），`@controller` 只能存储处理器引用
+2. **需要跨处理器识别**：flag 可以被多个处理器读取和写入，用于处理器间通信
+3. **需要在 `ubind` 前识别单位**：`@controller` 只有在 `ubind` 之后才能读取，而 flag 可以通过 `uradar` 的 flag 筛选条件提前识别
+
+---
+
+## 附录：速查表
+
+### 本方案涉及的核心指令
+
+| 指令 | 格式 | 用途 |
+|------|------|------|
+| `ubind` | `ubind typeOrVar` | 绑定单位（类型或变量引用） |
+| `ucontrol move` | `ucontrol move x y 0 0 0` | 移动到坐标 |
+| `ucontrol itemDrop` | `ucontrol itemDrop building amount 0 0 0` | 卸下物品到建筑 |
+| `ucontrol itemTake` | `ucontrol itemTake building item amount 0 0` | 从建筑取物品 |
+| `getlink` | `getlink variable index` | 获取链接的建筑 |
+| `sensor` | `sensor result target property` | 读取属性 |
+| `ulocate` | `ulocate type group enemy item resultX resultY found building` | 定位建筑/矿石 |
+| `op mod` | `op mod result a b` | 取模运算 |
+| `op mul` | `op mul result a b` | 乘法运算 |
+
+### 关键变量一览
+
+| 变量 | 用途 | 说明 |
+|------|------|------|
+| `unitType` | 单位类型 | 配置区，可修改 |
+| `unitCount` | 单位数量 | 配置区，范围 1-6 |
+| `sorterIdx` | 分类器链接索引 | 配置区，默认 0 |
+| `targetIdx` | 目标建筑链接索引 | 配置区，默认 1 |
+| `un1`~`un6` | 单位引用存储 | 6 个槽位 |
+| `ts` | 轮转计数器 | 0-5 循环 |
+| `counter` | 跳转偏移量 | `ts × 2` |
+| `targetItem` | 目标物品 | 从分类器 `@config` 读取 |
+| `targetBd` | 目标建筑 | 从 `getlink` 获取 |
+| `coreX`/`coreY` | 核心坐标 | 初始化时缓存 |
+| `ctr` | 控制器引用 | 用于 `@controller` 检测 |
