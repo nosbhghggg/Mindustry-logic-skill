@@ -38,5 +38,3 @@ mindustry logic skill/
 ## 文档整合
 
 运行 `python merge_docs.py` 可将 `logic skill/` 下所有 .md 文件按编号顺序整合为一个文件，输出到 `output/Logic教学文档整合.md`。
-
-推送代码后 GitHub Actions 会自动运行整合脚本并提交结果。
