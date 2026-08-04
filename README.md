@@ -1,6 +1,8 @@
 # 像素工厂 Logic 编程技能
 
 > 系统性整理 Mindustry（像素工厂）中 Logic 汇编编程的积木用法、源码实现要点、代码实战示例及高级主题。
+>
+> **注意**：本技能文档需要配合 [Mindustry 游戏源码](https://github.com/Anuken/Mindustry) 一起使用，文档中的源码实现分析均基于游戏源码。
 
 ## 当前进度
 
