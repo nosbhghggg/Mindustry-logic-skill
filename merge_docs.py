@@ -54,7 +54,6 @@ def build_merged_doc(items: list[tuple[str, str]]) -> str:
     parts = []
     for _, content in items:
         parts.append(content)
-        parts.append("\n\n---\n")
     return "\n".join(parts)
 
 

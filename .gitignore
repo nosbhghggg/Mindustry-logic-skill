@@ -14,9 +14,12 @@ Thumbs.db
 # 不需要上传的目录和文件
 learn-mindustry-logic-main/
 Yrueii.github.io-main/
-output/
 attachments/
 *.html
+
+# output 目录本地忽略，但允许 workflow 提交整合文档
+output/*
+!output/Logic教学文档整合.md
 
 # Python
 __pycache__/
