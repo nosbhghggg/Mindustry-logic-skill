@@ -1,12 +1,23 @@
-# Temporary files
+# 临时文件
 *.tmp
 *.bak
 *.log
 
-# OS files
+# OS 文件
 Thumbs.db
 .DS_Store
 
-# IDE files
+# IDE
 .vscode/
 .idea/
+
+# 不需要上传的目录和文件
+learn-mindustry-logic-main/
+Yrueii.github.io-main/
+output/
+attachments/
+*.html
+
+# Python
+__pycache__/
+*.pyc
