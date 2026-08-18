@@ -5198,10 +5198,10 @@ ubind @poly
 sensor unType @unit @type
 jump 6 equal unType 0
 set initial true
-sensor unDead @unit @dead
+sensor unDead myUnit @dead
 jump 14 equal unDead 1
-sensor flag @unit @flag
-jump 23 strictEqual unFlag flag
+sensor flag myUnit @flag
+jump 24 strictEqual unFlag flag
 ubind unType
 sensor controlled @unit @controlled
 jump 14 greaterThan controlled 1
@@ -5209,6 +5209,7 @@ jump 20 equal controlled 0
 sensor flag @unit @flag
 jump 14 notEqual flag 0
 ucontrol flag unFlag 0 0 0 0
+set myUnit @unit
 end
 print "▽控制流编写"
 ucontrol move @thisx @thisy 0 0 0
@@ -5233,16 +5234,16 @@ jump 6 equal unType 0
 
 ### 循环检查流程
 执行完初始化后，每次循环检查两项：
-1. **单位是否死亡**：`sensor unDead @unit @dead` → 如果死亡则触发重新绑定
-2. **flag 是否变化**：`sensor flag @unit @flag` → 如果 flag 与逻辑给的不一致，说明绑定过程中发生了冲突，也触发重新绑定
+1. **单位是否死亡**：`sensor unDead myUnit @dead` → 如果死亡则触发重新绑定
+2. **flag 是否变化**：`sensor flag myUnit @flag` → 如果 flag 与逻辑给的不一致，说明绑定过程中发生了冲突，也触发重新绑定
 
 如果两项检查都通过，则自动执行控制语句（`ucontrol move`）。
 
 ### 单位选定流程
 如果检查失败，重新执行选定单位流程：
 1. `controlled > 1` → 说明单位在编队或被玩家控制，直接重新寻找
-2. `controlled === 0` → 没有任何逻辑控制，直接绑定
-3. `controlled === 1` → 被其他逻辑控制了，检查 flag 是否为 0（判断是不是群控逻辑）。如果 flag 为 0 则选定该单位
+2. `controlled === 0` → 没有任何逻辑控制，直接绑定，触发`myUnit = @unit`
+3. `controlled === 1` → 被其他逻辑控制了，检查 flag 是否为 0（判断是不是群控逻辑）。如果 flag 为 0 则选定该单位，触发`myUnit = @unit`
 
 ### end 指令的分界线作用
 选择完单位后直接使用 `end` 指令回到头部，而不是向下继续运行控制流。这样做有两个好处：
