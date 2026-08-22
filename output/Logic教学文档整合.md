@@ -215,35 +215,6 @@ end
 - `radar`（建筑雷达搜索）
 
 这些指令的帧差表现与直接读写不同：缓存结果在 40 tick 内不变，即使目标已经移动或消失。
-
----
-
-## 大型表格生成规范
-
-### 使用 Python + 游戏源码打表
-
-在编写 Logic 教学文档时，经常需要引用游戏内的大型表格数据，例如：
-
-- 建筑的物品需求列表（建造所需材料）
-- 各类单位的属性数据（血量、速度、攻击范围等）
-- 处理器的参数对比表
-- 所有 BlockFlag 枚举值
-- 所有 LCategory 分类
-
-
-### 打表流程
-
-1. 编写 Python 脚本，解析游戏源码（Java 文件或编译后的 class/jar）
-2. 提取所需数据（如建筑的 `itemCapacity`、`health`、`requirements` 等字段）
-3. 生成 Markdown 表格格式
-   
-### 已有的打表脚本
-
-项目中使用过的打表脚本存放在临时工作目录中，包括：
-- 建筑属性提取脚本
-- BlockFlag 枚举提取脚本
-- 单位属性提取脚本
-
 # 01 - ubind（单位绑定）
 
 ## 导出格式
@@ -5158,6 +5129,74 @@ op add unFlag _1 _2
 
 ---
 
+## 基于小数 flag 的应用（群控 flag 复用）
+
+### 需求背景
+
+因为需求问题，部分群控逻辑希望给单位添加 flag 用于其他用途（如标记残血回修、分组编号、任务状态），且在不影响其他单控、多控逻辑的情况下使用。
+
+但按群控绑定规范，群控逻辑"不给单位任何 flag"，目的就是把"flag 为 0"留给单控/多控逻辑识别自由单位。一旦群控给单位设置了常规数值的 flag，单控/多控逻辑检查 flag 时就会认为该单位已被占用而跳过它——群控逻辑破坏了绑定优先级。小数 flag 技术就是用来解决这个矛盾的。
+
+### 实现原理：利用 == 与 not 的精度容差
+
+源码中，`==` 与 `not` 的判断并不是精确比较，而是带容差的近似比较（`LogicOp.equal` / `LogicOp.notEqual`）：
+
+```java
+equal("==", (a, b) -> Math.abs(a - b) < 0.000001 ? 1 : 0, ...)
+notEqual("not", (a, b) -> Math.abs(a - b) < 0.000001 ? 0 : 1, ...)
+```
+
+jump 的判断条件（`ConditionOp`）使用同一套容差。即：**两个数之差的绝对值小于 0.000001 时，`==` 与 `not` 都把它们判定为相等**（导出文本中写作 `equal` / `notEqual`）。
+
+大部分单控、多控逻辑在判断单位 flag 时使用的正是这两个判断，而不是 `===`（严格相等，双精度精确比较），典型写法：
+
+```
+sensor flagVal @unit @flag
+jump skipUnit notEqual flagVal 0
+```
+
+所以只要给单位设置一个**绝对值小于 0.000001 的超小 flag**（如 0.0000001），其他逻辑用 `==`/`not` 判断时就会因精度容差把它误判为 0——即"误认为单位没有 flag"，照常选定该单位。而 `sensor @flag` 读取的是 `unit.flag` 的原始双精度值（`ucontrol flag` 也是直接字段赋值，无任何舍入），群控逻辑自己仍然能拿到完整精度的小数 flag 并加以利用。
+
+由此实现：群控逻辑在利用单位 flag 的情况下，还不影响单控逻辑与多控逻辑。
+
+### 各判断方式对小 flag 的可见性
+
+| 判断方式 | 对小 flag 的判定 | 原因 |
+|----------|----------------|------|
+| `==` / `not` | 等于 0（隐形） | 容差 0.000001，本技术的核心依据 |
+| `===` | 非 0（可见） | 双精度精确比较 |
+| `>` / `<` / `>=` / `<=` | 非 0（可见） | 无容差的精确比较 |
+| `and` / `or` | 视为已设置 | 按"非 0 即真"处理 |
+
+### 使用规范
+
+1. **取值范围**：小 flag 的绝对值必须小于 0.000001（容差为严格小于，0.000001 本身会被判定为非 0）。推荐使用 0.0000001，留出一个数量级的安全余量。科学计数法 `1e-7` 也能被正确解析，但完整小数形式更直观
+2. **只写在通过了占用检查的单位上**：群控逻辑仍要遵守跳过规则——读到的 flag 明显不为 0（单控/多控的位置标识是大整数）就跳过该单位。占用检查与后续的小 flag 读取必须使用同一次循环里 `sensor` 的同一个值
+3. **群控内部判断改用精确比较**：读取自己的小 flag 状态时不能用 `==`（0.0000001 会被判成 0），应使用 `>` 之类的无容差比较
+
+### 扩展用法：用小 flag 存储数据
+
+与位置标识 flag 的扩展用法同理，小 flag 也能携带少量数据。以 0.00000001 为最小刻度，把编号编码进小 flag：
+
+```
+op mul tinyFlag dataIndex 0.00000001
+ucontrol flag tinyFlag 0 0 0 0
+```
+
+编号取 1~99 时，小 flag 最大为 0.00000099，仍小于容差 0.000001，对其他逻辑依旧隐形（编号 100 会达到 0.000001 边界值，失效）。读取时放大后取整还原：
+
+```
+sensor flagVal @unit @flag
+op mul dataIndex flagVal 100000000
+op floor dataIndex dataIndex 0
+```
+
+1~99 的编码值放大取整后均可精确还原。这样每个单位就能携带一个 1~99 的编号数据，且不影响任何使用 `==`/`not` 判断 flag 的逻辑。小数区间与位置标识的大数区间互不干扰，两套方案可以同时存在。
+
+> 实际应用见 `03_群控逻辑.md` 案例三（重构版）的残血修复标记。
+
+---
+
 ## 多控逻辑绑定规范
 
 多控逻辑与单控逻辑的绑定方法一样，绑定优先级相同。具体实现方式有多种：
@@ -5176,7 +5215,7 @@ op add unFlag _1 _2
 |----------|-----------|----------------|----------|
 | 单控 | 高（=多控） | 是（位置标识） | 精确控制单个单位 |
 | 多控 | 高（=单控） | 是（位置标识） | 同时控制多个指定单位 |
-| 群控 | 低 | 否 | 批量控制同类单位 |
+| 群控 | 低 | 否（需要时可用小数 flag，见上文） | 批量控制同类单位 |
 
 # 02 - 单控逻辑
 
@@ -5355,7 +5394,6 @@ ucontrol autoPathfind cx cy core_approach 0 0
 
 ### 代码
 
-> 注意：此代码使用行号跳转，作为学习参考保留原样。其中包含 `jump -1` 等问题指令。
 
 ```
 print 通用自动进攻-去开关精简版
@@ -5470,15 +5508,14 @@ ucontrol target sx sy 0 0 0
 
 **卡距算法（超视距攻击）**：这个单位利用了单位雷达的视野特性——单位靠近炮台后，首先炮台在单位的视野范围内，因此单位会首先拉开距离，然后触发超视距攻击。为什么叫超视距攻击呢？因为单位离开炮台了一段距离，单位又看不见炮台了，所以叫超视距攻击。攻击完成后，因为单位的视野里面没有炮台了，所以单位会继续向前移动，又会发现炮台，并再次执行超视距攻击。所以这玩意比较恶心。
 
-**兼容性问题**：这个逻辑是一个群控逻辑，而且与其他任何逻辑都不兼容，因为它通过 flag 判断当前是否需要加血。但是因为很少有人拿这个单位干别的事情，所以它通常用于战斗，故这个逻辑没有兼容其他的逻辑。
+**兼容性问题**：这个逻辑是一个群控逻辑，而且与其他任何逻辑都不兼容，因为它通过 flag 判断当前是否需要加血。但是因为很少有人拿这个单位干别的事情，所以它通常用于战斗，故这个逻辑没有兼容其他的逻辑。（案例三重构版已改用小数 flag 解决此问题）
 
 **为什么说它写得不好**：
 
 1. **大量变量没有进入初始化语句**：导致逻辑每次循环都会重新执行一遍赋值，常量非常零散，积木多余。
 2. **跳转混乱**：原逻辑几乎很少使用 end 语句，跳转讲究层层分离，这个跳转写得乱七八糟。还有 `jump -1` 这种问题指令。
-3. **变量命名不规范**：变量缩写根本看不出想表达的意思（如 `rtr`、`re`、`fmtr`、`dtc` 等）。
+3. **死代码**：有变量根本没有用上，还有 jump 是断掉的。
 4. **算法冗余**：超视距算法的三角函数运算过于复杂。
-5. **死代码**：有变量根本没有用上，还有 jump 是断掉的。
 
 ---
 
@@ -5492,19 +5529,21 @@ ucontrol target sx sy 0 0 0
 3. 变量命名不规范，缩写看不出含义
 4. 算法冗余
 5. 有死代码，jump 是断掉的
+6. 残血标记使用 `ucontrol flag 1`，会被其他逻辑的 flag 占用判断识别，与其他逻辑不兼容
 
 ### 重构后的代码（基础版）
 
-> 注意：此代码使用行号跳转，作为学习参考保留原样。
+> 注意：此代码使用行号跳转（项目规范推荐标签跳转）。
 
 ```
-jump 12 equal initial true
+jump 13 equal initial true
 print 通用自动进攻-去开关精简版
 set dtc 33
+set tinyRepair 0.0000001
 print 在下方选择单位
 ubind @fortress
 sensor unType @unit @type
-jump 4 equal unType 0
+jump 5 equal unType 0
 sensor range @unit @range
 op add aprchdtc range 5
 sensor maxhp @unit @maxHealth
@@ -5514,59 +5553,61 @@ ubind unType
 sensor hp @unit @health
 op mul rtrhp maxhp rtr
 sensor flag @unit @flag
-jump 19 equal flag 1
-jump 36 greaterThan hp rtrhp
-ucontrol flag 1 0 0 0 0
+jump 25 notEqual flag 0
+op greaterThan marked flag 0
+jump 22 equal marked 1
+jump 39 greaterThan hp rtrhp
+ucontrol flag tinyRepair 0 0 0 0
 sensor hp @unit @health
-jump 23 lessThan hp rehp
+jump 26 lessThan hp rehp
 ucontrol flag 0 0 0 0 0
 end
 getlink repair 0
-jump 29 equal repair null
+jump 32 equal repair null
 sensor rpx repair @x
 sensor rpy repair @y
 ucontrol approach rpx rpy 4 0 0
 end
 ulocate building repair 0 @copper rpx rpy found building
-jump 33 equal found 1
+jump 36 equal found 1
 ucontrol pathfind @thisx @thisy 4 0 0
 end
 ucontrol pathfind rpx rpy 4 0 0
 end
 print 上方修复，下方功能_
 uradar player ally ground distance 0 1 player
-jump 42 equal player null
+jump 45 equal player null
 sensor x player @shootX
 sensor y player @shootY
 sensor shoot player @shooting
-jump 66 equal shoot 1
+jump 69 equal shoot 1
 uradar enemy ground any distance 0 1 enemy
-jump 49 equal enemy null
+jump 52 equal enemy null
 sensor x enemy @x
 sensor y enemy @y
 ucontrol approach x y range 0 0
 ucontrol targetp enemy 1 0 0 0
 end
 ulocate building turret true @copper x y found enemy
-jump 61 notEqual enemy null
+jump 64 notEqual enemy null
 ulocate building storage true @copper x y found enemy
-jump 61 notEqual enemy null
+jump 64 notEqual enemy null
 ulocate building generator true @copper x y found enemy
-jump 61 notEqual enemy null
+jump 64 notEqual enemy null
 ulocate building core true @copper x y found enemy
-jump 61 notEqual enemy null
+jump 64 notEqual enemy null
 ucontrol targetp @this 0 0 0 0
 ucontrol autoPathfind @this 0 0 0 0
 end
 end
 sensor enemyRange enemy @range
-jump 66 greaterThanEq enemyRange range
+jump 69 greaterThanEq enemyRange range
 ucontrol approach x y range 0 0
 ucontrol target x y 1 0 0
 end
 ucontrol approach x y dtc 0 0
 ucontrol within x y range wth 0
-jump 71 equal wth 0
+jump 74 equal wth 0
 ucontrol target x y 1 0 0
 end
 sensor ux @unit @x
@@ -5590,22 +5631,24 @@ ucontrol target cx3 cy3 1 0 0
 2. **jump 跳转分层**：jump 跳转是一层一层的，不再混乱。使用 end 语句作为各功能区域的分界线。
 3. **修复功能提取**：将血量恢复判断提取到上方，这样减少了 jump 跳转线的使用数量。逻辑中还有一个判断——当前单位的血量是否达到相关条件，如果达到条件后就将 flag 设为 0，这个功能也被提取到了上方。
 4. **新增功能**：当玩家附身陆地单位并开火时，周围单位会自动跟随玩家开火。
-5. **变量初始化**：`ubind @fortress` 提到初始化区域，并使用 `sensor unType @unit @type` + `jump 4 equal unType 0` 防止空值检测。初始化完成后使用 `ubind unType` 切换为变量绑定。
+5. **变量初始化**：`ubind @fortress` 提到初始化区域，并使用 `sensor unType @unit @type` + `jump 5 equal unType 0` 防止空值检测。初始化完成后使用 `ubind unType` 切换为变量绑定。
+6. **小数 flag 标记**：残血标记从 `ucontrol flag 1` 改为 `ucontrol flag tinyRepair`（0.0000001）。整数 1 会被其他逻辑的 flag 占用判断识别为已占用；小数 flag 对 `==`/`not` 判断隐形，不影响单控/多控逻辑。同时新增占用检查 `jump 25 notEqual flag 0`，跳过已被单控/多控绑定的单位（原版会直接覆盖这些单位的位置 flag），群控内部则用 `op greaterThan marked flag 0` 精确识别自己的标记。原理见 `01_兵控逻辑分类与绑定规范.md`。
 
 ### 重构后的代码（玩家跟随版）
 
 在基础版的基础上，新增了玩家跟随功能：如果单位检测到了周围有陆地玩家单位，可以让其他周围的单位都自动跟随他。
 
-> 注意：此代码使用行号跳转，作为学习参考保留原样。
+> 注意：此代码使用行号跳转（项目规范推荐标签跳转）。
 
 ```
-jump 12 equal initial true
+jump 13 equal initial true
 print 通用自动进攻-去开关精简版
 set dtc 33
+set tinyRepair 0.0000001
 print 在下方选择单位
 ubind @fortress
 sensor unType @unit @type
-jump 4 equal unType 0
+jump 5 equal unType 0
 sensor range @unit @range
 op add aprchdtc range 5
 sensor maxhp @unit @maxHealth
@@ -5615,64 +5658,66 @@ ubind unType
 sensor hp @unit @health
 op mul rtrhp maxhp rtr
 sensor flag @unit @flag
-jump 19 equal flag 1
-jump 36 greaterThan hp rtrhp
-ucontrol flag 1 0 0 0 0
+jump 25 notEqual flag 0
+op greaterThan marked flag 0
+jump 22 equal marked 1
+jump 39 greaterThan hp rtrhp
+ucontrol flag tinyRepair 0 0 0 0
 sensor hp @unit @health
-jump 23 lessThan hp rehp
+jump 26 lessThan hp rehp
 ucontrol flag 0 0 0 0 0
 end
 getlink repair 0
-jump 29 equal repair null
+jump 32 equal repair null
 sensor rpx repair @x
 sensor rpy repair @y
 ucontrol approach rpx rpy 4 0 0
 end
 ulocate building repair 0 @copper rpx rpy found building
-jump 33 equal found 1
+jump 36 equal found 1
 ucontrol pathfind @thisx @thisy 4 0 0
 end
 ucontrol pathfind rpx rpy 4 0 0
 end
 print 上方修复，下方功能_
 uradar player ally ground distance 0 1 player
-jump 47 equal player null
+jump 50 equal player null
 sensor x player @shootX
 sensor y player @shootY
 sensor shoot player @shooting
-jump 71 equal shoot 1
+jump 74 equal shoot 1
 sensor x player @x
 sensor y player @y
 ucontrol approach x y 2 0 0
 ucontrol targetp @this 0 2 0 0
 end
 uradar enemy ground any distance 0 1 enemy
-jump 54 equal enemy null
+jump 57 equal enemy null
 sensor x enemy @x
 sensor y enemy @y
 ucontrol approach x y range 0 0
 ucontrol targetp enemy 1 0 0 0
 end
 ulocate building turret true @copper x y found enemy
-jump 66 notEqual enemy null
+jump 69 notEqual enemy null
 ulocate building storage true @copper x y found enemy
-jump 66 notEqual enemy null
+jump 69 notEqual enemy null
 ulocate building generator true @copper x y found enemy
-jump 66 notEqual enemy null
+jump 69 notEqual enemy null
 ulocate building core true @copper x y found enemy
-jump 66 notEqual enemy null
+jump 69 notEqual enemy null
 ucontrol targetp @this 0 0 0 0
 ucontrol autoPathfind @this 0 0 0 0
 end
 end
 sensor enemyRange enemy @range
-jump 71 greaterThanEq enemyRange range
+jump 74 greaterThanEq enemyRange range
 ucontrol approach x y range 0 0
 ucontrol target x y 1 0 0
 end
 ucontrol approach x y dtc 0 0
 ucontrol within x y range wth 0
-jump 76 equal wth 0
+jump 79 equal wth 0
 ucontrol target x y 1 0 0
 end
 sensor ux @unit @x
@@ -5795,6 +5840,7 @@ cy3 = 10 + 9.49 = 19.49
 - 注意停火机制：控制单位开火后需要手动关闭（第五个参数设为 0）
 - 修复功能应提取到上方，减少 jump 跳转线的使用数量
 - 变量命名应规范，避免难以理解的缩写
+- 残血标记使用小数 flag（0.0000001）：对其他逻辑的 `==`/`not` 判断隐形，自身用 `>` 精确识别，并保留 `notEqual` 占用检查（原理见 01 绑定规范）
 
 # 04 - 多控逻辑
 
@@ -9271,12 +9317,12 @@ draw triangle landing-pad 0 0 0 0 0
 
 ### 一、系统总览与处理器间通信架构
 
-整个系统由四个核心处理器协作运行，通过 `processor1`（内存建筑）作为共享数据总线进行通信。数据流向如下：
+整个系统由四个核心处理器协作运行，通过 `processor1`（处理器） 作为共享数据总线进行通信。数据流向如下：
 
 ```
-开关/分类器 → 设置核 → processor1(内存) → 分配核 → 各主控核
+开关/分类器 → 设置核 → processor1 → 分配核 → 各主控核
                   ↑                              ↓
-                  └── stop1 自旋等待 ←──────────┘
+                  └── stop1 自旋等待 ←────────────┘
 打印核 ← processor1 + processor2(分配核自身)
 ```
 
